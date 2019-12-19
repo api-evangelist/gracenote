@@ -1,0 +1,65 @@
+{
+    "name": "Gracenote",
+    "description": "Gracenote is the leader in entertainment metadata, helping people connect to the music, TV shows, movies and sports they love across the world\u2019s most popular entertainment platforms and devices, from Apple to Amazon to Comcast and Ford.",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/1537-gracenote.jpg",
+    "tags": [
+        "api provider",
+        "have api",
+        "photos"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/gracenote\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "Gracenote",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/1537-gracenote.jpg",
+            "humanURL": "https:\/\/gracenote.com",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/gracenote-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Base",
+            "url": "https:\/\/*.web.cddbp.net\/webapi\/"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "http:\/\/www.crunchbase.com\/company\/gracenote"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/gracenote"
+        },
+        {
+            "type": "Developers",
+            "url": "https:\/\/developer.gracenote.com"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/gracenote"
+        },
+        {
+            "type": "Pricing",
+            "url": "https:\/\/developer.gracenote.com\/plans"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/Gracenotetweets"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/gracenote.com"
+        }
+    ]
+}
