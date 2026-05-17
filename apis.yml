@@ -44,7 +44,7 @@ apis:
         url: https://developer.tmsapi.com/docs
       - type: Developer Portal
         url: https://developer.tmsapi.com/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://developer.tmsapi.com/Getting_Started
   - aid: gracenote:onconnect-data-api
     name: Gracenote OnConnect Data API
@@ -73,7 +73,7 @@ common:
     url: https://developer.tmsapi.com/
   - type: Documentation
     url: https://developer.tmsapi.com/docs
-  - type: Getting Started
+  - type: GettingStarted
     url: https://developer.tmsapi.com/Getting_Started
   - type: Support
     url: https://www.gracenote.com/support/
