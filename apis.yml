@@ -67,6 +67,10 @@ apis:
       - type: Developer Portal
         url: https://developer.tmsapi.com/
 common:
+  - type: GitHubOrganization
+    url: https://github.com/gracenote
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/gracenote
   - type: Website
     url: https://www.gracenote.com/
   - type: Developer
