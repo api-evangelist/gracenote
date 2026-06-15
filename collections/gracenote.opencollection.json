@@ -1,0 +1,435 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gracenote OnConnect TMS API",
+    "version": "1.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lineups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for TV lineups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "postalCode",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "lineupName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for TV lineups"
+        },
+        {
+          "info": {
+            "name": "Get lineup details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get lineup details"
+        },
+        {
+          "info": {
+            "name": "Get channels for a lineup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId/channels",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get channels for a lineup"
+        },
+        {
+          "info": {
+            "name": "Get program schedule grid for a lineup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId/grid",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "startDateTime",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDateTime",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get program schedule grid for a lineup"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for stations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/stations",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "callSign",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for stations"
+        },
+        {
+          "info": {
+            "name": "Get station details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/stations/:stationId",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get station details"
+        },
+        {
+          "info": {
+            "name": "Get program airings for a station",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/stations/:stationId/airings",
+            "params": [
+              {
+                "name": "stationId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "startDateTime",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDateTime",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get program airings for a station"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Programs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search programs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/programs",
+            "params": [
+              {
+                "name": "title",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "entityType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search programs"
+        },
+        {
+          "info": {
+            "name": "Get program details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/programs/:programId",
+            "params": [
+              {
+                "name": "programId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get program details"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Series",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get series details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/series/:seriesId",
+            "params": [
+              {
+                "name": "seriesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get series details"
+        },
+        {
+          "info": {
+            "name": "List episodes for a series",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/series/:seriesId/episodes",
+            "params": [
+              {
+                "name": "seriesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List episodes for a series"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Movies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search movies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/movies",
+            "params": [
+              {
+                "name": "title",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "releaseYear",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search movies"
+        },
+        {
+          "info": {
+            "name": "Get movie details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/movies/:movieId",
+            "params": [
+              {
+                "name": "movieId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get movie details"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search sports content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/sports",
+            "params": [
+              {
+                "name": "sportName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "teamName",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search sports content"
+        },
+        {
+          "info": {
+            "name": "Get sport / event details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/sports/:sportId",
+            "params": [
+              {
+                "name": "sportId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get sport / event details"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Celebrities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search celebrities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/celebs",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search celebrities"
+        },
+        {
+          "info": {
+            "name": "Get celebrity details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/celebs/:celebId",
+            "params": [
+              {
+                "name": "celebId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get celebrity details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

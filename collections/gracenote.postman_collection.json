@@ -1,0 +1,1622 @@
+{
+  "item": [
+    {
+      "id": "64bf4e4d-5c94-499d-b62a-75f07c29150f",
+      "name": "Lineups",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b548d14c-73fc-4e5c-95e6-fae246e2188e",
+          "name": "Search for TV lineups",
+          "request": {
+            "name": "Search for TV lineups",
+            "description": {},
+            "url": {
+              "path": [
+                "lineups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "postalCode",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "lineupName",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c05e838f-2a50-470a-b2f1-d5d6bac58338",
+              "name": "Lineups",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lineups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postalCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "lineupName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"lineupId\": \"string\",\n    \"name\": \"string\",\n    \"location\": \"string\",\n    \"type\": \"string\",\n    \"device\": \"string\",\n    \"mso\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  },\n  {\n    \"lineupId\": \"string\",\n    \"name\": \"string\",\n    \"location\": \"string\",\n    \"type\": \"string\",\n    \"device\": \"string\",\n    \"mso\": {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5bf3cf2e-c03a-4e25-8920-a7aed398e01b",
+          "name": "Get lineup details",
+          "request": {
+            "name": "Get lineup details",
+            "description": {},
+            "url": {
+              "path": [
+                "lineups",
+                ":lineupId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "lineupId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ad208f8-2ab3-494b-b238-be7489ad432e",
+              "name": "Lineup",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lineups",
+                    ":lineupId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "lineupId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"lineupId\": \"string\",\n  \"name\": \"string\",\n  \"location\": \"string\",\n  \"type\": \"string\",\n  \"device\": \"string\",\n  \"mso\": {\n    \"id\": \"string\",\n    \"name\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "383ccb69-5fc1-40ba-91e5-d4d01a3aa8b0",
+          "name": "Get channels for a lineup",
+          "request": {
+            "name": "Get channels for a lineup",
+            "description": {},
+            "url": {
+              "path": [
+                "lineups",
+                ":lineupId",
+                "channels"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "lineupId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7d8ea65d-b1fd-4c5b-abf1-9f5211aba1d2",
+              "name": "Channels",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lineups",
+                    ":lineupId",
+                    "channels"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "lineupId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47d04780-d16e-46f8-9108-4e86e374a816",
+          "name": "Get program schedule grid for a lineup",
+          "request": {
+            "name": "Get program schedule grid for a lineup",
+            "description": {},
+            "url": {
+              "path": [
+                "lineups",
+                ":lineupId",
+                "grid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDateTime",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDateTime",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "lineupId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ceae925e-148a-4f51-a4f9-559aa452aa3a",
+              "name": "Grid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "lineups",
+                    ":lineupId",
+                    "grid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "lineupId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "68960444-c103-44f3-ae04-08c8d4d2be5d",
+      "name": "Stations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "642436ef-257d-440d-b32b-eea0e6dce47d",
+          "name": "Search for stations",
+          "request": {
+            "name": "Search for stations",
+            "description": {},
+            "url": {
+              "path": [
+                "stations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lineupId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "callSign",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e40d393-1489-4a9e-b957-8a89f562b51b",
+              "name": "Stations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lineupId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "callSign",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"stationId\": \"string\",\n    \"name\": \"string\",\n    \"callSign\": \"string\",\n    \"affiliateCallSign\": \"string\",\n    \"affiliateName\": \"string\",\n    \"type\": \"string\",\n    \"channels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  },\n  {\n    \"stationId\": \"string\",\n    \"name\": \"string\",\n    \"callSign\": \"string\",\n    \"affiliateCallSign\": \"string\",\n    \"affiliateName\": \"string\",\n    \"type\": \"string\",\n    \"channels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3c1505de-89a3-4b9d-914f-a9635cf55534",
+          "name": "Get station details",
+          "request": {
+            "name": "Get station details",
+            "description": {},
+            "url": {
+              "path": [
+                "stations",
+                ":stationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "stationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4e26716e-82d4-4944-832b-d4259e73ed6e",
+              "name": "Station",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations",
+                    ":stationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"stationId\": \"string\",\n  \"name\": \"string\",\n  \"callSign\": \"string\",\n  \"affiliateCallSign\": \"string\",\n  \"affiliateName\": \"string\",\n  \"type\": \"string\",\n  \"channels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"preferredImage\": {\n    \"uri\": \"string\",\n    \"height\": \"string\",\n    \"width\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4c0cdd79-13c7-49fe-8969-0131e4e705b9",
+          "name": "Get program airings for a station",
+          "request": {
+            "name": "Get program airings for a station",
+            "description": {},
+            "url": {
+              "path": [
+                "stations",
+                ":stationId",
+                "airings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDateTime",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDateTime",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "stationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "04f92e9f-fc77-4569-bf23-395c31a6d052",
+              "name": "Airings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations",
+                    ":stationId",
+                    "airings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d6354723-c59a-4b3b-b749-f597ca123d90",
+      "name": "Programs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "91757f26-039a-4a1f-86b8-b010fd2a040f",
+          "name": "Search programs",
+          "request": {
+            "name": "Search programs",
+            "description": {},
+            "url": {
+              "path": [
+                "programs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "entityType",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5fa21987-7733-4633-a221-01eb28d1b782",
+              "name": "Programs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entityType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"tmsId\": \"string\",\n    \"rootId\": \"string\",\n    \"subType\": \"string\",\n    \"title\": \"string\",\n    \"shortDescription\": \"string\",\n    \"longDescription\": \"string\",\n    \"releaseYear\": 5737,\n    \"releaseDate\": \"1981-10-13\",\n    \"entityType\": \"Sports\",\n    \"genres\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  },\n  {\n    \"tmsId\": \"string\",\n    \"rootId\": \"string\",\n    \"subType\": \"string\",\n    \"title\": \"string\",\n    \"shortDescription\": \"string\",\n    \"longDescription\": \"string\",\n    \"releaseYear\": 5826,\n    \"releaseDate\": \"1982-04-26\",\n    \"entityType\": \"Sports\",\n    \"genres\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07e6a231-ed72-4afc-82a4-7cb547a6286d",
+          "name": "Get program details",
+          "request": {
+            "name": "Get program details",
+            "description": {},
+            "url": {
+              "path": [
+                "programs",
+                ":programId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "programId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ae209b7-7d43-4f31-9f0f-5841a88b13aa",
+              "name": "Program",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":programId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "programId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tmsId\": \"string\",\n  \"rootId\": \"string\",\n  \"subType\": \"string\",\n  \"title\": \"string\",\n  \"shortDescription\": \"string\",\n  \"longDescription\": \"string\",\n  \"releaseYear\": 3761,\n  \"releaseDate\": \"1990-11-05\",\n  \"entityType\": \"Show\",\n  \"genres\": [\n    \"string\",\n    \"string\"\n  ],\n  \"preferredImage\": {\n    \"uri\": \"string\",\n    \"height\": \"string\",\n    \"width\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "46a122c7-e243-4edc-ab65-38f66a9620cd",
+      "name": "Series",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "525049b5-a76b-4a1f-837c-a6207664e050",
+          "name": "Get series details",
+          "request": {
+            "name": "Get series details",
+            "description": {},
+            "url": {
+              "path": [
+                "series",
+                ":seriesId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "seriesId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "43086dde-9309-45ee-8eda-f86d273a57ee",
+              "name": "Series",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "series",
+                    ":seriesId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "seriesId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ace9e6de-2de1-44ea-8824-7913ecd55c83",
+          "name": "List episodes for a series",
+          "request": {
+            "name": "List episodes for a series",
+            "description": {},
+            "url": {
+              "path": [
+                "series",
+                ":seriesId",
+                "episodes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "seriesId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "965a4e31-a762-4a6e-a9ed-65e2fab821c3",
+              "name": "Episodes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "series",
+                    ":seriesId",
+                    "episodes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "seriesId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "84c66029-bd8f-4713-8603-d0ddc3890561",
+      "name": "Movies",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "edab6147-7fdc-4553-a9e1-2864457ea4dc",
+          "name": "Search movies",
+          "request": {
+            "name": "Search movies",
+            "description": {},
+            "url": {
+              "path": [
+                "movies"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "releaseYear",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f5bd7852-3edf-420c-b612-2ea19cdcfd6d",
+              "name": "Movies",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "movies"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "releaseYear",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6893d372-92c2-45be-8065-c412877d1132",
+          "name": "Get movie details",
+          "request": {
+            "name": "Get movie details",
+            "description": {},
+            "url": {
+              "path": [
+                "movies",
+                ":movieId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "movieId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2dfe06f5-d5f0-4f2f-bfdf-5f633a222a65",
+              "name": "Movie",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "movies",
+                    ":movieId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "movieId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "55291cfd-7db7-4876-b646-7094443451cd",
+      "name": "Sports",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c188a671-a074-4833-a9b9-2c216ed94c6c",
+          "name": "Search sports content",
+          "request": {
+            "name": "Search sports content",
+            "description": {},
+            "url": {
+              "path": [
+                "sports"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sportName",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "teamName",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40f54cc3-d880-4377-8eb6-f81168de6afb",
+              "name": "Sports",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sports"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sportName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "teamName",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11d808a9-c51d-4457-9300-3e86538ad145",
+          "name": "Get sport / event details",
+          "request": {
+            "name": "Get sport / event details",
+            "description": {},
+            "url": {
+              "path": [
+                "sports",
+                ":sportId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sportId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bad4521f-c801-475c-a7b8-8f508eb18f8e",
+              "name": "Sport",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sports",
+                    ":sportId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sportId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e064808c-a80e-48a6-986f-aa8e34f3e8e6",
+      "name": "Celebrities",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fb4b2a4b-b3b1-44ce-bb3b-f04403931828",
+          "name": "Search celebrities",
+          "request": {
+            "name": "Search celebrities",
+            "description": {},
+            "url": {
+              "path": [
+                "celebs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ab62728-a37d-425a-bb09-dc89a5e14eb8",
+              "name": "Celebrities",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "celebs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "307eceb7-436e-45c2-a741-273383708be7",
+          "name": "Get celebrity details",
+          "request": {
+            "name": "Get celebrity details",
+            "description": {},
+            "url": {
+              "path": [
+                "celebs",
+                ":celebId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "celebId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1c3674e0-cf4b-4b0b-a475-44c503f458c9",
+              "name": "Celebrity",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "celebs",
+                    ":celebId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "celebId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://data.tmsapi.com/v1.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c8b7411b-0c7d-47a7-96bf-a750a949297c",
+    "name": "Gracenote OnConnect TMS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.",
+      "type": "text/plain"
+    }
+  }
+}
