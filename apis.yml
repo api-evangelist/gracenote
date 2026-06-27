@@ -42,7 +42,7 @@ apis:
     properties:
       - type: Documentation
         url: https://developer.tmsapi.com/docs
-      - type: Developer Portal
+      - type: DeveloperPortal
         url: https://developer.tmsapi.com/
       - type: GettingStarted
         url: https://developer.tmsapi.com/Getting_Started
@@ -64,7 +64,7 @@ apis:
     properties:
       - type: Documentation
         url: https://developer.tmsapi.com/docs
-      - type: Developer Portal
+      - type: DeveloperPortal
         url: https://developer.tmsapi.com/
 common:
   - type: GitHubOrganization
