@@ -67,6 +67,10 @@ apis:
       - type: DeveloperPortal
         url: https://developer.tmsapi.com/
 common:
+  - type: DomainSecurity
+    url: security/gracenote-domain-security.yml
+  - type: Authentication
+    url: authentication/gracenote-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/gracenote
   - type: LinkedIn
@@ -85,6 +89,8 @@ common:
     url: https://www.gracenote.com/products/
   - type: Parent
     url: https://www.nielsen.com/
+  - url: https://gracenote.com/insights/
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
