@@ -1,8 +1,8 @@
 ---
-title: TV audiences have shifted; ad dollars have not
-url: https://gracenote.com/insights/gracenote-2026-ctv-advertising-report/
-date: '2026-05-14'
-author: William Quinn
-feed_url: https://gracenote.com/feed
+title: "TV audiences have shifted; ad dollars have not"
+url: "https://gracenote.com/insights/gracenote-2026-ctv-advertising-report/"
+date: "2026-05-14"
+author: ""
+feed_url: "https://gracenote.com/insights/"
 ---
-Advertisers see the potential of CTV, but they’re hesitant to reallocate budget from linear TV because of a lack of information.
+Gracenote Insights post discussing tv audiences have shifted; ad dollars have not in the context of TV, streaming, and content discovery.

@@ -1,8 +1,8 @@
 ---
-title: Precision at scale
-url: https://gracenote.com/insights/precision-at-scale/
-date: '2026-04-27'
-author: William Quinn
-feed_url: https://gracenote.com/feed
+title: "Precision at scale"
+url: "https://gracenote.com/insights/precision-at-scale/"
+date: "2026-04-27"
+author: ""
+feed_url: "https://gracenote.com/insights/"
 ---
-Case study: Mexican beer brand Dos Equis successfully scaled a niche live sports strategy in CTV with zero waste.
+Gracenote Insights post discussing precision at scale in the context of TV, streaming, and content discovery.
