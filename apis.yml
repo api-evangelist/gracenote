@@ -67,6 +67,8 @@ apis:
       - type: DeveloperPortal
         url: https://developer.tmsapi.com/
 common:
+  - type: AgenticAccess
+    url: agentic-access/gracenote-agentic-access.yml
   - type: DomainSecurity
     url: security/gracenote-domain-security.yml
   - type: Authentication
