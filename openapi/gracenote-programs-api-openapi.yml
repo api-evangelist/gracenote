@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Gracenote OnConnect TMS Celebrities Programs API
+  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  version: '1.1'
+servers:
+- url: http://data.tmsapi.com/v1.1
+  description: Gracenote OnConnect (data_v1_1)
+security:
+- apiKey: []
+tags:
+- name: Programs
+paths:
+  /programs:
+    get:
+      tags:
+      - Programs
+      summary: Search programs
+      operationId: searchPrograms
+      parameters:
+      - in: query
+        name: title
+        schema:
+          type: string
+      - in: query
+        name: entityType
+        schema:
+          type: string
+          enum:
+          - Movie
+          - Show
+          - Episode
+          - Sports
+      responses:
+        '200':
+          description: Programs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Program'
+  /programs/{programId}:
+    get:
+      tags:
+      - Programs
+      summary: Get program details
+      operationId: getProgram
+      parameters:
+      - in: path
+        name: programId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Program
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Program'
+components:
+  schemas:
+    Program:
+      type: object
+      properties:
+        tmsId:
+          type: string
+        rootId:
+          type: string
+        subType:
+          type: string
+        title:
+          type: string
+        shortDescription:
+          type: string
+        longDescription:
+          type: string
+        releaseYear:
+          type: integer
+        releaseDate:
+          type: string
+          format: date
+        entityType:
+          type: string
+          enum:
+          - Movie
+          - Show
+          - Episode
+          - Sports
+        genres:
+          type: array
+          items:
+            type: string
+        ratings:
+          type: array
+          items:
+            type: object
+        cast:
+          type: array
+          items:
+            type: object
+        crew:
+          type: array
+          items:
+            type: object
+        preferredImage:
+          type: object
+          properties:
+            uri:
+              type: string
+            height:
+              type: string
+            width:
+              type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: api_key

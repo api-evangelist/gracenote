@@ -1,0 +1,149 @@
+openapi: 3.1.0
+info:
+  title: Gracenote OnConnect TMS Celebrities Lineups API
+  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  version: '1.1'
+servers:
+- url: http://data.tmsapi.com/v1.1
+  description: Gracenote OnConnect (data_v1_1)
+security:
+- apiKey: []
+tags:
+- name: Lineups
+paths:
+  /lineups:
+    get:
+      tags:
+      - Lineups
+      summary: Search for TV lineups
+      operationId: searchLineups
+      parameters:
+      - in: query
+        name: country
+        schema:
+          type: string
+          description: ISO 3166-1 alpha-3 country code
+      - in: query
+        name: postalCode
+        schema:
+          type: string
+      - in: query
+        name: lineupName
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          enum:
+          - Cable
+          - Satellite
+          - OTA
+          - IPTV
+      responses:
+        '200':
+          description: Lineups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lineup'
+  /lineups/{lineupId}:
+    get:
+      tags:
+      - Lineups
+      summary: Get lineup details
+      operationId: getLineup
+      parameters:
+      - in: path
+        name: lineupId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Lineup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lineup'
+  /lineups/{lineupId}/channels:
+    get:
+      tags:
+      - Lineups
+      summary: Get channels for a lineup
+      operationId: getLineupChannels
+      parameters:
+      - in: path
+        name: lineupId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Channels
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /lineups/{lineupId}/grid:
+    get:
+      tags:
+      - Lineups
+      summary: Get program schedule grid for a lineup
+      operationId: getLineupGrid
+      parameters:
+      - in: path
+        name: lineupId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: startDateTime
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: endDateTime
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Grid
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+components:
+  schemas:
+    Lineup:
+      type: object
+      properties:
+        lineupId:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        device:
+          type: string
+        mso:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: api_key

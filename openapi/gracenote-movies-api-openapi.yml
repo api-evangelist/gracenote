@@ -1,0 +1,52 @@
+openapi: 3.1.0
+info:
+  title: Gracenote OnConnect TMS Celebrities Movies API
+  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  version: '1.1'
+servers:
+- url: http://data.tmsapi.com/v1.1
+  description: Gracenote OnConnect (data_v1_1)
+security:
+- apiKey: []
+tags:
+- name: Movies
+paths:
+  /movies:
+    get:
+      tags:
+      - Movies
+      summary: Search movies
+      operationId: searchMovies
+      parameters:
+      - in: query
+        name: title
+        schema:
+          type: string
+      - in: query
+        name: releaseYear
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Movies
+  /movies/{movieId}:
+    get:
+      tags:
+      - Movies
+      summary: Get movie details
+      operationId: getMovie
+      parameters:
+      - in: path
+        name: movieId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Movie
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: api_key

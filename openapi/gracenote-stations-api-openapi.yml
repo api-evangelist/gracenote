@@ -1,0 +1,122 @@
+openapi: 3.1.0
+info:
+  title: Gracenote OnConnect TMS Celebrities Stations API
+  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  version: '1.1'
+servers:
+- url: http://data.tmsapi.com/v1.1
+  description: Gracenote OnConnect (data_v1_1)
+security:
+- apiKey: []
+tags:
+- name: Stations
+paths:
+  /stations:
+    get:
+      tags:
+      - Stations
+      summary: Search for stations
+      operationId: searchStations
+      parameters:
+      - in: query
+        name: lineupId
+        schema:
+          type: string
+      - in: query
+        name: callSign
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Stations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Station'
+  /stations/{stationId}:
+    get:
+      tags:
+      - Stations
+      summary: Get station details
+      operationId: getStation
+      parameters:
+      - in: path
+        name: stationId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Station
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+  /stations/{stationId}/airings:
+    get:
+      tags:
+      - Stations
+      summary: Get program airings for a station
+      operationId: getStationAirings
+      parameters:
+      - in: path
+        name: stationId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: startDateTime
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: endDateTime
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Airings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+components:
+  schemas:
+    Station:
+      type: object
+      properties:
+        stationId:
+          type: string
+        name:
+          type: string
+        callSign:
+          type: string
+        affiliateCallSign:
+          type: string
+        affiliateName:
+          type: string
+        type:
+          type: string
+        channels:
+          type: array
+          items:
+            type: string
+        preferredImage:
+          type: object
+          properties:
+            uri:
+              type: string
+            height:
+              type: string
+            width:
+              type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: api_key
