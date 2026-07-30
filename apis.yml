@@ -6,7 +6,20 @@ description: >-
   and automotive industries. Gracenote enables content discovery, search,
   and personalization across linear and streaming services worldwide.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gracenote.png
 tags:
   - Automotive
   - Content Metadata
@@ -23,49 +36,109 @@ created: '2026-03-16'
 modified: '2026-04-28'
 specificationVersion: '0.19'
 apis:
-  - aid: gracenote:onconnect-api
-    name: Gracenote OnConnect API
-    description: >-
-      The Gracenote OnConnect API delivers TV and video data including
-      schedules, programs, celebrities, sports, images, and station lineups.
-      Designed for mobile apps, connected TVs, EPGs, and streaming
-      experiences, OnConnect provides reliable access to entertainment
-      metadata used to power discovery, search, and recommendation features.
-    humanURL: https://developer.tmsapi.com/
-    tags:
-      - Content Discovery
-      - Electronic Program Guide
-      - Schedules
-      - Sports
-      - Television
-      - Video Metadata
-    properties:
-      - type: Documentation
-        url: https://developer.tmsapi.com/docs
-      - type: DeveloperPortal
-        url: https://developer.tmsapi.com/
-      - type: GettingStarted
-        url: https://developer.tmsapi.com/Getting_Started
-  - aid: gracenote:onconnect-data-api
-    name: Gracenote OnConnect Data API
-    description: >-
-      The Gracenote OnConnect Data API provides extended metadata for TV,
-      movies, celebrities, and sports. It is designed for connected
-      experiences and mobile applications that need rich entertainment
-      data, including images, descriptions, ratings, and relationships
-      between titles, talent, and events.
-    humanURL: https://developer.tmsapi.com/
-    tags:
-      - Celebrities
-      - Movies
-      - Sports
-      - Television
-      - Video Metadata
-    properties:
-      - type: Documentation
-        url: https://developer.tmsapi.com/docs
-      - type: DeveloperPortal
-        url: https://developer.tmsapi.com/
+- aid: gracenote:onconnect-api
+  name: Gracenote OnConnect API
+  description: >-
+    The Gracenote OnConnect API delivers TV and video data including schedules, programs, celebrities,
+    sports, images, and station lineups. Designed for mobile apps, connected TVs, EPGs, and streaming
+    experiences, OnConnect provides reliable access to entertainment metadata used to power discovery,
+    search, and recommendation features.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Content Discovery
+  - Electronic Program Guide
+  - Schedules
+  - Sports
+  - Television
+  - Video Metadata
+  properties:
+  - type: Documentation
+    url: https://developer.tmsapi.com/docs
+  - type: DeveloperPortal
+    url: https://developer.tmsapi.com/
+  - type: GettingStarted
+    url: https://developer.tmsapi.com/Getting_Started
+- aid: gracenote:onconnect-data-api
+  name: Gracenote OnConnect Data API
+  description: >-
+    The Gracenote OnConnect Data API provides extended metadata for TV, movies, celebrities, and sports.
+    It is designed for connected experiences and mobile applications that need rich entertainment data,
+    including images, descriptions, ratings, and relationships between titles, talent, and events.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Celebrities
+  - Movies
+  - Sports
+  - Television
+  - Video Metadata
+  properties:
+  - type: Documentation
+    url: https://developer.tmsapi.com/docs
+  - type: DeveloperPortal
+    url: https://developer.tmsapi.com/
+- aid: gracenote:gracenote-celebrities-api
+  name: Gracenote Celebrities API
+  description: The Celebrities API from Gracenote — 2 operation(s) for celebrities.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Celebrities
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-celebrities-api-openapi.yml
+- aid: gracenote:gracenote-lineups-api
+  name: Gracenote Lineups API
+  description: The Lineups API from Gracenote — 4 operation(s) for lineups.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Lineups
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-lineups-api-openapi.yml
+- aid: gracenote:gracenote-movies-api
+  name: Gracenote Movies API
+  description: The Movies API from Gracenote — 2 operation(s) for movies.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Movies
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movies-api-openapi.yml
+- aid: gracenote:gracenote-programs-api
+  name: Gracenote Programs API
+  description: The Programs API from Gracenote — 2 operation(s) for programs.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Programs
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-programs-api-openapi.yml
+- aid: gracenote:gracenote-series-api
+  name: Gracenote Series API
+  description: The Series API from Gracenote — 2 operation(s) for series.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Series
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-series-api-openapi.yml
+- aid: gracenote:gracenote-sports-api
+  name: Gracenote Sports API
+  description: The Sports API from Gracenote — 2 operation(s) for sports.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Sports
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-sports-api-openapi.yml
+- aid: gracenote:gracenote-stations-api
+  name: Gracenote Stations API
+  description: The Stations API from Gracenote — 3 operation(s) for stations.
+  humanURL: https://developer.tmsapi.com/
+  tags:
+  - Stations
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-stations-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/gracenote-agentic-access.yml
