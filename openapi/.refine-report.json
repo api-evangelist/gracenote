@@ -1,0 +1,26 @@
+{
+  "provider": "gracenote",
+  "sources": [
+    "gracenote-celebrities-api-openapi.yml",
+    "gracenote-lineups-api-openapi.yml",
+    "gracenote-movies-api-openapi.yml",
+    "gracenote-programs-api-openapi.yml",
+    "gracenote-series-api-openapi.yml",
+    "gracenote-sports-api-openapi.yml",
+    "gracenote-stations-api-openapi.yml"
+  ],
+  "outputs": [
+    "gracenote-celebrities-api-openapi.yml",
+    "gracenote-lineups-api-openapi.yml",
+    "gracenote-movies-api-openapi.yml",
+    "gracenote-programs-api-openapi.yml",
+    "gracenote-series-api-openapi.yml",
+    "gracenote-sports-api-openapi.yml",
+    "gracenote-stations-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
