@@ -1,0 +1,341 @@
+{
+  "item": [
+    {
+      "id": "7c791e5e-c7b5-4075-ad5d-cb9c96617bc2",
+      "name": "Stations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d524fb47-5b43-40f0-bd24-1f2a813fc3dc",
+          "name": "Search for stations",
+          "request": {
+            "name": "Search for stations",
+            "description": {},
+            "url": {
+              "path": [
+                "stations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lineupId",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "callSign",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1381d765-ca9d-4241-8c07-6785196b080d",
+              "name": "Stations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lineupId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "callSign",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"stationId\": \"string\",\n    \"name\": \"string\",\n    \"callSign\": \"string\",\n    \"affiliateCallSign\": \"string\",\n    \"affiliateName\": \"string\",\n    \"type\": \"string\",\n    \"channels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  },\n  {\n    \"stationId\": \"string\",\n    \"name\": \"string\",\n    \"callSign\": \"string\",\n    \"affiliateCallSign\": \"string\",\n    \"affiliateName\": \"string\",\n    \"type\": \"string\",\n    \"channels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0040d0d7-c832-4fb1-b2d9-389b8c28019e",
+          "name": "Get station details",
+          "request": {
+            "name": "Get station details",
+            "description": {},
+            "url": {
+              "path": [
+                "stations",
+                ":stationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "stationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ea295e7-bf10-45bf-ac26-f9ec1840986e",
+              "name": "Station",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations",
+                    ":stationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"stationId\": \"string\",\n  \"name\": \"string\",\n  \"callSign\": \"string\",\n  \"affiliateCallSign\": \"string\",\n  \"affiliateName\": \"string\",\n  \"type\": \"string\",\n  \"channels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"preferredImage\": {\n    \"uri\": \"string\",\n    \"height\": \"string\",\n    \"width\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2dffe72-1360-4ec4-887c-8578e07422eb",
+          "name": "Get program airings for a station",
+          "request": {
+            "name": "Get program airings for a station",
+            "description": {},
+            "url": {
+              "path": [
+                "stations",
+                ":stationId",
+                "airings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startDateTime",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "endDateTime",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "stationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f0419cc-535e-4b43-87e2-bee232ece8e7",
+              "name": "Airings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations",
+                    ":stationId",
+                    "airings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "endDateTime",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "stationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://data.tmsapi.com/v1.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "94aee267-b127-4e0a-a386-516dfdec8fc6",
+    "name": "Gracenote OnConnect TMS Celebrities Stations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.",
+      "type": "text/plain"
+    }
+  }
+}

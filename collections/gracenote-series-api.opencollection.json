@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gracenote OnConnect TMS Celebrities Series API",
+    "version": "1.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Series",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get series details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/series/:seriesId",
+            "params": [
+              {
+                "name": "seriesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get series details"
+        },
+        {
+          "info": {
+            "name": "List episodes for a series",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/series/:seriesId/episodes",
+            "params": [
+              {
+                "name": "seriesId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List episodes for a series"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

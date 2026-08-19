@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gracenote OnConnect TMS Celebrities API",
+    "version": "1.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Celebrities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search celebrities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/celebs",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search celebrities"
+        },
+        {
+          "info": {
+            "name": "Get celebrity details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/celebs/:celebId",
+            "params": [
+              {
+                "name": "celebId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get celebrity details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

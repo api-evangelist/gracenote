@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gracenote OnConnect TMS Celebrities Movies API",
+    "version": "1.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Movies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search movies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/movies",
+            "params": [
+              {
+                "name": "title",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "releaseYear",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search movies"
+        },
+        {
+          "info": {
+            "name": "Get movie details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/movies/:movieId",
+            "params": [
+              {
+                "name": "movieId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get movie details"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

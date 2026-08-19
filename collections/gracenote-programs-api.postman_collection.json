@@ -1,0 +1,230 @@
+{
+  "item": [
+    {
+      "id": "953d7b1f-1139-419e-8765-7f847f98665c",
+      "name": "Programs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "753791ff-4f5f-45d6-b4ca-006c24c8e753",
+          "name": "Search programs",
+          "request": {
+            "name": "Search programs",
+            "description": {},
+            "url": {
+              "path": [
+                "programs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "title",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "entityType",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce3bd39a-9138-4cee-976d-a25c245b14a3",
+              "name": "Programs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "title",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "entityType",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"tmsId\": \"string\",\n    \"rootId\": \"string\",\n    \"subType\": \"string\",\n    \"title\": \"string\",\n    \"shortDescription\": \"string\",\n    \"longDescription\": \"string\",\n    \"releaseYear\": 2967,\n    \"releaseDate\": \"1955-01-05\",\n    \"entityType\": \"Sports\",\n    \"genres\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  },\n  {\n    \"tmsId\": \"string\",\n    \"rootId\": \"string\",\n    \"subType\": \"string\",\n    \"title\": \"string\",\n    \"shortDescription\": \"string\",\n    \"longDescription\": \"string\",\n    \"releaseYear\": 8882,\n    \"releaseDate\": \"2023-01-14\",\n    \"entityType\": \"Show\",\n    \"genres\": [\n      \"string\",\n      \"string\"\n    ],\n    \"preferredImage\": {\n      \"uri\": \"string\",\n      \"height\": \"string\",\n      \"width\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4620ad31-e019-4b85-b586-1c89d1a20b53",
+          "name": "Get program details",
+          "request": {
+            "name": "Get program details",
+            "description": {},
+            "url": {
+              "path": [
+                "programs",
+                ":programId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "programId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2fbf5c01-0609-4242-b911-d4ecaa558b6d",
+              "name": "Program",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "programs",
+                    ":programId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "api_key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "programId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"tmsId\": \"string\",\n  \"rootId\": \"string\",\n  \"subType\": \"string\",\n  \"title\": \"string\",\n  \"shortDescription\": \"string\",\n  \"longDescription\": \"string\",\n  \"releaseYear\": 1308,\n  \"releaseDate\": \"1946-09-09\",\n  \"entityType\": \"Sports\",\n  \"genres\": [\n    \"string\",\n    \"string\"\n  ],\n  \"preferredImage\": {\n    \"uri\": \"string\",\n    \"height\": \"string\",\n    \"width\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://data.tmsapi.com/v1.1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api_key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bd7a871a-9c70-4c8f-a93c-b69247694fa1",
+    "name": "Gracenote OnConnect TMS Celebrities Programs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.",
+      "type": "text/plain"
+    }
+  }
+}

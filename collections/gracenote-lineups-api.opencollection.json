@@ -1,0 +1,123 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gracenote OnConnect TMS Celebrities Lineups API",
+    "version": "1.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api_key",
+      "value": "{{api_key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lineups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for TV lineups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "postalCode",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "lineupName",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search for TV lineups"
+        },
+        {
+          "info": {
+            "name": "Get lineup details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get lineup details"
+        },
+        {
+          "info": {
+            "name": "Get channels for a lineup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId/channels",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get channels for a lineup"
+        },
+        {
+          "info": {
+            "name": "Get program schedule grid for a lineup",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://data.tmsapi.com/v1.1/lineups/:lineupId/grid",
+            "params": [
+              {
+                "name": "lineupId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "startDateTime",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "endDateTime",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get program schedule grid for a lineup"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
