@@ -1,0 +1,65 @@
+slug: gracenote
+provider: Gracenote
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Lineups
+  spec_file: gracenote-lineups-api-openapi.yml
+  capability_id: BC-3730.20
+  capability_id_l1: BC-3730
+  capability_name: Electronic Programme Guide Management
+  confidence: 0.8
+  evidence: '''Get channels for a lineup'', ''Get program schedule grid for a lineup'', schema Lineup'
+  reason: Operations deliver TV lineup, channel and programme schedule grid data — the substance of electronic
+    programme guide data supplied to operators and devices. EPG management (BC-3730.20) is the best fit;
+    slight ambiguity versus general metadata cataloguing keeps confidence at 0.8.
+- tag: Movies
+  spec_file: gracenote-movies-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.75
+  evidence: 'GET /movies searchMovies Search movies; "Read-only entertainment data: lineups, stations,
+    schedules, programs, series, movies"'
+  reason: Gracenote supplies descriptive entertainment metadata about movie titles for discovery/search;
+    this is metadata cataloguing of media assets rather than production or scheduling. Some ambiguity
+    vs. on-demand catalogue curation, but the surface is a metadata reference database.
+- tag: Programs
+  spec_file: gracenote-programs-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.75
+  evidence: 'GET /programs searchPrograms Search programs; schema "Program"; "Read-only entertainment
+    data: lineups, stations, schedules, programs"'
+  reason: Programme metadata records used for content discovery — descriptive metadata cataloguing of
+    media titles.
+- tag: Series
+  spec_file: gracenote-series-api-openapi.yml
+  capability_id: BC-3710.20
+  capability_id_l1: BC-3710
+  capability_name: Metadata Cataloguing
+  confidence: 0.72
+  evidence: GET /series/{seriesId}/episodes getSeriesEpisodes List episodes for a series
+  reason: Series and episode descriptive metadata retrieval; catalogue/metadata function of the entertainment
+    data service.
+- tag: Stations
+  spec_file: gracenote-stations-api-openapi.yml
+  capability_id: BC-3730.20
+  capability_id_l1: BC-3730
+  capability_name: Electronic Programme Guide Management
+  confidence: 0.7
+  evidence: GET /stations/{stationId}/airings getStationAirings Get program airings for a station; "lineups,
+    stations, schedules"
+  reason: Station lineup and airing schedule data is the substance of electronic programme guide data
+    supplied to operators and consumer devices; airings tie programmes to broadcast time slots.
