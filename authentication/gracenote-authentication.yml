@@ -1,15 +1,94 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/gracenote-openapi.yml
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/ + https://devportal.gracenote.com/video/video-mcp-server/connecting-to-mcp
+docs: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote runs two distinct authentication models. Every REST product is API-key authenticated and
+  keys are issued by sales, not self-serve — the developer portal's own onboarding copy is "New to
+  Gracenote? Create an account and contact Sales for an API key." The MCP servers are the exception:
+  they are OAuth 2.0 protected resources with full RFC 8414 / RFC 9728 discovery and dynamic client
+  registration.
 summary:
   types:
   - apiKey
+  - oauth2
   api_key_in:
   - query
+  - header
+  self_serve_credentials: false
+  credential_issuer: Gracenote sales / account team
 schemes:
 - name: apiKey
   type: apiKey
   in: query
   parameter: api_key
+  description: >-
+    The OnConnect family (legacy developer.tmsapi.com gateway and the current OnConnect Lookup APIs)
+    takes the key as an api_key query parameter. The Mashery gateway returns
+    403 ERR_403_DEVELOPER_INACTIVE without a valid, active key.
   sources:
-  - openapi/gracenote-openapi.yml
+  - openapi/gracenote-onconnect-lookup-apis-openapi.json
+  - openapi/gracenote-celebrities-api-openapi.yml
+  - openapi/gracenote-lineups-api-openapi.yml
+  - openapi/gracenote-movies-api-openapi.yml
+  - openapi/gracenote-programs-api-openapi.yml
+  - openapi/gracenote-series-api-openapi.yml
+  - openapi/gracenote-sports-api-openapi.yml
+  - openapi/gracenote-stations-api-openapi.yml
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: GN-APIKEY
+  description: API key provided during registration; used by the GMD v3 music API and the GN IDS API.
+  sources:
+  - openapi/gracenote-gmd-api-v3-openapi.json
+  - openapi/gracenote-gn-ids-api-openapi.json
+- name: mcp-oauth2
+  type: oauth2
+  description: >-
+    Both production MCP servers are OAuth 2.0 protected resources. Anonymous JSON-RPC returns 401 with
+    a WWW-Authenticate Bearer challenge carrying resource_metadata, so a compliant MCP client discovers
+    the authorization server automatically. Dynamic client registration is offered at /register on each
+    MCP host; PKCE S256 is supported; the documented machine-to-machine path is a client-credentials
+    grant at https://auth.mcp.gracenote.com/oauth2/token returning a one-hour access token. Gracenote
+    documents that the MCP server does not enforce scopes on M2M tokens.
+  flows:
+  - authorization_code
+  - refresh_token
+  - client_credentials
+  pkce: S256
+  token_endpoint: https://auth.mcp.gracenote.com/oauth2/token
+  scopes_supported:
+  - openid
+  upstream_idp: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_ASUkV5fbV
+  applies_to:
+  - https://video.mcp.gracenote.com/mcp
+  - https://sports.mcp.gracenote.com/mcp
+  sources:
+  - well-known/gracenote-video-mcp-oauth-authorization-server.json
+  - well-known/gracenote-sports-mcp-oauth-authorization-server.json
+  - https://devportal.gracenote.com/video/video-mcp-server/connecting-to-mcp
+- name: wordpress-mcp-oauth2
+  type: oauth2
+  description: >-
+    Separate from the products: the gracenote.com marketing site (WordPress VIP) publishes its own
+    authorization-server metadata with a single `mcp` scope and a public-client (`none`) token
+    endpoint auth method, backing https://gracenote.com/wp-json/mcp/mcp-oauth-server.
+  flows:
+  - authorization_code
+  - refresh_token
+  pkce: S256
+  scopes_supported:
+  - mcp
+  sources:
+  - well-known/gracenote-oauth-authorization-server.json
+portal_auth:
+  developer_portal: https://devportal.gracenote.com/
+  sign_in: https://devportal.gracenote.com/login
+  sign_up: https://devportal.gracenote.com/register
+  idp: AWS Cognito (auth.devportal.gracenote.com)
+  note: >-
+    Portal accounts are self-registerable; API keys are not. Existing legacy accounts on
+    developer.tmsapi.com are migrated by signing in with the same email and resetting the password.

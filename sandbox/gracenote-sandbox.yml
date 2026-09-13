@@ -1,0 +1,54 @@
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/catalog
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote ships an interactive API Explorer (playground) on its developer portal for all ten
+  published API definitions, and documents MCP Inspector as the interactive surface for the two MCP
+  servers. There is no test mode, no sandbox key, no fixture data and no simulated environment —
+  every request runs against production with a licensed key.
+console:
+  present: true
+  type: in-portal API Explorer
+  engine: Zudoku playground
+  url: https://devportal.gracenote.com/catalog
+  per_api_urls:
+  - https://devportal.gracenote.com/catalog/on-api
+  - https://devportal.gracenote.com/catalog/gvd
+  - https://devportal.gracenote.com/catalog/gmd-v2
+  - https://devportal.gracenote.com/catalog/gmd-v3
+  - https://devportal.gracenote.com/catalog/gnids
+  - https://devportal.gracenote.com/catalog/global-sports
+  - https://devportal.gracenote.com/catalog/global-sports-data
+  - https://devportal.gracenote.com/catalog/onconnect
+  - https://devportal.gracenote.com/catalog/onconnect-video-social
+  note: >-
+    Each catalog entry declares playground.enabled true with a server-side proxy path (/proxy/on-api,
+    /proxy/gvd, /proxy/gmd, /proxy/gnids, /proxy/sports, /proxy/onconnect, /proxy/ovd, /proxy/nexus),
+    so requests are made from the portal rather than the browser. That proxy path is what appears in
+    each spec's servers[] block — it is not a callable production host.
+  legacy_console:
+    url: https://developer.tmsapi.com/io-docs
+    name: I/O Docs (Mashery)
+    status: 200
+    note: Being retired alongside the legacy gateway as of 2026-09-08.
+test_mode:
+  present: false
+  test_keys: false
+  test_data: false
+  time_simulation: false
+  note: >-
+    No test-vs-live key prefixes, no sandbox host, no published test identifiers, no fixtures and no
+    triggers. Searched the portal's getting-started and quick-start pages for all ten products; none
+    documents a non-production environment.
+mcp_testing:
+  tool: MCP Inspector
+  statement: >-
+    "You don't call these tools directly; your LLM does. However, you can call them using MCP Inspector
+    for testing purposes and to better understand tool capabilities, limits, and data structures."
+  source: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+  quick_start:
+  - https://devportal.gracenote.com/video/video-mcp-server/quick-start-cli
+  - https://devportal.gracenote.com/sports/sports-mcp-server/quick-start-cli
+  note: Still requires real OAuth credentials against the production servers.

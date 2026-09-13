@@ -1,0 +1,103 @@
+generated: '2026-09-12'
+method: searched
+source: https://developer.tmsapi.com/ + https://devportal.gracenote.com/
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote is mid-migration. The legacy Mashery-hosted gateway at developer.tmsapi.com announces on
+  its own home page that, as of 2026-09-08, documentation and API explorers for active products moved
+  to a new Zudoku-based portal at devportal.gracenote.com, with the legacy docs remaining "until
+  further notice". Release notes for every product are published, but the actual dated entries live
+  behind the Gracenote Help Center rather than on the portal.
+versioning:
+  scheme: path-segment major version, with product-level version numbers in the spec title
+  examples:
+  - On API v3.28 at /v3/
+  - OnConnect Lookup APIs v1.1 at /v1.1/
+  - GVD API v3.06 at /v1/
+  - GMD API v2.0 at /v2 and GMD API v3.0 Beta at /v3
+  - GN IDS API v1.9.3 at /api/v1
+  - Nexus API v1.1.5 at /v1
+  - Global Sports Data Lookup API v1 at /gsd/lookup/v1/
+  note: >-
+    The Nexus spec states explicitly that "data model additions, such as new keys and new values, can
+    occur without a change to the version number" — additive change is not versioned.
+  beta_channel:
+    api: GMD API v3.0 Beta
+    statement: 'Gracenote Global Music Data (GMD) API V3.0 **Beta** Specification. Interfaces are subject to change.'
+    source: openapi/gracenote-gmd-api-v3-openapi.json info.description
+deprecation:
+  policy_published: true
+  policy_url: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    There is no single written deprecation policy page, but Gracenote does publish deprecations in
+    place, with a stated replacement and a stated removal intent. No RFC 8594 Sunset or Deprecation
+    response headers are declared in any of the ten public specs.
+  active_deprecations:
+  - surface: Video MCP Server
+    items: [resolve_entities, get_availability]
+    replacement: gnv_resolve_entities, gnv_get_availability
+    statement: >-
+      "All tools use the gnv_ namespace prefix. Older tool names without the prefix are deprecated and
+      will be removed in a future release. Always use the gnv_ prefixed versions."
+    source: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+  - surface: Nexus API
+    items: ['operations tagged "Deprecated"']
+    statement: The Nexus OpenAPI carries a first-class `Deprecated` tag alongside `Experimental`.
+    source: openapi/gracenote-nexus-api-openapi.json
+  - surface: developer.tmsapi.com (legacy Gracenote Video and Sports API Gateway)
+    statement: >-
+      "As of September 08, 2026, the documentation and API explorers (I/O docs) for active products
+      will move to the new Gracenote Developer Portal. Please use this new portal moving forward. The
+      legacy documentation on this site will remain until further notice."
+    replacement: https://devportal.gracenote.com/
+    probed: '2026-09-12'
+    http_status: 200
+    source: https://developer.tmsapi.com/
+experimental:
+  surface: Nexus API
+  note: >-
+    The Nexus spec carries an `Experimental` tag and notes that some experimental endpoints are
+    "intended for LLM usage and thus follow some different API philosophies to reduce processing and
+    payload size — such as forgoing the _meta_ and _data_ sections and omitting empty fields."
+release_notes:
+- product: On API
+  url: https://devportal.gracenote.com/video/on-api/release-notes
+  canonical_source: https://support.gracenote.com/hc/en-us/sections/26348993094033-On-API
+- product: GVD API
+  url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+- product: GN IDS API
+  url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+- product: GN IDS Web App
+  url: https://devportal.gracenote.com/video/gn-ids-web-app/release-notes
+- product: Gracenote View
+  url: https://devportal.gracenote.com/video/Gracenote-View/release-notes
+- product: Global Sports Data
+  url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+- product: Video MCP Server
+  url: https://devportal.gracenote.com/video/video-mcp-server/about-release
+- product: Sports MCP Server
+  url: https://devportal.gracenote.com/sports/sports-mcp-server/about-release
+- product: Nexus Auto API
+  url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+- product: Nexus Auto SDK
+  url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-auto-sdk/nexus-auto-sdk-release-notes
+status_page:
+  published: false
+  probed:
+  - url: https://status.gracenote.com/
+    status: 000
+    note: DNS does not resolve.
+  substitute:
+    name: Gracenote Help Center customer notifications
+    url: https://support.gracenote.com/hc/en-us
+    note: >-
+      Gracenote routes incident and release communication through Zendesk-hosted Help Center sections
+      per product, including a dedicated MCP Server Notifications section. This is a notification
+      channel, not a status page — there is no component/uptime surface.
+  mcp_notifications: https://support.gracenote.com/hc/en-us/sections/48015402243857-MCP-Server-Notifications
+sla:
+  published: false
+  note: No public SLA. Terms are contractual; see https://gracenote.com/gracenote-terms-of-use/.

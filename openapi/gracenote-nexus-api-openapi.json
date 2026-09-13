@@ -1,0 +1,6574 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Nexus API v1.1.5",
+    "description": "This is the OpenAPI spec for Gracenote's Nexus API. \n\nNote that data model additions, such as new keys and new values, can occur without a change to the version number.\n\nAPI Guidelines:\nThe Nexus API attempts to be 'self documenting' in that the complete data model is generally returned, so expect to see null fields. When a field comes back as null, it implies that this field isn't supported by the current object whereas an empty string implies that the field is supported, but missing. For example, an unranked tennis player will have \"\" for their 'rank' while the NBA standings will have null for 'matchesDrawn' because the NBA does not allow draws.\n\nThe Nexus API is pre-sorted, so expect that all responses with arrays have been pre-sorted for best practices.\n\nNexus API keys are entitled to different sets of data and functionality - this reflects the features that have been licensed for that key. A 403 return code will be returned when attempting to access features that a key is not entitled for.\n\nNote that among the new experimental endpoints, there will be some that are intended for LLM usage and thus follow some different API philosophies to reduce processing and payload size - such as forgoing the _meta_ and _data_ sections and omitting empty fields.\n\n[About Nexus Auto](https://gracenote.com/products/nexus-auto/)\n",
+    "contact": {
+      "email": "nexusengineering@nielsen.com"
+    },
+    "version": "v1.1.5"
+  },
+  "servers": [
+    {
+      "url": "/proxy/nexus/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Collections",
+      "description": "API endpoints related to curated content collections."
+    },
+    {
+      "name": "Video",
+      "description": "API endpoints related to video program content."
+    },
+    {
+      "name": "Music",
+      "description": "API endpoints related to music content."
+    },
+    {
+      "name": "Podcasts",
+      "description": "API endpoints related to podcast metadata."
+    },
+    {
+      "name": "Search",
+      "description": "API endpoints related to content search."
+    },
+    {
+      "name": "RadioStations",
+      "description": "API endpoints related to radio station metadata."
+    },
+    {
+      "name": "Sports",
+      "description": "API endpoints related to sports content."
+    },
+    {
+      "name": "Settings",
+      "description": "API endpoints related to configuration."
+    },
+    {
+      "name": "Experimental",
+      "description": "API endpoints related to forthcoming features."
+    },
+    {
+      "name": "Deprecated",
+      "description": "API endpoints to be removed in a future release."
+    }
+  ],
+  "paths": {
+    "/programbundles": {
+      "get": {
+        "tags": [
+          "Deprecated"
+        ],
+        "description": "__Deprecated. Use the /collections endpoint with VIDEOPROGRAMS as the item type instead.__",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgramBundlesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/programBundles": {
+      "get": {
+        "tags": [
+          "Deprecated"
+        ],
+        "description": "__Deprecated. Use the /collections endpoint with VIDEOPROGRAMS as the item type instead.__",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgramBundlesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/programs/{programID}": {
+      "get": {
+        "tags": [
+          "Video"
+        ],
+        "description": "Fetch details of a specific program identified by the programID. The content will be filtered based on apiKey's entitled streaming catalogs and optional parameter `omitCatalogIDs`.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "programID",
+            "in": "path",
+            "description": "The unique identifier of the program.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgramsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/catalogs": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "description": "Fetch a list of entitled music and video streaming catalogs for the specified contentMarket. The list will be filtered based on apiKey's entitled streaming catalogs.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingCatalogsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of leagues for the specified contentMarket. The list will be filtered based on apiKey's entitlement and optional parameter `topOnly`.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/topParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaguesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch details of a specific league identified by the leagueID. The league object indicates whether it includes standings, rankings, phases and matches.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaguesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/standings": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of standings identified by the leagueID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandingsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/rankings": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of rankings identified by the leagueID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RankingsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches identified by the leagueID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/conferences/{conferenceID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches for the given league conference, for example, if you want to only get back matches for the NCAA Atlantic 10 Conference.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "conferenceID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/divisions/{divisionID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches for the given division, for example, if you want to only get back matches for the MLB AL East Division.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "divisionID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/overalls/{overallID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches for the given overall. Many rankings and some standings have overallIDs and this allows the developer to fetch only matches featuring top ranked participants. For example, if you want to only get back matches for the top 25 WNCAAB teams, use the overallID that comes back with the WNCAAB rankings response.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "overallID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/{leagueID}/phases": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of phases identified by the leagueID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "leagueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhasesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/phases/{phaseID}": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch details of a specific phase identified by the phaseID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "phaseID",
+            "in": "path",
+            "description": "The unique identifier of the phase.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhasesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/matches/{matchID}": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch the details of a specific match identified by the matchID. Please note that fetching match with status CURRENT up to every 5 seconds for updated information is recommended.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "matchID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the match.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/teams/{teamID}": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch the details of a specific team identified by the teamID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "teamID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the team.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/teams/{teamID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches identified by the teamID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "teamID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the team.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/teams/{teamID}/phases": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of phases identified by the teamID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "teamID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the team.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhasesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/persons/{personID}": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch the details of a specific person identified by the personID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "personID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the person.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/persons/{personID}/matches": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of matches identified by the personID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "personID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the person.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/persons/{personID}/phases": {
+      "get": {
+        "tags": [
+          "Sports"
+        ],
+        "description": "Fetch a list of phases identified by the personID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "personID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the person.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/statusParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhasesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/teams/resolution": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Resolve a team name to a Nexus teamID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/nameParam"
+          },
+          {
+            "$ref": "#/components/parameters/sportTypeParam"
+          },
+          {
+            "$ref": "#/components/parameters/leagueNameParam"
+          },
+          {
+            "$ref": "#/components/parameters/genderParam"
+          },
+          {
+            "$ref": "#/components/parameters/nationalityParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResolutionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/leagues/resolution": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Resolve a league name to a Nexus leagueID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/nameParam"
+          },
+          {
+            "$ref": "#/components/parameters/sportTypeParam"
+          },
+          {
+            "$ref": "#/components/parameters/genderParam"
+          },
+          {
+            "$ref": "#/components/parameters/nationalityParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResolutionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/conferences/resolution": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Resolve a conference name to a Nexus conferenceID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/nameParam"
+          },
+          {
+            "$ref": "#/components/parameters/leagueNameParam"
+          },
+          {
+            "$ref": "#/components/parameters/sportTypeParam"
+          },
+          {
+            "$ref": "#/components/parameters/genderParam"
+          },
+          {
+            "$ref": "#/components/parameters/nationalityParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResolutionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/divisions/resolution": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Resolve a division name to a Nexus divisionID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/nameParam"
+          },
+          {
+            "$ref": "#/components/parameters/leagueNameParam"
+          },
+          {
+            "$ref": "#/components/parameters/sportTypeParam"
+          },
+          {
+            "$ref": "#/components/parameters/genderParam"
+          },
+          {
+            "$ref": "#/components/parameters/nationalityParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityResolutionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/artists/{artistID}": {
+      "get": {
+        "tags": [
+          "Music"
+        ],
+        "description": "Fetch the details of a specific artist identified by the artistID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "artistID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the artist. Some sample artist IDs include GMGZZX80000332M (Taylor Swift), GMGZZX80000WDH2 (Peso Pluma) and GMGZZX800009DXC (ROSALÍA).",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "default": {
+                "value": "GMGZZX80000332M"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtistsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/albumeditions": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Retrieve AlbumEditions matching given albumEditionName and artistName parameters. If (optional) recordingName is provided, it will only return AlbumEditions that include the track with the given recordingName.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          },
+          {
+            "$ref": "#/components/parameters/artistName"
+          },
+          {
+            "$ref": "#/components/parameters/albumEditionName"
+          },
+          {
+            "$ref": "#/components/parameters/recordingNameOptional"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlbumEditionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/albumEditions": {
+      "get": {
+        "tags": [
+          "Deprecated"
+        ],
+        "description": "__Deprecated. Use the lower case /albumeditions endpoint instead.__",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          },
+          {
+            "$ref": "#/components/parameters/artistName"
+          },
+          {
+            "$ref": "#/components/parameters/albumEditionName"
+          },
+          {
+            "$ref": "#/components/parameters/recordingNameOptional"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlbumEditionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/albumeditions/{albumEditionID}": {
+      "get": {
+        "tags": [
+          "Music"
+        ],
+        "description": "Fetch the details of a specific album edition identified by the albumEditionID. AlbumEdition IDs can be found via recording fetches or album edition text identifications.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "albumEditionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the album edition.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlbumEditionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/albumEditions/{albumEditionID}": {
+      "get": {
+        "tags": [
+          "Deprecated"
+        ],
+        "description": "__Deprecated. Use the lower case /albumeditions/{albumEditionID} endpoint instead.__",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "albumEditionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the album edition.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlbumEditionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/recordings": {
+      "get": {
+        "tags": [
+          "Experimental"
+        ],
+        "description": "Retrieve Recordings matching given recordingName and artistName parameters. If (optional) albumEditionName is provided, it will return the best Recording that is on the given AlbumEdition name.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          },
+          {
+            "$ref": "#/components/parameters/artistName"
+          },
+          {
+            "$ref": "#/components/parameters/albumEditionNameOptional"
+          },
+          {
+            "$ref": "#/components/parameters/recordingName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/recordings/{recordingID}": {
+      "get": {
+        "tags": [
+          "Music"
+        ],
+        "description": "Fetch the details of a specific recording identified by the recordingID. Recording IDs can be found via artist fetches or radio song identifications.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "recordingID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the recording.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordingsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/podcasts/{podcastID}": {
+      "get": {
+        "tags": [
+          "Podcasts"
+        ],
+        "description": "Fetch the details of a specific podcast series identified by the podcastID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "podcastID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the podcast.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodcastsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/podcasts/{podcastID}/episodes/{podcastEpisodeID}": {
+      "get": {
+        "tags": [
+          "Podcasts"
+        ],
+        "description": "Fetch the details of a specific podcast episode identified by the podcastEpisodeID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "podcastID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the podcast series.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "podcastEpisodeID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the podcast episode.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PodcastEpisodesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "description": "Search podcasts, podcast episodes, video movies, and video shows. Results are grouped by the requested `itemTypes` and sorted by relevance within each group.\n\n**Video search (`VIDEOMOVIES`, `VIDEOSHOWS`):** requires a `Video` entitlement on the API key. Availability in results is returned as provided by the video search service.\n\n**Video search only:** optional query parameters `omitCatalogIDs`, `minDuration`, and `maxDuration` apply only when `itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "text",
+            "in": "query",
+            "required": true,
+            "description": "Search text (minimum length of 3 characters). Query strings should be URL-encoded.\n",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "good%20news"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/searchItemTypesParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/searchMinDurationParam"
+          },
+          {
+            "$ref": "#/components/parameters/searchMaxDurationParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/collections": {
+      "get": {
+        "tags": [
+          "Collections"
+        ],
+        "description": "Fetch curated collections for the specified contentMarket. The video program collections will be filtered based on the apiKey's entitled streaming catalogs and optional parameter `omitCatalogIDs`. \n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "$ref": "#/components/parameters/collectionCategoryParam"
+          },
+          {
+            "$ref": "#/components/parameters/collectionItemTypesParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/collections/{collectionID}": {
+      "get": {
+        "tags": [
+          "Collections"
+        ],
+        "description": "Fetch collections identified by the _collectionID_. \n\nNote that for sports entity collections like teams and leagues, you should use the _teamID_, _leagueID_ and _conferenceID_ as the _collectionID_.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "collectionID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the collection.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/collectionItemTypesParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/omitCatalogsParam"
+          },
+          {
+            "$ref": "#/components/parameters/encodingParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/radiostations": {
+      "get": {
+        "tags": [
+          "RadioStations"
+        ],
+        "description": "Find radio stations near a given location, optionally filtered by category,\nstation name, sports team ID, or streaming availability. Returns a list of\ntunable local stations, including streamable stations where available.\n\n## Required Parameters\n- `geolocation` — latitude and longitude of the device location\n- `band` — broadcast band (FM, AM, or DAB)\n- `contentMarket` — content market code (e.g. USA, GBR, DEU)\n- `preferredLanguage` — preferred language code (e.g. en-US, de-DE)\n\n## Optional Filters\n- `radioCategory` — filter by category name (e.g. Sports, News & Talk)\n- `stationName` — filter by station name (e.g. KQED)\n- `teamID` — filter by Gracenote sports team ID\n- `streamingURL` — Y returns only stations with streaming URLs; N returns only stations without; omit to return all\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "geolocation",
+            "in": "query",
+            "required": true,
+            "description": "Latitude and longitude of the device location in `<latitude>,<longitude>`\nformat (e.g. `37.7879,-122.4074`).\n",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "37.7879,-122.4074"
+              ]
+            }
+          },
+          {
+            "name": "band",
+            "in": "query",
+            "required": true,
+            "description": "Broadcast band to filter by.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "FM",
+                "AM",
+                "DAB"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "name": "radioCategory",
+            "in": "query",
+            "required": false,
+            "description": "Filter stations by case-sensitive, URL-encoded English category names, using a comma separator to return stations matching any of the specified categories, such as `News+%26+Talk,Sports` for `News & Talk,Sports`. Unrecognized values will return an empty list.\n\nAvailable in both NA and EU:\n- Sports\n- News & Talk\n- Today's Hits\n- Adult Pop\n- Classic Hits\n- Country\n- Rock\n- Rap/Hip-Hop\n- R&B\n- Dance & Electronic\n- Jazz & Blues\n- Classical\n- Religious\n- Local & Community\n- World\n- Variety & Other\n\nAvailable in NA only:\n- Mexican Regional\n- Latin\n- Québécois\n- First Nations\n\nAvailable in EU only:\n- Reggae & Caribbean\n- Variété Française\n- Schlager & Volksmusik\n- Latin Pop & Trad\n- EU Trad & Folk\n- South Asian\n\nThe region is determined from the `contentMarket` parameter.\n",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "News+%26+Talk"
+              ]
+            }
+          },
+          {
+            "name": "stationName",
+            "in": "query",
+            "required": false,
+            "description": "Filter by exact station display name (case-sensitive, e.g. `KQED`).",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "KQED"
+              ]
+            }
+          },
+          {
+            "name": "teamID",
+            "in": "query",
+            "required": false,
+            "description": "Filter by Gracenote sports team ID to find stations associated with that team.\nMultiple team IDs can be provided as a comma-separated list (e.g. `GNE37ZV4C2J2ETB,GNBBJCYBP82W4R7`).\nReturns stations associated with ANY of the provided team IDs.\n",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "GNE37ZV4C2J2ETB"
+              ]
+            }
+          },
+          {
+            "name": "streamingURL",
+            "in": "query",
+            "required": false,
+            "description": "Filter stations by streaming availability. `Y` returns only stations\nthat have streaming URLs available. `N` returns only stations without\nstreaming URLs. If not specified, all stations are returned regardless\nof streaming availability.\n",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Y",
+                "N"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RadioStationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    },
+    "/radiostations/{radioStationID}": {
+      "get": {
+        "tags": [
+          "RadioStations"
+        ],
+        "description": "Fetch RadioStation identified by the radioStationID.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/apiKeyParam"
+          },
+          {
+            "name": "radioStationID",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the RadioStation.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/languageParam"
+          },
+          {
+            "$ref": "#/components/parameters/contentMarketParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RadioStationsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/errorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/errorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/errorResponse403"
+          },
+          "404": {
+            "$ref": "#/components/responses/errorResponse404"
+          },
+          "429": {
+            "$ref": "#/components/responses/errorResponse429"
+          },
+          "4XX": {
+            "$ref": "#/components/responses/errorResponse4XX"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/errorResponse5XX"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "languageParam": {
+        "name": "preferredLanguage",
+        "in": "query",
+        "description": "The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.",
+        "required": true,
+        "schema": {
+          "pattern": "^[a-z]{2}-[A-Z]{2}$",
+          "examples": [
+            "en-GB"
+          ]
+        }
+      },
+      "contentMarketParam": {
+        "in": "query",
+        "name": "contentMarket",
+        "description": "The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "AUS",
+            "CAN",
+            "DEU",
+            "ESP",
+            "FRA",
+            "GBR",
+            "IND",
+            "ITA",
+            "JPN",
+            "KOR",
+            "USA"
+          ]
+        },
+        "examples": {
+          "default": {
+            "value": "USA"
+          }
+        }
+      },
+      "omitCatalogsParam": {
+        "name": "omitCatalogIDs",
+        "in": "query",
+        "required": false,
+        "allowEmptyValue": true,
+        "description": "Comma separated list of streaming catalogIDs used to exclude content from particular streaming catalogs.\nThis is honored for `/collections`, `/programs`, and `/programbundles` when itemTypes includes VIDEOPROGRAMS,\nand for `/search` when itemTypes includes VIDEOMOVIES and/or VIDEOSHOWS.\n",
+        "schema": {
+          "type": "string",
+          "examples": [
+            "111777,81277"
+          ]
+        }
+      },
+      "searchMinDurationParam": {
+        "name": "minDuration",
+        "in": "query",
+        "required": false,
+        "description": "**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**\n\nMinimum program duration in minutes (inclusive).\n",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "examples": [
+            60
+          ]
+        }
+      },
+      "searchMaxDurationParam": {
+        "name": "maxDuration",
+        "in": "query",
+        "required": false,
+        "description": "**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**\n\nMaximum program duration in minutes (inclusive).\n",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "examples": [
+            180
+          ]
+        }
+      },
+      "topParam": {
+        "name": "topOnly",
+        "in": "query",
+        "required": false,
+        "description": "A boolean parameter to filter leagues. When set to `true`, only the most popular leagues for the specified content market are returned. The content is subject to the entitlements associated with the provided apiKey.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "statusParam": {
+        "in": "query",
+        "name": "status",
+        "description": "A filter that indicates the status of a match or phase, specifying whether they have not started, are in progress or have been completed.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "CURRENT",
+            "RECENT",
+            "UPCOMING"
+          ]
+        }
+      },
+      "teamIDParam": {
+        "name": "teamID",
+        "in": "query",
+        "required": false,
+        "description": "The unique identifier of the team.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "leagueIDParam": {
+        "name": "leagueID",
+        "in": "query",
+        "required": false,
+        "description": "The unique identifier of the league.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "personIDParam": {
+        "name": "personID",
+        "in": "query",
+        "required": false,
+        "description": "The unique identifier of the person.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "encodingParam": {
+        "description": "Optional header to specify the encoding type that the client is hoping to receive.",
+        "name": "Accept-Encoding",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "examples": [
+            "gzip"
+          ]
+        }
+      },
+      "collectionItemTypesParam": {
+        "name": "itemTypes",
+        "in": "query",
+        "required": true,
+        "description": "Filter collections by the type of items they contain. Comma-separate multiple values.\n",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CollectionItemType"
+          }
+        },
+        "explode": false
+      },
+      "searchItemTypesParam": {
+        "name": "itemTypes",
+        "in": "query",
+        "required": true,
+        "description": "Filter search results by item kind. At least one value is required.\n\nUse `VIDEOMOVIES` for movies, `VIDEOSHOWS` for shows.\n",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SearchItemType"
+          }
+        },
+        "style": "pipeDelimited",
+        "explode": false
+      },
+      "limitParam": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of results to return (default 10, max 100)",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10
+        }
+      },
+      "nameParam": {
+        "name": "name",
+        "in": "query",
+        "required": true,
+        "description": "Natural language name for the entity needing resolving to a Gracenote ID (e.g., \"Los Angeles Lakers\", \"English Premier League\")",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "leagueNameParam": {
+        "name": "leagueName",
+        "in": "query",
+        "required": false,
+        "description": "Optional league context to improve accuracy (e.g., \"NBA\", \"Premier League\"). This currently works as a hard filter, not a hint.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "nationalityParam": {
+        "name": "nationality",
+        "in": "query",
+        "required": false,
+        "description": "Optional nationality to improve accuracy. (e.g., \"England\", \"USA\", \"World\"). This currently works as a hard filter, not a hint.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "genderParam": {
+        "name": "gender",
+        "in": "query",
+        "required": false,
+        "description": "Optional gender to improve accuracy. This currently works as a hard filter, not a hint.",
+        "schema": {
+          "$ref": "#/components/schemas/SportGender"
+        }
+      },
+      "sportTypeParam": {
+        "name": "sportType",
+        "in": "query",
+        "required": false,
+        "description": "Optional sport type context to improve accuracy",
+        "schema": {
+          "$ref": "#/components/schemas/SportType"
+        }
+      },
+      "collectionCategoryParam": {
+        "name": "collectionCategory",
+        "in": "query",
+        "required": true,
+        "description": "Filter collections by collection category. Currently these collectionCategory mappings are supported:\n\nPODCASTS collections exist for: _NEWS_, _TOPIC_, _TEAM_, _LEAGUE_, _CONFERENCE_ and _SPORT_\n\nRADIOSTATIONS collections exist for: _NEWS_, _CATEGORY_, _TEAM_, _CITY_, _STATE_, _COUNTRY_ and _SPORT_\n\nVIDEOPROGRAMS: responses use _GENRE_ for curated program-bundle collections.\n\nNote that a `Sports` entitlement is needed for collections with these categories: _SPORT_, _LEAGUE_, _TEAM_ and _CONFERENCE_\n\nA `News & Talk` entitlement is needed for collections with these categories: _NEWS_, _CATEGORY_ and _TOPIC_\n\nA `RadioStationID` entitlement is needed for collections with these categories: _CITY_, _STATE_ and _COUNTRY_\n",
+        "schema": {
+          "$ref": "#/components/schemas/CollectionCategory"
+        }
+      },
+      "artistName": {
+        "name": "artistName",
+        "in": "query",
+        "description": "Artist name",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "default": {
+            "value": "The Beatles"
+          }
+        }
+      },
+      "albumEditionName": {
+        "name": "albumEditionName",
+        "in": "query",
+        "description": "Album Edition name",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "default": {
+            "value": "Love"
+          }
+        }
+      },
+      "albumEditionNameOptional": {
+        "name": "albumEditionName",
+        "in": "query",
+        "description": "Album Edition name",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "default": {
+            "value": "Love"
+          }
+        }
+      },
+      "recordingName": {
+        "name": "recordingName",
+        "in": "query",
+        "description": "Recording name",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "default": {
+            "value": "Help!"
+          }
+        }
+      },
+      "recordingNameOptional": {
+        "name": "recordingName",
+        "in": "query",
+        "description": "Recording name",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "default": {
+            "value": "Help!"
+          }
+        }
+      },
+      "apiKeyParam": {
+        "name": "GN-APIKEY",
+        "in": "header",
+        "description": "API key to authorize the request.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "examples": [
+            "your-api-key"
+          ]
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "error",
+          "description"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "HTTP status code"
+          },
+          "error": {
+            "type": "string",
+            "enum": [
+              "internal_server_error",
+              "invalid_query_method",
+              "missing_query_parameter",
+              "invalid_query_parameter_value",
+              "resource_not_found",
+              "invalid_request",
+              "resource_type_error",
+              "forbidden",
+              "unauthorized_missing_api_key",
+              "unauthorized_invalid_api_key",
+              "quota_limit_exceeded",
+              "content_too_large",
+              "unexpected_eof_at_target",
+              "service_unavailable"
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "ProgramsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Program"
+            }
+          }
+        }
+      },
+      "ProgramBundlesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramBundle"
+            }
+          }
+        }
+      },
+      "StreamingCatalogsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StreamingCatalog"
+            }
+          }
+        }
+      },
+      "MatchesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Match"
+            }
+          }
+        }
+      },
+      "ArtistsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artist"
+            }
+          }
+        }
+      },
+      "AlbumEditionsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumEdition"
+            }
+          }
+        }
+      },
+      "RecordingsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Recording"
+            }
+          }
+        }
+      },
+      "PodcastsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Podcast"
+            }
+          }
+        }
+      },
+      "PodcastEpisodesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PodcastEpisode"
+            }
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "description": "Ordered groups of search hits for the requested itemTypes.\n",
+            "items": {
+              "$ref": "#/components/schemas/SearchResultGroup"
+            }
+          }
+        }
+      },
+      "SearchResultGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "itemType",
+          "results"
+        ],
+        "properties": {
+          "itemType": {
+            "$ref": "#/components/schemas/SearchItemType"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResultItem"
+            }
+          }
+        }
+      },
+      "SearchResultItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item"
+        ],
+        "properties": {
+          "item": {
+            "description": "A `Podcast` when `itemType` is `PODCASTS`, a `PodcastEpisode` when `itemType` is `PODCASTEPISODES`, or a `Program` when `itemType` is `VIDEOMOVIES` or `VIDEOSHOWS`.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Podcast"
+              },
+              {
+                "$ref": "#/components/schemas/PodcastEpisode"
+              },
+              {
+                "$ref": "#/components/schemas/Program"
+              }
+            ]
+          }
+        }
+      },
+      "CollectionsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Collection"
+            }
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "total",
+          "version",
+          "references"
+        ],
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Total number of data objects available."
+          },
+          "version": {
+            "type": "string",
+            "description": "The API version"
+          },
+          "references": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "preferredLanguage": {
+                "type": "string"
+              },
+              "contentMarket": {
+                "type": "string"
+              },
+              "leagueID": {
+                "type": "string"
+              },
+              "teamID": {
+                "type": "string"
+              },
+              "personID": {
+                "type": "string"
+              },
+              "divisionID": {
+                "type": "string"
+              },
+              "conferenceID": {
+                "type": "string"
+              },
+              "overallID": {
+                "type": "string"
+              },
+              "matchID": {
+                "type": "string"
+              },
+              "omitCatalogIDs": {
+                "type": "string"
+              },
+              "minDuration": {
+                "type": "string"
+              },
+              "maxDuration": {
+                "type": "string"
+              },
+              "bundleID": {
+                "type": "string"
+              },
+              "programID": {
+                "type": "string"
+              },
+              "catalogID": {
+                "type": "string"
+              },
+              "phaseID": {
+                "type": "string"
+              },
+              "artistID": {
+                "type": "string"
+              },
+              "albumEditionID": {
+                "type": "string"
+              },
+              "recordingID": {
+                "type": "string"
+              },
+              "artistName": {
+                "type": "string"
+              },
+              "albumEditionName": {
+                "type": "string"
+              },
+              "recordingName": {
+                "type": "string"
+              },
+              "podcastID": {
+                "type": "string"
+              },
+              "podcastEpisodeID": {
+                "type": "string"
+              },
+              "radioStationID": {
+                "type": "string"
+              },
+              "collectionID": {
+                "type": "string"
+              },
+              "collectionCategory": {
+                "type": "string"
+              },
+              "itemTypes": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "topOnly": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ProgramBundle": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "bundleID",
+          "name",
+          "lastUpdatedUTC",
+          "programs",
+          "bundleType"
+        ],
+        "properties": {
+          "bundleID": {
+            "type": "string",
+            "examples": [
+              "DEU-Comedy-Movies"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name."
+          },
+          "lastUpdatedUTC": {
+            "type": "string"
+          },
+          "bundleType": {
+            "type": "string",
+            "enum": [
+              "MOVIES",
+              "SERIES"
+            ]
+          },
+          "programs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramShort"
+            }
+          }
+        }
+      },
+      "Program": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "programID",
+          "name",
+          "nameShort",
+          "description",
+          "programType",
+          "programSubType",
+          "rating",
+          "country",
+          "releaseYear",
+          "cast",
+          "crew",
+          "durationMilliseconds",
+          "descriptors",
+          "availableOn",
+          "images"
+        ],
+        "properties": {
+          "programID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "When available, a shortened version of the name that is 20 characters or less."
+          },
+          "description": {
+            "type": "string"
+          },
+          "programType": {
+            "type": "string",
+            "description": "The type of the program, examples include \"Feature Film\", \"TV Movie\", \"Short Film\", \"Series\", \"Miniseries\" and \"Special\"",
+            "examples": [
+              "Feature Film"
+            ]
+          },
+          "programSubType": {
+            "type": "string",
+            "description": "Additional program categorization, denoting how a program was originally produced and/or distributed. Examples include \"Compilation\", \"Episode\", \"Feature Film\", \"Highlights\", \"Miniseries\", \"Music Video\", \"Off Air\", \"Paid Program\", \"Preview\", \"Series\", \"Short Film\", \"Special\", \"Sport\", \"Sport Event\", \"Sport-Related Episode\", \"TBA\", \"Team Event\", \"Trailer\" and \"TV Movie\"",
+            "examples": [
+              "Miniseries"
+            ]
+          },
+          "rating": {
+            "type": "string",
+            "description": "The rating in the ratings system associated with the content market."
+          },
+          "country": {
+            "type": "string",
+            "description": "Country of origin of the program."
+          },
+          "releaseYear": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Year of release."
+          },
+          "cast": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/CastMember"
+            }
+          },
+          "crew": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/CrewMember"
+            }
+          },
+          "durationMilliseconds": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Running time of the program."
+          },
+          "descriptors": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "genres"
+            ],
+            "properties": {
+              "genres": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Descriptor"
+                }
+              }
+            }
+          },
+          "availableOn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Availability"
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "ProgramShort": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "programID",
+          "name",
+          "nameShort",
+          "durationMilliseconds",
+          "images",
+          "availableOn"
+        ],
+        "properties": {
+          "programID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "When available, a shortened version of the name that is 20 characters or less."
+          },
+          "durationMilliseconds": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "availableOn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Availability"
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "Match": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "matchID",
+          "sportType",
+          "status",
+          "scheduledStartTimeUTC",
+          "parentEvent",
+          "matchState",
+          "participants",
+          "statusDetail"
+        ],
+        "properties": {
+          "matchID": {
+            "type": "string"
+          },
+          "sportType": {
+            "$ref": "#/components/schemas/SportType"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "scheduledStartTimeUTC": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2024-09-13T22:40:00.000Z"
+            ]
+          },
+          "statusDetail": {
+            "$ref": "#/components/schemas/StatusDetail"
+          },
+          "parentEvent": {
+            "$ref": "#/components/schemas/ParentEvent"
+          },
+          "matchState": {
+            "$ref": "#/components/schemas/MatchState"
+          }
+        }
+      },
+      "Availability": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "The information necessary to link media to streaming catalogs. In some cases Nexus provides a direct URL to the media on the streaming services while other times Nexus provides the ID for the media on the service. You will need to work with the streaming services themselves to decide how to best link to their content.",
+        "required": [
+          "externalID",
+          "catalog",
+          "URLs"
+        ],
+        "properties": {
+          "URLs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AvailabilityURL"
+            }
+          },
+          "externalID": {
+            "type": "string",
+            "description": "3rd party ID for the content."
+          },
+          "catalog": {
+            "$ref": "#/components/schemas/StreamingCatalog"
+          }
+        }
+      },
+      "AvailabilityURL": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "URLs for streaming the related content.",
+        "required": [
+          "type",
+          "URL"
+        ],
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "web",
+              "android",
+              "aaos"
+            ]
+          }
+        }
+      },
+      "StreamingCatalog": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "catalogID",
+          "images",
+          "catalogType"
+        ],
+        "description": "Streaming provider.",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "catalogID": {
+            "type": "string"
+          },
+          "catalogType": {
+            "type": "string",
+            "enum": [
+              "AUDIO",
+              "VIDEO"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "Artist": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "artistID",
+          "images",
+          "descriptors",
+          "similarArtists",
+          "popularRecordings"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "artistID": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "descriptors": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "genres": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Descriptor"
+                }
+              }
+            }
+          },
+          "similarArtists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtistShort"
+            }
+          },
+          "popularRecordings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecordingShort"
+            }
+          }
+        }
+      },
+      "ArtistShort": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "There is a known issue where sometimes artistID will be null.",
+        "required": [
+          "name",
+          "artistID",
+          "images"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "artistID": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "AlbumEdition": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "albumEditionID",
+          "images",
+          "artist",
+          "descriptors",
+          "tracks"
+        ],
+        "properties": {
+          "albumEditionID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "artist": {
+            "$ref": "#/components/schemas/ArtistShort"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "descriptors": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "genres": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Descriptor"
+                }
+              }
+            }
+          },
+          "tracks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Track"
+            }
+          }
+        }
+      },
+      "AlbumEditionShort": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "albumEditionID",
+          "images"
+        ],
+        "properties": {
+          "albumEditionID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "Track": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "There is a known issue where sometimes artistID and/or recordingID will be null.",
+        "required": [
+          "name",
+          "recordingID",
+          "artist"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "recordingID": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "artist": {
+            "$ref": "#/components/schemas/ArtistShortNoImage"
+          }
+        }
+      },
+      "ArtistShortNoImage": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "There is a known issue where sometimes artistID will be null.",
+        "required": [
+          "name",
+          "artistID"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "artistID": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "Recording": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "recordingID",
+          "images",
+          "selectedAlbumEdition",
+          "artist",
+          "descriptors",
+          "durationMilliseconds",
+          "releaseYear",
+          "availableOn"
+        ],
+        "properties": {
+          "recordingID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "artist": {
+            "$ref": "#/components/schemas/ArtistShort"
+          },
+          "selectedAlbumEdition": {
+            "$ref": "#/components/schemas/AlbumEditionShort"
+          },
+          "durationMilliseconds": {
+            "type": "number"
+          },
+          "releaseYear": {
+            "type": "number"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "descriptors": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "genres": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Descriptor"
+                }
+              }
+            }
+          },
+          "availableOn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Availability"
+            }
+          }
+        }
+      },
+      "RecordingShort": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "recordingID",
+          "images",
+          "artist",
+          "availableOn"
+        ],
+        "properties": {
+          "recordingID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "artist": {
+            "$ref": "#/components/schemas/ArtistShort"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "availableOn": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Availability"
+            }
+          }
+        }
+      },
+      "Podcast": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "podcastID",
+          "name",
+          "description",
+          "seriesType",
+          "explicitLanguage",
+          "language",
+          "owner",
+          "author",
+          "images",
+          "colorPalette",
+          "relatedCollections",
+          "episodes"
+        ],
+        "properties": {
+          "podcastID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "contentType": {
+            "deprecated": true,
+            "description": "Deprecated - use seriesType instead.",
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "EPISODIC",
+              "SERIAL"
+            ]
+          },
+          "seriesType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "EPISODIC",
+              "SERIAL"
+            ]
+          },
+          "explicitLanguage": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "language": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "author": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "owner": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "colorPalette": {
+            "$ref": "#/components/schemas/ColorPalette"
+          },
+          "relatedCollections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CollectionShort"
+            }
+          },
+          "episodes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PodcastEpisode"
+            }
+          }
+        }
+      },
+      "PodcastEpisode": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "podcastEpisodeID",
+          "podcastID",
+          "name",
+          "description",
+          "links",
+          "publicationDateUTC",
+          "seasonNumber",
+          "episodeType",
+          "explicitLanguage",
+          "durationMilliseconds",
+          "webPage",
+          "images",
+          "colorPalette"
+        ],
+        "properties": {
+          "podcastEpisodeID": {
+            "type": "string"
+          },
+          "podcastID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "URLs": {
+            "deprecated": true,
+            "description": "Deprecated - replaced by links and wePage.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/URLObject"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PodcastEpisodeLink"
+            }
+          },
+          "publicationDateUTC": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2026-01-04T22:30:00.000Z"
+            ]
+          },
+          "webPage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "seasonNumber": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "episodeType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "todo enum? [FULL, TRAILER, BONUS, null]"
+          },
+          "explicitLanguage": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "durationMilliseconds": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "colorPalette": {
+            "$ref": "#/components/schemas/ColorPalette"
+          },
+          "sizeBytes": {
+            "deprecated": true,
+            "description": "Deprecated - use the sizeBytes in the episode link instead.",
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      },
+      "CollectionShort": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "collectionID",
+          "name",
+          "collectionCategory",
+          "itemType",
+          "lastUpdatedUTC",
+          "contentMarket",
+          "tags"
+        ],
+        "properties": {
+          "collectionID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "collectionCategory": {
+            "$ref": "#/components/schemas/CollectionCategory"
+          },
+          "itemType": {
+            "$ref": "#/components/schemas/CollectionItemType"
+          },
+          "lastUpdatedUTC": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2026-01-02T15:42:22.000Z"
+            ]
+          },
+          "contentMarket": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-3 content market for the collection (e.g. USA, DEU)."
+          },
+          "tags": {
+            "type": "array",
+            "description": "Required. May be empty for PODCASTS and RADIOSTATIONS collections. For VIDEOPROGRAMS, contains a tag object with genreType and programType.",
+            "items": {
+              "$ref": "#/components/schemas/CollectionTag"
+            }
+          }
+        }
+      },
+      "Collection": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "collectionID",
+          "name",
+          "collectionCategory",
+          "itemType",
+          "lastUpdatedUTC",
+          "contentMarket",
+          "tags",
+          "items"
+        ],
+        "properties": {
+          "collectionID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "collectionCategory": {
+            "$ref": "#/components/schemas/CollectionCategory"
+          },
+          "itemType": {
+            "$ref": "#/components/schemas/CollectionItemType"
+          },
+          "lastUpdatedUTC": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2026-01-02T15:42:22.000Z"
+            ]
+          },
+          "contentMarket": {
+            "type": "string",
+            "description": "ISO 3166-1 alpha-3 content market for the collection (e.g. USA, DEU)."
+          },
+          "tags": {
+            "type": "array",
+            "description": "Required. May be empty for PODCASTS and RADIOSTATIONS collections. For VIDEOPROGRAMS, contains a tag object with genreType and programType.",
+            "items": {
+              "$ref": "#/components/schemas/CollectionTag"
+            }
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Program"
+                },
+                {
+                  "$ref": "#/components/schemas/Podcast"
+                },
+                {
+                  "$ref": "#/components/schemas/RadioStation"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "CollectionCategory": {
+        "type": "string",
+        "description": "note that GENERAL has been deprecated. Please use CATEGORY for radio station collections organized by Radio Station Category like 'Adult Pop' or 'Local & Community' and TOPIC for podcast collections organized by topics like 'Health & Living' and 'News & Politics'. GENRE is used for VIDEOPROGRAMS (program bundle) collections.",
+        "enum": [
+          "NEWS",
+          "CATEGORY",
+          "TOPIC",
+          "GENRE",
+          "TEAM",
+          "LEAGUE",
+          "CONFERENCE",
+          "SPORT",
+          "CITY",
+          "STATE",
+          "COUNTRY",
+          "GENERAL"
+        ]
+      },
+      "CollectionItemType": {
+        "type": "string",
+        "description": "This specifies what kind of items are in a collection.",
+        "enum": [
+          "PODCASTS",
+          "RADIOSTATIONS",
+          "VIDEOPROGRAMS"
+        ]
+      },
+      "SearchItemType": {
+        "type": "string",
+        "description": "Kind of items to include in a search result group.\n`VIDEOMOVIES` returns movies; `VIDEOSHOWS` returns shows.\n",
+        "enum": [
+          "PODCASTS",
+          "PODCASTEPISODES",
+          "VIDEOMOVIES",
+          "VIDEOSHOWS"
+        ]
+      },
+      "PodcastEpisodeLink": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "URL",
+          "contentType",
+          "sizeBytes"
+        ],
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "audio/mpeg"
+            ]
+          },
+          "sizeBytes": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      },
+      "URLObject": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "URL",
+          "type",
+          "content",
+          "contentType"
+        ],
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "web",
+              "mobile",
+              "desktop"
+            ]
+          },
+          "content": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "MEDIA",
+              "FEED",
+              "WEBSITE",
+              "STREAM"
+            ]
+          },
+          "contentType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "audio/mpeg"
+            ]
+          }
+        }
+      },
+      "StreamObject": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "URL",
+          "contentType"
+        ],
+        "properties": {
+          "URL": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "examples": [
+              "audio/mpeg"
+            ]
+          },
+          "bitRate": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "channels": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "sampleRate": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      },
+      "ColorPalette": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "required": [
+          "muted",
+          "vibrant",
+          "darkMuted",
+          "lightMuted",
+          "darkVibrant",
+          "lightVibrant"
+        ],
+        "properties": {
+          "muted": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "vibrant": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "darkMuted": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lightMuted": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "darkVibrant": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lightVibrant": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "Image": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "orientation",
+          "type",
+          "URL",
+          "contentType"
+        ],
+        "properties": {
+          "orientation": {
+            "type": "string",
+            "description": "Orientation of the image.",
+            "enum": [
+              "LANDSCAPE",
+              "PORTRAIT",
+              "SQUARE"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ARTWORK",
+              "LOGO",
+              "HEADSHOT",
+              "FLAG",
+              "ARTIST",
+              "JERSEY",
+              "POSTER",
+              "BANNER",
+              "IMAGE_3_4",
+              "IMAGE_4_3",
+              "IMAGE_16_9",
+              "BRAND_LOGO"
+            ]
+          },
+          "URL": {
+            "type": "string",
+            "description": "Note that some image hosting platforms require a user-agent header to be specified when fetching images."
+          },
+          "contentType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "Descriptor": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "descriptorID"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "descriptorID": {
+            "type": "string"
+          }
+        }
+      },
+      "CastMember": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "characterName",
+          "actorName"
+        ],
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "characterName": {
+            "type": "string"
+          },
+          "actorName": {
+            "type": "string"
+          }
+        }
+      },
+      "CrewMember": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "name"
+        ],
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CollectionTag": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Tag object for collection metadata. Populated for VIDEOPROGRAMS collections (genreType, programType); unused for other itemTypes.",
+        "required": [
+          "genreType",
+          "programType"
+        ],
+        "properties": {
+          "genreType": {
+            "type": "string",
+            "description": "Video collection genre (e.g. COMEDY, SCIENCE-FICTION). Empty string when not applicable."
+          },
+          "programType": {
+            "type": "string",
+            "description": "Whether the collection contains movies or series. Empty string when not applicable.",
+            "enum": [
+              "MOVIES",
+              "SERIES"
+            ]
+          }
+        }
+      },
+      "LeaguesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/League"
+            }
+          }
+        }
+      },
+      "League": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "leagueID",
+          "name",
+          "nameShort",
+          "images",
+          "sportType",
+          "hasStandings",
+          "hasRankings",
+          "hasPhases",
+          "hasMatches"
+        ],
+        "properties": {
+          "leagueID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "sportType": {
+            "$ref": "#/components/schemas/SportType"
+          },
+          "hasStandings": {
+            "type": "boolean"
+          },
+          "hasRankings": {
+            "type": "boolean"
+          },
+          "hasPhases": {
+            "type": "boolean"
+          },
+          "hasMatches": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TeamsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Team"
+            }
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "teamID",
+          "name",
+          "nameAbbreviation",
+          "nameShort",
+          "participantTypeDetail",
+          "images",
+          "color",
+          "nationality",
+          "hasPhases",
+          "hasMatches",
+          "currentRanking"
+        ],
+        "properties": {
+          "teamID": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameAbbreviation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "participantTypeDetail": {
+            "$ref": "#/components/schemas/ParticipantTypeDetail"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "color": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Hex representation of the team color."
+          },
+          "nationality": {
+            "$ref": "#/components/schemas/Nationality"
+          },
+          "hasPhases": {
+            "type": "boolean"
+          },
+          "hasMatches": {
+            "type": "boolean"
+          },
+          "currentRanking": {
+            "$ref": "#/components/schemas/ShortRanking"
+          }
+        }
+      },
+      "PersonsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "personID",
+          "name",
+          "nameAbbreviation",
+          "nameShort",
+          "nameFirst",
+          "nameLast",
+          "images",
+          "dateOfBirth",
+          "heightMillimeters",
+          "weightGrams",
+          "nationality",
+          "relatedOrganizations",
+          "hasPhases",
+          "hasMatches",
+          "currentRanking"
+        ],
+        "properties": {
+          "personID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameFirst": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameLast": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "heightMillimeters": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "dateOfBirth": {
+            "type": "string"
+          },
+          "weightGrams": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "nameAbbreviation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nationality": {
+            "$ref": "#/components/schemas/Nationality"
+          },
+          "relatedOrganizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Organization"
+            }
+          },
+          "hasPhases": {
+            "type": "boolean"
+          },
+          "hasMatches": {
+            "type": "boolean"
+          },
+          "currentRanking": {
+            "$ref": "#/components/schemas/ShortRanking"
+          }
+        }
+      },
+      "ShortRanking": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "points": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "StandingsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Table"
+            }
+          }
+        }
+      },
+      "RankingsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Table"
+            }
+          }
+        }
+      },
+      "Table": {
+        "type": "object",
+        "description": "Rankings and Standings come pre-sorted by the participant's ranking. Nexus will organize league standings and into the most common display hierarchy - including the participants at the most important grouping level. For example, NBA standings typically group teams into their conferences, not their divisions. While MLB's divisional rankings are more important, so their teams are at the divisional level. Note that the NBA divisional info is still present as a `relatedOrganization` for each team. In conjunction with this, the participant's rank attribute will be their ranking in that grouping. e.g. in the NBA, the `rank` will be the conference ranking while in the MLB, the `rank` will be the divisional ranking. The explicit per-grouping rankings will be available in the `leagueRanking`, `conferenceRanking` and `divisionRanking` fields, should you want display a more or less granular ranking.",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "participantType": {
+            "$ref": "#/components/schemas/ParticipantType"
+          },
+          "participantTypeDetail": {
+            "$ref": "#/components/schemas/ParticipantTypeDetail"
+          },
+          "groupingID": {
+            "type": "string"
+          },
+          "groupingType": {
+            "$ref": "#/components/schemas/GroupingType"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
+          },
+          "groupings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Table"
+            }
+          }
+        }
+      },
+      "PhasesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Phase"
+            }
+          }
+        }
+      },
+      "Phase": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phaseID",
+          "name",
+          "nameShort",
+          "sportType",
+          "participants",
+          "status",
+          "statusDetail",
+          "parentEvent",
+          "scheduledStartTimeUTC",
+          "phaseState"
+        ],
+        "properties": {
+          "phaseID": {
+            "type": "string"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sportType": {
+            "$ref": "#/components/schemas/SportType"
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "statusDetail": {
+            "$ref": "#/components/schemas/StatusDetail"
+          },
+          "parentEvent": {
+            "$ref": "#/components/schemas/ParentEvent"
+          },
+          "scheduledStartTimeUTC": {
+            "type": "string",
+            "format": "date-time",
+            "examples": [
+              "2026-01-04T22:30:00.000Z"
+            ]
+          },
+          "phaseState": {
+            "$ref": "#/components/schemas/PhaseState"
+          }
+        }
+      },
+      "Participant": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "participantID",
+          "name",
+          "nameShort",
+          "nameAbbreviation",
+          "participantType",
+          "participantTypeDetail",
+          "participantGroup",
+          "images",
+          "nationality",
+          "relatedOrganizations",
+          "seedNumber",
+          "color",
+          "stats",
+          "hasPhases",
+          "hasMatches"
+        ],
+        "properties": {
+          "participantID": {
+            "type": "string",
+            "description": "ParticipantID will either be a teamID or a personID, depending on participantType."
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameAbbreviation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "participantType": {
+            "$ref": "#/components/schemas/ParticipantType"
+          },
+          "participantTypeDetail": {
+            "$ref": "#/components/schemas/ParticipantTypeDetail"
+          },
+          "participantGroup": {
+            "$ref": "#/components/schemas/ParticipantGroup"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "nationality": {
+            "$ref": "#/components/schemas/Nationality"
+          },
+          "relatedOrganizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Organization"
+            }
+          },
+          "seedNumber": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "color": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Hex representation of the participant color."
+          },
+          "stats": {
+            "$ref": "#/components/schemas/Stats"
+          },
+          "hasPhases": {
+            "type": "boolean"
+          },
+          "hasMatches": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ParticipantType": {
+        "type": "string",
+        "description": "Indicates whether this participant is an indivual or a team. 'UNKNOWN' is in indication of a data problem upstream or standings/rankings with no participants.",
+        "enum": [
+          "TEAM",
+          "PERSON",
+          "UNKNOWN"
+        ]
+      },
+      "ParticipantTypeDetail": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "TEAM_DEFINED teams are a combination of 2 persons that compete together in national and international leagues. An example would be tennis doubles.",
+        "enum": [
+          "TEAM_CONSTRUCTOR",
+          "TEAM_CLUB",
+          "TEAM_NATIONAL",
+          "TEAM_ALL_STAR",
+          "TEAM_DEFINED",
+          "TEAM_PLACEHOLDER",
+          null
+        ]
+      },
+      "GroupingType": {
+        "type": "string",
+        "enum": [
+          "OVERALL",
+          "LEAGUE",
+          "CONFERENCE",
+          "DIVISION",
+          "GROUP"
+        ]
+      },
+      "ParticipantGroup": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "HOME",
+          "AWAY",
+          null
+        ]
+      },
+      "SportGender": {
+        "type": "string",
+        "enum": [
+          "MALE",
+          "FEMALE",
+          "MIXED",
+          "OPEN",
+          "UNKNOWN"
+        ]
+      },
+      "SportType": {
+        "type": "string",
+        "enum": [
+          "FOOTBALL",
+          "AMERICAN_FOOTBALL",
+          "BASKETBALL",
+          "BASEBALL",
+          "ICE_HOCKEY",
+          "TENNIS",
+          "GOLF",
+          "AUTO_RACING",
+          "RUGBY_UNION",
+          "UNKNOWN"
+        ]
+      },
+      "Status": {
+        "type": "string",
+        "enum": [
+          "UPCOMING",
+          "CURRENT",
+          "RECENT",
+          "UNKNOWN"
+        ]
+      },
+      "Nationality": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "nameAbbreviation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "organizationID",
+          "organizationType",
+          "organizationTypeDetail",
+          "name",
+          "nameShort",
+          "nameAbbreviation",
+          "images"
+        ],
+        "properties": {
+          "organizationID": {
+            "type": "string"
+          },
+          "organizationType": {
+            "type": "string",
+            "enum": [
+              "TEAM",
+              "CONSTRUCTOR",
+              "TIER",
+              "CONFERENCE",
+              "DIVISION"
+            ]
+          },
+          "organizationTypeDetail": {
+            "$ref": "#/components/schemas/ParticipantTypeDetail"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "nameAbbreviation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          }
+        }
+      },
+      "Stats": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "description": "Statistics for the parent participant.",
+        "additionalProperties": false,
+        "required": [
+          "rank",
+          "divisionRanking",
+          "conferenceRanking",
+          "leagueRanking",
+          "winPercentage",
+          "points",
+          "matches",
+          "matchesDrawn",
+          "matchesWon",
+          "matchesLost",
+          "matchesLostOvertime",
+          "goalsDifference",
+          "goalsAgainst",
+          "goalsFor",
+          "result",
+          "resultAbsolute",
+          "resultRelative",
+          "pitstops",
+          "laps",
+          "fastestLaps",
+          "qualificationMark",
+          "strokes",
+          "holesPlayed",
+          "cumulativeRank",
+          "cumulativeRankSort"
+        ],
+        "properties": {
+          "rank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For standings, this is the rank of the participant within the current grouping. i.e. if the participants are found in a Conference grouping, this will be the participant's ranking within that conference. For phase results (like F1 races), this is the ranking of the participant within that phase. This is a display value and may be non-numerical. For example, for F1 races, it might be 'NC' (for 'Not Classified')."
+          },
+          "rankSort": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "deprecated": true
+          },
+          "conferenceRanking": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "In standings objects, for leagues that are grouped by conferences, this is the participant's ranking within their conference."
+          },
+          "divisionRanking": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "In standings objects, for leagues that are grouped by conferences and divisions, this is the participant's ranking within their division."
+          },
+          "leagueRanking": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "In standings objects, participant's ranking within the top level league grouping. For leagues that only support conference or divisional ranking, this will be null."
+          },
+          "winPercentage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "points": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "matchesDrawn": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "matchesWon": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "matches": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "matchesLost": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "matchesLostOvertime": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goalsDifference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goalsAgainst": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goalsFor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "result": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "resultAbsolute": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For F1 phases, this is the non-relative result for the given driver (e.g. \"1:19:57.566\"). Note that `result` will always contain the most relevant format of the result, so most implementations won't need to understand this distinction."
+          },
+          "resultRelative": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For F1 phases, this is the result for the given driver relative to the leader (e.g. \"+ 0.647\"). Note that `result` will always contain the most relevant format of the result, so most implementations won't need to understand this distinction."
+          },
+          "pitstops": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "laps": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "fastestLaps": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "qualificationMark": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "An indication whether this participant has qualified."
+          },
+          "strokes": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The participant's stroke count for the current golf round."
+          },
+          "holesPlayed": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "How many holes the participant has played in the current golf round."
+          },
+          "cumulativeRank": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For golf tournaments, the participant's tournament-level ranking, as opposed to the ranking in the current round."
+          },
+          "cumulativeRankSort": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For golf tournaments, the tournament-level rank sorting, necessary for when two participants share the same cumulativeRank."
+          }
+        }
+      },
+      "MatchState": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "required": [
+          "homeScore",
+          "awayScore",
+          "period",
+          "periodShort",
+          "periodDetails",
+          "possessionParticipantGroup",
+          "winnerParticipantGroup",
+          "incompleteIndicator",
+          "clockTime",
+          "homeShots",
+          "awayShots",
+          "homeHits",
+          "awayHits",
+          "homeErrors",
+          "awayErrors",
+          "balls",
+          "strikes",
+          "outs",
+          "runnerOnFirst",
+          "runnerOnSecond",
+          "runnerOnThird",
+          "homePossessionSeconds",
+          "awayPossessionSeconds",
+          "homeFoulsPersonal",
+          "awayFoulsPersonal",
+          "homeFoulsTechnical",
+          "awayFoulsTechnical",
+          "homeShotsOvertime",
+          "awayShotsOvertime",
+          "down",
+          "yardsToGo",
+          "yardLineYards",
+          "yardLineFieldSide"
+        ],
+        "properties": {
+          "homeScore": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "awayScore": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "period": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "periodShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "clockTime": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "periodDetails": {
+            "$ref": "#/components/schemas/PeriodDetails"
+          },
+          "possessionParticipantGroup": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For American football matches, which team currently has the ball and for tennis matches, who is serving."
+          },
+          "winnerParticipantGroup": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "incompleteIndicator": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Optional string describing why a match was not completed. Examples include 'Bye', 'Walk over' or 'Retired.'"
+          },
+          "homeShots": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Total shots on goal. Ice hockey."
+          },
+          "awayShots": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Total shots on goal. Ice hockey."
+          },
+          "homeShotsOvertime": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Overtime shots on goal. Ice hockey."
+          },
+          "awayShotsOvertime": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Overtime shots on goal. Ice hockey."
+          },
+          "homeHits": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "awayHits": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "homeErrors": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "awayErrors": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "balls": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "strikes": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "outs": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball."
+          },
+          "runnerOnFirst": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball. \"true\" or \"false\"."
+          },
+          "runnerOnSecond": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball. \"true\" or \"false\"."
+          },
+          "runnerOnThird": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Baseball. \"true\" or \"false\"."
+          },
+          "homePossessionSeconds": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Time of possession in seconds. American football."
+          },
+          "awayPossessionSeconds": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Time of possession in seconds. American football."
+          },
+          "homeFoulsPersonal": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Basketball."
+          },
+          "awayFoulsPersonal": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Basketball."
+          },
+          "homeFoulsTechnical": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Basketball."
+          },
+          "awayFoulsTechnical": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Basketball."
+          },
+          "down": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Current down. American football."
+          },
+          "yardsToGo": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Yards remaining for a first down. American football."
+          },
+          "yardLineYards": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Current yard line position. American football."
+          },
+          "yardLineFieldSide": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Which side of the field the ball is on. American football."
+          }
+        }
+      },
+      "PeriodNumber": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "For the current period type, this is the ordinal number of the period. For example, the 3rd quarter of a match will have a `periodNumber` of 3 and `periodType` of `REGULATION_TIME` while the 1st overtime will have a `periodNumber` of `1` and `periodType` of `OVERTIME`."
+      },
+      "PeriodType": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "See `periodNumber` for usage examples. `END_PERIOD`, `END_REGULATION_TIME`, `END_OVERTIME_PERIOD` and `END_OVERTIME` are the breaks between one period type and another.",
+        "enum": [
+          "REGULATION_TIME",
+          "END_PERIOD",
+          "END_REGULATION_TIME",
+          "OVERTIME",
+          "END_OVERTIME_PERIOD",
+          "END_OVERTIME",
+          "SHOOTOUT",
+          null
+        ]
+      },
+      "PeriodDetails": {
+        "type": "object",
+        "description": "Information about the current period and an array of completed and in-progress periods.",
+        "additionalProperties": false,
+        "required": [
+          "periodNumber",
+          "periodType",
+          "periodState",
+          "periods"
+        ],
+        "properties": {
+          "periodState": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "For sports like baseball, this will indicate the state of the current period. 'Top' if it is the top of the inning."
+          },
+          "periodNumber": {
+            "$ref": "#/components/schemas/PeriodNumber"
+          },
+          "periodType": {
+            "$ref": "#/components/schemas/PeriodType"
+          },
+          "servingParticipantGroup": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "deprecated": true,
+            "description": "Use matchState's possessionParticipantGroup instead."
+          },
+          "periods": {
+            "type": "array",
+            "description": "This array has the period details for the match that have been completed or are in progress. For tennis, this will be the details of each set. For NBA games, the details of each quarter, etc.",
+            "items": {
+              "$ref": "#/components/schemas/Period"
+            }
+          }
+        }
+      },
+      "Period": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "periodNumber",
+          "periodType",
+          "homeScore",
+          "awayScore",
+          "homeTieBreak",
+          "awayTieBreak",
+          "homeShots",
+          "awayShots",
+          "homePossessionSeconds",
+          "awayPossessionSeconds"
+        ],
+        "properties": {
+          "periodNumber": {
+            "$ref": "#/components/schemas/PeriodNumber"
+          },
+          "periodType": {
+            "$ref": "#/components/schemas/PeriodType"
+          },
+          "homeScore": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "awayScore": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "homeTieBreak": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Tennis."
+          },
+          "awayTieBreak": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Tennis."
+          },
+          "homeShots": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Shots on goal for this period. Ice hockey."
+          },
+          "awayShots": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Shots on goal for this period. Ice hockey."
+          },
+          "homePossessionSeconds": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Time of possession in seconds for this period. American football."
+          },
+          "awayPossessionSeconds": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Time of possession in seconds for this period. American football."
+          }
+        }
+      },
+      "ParentEvent": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "description": "The parent event is the related league, tournament, race, etc for matches and phases.",
+        "required": [
+          "name",
+          "images",
+          "leagueID",
+          "nameShort",
+          "nationality"
+        ],
+        "properties": {
+          "leagueID": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "nationality": {
+            "$ref": "#/components/schemas/Nationality"
+          }
+        }
+      },
+      "StatusDetail": {
+        "type": "string",
+        "enum": [
+          "IN_PROGRESS",
+          "SUSPENDED",
+          "DELAYED",
+          "SCHEDULED_BREAK",
+          "COMPLETED",
+          "POSTPONED",
+          "ABANDONED",
+          "CANCELED",
+          "SHORTENED",
+          "SCHEDULED",
+          "RESCHEDULED",
+          "UNKNOWN"
+        ]
+      },
+      "PhaseState": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "additionalProperties": false,
+        "required": [
+          "lapsDriven",
+          "lapsScheduled",
+          "distanceDriven",
+          "distanceScheduled"
+        ],
+        "properties": {
+          "lapsDriven": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lapsScheduled": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "distanceDriven": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "distanceScheduled": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "EntityResolutionResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ResolvedEntity"
+        }
+      },
+      "EntityType": {
+        "type": "string",
+        "enum": [
+          "TEAM",
+          "LEAGUE",
+          "CONFERENCE",
+          "DIVISION"
+        ]
+      },
+      "ResolvedEntity": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ID",
+          "type",
+          "name",
+          "confidence"
+        ],
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "The Nexus ID for use in other API calls (teamID, leagueID, conferenceID, divisionID)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Canonical name in Nexus"
+          },
+          "type": {
+            "$ref": "#/components/schemas/EntityType"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score for the match (0.0 to 1.0)"
+          },
+          "sportType": {
+            "$ref": "#/components/schemas/SportType"
+          },
+          "gender": {
+            "$ref": "#/components/schemas/SportGender"
+          },
+          "nationality": {
+            "type": "string"
+          },
+          "typeDetail": {
+            "type": "string",
+            "description": "Additional detail about the entity type. For example, an F1 team could have a typeDetail of TEAM_CONSTRUCTOR."
+          },
+          "contexts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "Context information for the match to save on follow-up queries. For example, conference responses will include the ID for their parent league. Unlike other Nexus objects, context will be omitted when there isn't one for the response.",
+              "additionalProperties": false,
+              "required": [
+                "ID",
+                "type",
+                "name"
+              ],
+              "properties": {
+                "ID": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": {
+                  "$ref": "#/components/schemas/EntityType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "RadioStationsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meta",
+          "data"
+        ],
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RadioStation"
+            }
+          }
+        }
+      },
+      "RadioStation": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "radioStationID",
+          "name",
+          "nameShort",
+          "flagship",
+          "slogans",
+          "publicValues",
+          "broadcasts",
+          "descriptors",
+          "images",
+          "streams"
+        ],
+        "properties": {
+          "radioStationID": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nameShort": {
+            "type": "string"
+          },
+          "flagship": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "Indicates if this station is a flagship station for the team."
+          },
+          "slogans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RadioStationSlogan"
+            }
+          },
+          "publicValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RadioStationPublicValue"
+            }
+          },
+          "broadcasts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Broadcast"
+            }
+          },
+          "descriptors": {
+            "type": "object",
+            "properties": {
+              "categories": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Descriptor"
+                }
+              }
+            }
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Image"
+            }
+          },
+          "streams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StreamObject"
+            }
+          },
+          "teams": {
+            "type": "array",
+            "description": "Sports team affiliations for this station. Present when the station is associated with one or more sports teams via the teamID filter.",
+            "items": {
+              "$ref": "#/components/schemas/RadioStationTeam"
+            }
+          }
+        }
+      },
+      "RadioStationTeam": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "teamID",
+          "teamName",
+          "language",
+          "flagship"
+        ],
+        "properties": {
+          "teamID": {
+            "type": "string",
+            "description": "Gracenote sports team ID."
+          },
+          "teamName": {
+            "type": "string",
+            "description": "Name of the sports team."
+          },
+          "language": {
+            "type": "string",
+            "description": "Language of the broadcast affiliation."
+          },
+          "flagship": {
+            "type": "boolean",
+            "description": "Indicates if this station is a flagship station for the team."
+          }
+        }
+      },
+      "Broadcast": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "required": [
+          "frequency",
+          "band",
+          "callSign",
+          "signalType"
+        ],
+        "properties": {
+          "frequency": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "band": {
+            "type": "string",
+            "enum": [
+              "FM",
+              "AM",
+              "DAB"
+            ]
+          },
+          "callSign": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "signalType": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hdMulticast": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "piCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ecc": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "dabData": {
+            "$ref": "#/components/schemas/DabData"
+          }
+        }
+      },
+      "DabData": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "properties": {
+          "eid": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sid": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "scids": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "serviceLabel": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "serviceLabelShort": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "RadioStationSlogan": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "display"
+        ],
+        "properties": {
+          "display": {
+            "type": "string",
+            "description": "The station slogan text."
+          }
+        }
+      },
+      "RadioStationPublicValue": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "container",
+          "region",
+          "state"
+        ],
+        "properties": {
+          "container": {
+            "type": "string",
+            "description": "Public-value container identifier."
+          },
+          "region": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Region associated with the public value, or null when not available."
+          },
+          "state": {
+            "type": "string",
+            "description": "State or province associated with the public value."
+          }
+        }
+      }
+    },
+    "responses": {
+      "errorResponse400": {
+        "description": "Bad Request. Please see the error description for more details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 400,
+                  "error": "invalid_query_parameter_value",
+                  "description": "Unsupported contentMarket values"
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse401": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 401,
+                  "error": "unauthorized_missing_api_key",
+                  "description": "GN-APIKEY header must be provided."
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse403": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 403,
+                  "error": "forbidden",
+                  "description": "GN-APIKEY is not entitled for this request."
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse404": {
+        "description": "The specified object was not found.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 404,
+                  "error": "resource_not_found",
+                  "description": "Resource not found."
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse429": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 429,
+                  "error": "quota_limit_exceeded",
+                  "description": "Too many requests. Client exceeded their allocated rate limit."
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse4XX": {
+        "description": "Other 4XX may occur. Please read the error description for more information.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 405,
+                  "error": "invalid_query_method",
+                  "description": "Only GET is supported for this endpoint."
+                }
+              }
+            }
+          }
+        }
+      },
+      "errorResponse5XX": {
+        "description": "An unexpected error occurred on the server. Please see the error description for more details.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "default": {
+                "value": {
+                  "status": 500,
+                  "error": "internal_server_error",
+                  "description": "Server encountered an unexpected condition that prevented it from fulfilling the request."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

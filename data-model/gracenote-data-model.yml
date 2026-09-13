@@ -1,0 +1,255 @@
+generated: '2026-09-12'
+method: derived
+source: openapi/gracenote-gn-ids-api-openapi.json + openapi/gracenote-onconnect-lookup-apis-openapi.json + openapi/gracenote-global-sports-data-lookup-api-openapi.json + openapi/gracenote-nexus-api-openapi.json
+provider: Gracenote
+providerId: gracenote
+description: >-
+  The entity graph behind Gracenote's metadata products, derived from path structure, identifier
+  parameters and component schemas in the published specs. Gracenote's whole business is identity —
+  the graph below is the product, not an implementation detail.
+identifiers:
+- id: gnID
+  name: Gracenote ID
+  used_by: GN IDS API
+  note: The write surface's primary key for every created object — roots, versions, presentations, seasons, episodes, images, catalogs.
+- id: tmsId
+  name: TMS ID
+  used_by: OnConnect Lookup APIs, On API, Video MCP Server
+  note: >-
+    The published program identifier. Gracenote's portal calls these "the industry's most widely
+    adopted video IDs". Every video MCP tool except gnv_resolve_entities, gnv_get_root and
+    gnv_web_search takes exactly one TMSID.
+- id: rootId
+  name: Root ID
+  used_by: OnConnect Lookup APIs, Video MCP Server (gnv_get_root)
+  note: Groups alternate-language and alternate-cut versions of the same title.
+- id: seriesId
+  used_by: OnConnect Lookup APIs
+- id: personId
+  name: Celebrity / person ID
+  used_by: OnConnect Lookup APIs, Global Sports Data Lookup API, Video + Sports MCP
+- id: stationId
+  used_by: OnConnect Lookup APIs
+- id: lineupId
+  used_by: OnConnect Lookup APIs
+- id: theatreId
+  used_by: OnConnect Lookup APIs
+- id: movieId
+  used_by: OnConnect Lookup APIs
+- id: sportsId
+  used_by: OnConnect Lookup APIs
+- id: teamBrandId
+  used_by: OnConnect Lookup APIs
+- id: organizationId
+  used_by: OnConnect Lookup APIs
+- id: universityId
+  used_by: OnConnect Lookup APIs
+- id: sportId
+  used_by: Global Sports Data Lookup API
+- id: leagueId
+  used_by: Global Sports Data Lookup API, Sports MCP
+- id: leagueSeasonId
+  used_by: Global Sports Data Lookup API
+- id: seriesSeasonId
+  used_by: Global Sports Data Lookup API
+- id: matchId
+  used_by: Global Sports Data Lookup API, Sports MCP
+- id: teamId
+  used_by: Global Sports Data Lookup API, Sports MCP
+- id: venueId
+  used_by: Global Sports Data Lookup API
+- id: tierId
+  used_by: Global Sports Data Lookup API
+- id: conferenceId
+  used_by: Global Sports Data Lookup API
+- id: divisionId
+  used_by: Global Sports Data Lookup API
+- id: classificationId
+  used_by: Global Sports Data Lookup API
+- id: overallId
+  used_by: Global Sports Data Lookup API
+- id: phaseId
+  used_by: Global Sports Data Lookup API
+- id: intermediateId
+  used_by: Global Sports Data Lookup API
+entities:
+- name: MovieRoot
+  api: GN IDS API
+  key: gnID
+- name: MovieVersion
+  api: GN IDS API
+  key: gnID
+- name: MoviePresentation
+  api: GN IDS API
+  key: gnID
+- name: ShowRoot
+  api: GN IDS API
+  key: gnID
+- name: ShowVersion
+  api: GN IDS API
+  key: gnID
+- name: ShowPresentation
+  api: GN IDS API
+  key: gnID
+- name: Season
+  api: GN IDS API
+  key: gnID
+- name: Episode
+  api: GN IDS API
+  key: gnID
+- name: Image
+  api: GN IDS API
+  key: gnID
+- name: Catalog
+  api: GN IDS API
+  key: gnID
+- name: Publication
+  api: GN IDS API
+- name: Batch
+  api: GN IDS API
+- name: Program
+  api: OnConnect Lookup APIs / On API
+  key: tmsId
+- name: Series
+  api: OnConnect Lookup APIs
+  key: seriesId
+- name: Station
+  api: OnConnect Lookup APIs
+  key: stationId
+- name: Lineup
+  api: OnConnect Lookup APIs
+  key: lineupId
+- name: Theatre
+  api: OnConnect Lookup APIs
+  key: theatreId
+- name: Celebrity
+  api: OnConnect Lookup APIs
+  key: personId
+- name: Airing
+  api: OnConnect Lookup APIs / On API
+- name: Match
+  api: Global Sports Data Lookup API
+  key: matchId
+- name: League
+  api: Global Sports Data Lookup API
+  key: leagueId
+- name: LeagueSeason
+  api: Global Sports Data Lookup API
+  key: leagueSeasonId
+- name: Team
+  api: Global Sports Data Lookup API
+  key: teamId
+- name: Person
+  api: Global Sports Data Lookup API
+  key: personId
+- name: Venue
+  api: Global Sports Data Lookup API
+  key: venueId
+relationships:
+- from: MovieRoot
+  to: MovieVersion
+  type: has_many
+  via: POST /movies/{rootGnID}/versions
+- from: MovieVersion
+  to: MoviePresentation
+  type: has_many
+  via: POST /movies/versions/{versionGnID}/presentations
+- from: MoviePresentation
+  to: MovieVersion
+  type: belongs_to
+  via: PATCH /movies/versions/presentationRelationships
+  note: The mapping is explicit and separately deletable — a presentation can exist without a version.
+- from: ShowRoot
+  to: ShowVersion
+  type: has_many
+  via: POST /shows/{gnID}/versions
+- from: ShowVersion
+  to: ShowPresentation
+  type: has_many
+  via: POST /shows/versions/{gnID}/presentations
+- from: ShowPresentation
+  to: Season
+  type: has_many
+  via: POST /shows/versions/presentations/{gnID}/seasons
+- from: Season
+  to: Episode
+  type: has_many
+  via: POST /shows/versions/presentations/seasons/{gnID}/episodes
+- from: Catalog
+  to: MoviePresentation
+  type: has_many
+  via: POST /catalogPrograms
+- from: Image
+  to: MoviePresentation
+  type: has_many
+  via: POST /programImages
+  note: Many-to-many; the mapping is its own resource and is unmapped with PATCH /programImages.
+- from: Series
+  to: Episode
+  type: has_many
+  via: GET /v1.1/series/{seriesId}/episodes
+- from: Lineup
+  to: Station
+  type: has_many
+  via: GET /v1.1/lineups/{lineupId}/channels
+- from: Station
+  to: Airing
+  type: has_many
+  via: GET /v1.1/stations/{stationId}/airings
+- from: Program
+  to: Airing
+  type: has_many
+  via: GET /v1.1/programs/{tmsId}/airings
+- from: Program
+  to: Image
+  type: has_many
+  via: GET /v1.1/programs/{resourceId}/images
+- from: Celebrity
+  to: Airing
+  type: has_many
+  via: GET /v1.1/celebs/{personId}/airings
+- from: Theatre
+  to: Showing
+  type: has_many
+  via: GET /v1.1/theatres/{theatreId}/showings
+- from: League
+  to: LeagueSeason
+  type: has_many
+  via: GET /gsd/lookup/v1/leagues/{leagueId}/league-seasons
+- from: League
+  to: Team
+  type: has_many
+  via: GET /gsd/lookup/v1/leagues/{leagueId}/teams
+- from: LeagueSeason
+  to: Team
+  type: has_many
+  via: GET /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams
+- from: Team
+  to: Person
+  type: has_many
+  via: GET /gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/roster
+- from: Match
+  to: Person
+  type: has_many
+  via: GET /gsd/lookup/v1/matches/{matchId}/lineups
+- from: Match
+  to: Venue
+  type: has_one
+  via: MatchInfo
+- from: League
+  to: Tier
+  type: has_many
+  via: GET /gsd/lookup/v1/leagues/{leagueId}/tiers
+- from: Sport
+  to: League
+  type: has_many
+  via: GET /gsd/lookup/v1/sports/{sportId}/leagues
+- from: Sport
+  to: Series
+  type: has_many
+  via: GET /gsd/lookup/v1/sports/{sportId}/series
+shape_note: >-
+  Video identity is a four-level hierarchy — Root → Version → Presentation → (Season → Episode) — and
+  that hierarchy is the reason the GN IDS API needs 74 operations to manage what looks from the outside
+  like "a TV show". Sports identity is a parallel hierarchy: Sport → Series/League → Season → Match,
+  with Team and Person crossing it.

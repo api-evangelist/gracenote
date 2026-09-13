@@ -1,0 +1,200 @@
+generated: '2026-09-12'
+method: derived
+source: mcp/gracenote-mcp.yml + openapi/gracenote-global-sports-data-lookup-api-openapi.json + openapi/gracenote-onconnect-lookup-apis-openapi.json + openapi/gracenote-on-api-openapi.json + openapi/gracenote-gvd-api-openapi.json
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Binds each published Gracenote MCP tool to the REST operation(s) that serve the same data. The live
+  MCP tools/list is OAuth-gated (HTTP 401 on an anonymous probe of both servers), so tool inputSchemas
+  could not be read from the wire; tools are mapped from Gracenote's own tool-reference pages by name
+  and documented semantics. Confidence is recorded honestly per row.
+caveats:
+- The Video MCP Server is not a thin proxy over one REST API. Its tools return a curated,
+  LLM-shaped projection (entity resolution, availability, images, cast, awards, ratings) whose nearest
+  REST equivalents are spread across the OnConnect Lookup APIs and the On API.
+- The OnConnect, On API and GVD specs declare NO operationIds (0 of 72 operations across the three),
+  so REST bindings for video tools are given as `METHOD path` rather than operationId. The Global
+  Sports Data Lookup API does declare operationIds for all 73 operations, so sports rows bind to real ids.
+- gnv_web_search has no REST counterpart at all — it is a web-search pre-processing step the MCP
+  server performs on the LLM's behalf.
+surfaces:
+  openapi:
+  - file: openapi/gracenote-onconnect-lookup-apis-openapi.json
+    operations: 40
+    gated: false
+  - file: openapi/gracenote-on-api-openapi.json
+    operations: 19
+    gated: false
+  - file: openapi/gracenote-gvd-api-openapi.json
+    operations: 13
+    gated: false
+  - file: openapi/gracenote-global-sports-data-lookup-api-openapi.json
+    operations: 73
+    gated: false
+  graphql: null
+  mcp:
+  - url: https://video.mcp.gracenote.com/mcp
+    gated: true
+    gate: OAuth 2.0 bearer; anonymous tools/list returns 401 invalid_token
+  - url: https://sports.mcp.gracenote.com/mcp
+    gated: true
+    gate: OAuth 2.0 bearer; anonymous tools/list returns 401 invalid_token
+crosswalk:
+- tool: gns_resolve_entities
+  category: sports-identity
+  rest: [Sports, Series, Leagues, TeamInfo, PersonInfo]
+  binding: semantic
+  confidence: medium
+  note: No single REST resolve endpoint; the lookup API exposes entity listings and info endpoints the resolver sits on top of.
+- tool: gns_discover_events
+  category: sports-schedule
+  rest: [ScheduleandResults, ScheduleandResultsbyLeague, ScheduleandResultsbyTeam, ScheduleandResultsbySport]
+  binding: semantic
+  confidence: high
+- tool: gns_get_match_info
+  category: sports-match
+  rest: [MatchInfo]
+  binding: direct
+  confidence: high
+- tool: gns_get_match_summary
+  category: sports-match
+  rest: [ActionsbyMatch, TeamStatsbyMatch, PersonStatsbyMatch]
+  binding: composite
+  confidence: medium
+  note: The recap narrative is synthesized server-side; the underlying facts are the match action and stats operations.
+- tool: gns_get_match_lineups
+  category: sports-match
+  rest: [LineupsbyMatch]
+  binding: direct
+  confidence: high
+- tool: gns_where_to_watch
+  category: sports-availability
+  rest: []
+  binding: none
+  confidence: low
+  note: >-
+    Broadcast/streaming availability for a sports event is not exposed by the Global Sports Data
+    Lookup API. The nearest REST equivalent is the OnConnect sports airings surface
+    (GET /v1.1/sports/{sportsId}/events/airings) on a different product, so this is treated as MCP-only.
+- tool: gns_get_team
+  category: sports-profile
+  rest: [TeamInfo]
+  binding: direct
+  confidence: high
+- tool: gns_get_athlete
+  category: sports-profile
+  rest: [PersonInfo]
+  binding: direct
+  confidence: high
+- tool: gns_get_league
+  category: sports-profile
+  rest: [LeagueInfo]
+  binding: direct
+  confidence: high
+- tool: gns_get_standings
+  category: sports-standings
+  rest: [StandingsbyLeague, StandingsbyLeagueSeason, LeagueSeasonandOverallClassificationsbyLeague]
+  binding: semantic
+  confidence: high
+- tool: gns_get_images
+  category: sports-media
+  rest: []
+  binding: none
+  confidence: low
+  note: The Lookup API spec declares no image endpoint; sports imagery appears to be served outside it.
+- tool: gnv_resolve_entities
+  category: video-identity
+  rest: ['GET /v1.1/programs/search', 'GET /v1.1/series/{seriesId}', 'GET /v1.1/movies/{rootId}/versions']
+  binding: semantic
+  confidence: medium
+  note: OnConnect program search is the REST analogue of entity resolution; the MCP tool adds multi-signal disambiguation (actors, year, duration, episode coordinates).
+- tool: gnv_get_availability
+  category: video-availability
+  rest: ['GET /v1/availabilityday', 'GET /v1/catalog/item']
+  binding: semantic
+  confidence: medium
+  note: GVD API availability-day and catalog-item operations carry the same streaming-availability data.
+- tool: gnv_get_tmsid
+  category: video-metadata
+  rest: ['GET /v1.1/programs/{tmsId}', 'GET /v3/Programs']
+  binding: direct
+  confidence: high
+- tool: gnv_get_root
+  category: video-identity
+  rest: ['GET /v1.1/movies/{rootId}/versions']
+  binding: direct
+  confidence: medium
+  note: RootID-to-alternate-language-version resolution maps to the OnConnect movie versions operation.
+- tool: gnv_get_images
+  category: video-media
+  rest: ['GET /v1.1/programs/{resourceId}/images', 'GET /v1/media']
+  binding: direct
+  confidence: high
+- tool: gnv_get_cast
+  category: video-metadata
+  rest: ['GET /v1.1/celebs/{personId}', 'GET /v3/Celebrities']
+  binding: semantic
+  confidence: medium
+  note: REST exposes celebrity records and program credits; the MCP tool returns the cast list for a TMSID directly.
+- tool: gnv_get_awards
+  category: video-metadata
+  rest: []
+  binding: none
+  confidence: low
+  note: No awards operation is declared in any of the four public video specs.
+- tool: gnv_get_ratings
+  category: video-metadata
+  rest: ['GET /v1.1/programs/{tmsId}']
+  binding: composite
+  confidence: low
+  note: Content ratings ride along inside the OnConnect program record rather than having their own operation.
+- tool: gnv_web_search
+  category: retrieval
+  rest: []
+  binding: none
+  confidence: high
+  note: Deliberately MCP-only — a web-search pre-processing step, not a Gracenote data operation.
+mcp_only:
+- tool: gnv_web_search
+  reason: Web retrieval performed by the MCP server; no Gracenote REST equivalent exists or should.
+- tool: gnv_get_awards
+  reason: No awards operation declared in the public video OpenAPIs.
+- tool: gns_where_to_watch
+  reason: Sports broadcast availability is not in the Global Sports Data Lookup API surface.
+- tool: gns_get_images
+  reason: No sports imagery operation declared in the Lookup API.
+rest_only:
+  note: >-
+    The REST surface is far larger than the MCP surface. 258 of 298 catalogued REST operations have no
+    MCP tool, including the whole GN IDS content-submission API (74 operations, the only write surface
+    Gracenote publishes), the Nexus automotive API (39), the GVD ingestion feed (13), the Global Sports
+    Data Update API (13) and the Online Video and Social APIs (6). The MCP servers are read-only,
+    LLM-shaped projections over video and sports lookup; nothing Gracenote publishes lets an agent
+    write through MCP.
+  families:
+  - family: GN IDS API
+    operations: 74
+    reason: Content submission and publication workflow — no MCP tools.
+  - family: Nexus API
+    operations: 39
+    reason: Automotive in-car entertainment surface — no MCP tools.
+  - family: GMD API v2 + v3
+    operations: 21
+    reason: Music metadata — no music MCP server published.
+  - family: GVD API
+    operations: 13
+    reason: Bulk ingestion feed; only availability/catalog overlap with gnv_get_availability.
+  - family: Global Sports Data Update API
+    operations: 13
+    reason: Update/ingestion feed — no MCP tools.
+  - family: Online Video and Social APIs
+    operations: 6
+    reason: OTT link and social surface — no MCP tools.
+coverage:
+  mcp_tools_total: 20
+  mcp_tools_bound_to_rest: 16
+  mcp_tools_unbound: 4
+  rest_operations_total: 298
+  rest_operations_with_a_tool: 22
+  rest_operations_without_a_tool: 276
+  write_operations_reachable_via_mcp: 0

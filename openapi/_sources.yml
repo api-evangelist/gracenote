@@ -1,0 +1,109 @@
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/
+note: >-
+  Provenance for the ten first-party Gracenote OpenAPI definitions saved in this directory.
+  Gracenote's new developer portal (devportal.gracenote.com, announced on the legacy
+  developer.tmsapi.com gateway as the replacement surface as of 2026-09-08) is built on Zudoku.
+  Zudoku does not serve the raw .json/.yaml spec files at a public path — it ships each catalog
+  entry as a pre-processed ES module under /assets/. Those modules are public, unauthenticated,
+  and are the exact spec content the portal renders. Each file below was fetched from the URL in
+  `fetched_from`, the module's exported `schema` object was evaluated, and the JSON Pointers the
+  bundler had inlined (carried on a non-enumerable `__$ref` property) were restored to `$ref`
+  form. No content was added, removed, rewritten, or invented. `servers[]` is preserved exactly as
+  published — for most entries that is the portal's own API-Explorer proxy path (e.g. /proxy/gvd),
+  NOT a callable host, so the real production base URL for each API is recorded on the matching
+  apis[].baseURL in apis.yml and sourced from the product documentation page named in `base_source`.
+ownership_check: >-
+  Every spec identifies itself as Gracenote: info.title carries the Gracenote product name (On API,
+  GVD API, GMD API, GN IDS API, Nexus API, OnConnect Lookup APIs, Global Sports Data), the GMD v3
+  spec declares servers[0].url https://api.gmd.music.gracenote.com/v3, and the Nexus spec declares
+  info.contact.email nexusengineering@nielsen.com — Gracenote is the content data business unit of
+  Nielsen, which the company states on its own site. All are served from gracenote.com hosts.
+specs:
+- file: openapi/gracenote-on-api-openapi.json
+  title: On API v3.28
+  operations: 19
+  fetched_from: https://devportal.gracenote.com/assets/catalog-on-api-onapi-openapi.json-Cqs83pkr.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/on-api
+  base_url: https://on-api.gracenote.com
+  base_source: https://devportal.gracenote.com/video/on-api/about-the-on-api
+- file: openapi/gracenote-gvd-api-openapi.json
+  title: GVD API v3.06
+  operations: 13
+  fetched_from: https://devportal.gracenote.com/assets/catalog-gvd-gvd-openapi.json-EDKrL5WE.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/gvd
+  base_url: https://gvd-api.gracenote.com
+  base_source: https://devportal.gracenote.com/video/gvd-api/overview
+- file: openapi/gracenote-gmd-api-v2-openapi.json
+  title: GMD API v2.0
+  operations: 8
+  fetched_from: https://devportal.gracenote.com/assets/catalog-gmd-v2-gmdv2.yaml-CRL3o2-8.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/gmd-v2
+  base_url: https://api.gmd.music.gracenote.com/v2
+  base_source: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+- file: openapi/gracenote-gmd-api-v3-openapi.json
+  title: GMD API v3.0 Beta
+  operations: 13
+  fetched_from: https://devportal.gracenote.com/assets/catalog-gmd-v3-gmdv3.yaml-C1XIx5oz.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/gmd-v3
+  base_url: https://api.gmd.music.gracenote.com/v3
+  base_source: declared in the spec's own servers[] block
+- file: openapi/gracenote-gn-ids-api-openapi.json
+  title: GN IDS API v1.9.3
+  operations: 74
+  fetched_from: https://devportal.gracenote.com/assets/catalog-gnids-gnids.yaml-CZRTLhUk.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/gnids
+  base_url: https://gnids.gracenote.com/api/v1
+  base_source: https://devportal.gracenote.com/video/gn-ids-api/about-gn-ids-api
+- file: openapi/gracenote-nexus-api-openapi.json
+  title: Nexus API v1.1.5
+  operations: 39
+  fetched_from: https://devportal.gracenote.com/assets/catalog-nexus-hidden-nexus.yaml-DczJsMy0.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  base_url: https://api.nexus.gracenote.com/v1
+  base_source: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+- file: openapi/gracenote-global-sports-data-lookup-api-openapi.json
+  title: Global Sports Data Lookup API v1
+  operations: 73
+  fetched_from: https://devportal.gracenote.com/assets/catalog-global-sports-gsapi-openapi.json-C2osR2vA.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/global-sports
+  base_url: https://api.sports.gracenote.com/gns-api
+  base_source: https://devportal.gracenote.com/sports/Global-Sports-Data/global-sports-data-overview
+- file: openapi/gracenote-global-sports-data-update-api-openapi.json
+  title: Global Sports Data Update API v6
+  operations: 13
+  fetched_from: https://devportal.gracenote.com/assets/catalog-global-sports-data-gsd-openapi.json-CgGTIiri.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/global-sports-data
+  base_url: https://api.sports.gracenote.com/gns-api
+  base_source: https://devportal.gracenote.com/sports/Global-Sports-Data/global-sports-data-overview
+- file: openapi/gracenote-onconnect-lookup-apis-openapi.json
+  title: OnConnect Lookup APIs v1.1
+  operations: 40
+  fetched_from: https://devportal.gracenote.com/assets/catalog-onconnect-onconnect-openapi.json-C5XFyS-M.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/onconnect
+  base_url: https://data.tmsapi.com/v1.1
+  base_source: https://developer.tmsapi.com/docs (legacy OnConnect gateway, still the documented host)
+- file: openapi/gracenote-online-video-social-apis-openapi.json
+  title: Online Video and Social APIs v2.0
+  operations: 6
+  fetched_from: https://devportal.gracenote.com/assets/catalog-onconnect-video-social-onconnect-video-social-openapi.json-BxOWqJKd.js
+  http_status: 200
+  catalog_page: https://devportal.gracenote.com/catalog/onconnect-video-social
+  base_url: https://data.tmsapi.com/v1.1
+  base_source: OnConnect family; served through the same data.tmsapi.com gateway
+superseded_note: >-
+  openapi/_original/gracenote-openapi.yml (17 paths) and the seven refined
+  gracenote-*-api-openapi.yml files split from it describe the legacy OnConnect v1.1 surface on
+  developer.tmsapi.com. They are kept because that gateway is still live, but
+  openapi/gracenote-onconnect-lookup-apis-openapi.json (40 operations) is the current published
+  definition of the same product family.

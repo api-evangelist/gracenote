@@ -1,10 +1,14 @@
 aid: gracenote
 name: Gracenote
 description: >-
-  Gracenote, a Nielsen company, provides entertainment metadata, content
-  recognition technology, and developer APIs for TV, video, music, sports,
-  and automotive industries. Gracenote enables content discovery, search,
-  and personalization across linear and streaming services worldwide.
+  Gracenote, a Nielsen company, provides entertainment metadata, content recognition technology, and
+  developer APIs for the TV, video, music, sports and automotive industries, powering content
+  discovery, search and personalization across linear and streaming services worldwide. It publishes
+  ten first-party OpenAPI 3.1.1 definitions covering 298 operations — TV schedules and program data
+  (On API, OnConnect, GVD), the GN IDS content-submission API, global music data (GMD v2 and v3
+  Beta), automotive in-car entertainment (Nexus) and global sports data — plus two production Model
+  Context Protocol servers for video and sports that ground LLM answers in Gracenote's verified
+  metadata. Access is licensed through sales rather than self-serve.
 type: Index
 deliveryModel:
   model: unknown
@@ -33,19 +37,24 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gracenote.png
 tags:
+  - AI
   - Automotive
   - Content Metadata
   - Entertainment
+  - MCP
+  - Model Context Protocol
   - Music
   - Nielsen
   - Sports
+  - Sports Data
   - Streaming
   - Television
   - Video
+  - Video Metadata
 url: >-
   https://raw.githubusercontent.com/api-evangelist/gracenote/refs/heads/main/apis.yml
 created: '2026-03-16'
-modified: '2026-04-28'
+modified: '2026-09-12'
 specificationVersion: '0.23'
 apis:
 - aid: gracenote:onconnect-api
@@ -56,6 +65,7 @@ apis:
     experiences, OnConnect provides reliable access to entertainment metadata used to power discovery,
     search, and recommendation features.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Content Discovery
   - Electronic Program Guide
@@ -77,6 +87,7 @@ apis:
     It is designed for connected experiences and mobile applications that need rich entertainment data,
     including images, descriptions, ratings, and relationships between titles, talent, and events.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Celebrities
   - Movies
@@ -92,6 +103,7 @@ apis:
   name: Gracenote Celebrities API
   description: The Celebrities API from Gracenote — 2 operation(s) for celebrities.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Celebrities
   properties:
@@ -101,6 +113,7 @@ apis:
   name: Gracenote Lineups API
   description: The Lineups API from Gracenote — 4 operation(s) for lineups.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Lineups
   properties:
@@ -110,6 +123,7 @@ apis:
   name: Gracenote Movies API
   description: The Movies API from Gracenote — 2 operation(s) for movies.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Movies
   properties:
@@ -119,6 +133,7 @@ apis:
   name: Gracenote Programs API
   description: The Programs API from Gracenote — 2 operation(s) for programs.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Programs
   properties:
@@ -128,6 +143,7 @@ apis:
   name: Gracenote Series API
   description: The Series API from Gracenote — 2 operation(s) for series.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Series
   properties:
@@ -137,6 +153,7 @@ apis:
   name: Gracenote Sports API
   description: The Sports API from Gracenote — 2 operation(s) for sports.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Sports
   properties:
@@ -146,11 +163,328 @@ apis:
   name: Gracenote Stations API
   description: The Stations API from Gracenote — 3 operation(s) for stations.
   humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
   tags:
   - Stations
   properties:
   - type: OpenAPI
     url: openapi/gracenote-stations-api-openapi.yml
+- aid: gracenote:on-api
+  name: Gracenote On API
+  description: >-
+    The On API is Gracenote's database-ingestion surface for television schedule data and related
+    information — programs, schedules, celebrities, lineups, sources, sports events, teams, venues,
+    video popularity and the controlled vocabulary behind them. It is built for platforms that pull
+    updates on demand into their own store rather than querying per user request, and Gracenote
+    recommends a maximum page limit of 1000 across all endpoints.
+  humanURL: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  baseURL: https://on-api.gracenote.com
+  tags:
+  - Electronic Program Guide
+  - Ingestion
+  - Schedules
+  - Sports
+  - Television
+  - Video Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-on-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-on-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+- aid: gracenote:onconnect-lookup-apis
+  name: Gracenote OnConnect Lookup APIs
+  description: >-
+    The current published definition of the OnConnect lookup family — 40 operations across programs,
+    series, movies on TV and in theatres, celebrities, sports, stations and lineups. This is the
+    request-response counterpart to the ingestion-oriented On API, and the surface behind most TV
+    guide, search and discovery experiences built on Gracenote data.
+  humanURL: https://devportal.gracenote.com/catalog/onconnect
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Celebrities
+  - Content Discovery
+  - Electronic Program Guide
+  - Movies
+  - Sports
+  - Television
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-onconnect-lookup-apis-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-onconnect-lookup-apis-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: AgentSkill
+    url: skills/gracenote-tv-listings-with-onconnect.md
+- aid: gracenote:gvd-api
+  name: Gracenote GVD API
+  description: >-
+    The Global Video Data API is Gracenote's worldwide video metadata feed — schedules, VOD catalogs,
+    availability days, lineups, media, contributors, controlled vocabulary and video popularity across
+    90+ countries in one unified schema. Like the On API it is designed for database ingestion with
+    on-demand update retrieval rather than per-user queries.
+  humanURL: https://devportal.gracenote.com/video/gvd-api/overview
+  baseURL: https://gvd-api.gracenote.com
+  tags:
+  - Availability
+  - Catalog
+  - Ingestion
+  - Streaming
+  - Video Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-gvd-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-gvd-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+- aid: gracenote:gn-ids-api
+  name: Gracenote GN IDS API
+  description: >-
+    The GN IDS API is the only write surface Gracenote publishes. It lets content providers create,
+    retrieve, update, delete and publish programs into Gracenote-licensed datasets across 85+
+    countries using Gracenote's video IDs — movie roots, versions and presentations, show roots,
+    versions, presentations, seasons and episodes, plus images, catalogs, bulk batches and exports.
+    45 of its 74 operations mutate state.
+  humanURL: https://devportal.gracenote.com/video/gn-ids-api/about-gn-ids-api
+  baseURL: https://gnids.gracenote.com/api/v1
+  tags:
+  - Content Distribution
+  - Content Metadata
+  - Identifiers
+  - Publishing
+  - Video Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-gn-ids-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-gn-ids-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: AgentSkill
+    url: skills/gracenote-publish-a-movie-to-gn-ids.md
+- aid: gracenote:gmd-api-v2
+  name: Gracenote GMD API v2
+  description: >-
+    The Global Music Data API v2 provides artist, recording, album-edition, track and descriptor
+    lookups and text search, with artist images, cover art, popularity scores, partner and industry
+    IDs sold as add-ons on top of base, search, discovery and advanced-discovery packages. A key's
+    subscription determines which fields appear in responses.
+  humanURL: https://devportal.gracenote.com/audio/gmd-api-v2/Overview
+  baseURL: https://api.gmd.music.gracenote.com/v2
+  tags:
+  - Album Art
+  - Music
+  - Music Metadata
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-gmd-api-v2-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-gmd-api-v2-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+- aid: gracenote:gmd-api-v3
+  name: Gracenote GMD API v3 (Beta)
+  description: >-
+    The beta third generation of the Global Music Data API, adding album masters, descriptor
+    correlations, descriptor hierarchies and an entitlements lookup that lets a key ask what it is
+    licensed for. Gracenote states in the specification itself that interfaces are subject to change,
+    and it is the only Gracenote API that declares a full 400/401/403/404/429/500 error surface.
+  humanURL: https://devportal.gracenote.com/audio/gmd-api-v3/overview
+  baseURL: https://api.gmd.music.gracenote.com/v3
+  tags:
+  - Beta
+  - Entitlements
+  - Music
+  - Music Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-gmd-api-v3-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-gmd-api-v3-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+- aid: gracenote:nexus-api
+  name: Gracenote Nexus API
+  description: >-
+    Nexus is Gracenote's automotive entertainment platform API — music, podcasts, radio stations,
+    sports, video, search, collections and per-user settings shaped for in-car infotainment. Keys are
+    entitled to different feature sets and return 403 outside them, and the specification carries
+    first-class Deprecated and Experimental tags, including experimental endpoints explicitly designed
+    for LLM consumption with reduced payloads.
+  humanURL: https://devportal.gracenote.com/automotive/nexus-auto/platform/overview
+  baseURL: https://api.nexus.gracenote.com/v1
+  tags:
+  - Automotive
+  - Music
+  - Podcasts
+  - Radio
+  - Sports
+  - Video
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-nexus-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-nexus-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+- aid: gracenote:global-sports-data-lookup-api
+  name: Gracenote Global Sports Data Lookup API
+  description: >-
+    Seventy-three read operations over Gracenote's sports data covering 4,000+ competitions — sports,
+    series, leagues, league seasons, matches, teams, persons, venues, standings, brackets,
+    classifications, phases and intermediates, with tier, conference and division variants for leagues
+    that have internal structure. Every operation declares an operationId, which makes it the most
+    machine-navigable contract Gracenote publishes.
+  humanURL: https://devportal.gracenote.com/sports/Global-Sports-Data/global-sports-data-overview
+  baseURL: https://api.sports.gracenote.com/gns-api
+  tags:
+  - Live Scores
+  - Schedules
+  - Sports
+  - Sports Data
+  - Standings
+  - Statistics
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-global-sports-data-lookup-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-global-sports-data-lookup-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: AgentSkill
+    url: skills/gracenote-sports-schedule-and-standings.md
+- aid: gracenote:global-sports-data-update-api
+  name: Gracenote Global Sports Data Update API
+  description: >-
+    The update and ingestion counterpart to the Global Sports Data Lookup API — thirteen endpoints
+    that deliver changed sports records so a consumer can keep a local store in sync rather than
+    re-polling the lookup surface.
+  humanURL: https://devportal.gracenote.com/catalog/global-sports-data
+  baseURL: https://api.sports.gracenote.com/gns-api
+  tags:
+  - Ingestion
+  - Sports
+  - Sports Data
+  - Updates
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-global-sports-data-update-api-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-global-sports-data-update-api-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+- aid: gracenote:online-video-social-apis
+  name: Gracenote Online Video and Social APIs
+  description: >-
+    Curated links to online and over-the-top video content, indexed and synced to Gracenote TMS IDs,
+    alongside online social signals — for adding OTT availability and social context to a video
+    product. Covers AU, BR, CA, DE, ES, FR, IT, MX, SE, UK and US.
+  humanURL: https://devportal.gracenote.com/catalog/onconnect-video-social
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Online Video
+  - OTT
+  - Social
+  - Streaming
+  - Video Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-online-video-social-apis-openapi.json
+  - type: Overlay
+    url: overlays/gracenote-online-video-social-apis-overlay.yaml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:video-mcp-server
+  name: Gracenote Video MCP Server
+  description: >-
+    A production remote Model Context Protocol server that grounds LLM responses in Gracenote's
+    verified video metadata — more than 55 million titles plus continually updated viewing
+    availability. Nine tools cover entity resolution, streaming availability, root and TMSID metadata,
+    images, cast, awards, content ratings and a web-search pre-processing step. OAuth 2.0 protected,
+    with RFC 9728 protected-resource metadata, RFC 8414 authorization-server metadata and dynamic
+    client registration.
+  humanURL: https://devportal.gracenote.com/video/video-mcp-server/intro
+  baseURL: https://video.mcp.gracenote.com/mcp
+  tags:
+  - Agents
+  - AI
+  - MCP
+  - Model Context Protocol
+  - Streaming
+  - Video Metadata
+  properties:
+  - type: MCPServer
+    url: mcp/gracenote-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/gracenote-tool-crosswalk.yml
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/video-mcp-server/intro
+  - type: APIReference
+    url: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+  - type: GettingStarted
+    url: https://devportal.gracenote.com/video/video-mcp-server/quick-start-cli
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/video-mcp-server/about-release
+  - type: AgentSkill
+    url: skills/gracenote-mcp-grounded-answers.md
+- aid: gracenote:sports-mcp-server
+  name: Gracenote Sports MCP Server
+  description: >-
+    A production remote Model Context Protocol server for live, upcoming and recent sports — eleven
+    tools covering entity resolution, event discovery, match info, recaps, lineups, where-to-watch,
+    team and athlete profiles, league profiles, standings and imagery. It enforces an identity-first
+    call pattern: names are resolved to Gracenote IDs before any other tool runs. OAuth 2.0 protected,
+    with full RFC 9728 and RFC 8414 discovery.
+  humanURL: https://devportal.gracenote.com/sports/sports-mcp-server/intro
+  baseURL: https://sports.mcp.gracenote.com/mcp
+  tags:
+  - Agents
+  - AI
+  - Live Scores
+  - MCP
+  - Model Context Protocol
+  - Sports Data
+  properties:
+  - type: MCPServer
+    url: mcp/gracenote-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/gracenote-tool-crosswalk.yml
+  - type: Documentation
+    url: https://devportal.gracenote.com/sports/sports-mcp-server/intro
+  - type: APIReference
+    url: https://devportal.gracenote.com/sports/sports-mcp-server/tool-reference
+  - type: GettingStarted
+    url: https://devportal.gracenote.com/sports/sports-mcp-server/quick-start-cli
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/sports-mcp-server/about-release
+  - type: AgentSkill
+    url: skills/gracenote-mcp-grounded-answers.md
 common:
   - type: CapabilityMap
     url: capabilities/gracenote-capability-edges.yml
@@ -170,7 +504,7 @@ common:
   - type: Developer
     url: https://developer.tmsapi.com/
   - type: Documentation
-    url: https://developer.tmsapi.com/docs
+    url: https://devportal.gracenote.com/
   - type: GettingStarted
     url: https://developer.tmsapi.com/Getting_Started
   - type: Support
@@ -181,6 +515,62 @@ common:
     url: https://www.nielsen.com/
   - url: https://gracenote.com/insights/
     type: Blog
+  - type: MCPServer
+    url: mcp/gracenote-mcp.yml
+    name: Gracenote Video + Sports MCP Servers
+  - type: ToolCrosswalk
+    url: mcp/gracenote-tool-crosswalk.yml
+  - type: WellKnown
+    url: well-known/gracenote-well-known.yml
+  - type: LLMsTxt
+    url: llms/gracenote-llms.txt
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Conventions
+    url: conventions/gracenote-conventions.yml
+  - type: ErrorCatalog
+    url: errors/gracenote-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/gracenote-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/gracenote-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/gracenote-changelog.yml
+  - type: Conformance
+    url: conformance/gracenote-conformance.yml
+  - type: DataModel
+    url: data-model/gracenote-data-model.yml
+  - type: Packages
+    url: packages/gracenote-packages.yml
+  - type: SDKs
+    url: packages/gracenote-packages.yml
+  - type: Sandbox
+    url: sandbox/gracenote-sandbox.yml
+  - type: Plans
+    url: plans/gracenote-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/gracenote-rate-limits.yml
+  - type: FinOps
+    url: finops/gracenote-finops.yml
+  - type: VulnerabilityDisclosure
+    url: security/gracenote-vulnerability-disclosure.yml
+  - type: DeveloperPortal
+    url: https://devportal.gracenote.com/
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog
+  - type: SignUp
+    url: https://devportal.gracenote.com/register
+  - type: Login
+    url: https://devportal.gracenote.com/login
+  - type: TermsOfService
+    url: https://gracenote.com/gracenote-terms-of-use/
+  - type: PrivacyPolicy
+    url: https://gracenote.com/gracenote-website-privacy-notice/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-12'
+  status: enriched
+  artifacts_added: 47
+  pass: local-v3

@@ -1,0 +1,147 @@
+generated: '2026-09-12'
+method: derived
+source: openapi/ (ten first-party specs) + https://devportal.gracenote.com/
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Cross-cutting runtime semantics across the Gracenote API surface. Derived from the ten published
+  OpenAPI definitions and the developer portal, with every claim traceable to one of them. Where a
+  convention is absent, it is recorded as absent rather than inferred.
+auth:
+  style: API key, per product
+  placement:
+  - api_key query parameter (OnConnect family, data.tmsapi.com)
+  - GN-APIKEY request header (GMD v3, GN IDS)
+  self_serve: false
+  note: See authentication/gracenote-authentication.yml. MCP is the only OAuth surface.
+  cross_ref: authentication/gracenote-authentication.yml
+idempotency:
+  coverage: none
+  scope: []
+  mechanism: null
+  header: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key (or equivalent) parameter, header or extension appears anywhere in the ten
+    published specs, and the developer portal documents no replay-protection mechanism. The GN IDS API
+    is the only write surface Gracenote publishes — 45 mutating operations across POST, PUT, PATCH and
+    DELETE — and none of them accepts an idempotency key. A client that retries a failed
+    POST /movies or POST /publish has no contract-level guarantee against a duplicate.
+  note: >-
+    PUT and DELETE operations on {gnID} are naturally idempotent by HTTP semantics, but that is the
+    method's property, not a Gracenote mechanism, and it does not cover the 19 POST operations that
+    create new records.
+reversibility:
+  grade: documented
+  applies: true
+  note: >-
+    The read APIs (OnConnect, On API, GVD, GMD, Nexus, Global Sports Data Lookup) have no write
+    surface at all — reversibility is `na` for those. The GN IDS API does, and it ships real reversal
+    operations, but no published window.
+  surfaces:
+  - api: GN IDS API
+    write_operations: 45
+    reversals:
+    - action: createCatalog
+      reversal: deleteCatalog
+      operationId: deleteCatalog
+      window: not stated
+    - action: addProgramsToCatalog
+      reversal: removePresFromCatalog
+      operationId: removePresFromCatalog
+      window: not stated
+    - action: createImage / updateImage
+      reversal: deleteImage
+      operationId: deleteImage
+      window: not stated
+    - action: mapProgramImages
+      reversal: unmapProgramImages
+      operationId: unmapProgramImages
+      window: not stated
+    - action: createMovieRoot / createMovieVersion / createMoviePresentation
+      reversal: deleteMovieRoot / deleteMovieVersion / deleteMoviePresentation
+      operationId: deleteMovieRoot, deleteMovieVersion, deleteMoviePresentation
+      window: not stated
+    - action: createShowRoot / createShowVersion / createShowPresentation / createShowSeason / createShowEpisode
+      reversal: deleteShowRoot / deleteShowVersion / deleteShowPresentation / deleteShowSeason / deleteShowEpisode
+      operationId: deleteShowRoot, deleteShowVersion, deleteShowPresentation, deleteShowSeason, deleteShowEpisode
+      window: not stated
+    - action: mapMoviePresentationsToVersion / mapShowPresentationsToVersion
+      reversal: deleteMoviePresentationToVersionMapping / deleteShowPresentationToVersionMapping
+      operationId: deleteMoviePresentationToVersionMapping, deleteShowPresentationToVersionMapping
+      window: not stated
+    unreversed:
+    - action: publishPresentation
+      note: >-
+        POST /publish submits a presentation for publication to Gracenote-licensed datasets across 85+
+        countries. No unpublish, withdraw, retract or rollback operation is declared, and no window is
+        stated. This is the highest-consequence action on the surface and it has no documented undo.
+    - action: bulkPublishPresentations
+      note: Same as publishPresentation, at batch scale. No bulk unpublish is declared.
+    - action: createExport
+      note: Export creation is not reversible; exports are presumably expired rather than deleted.
+  grading_rationale: >-
+    `documented` rather than `verified` — reversal operations exist and are named in the contract, but
+    Gracenote publishes no window for any of them, and the publish action has no reversal at all. No
+    window is asserted here because none is stated; inventing one would be the single most expensive
+    error this file could make.
+dry_run_mode:
+  supported: false
+  evidence: No dry-run, preview, validate-only or simulate parameter appears in any published spec.
+pagination:
+  style: offset/limit
+  params: [offset, limit]
+  ceiling: >-
+    "Gracenote recommends a maximum limit of 1000 across all endpoints" — stated verbatim in both the
+    On API and GVD API info.description.
+  response_fields: >-
+    Product-dependent. The Nexus API wraps responses in _meta_ and _data_ sections, except for
+    experimental LLM-oriented endpoints which deliberately omit them.
+  cursor: false
+field_expansion:
+  supported: partial
+  note: >-
+    Not a generic ?expand= mechanism. The OnConnect and On API surfaces use `imageSize`, `imageAspectTV`
+    and similar shaping parameters, and the GMD API uses packages and add-ons (see plans/) to determine
+    which fields a key is entitled to see at all — entitlement, not expansion.
+sparse_fieldsets:
+  supported: false
+metadata:
+  custom_metadata_fields: false
+request_id_tracing:
+  supported: false
+  evidence: No request-id, trace-id or correlation-id header declared in any published spec.
+versioning:
+  style: path segment
+  cross_ref: lifecycle/gracenote-lifecycle.yml
+error_envelope:
+  format: vendor-json
+  shape: '{status, error, description}'
+  rfc9457: false
+  cross_ref: errors/gracenote-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  status_on_exhaustion: 429
+  cross_ref: rate-limits/gracenote-rate-limits.yml
+null_semantics:
+  note: >-
+    A genuinely useful published convention, and unusual enough to record: in the Nexus API a null
+    field means the field is not supported by that object type, while an empty string means the field
+    is supported but missing. "An unranked tennis player will have \"\" for their rank while the NBA
+    standings will have null for matchesDrawn because the NBA does not allow draws." The GMD API
+    likewise returns null values in the data array for ID lookups instead of a 404.
+  source: openapi/gracenote-nexus-api-openapi.json info.description
+sorting:
+  note: >-
+    The Nexus API states it is pre-sorted — "expect that all responses with arrays have been pre-sorted
+    for best practices" — so clients should not re-sort.
+agent_notes:
+  llm_oriented_endpoints: >-
+    The Nexus API explicitly ships endpoints shaped for LLM consumption: "among the new experimental
+    endpoints, there will be some that are intended for LLM usage and thus follow some different API
+    philosophies to reduce processing and payload size — such as forgoing the _meta_ and _data_
+    sections and omitting empty fields."
+  mcp_identity_first: >-
+    Both MCP servers enforce an identity-first call pattern: resolve names to Gracenote IDs first, then
+    call every other tool with an ID. The Sports server additionally forbids calling more than one
+    Step 3 tool for a single user intent.

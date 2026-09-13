@@ -1,0 +1,2908 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Global Sports Data Lookup API v1",
+    "description": "This page contains all Lookup API endpoints that are part of our Core Sports Data.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "/proxy/sports"
+    }
+  ],
+  "paths": {
+    "/gsd/lookup/v1/sports": {
+      "get": {
+        "tags": [
+          "General Endpoints"
+        ],
+        "summary": "Sports",
+        "operationId": "Sports",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series": {
+      "get": {
+        "tags": [
+          "General Endpoints"
+        ],
+        "summary": "Series",
+        "operationId": "Series",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues": {
+      "get": {
+        "tags": [
+          "General Endpoints"
+        ],
+        "summary": "Leagues",
+        "operationId": "Leagues",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/schedule-results": {
+      "get": {
+        "tags": [
+          "General Endpoints"
+        ],
+        "summary": "Schedule and Results",
+        "operationId": "ScheduleandResults",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-15T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-16T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/sports/{sportId}": {
+      "get": {
+        "tags": [
+          "Sport Endpoints"
+        ],
+        "summary": "Sport Info",
+        "operationId": "SportInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "sportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNFB17MNF4TH4KM"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/sports/{sportId}/series": {
+      "get": {
+        "tags": [
+          "Sport Endpoints"
+        ],
+        "summary": "Series by Sport",
+        "operationId": "SeriesbySport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "sportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNBF6D927MH62TN"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/sports/{sportId}/leagues": {
+      "get": {
+        "tags": [
+          "Sport Endpoints"
+        ],
+        "summary": "Leagues by Sport",
+        "operationId": "LeaguesbySport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "sportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNFB17MNF4TH4KM"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/sports/{sportId}/schedule-results": {
+      "get": {
+        "tags": [
+          "Sport Endpoints"
+        ],
+        "summary": "Schedule and Results by Sport",
+        "operationId": "ScheduleandResultsbySport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "sportId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNFB17MNF4TH4KM"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-15T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-16T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series/{seriesId}": {
+      "get": {
+        "tags": [
+          "Series Endpoints"
+        ],
+        "summary": "Series Info",
+        "operationId": "SeriesInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN87DRG1TQJXGNH"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series/{seriesId}/league-overview": {
+      "get": {
+        "tags": [
+          "Series Endpoints"
+        ],
+        "summary": "League Overview by Series",
+        "operationId": "LeagueOverviewbySeries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN87DRG1TQJXGNH"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series/{seriesId}/series-seasons": {
+      "get": {
+        "tags": [
+          "Series Endpoints"
+        ],
+        "summary": "Series Seasons by Series",
+        "operationId": "SeriesSeasonsbySeries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "seriesId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN87DRG1TQJXGNH"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series-seasons/{seriesSeasonId}": {
+      "get": {
+        "tags": [
+          "Series Season Endpoints"
+        ],
+        "summary": "Series Season Info",
+        "operationId": "SeriesSeasonInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "seriesSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5HAK486EXQYSS"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/series-seasons/{seriesSeasonId}/league-overview": {
+      "get": {
+        "tags": [
+          "Series Season Endpoints"
+        ],
+        "summary": "League Overview by Series Season",
+        "operationId": "LeagueOverviewbySeriesSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "seriesSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5HAK486EXQYSS"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "League Info",
+        "operationId": "LeagueInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/league-seasons": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "League Seasons by League",
+        "operationId": "LeagueSeasonsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/structure": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Structure by League",
+        "operationId": "StructurebyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/schedule-results": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Schedule and Results by League",
+        "operationId": "ScheduleandResultsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-15T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-02-24T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/standings": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Standings by League",
+        "operationId": "StandingsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/league-season-overall-classifications": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "League Season and Overall Classifications by League",
+        "operationId": "LeagueSeasonandOverallClassificationsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/teams": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Teams by League",
+        "operationId": "TeamsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/roster": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Team Roster by League and Team",
+        "operationId": "TeamRosterbyLeagueandTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/schedule-results": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Schedule and Results by League and Team",
+        "operationId": "ScheduleandResultsbyLeagueandTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 31 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-04-01T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 31 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-05-01T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/stats": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Stats by League and Team",
+        "operationId": "StatsbyLeagueandTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/persons/{personId}/stats": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Stats by League and Person",
+        "operationId": "StatsbyLeagueandPerson",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4704RJ2JE0GXJ"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNE2661MZM6Z8W5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/brackets": {
+      "get": {
+        "tags": [
+          "League Endpoints"
+        ],
+        "summary": "Brackets by League",
+        "operationId": "BracketsbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNA5MGHG2ZVX2RD"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "League Season Info",
+        "operationId": "LeagueSeasonInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/structure": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Structure by League Season",
+        "operationId": "StructurebyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/standings": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Standings by League Season",
+        "operationId": "StandingsbyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/league-season-overall-classifications": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "League Season and Overall Classifications by League Season",
+        "operationId": "LeagueSeasonandOverallClassificationsbyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Teams by League Season",
+        "operationId": "TeamsbyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/roster": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Team Roster by League Season and Team",
+        "operationId": "TeamRosterbyLeagueSeasonandTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/stats": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Stats by League Season and Team",
+        "operationId": "StatsbyLeagueSeasonandTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/persons/{personId}/stats": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Stats by League Season and Person",
+        "operationId": "StatsbyLeagueSeasonandPerson",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5Q5FQEN3B2H0H"
+            }
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNE2661MZM6Z8W5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/brackets": {
+      "get": {
+        "tags": [
+          "League Season Endpoints"
+        ],
+        "summary": "Brackets by League Season",
+        "operationId": "BracketsbyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN1HX6DXNM8Q39W"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Match Info",
+        "operationId": "MatchInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/lineups": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Lineups by Match",
+        "operationId": "LineupsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/actions": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Actions by Match",
+        "operationId": "ActionsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "required": false,
+            "description": "Comma-separated list of tags in order to filter the endpoint response on specific actions. For example filter on MAIN in a Football match to only get the main actions like goals, penalties, cards and substitutes.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/team-stats": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Team Stats by Match",
+        "operationId": "TeamStatsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/person-stats": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Person Stats by Match",
+        "operationId": "PersonStatsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/classifications": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Classifications by Match",
+        "operationId": "ClassificationsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/matches/{matchId}/previous-results": {
+      "get": {
+        "tags": [
+          "Match Endpoints"
+        ],
+        "summary": "Previous Results by Match",
+        "operationId": "PreviousResultsbyMatch",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "matchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9JNTF07S0NS4Q"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "description": "Skip this number of elements in the response. If provided, it must be a non-negative integer and it must be provided together with the limit parameter.",
+            "schema": {
+              "type": "string",
+              "default": "0"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "description": "Limit for the number of elements in the response. If provided, it must be a positive integer and it must be provided together with the skip parameter.",
+            "schema": {
+              "type": "string",
+              "default": "5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/teams/{teamId}": {
+      "get": {
+        "tags": [
+          "Team Endpoints"
+        ],
+        "summary": "Team Info",
+        "operationId": "TeamInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/teams/{teamId}/schedule-results": {
+      "get": {
+        "tags": [
+          "Team Endpoints"
+        ],
+        "summary": "Schedule and Results by Team",
+        "operationId": "ScheduleandResultsbyTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 31 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-04-01T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 31 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2022-05-01T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/teams/{teamId}/previous-results": {
+      "get": {
+        "tags": [
+          "Team Endpoints"
+        ],
+        "summary": "Previous Results by Team",
+        "operationId": "PreviousResultsbyTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "description": "Skip this number of elements in the response. If provided, it must be a non-negative integer and it must be provided together with the limit parameter.",
+            "schema": {
+              "type": "string",
+              "default": "0"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "description": "Limit for the number of elements in the response. If provided, it must be a positive integer and it must be provided together with the skip parameter.",
+            "schema": {
+              "type": "string",
+              "default": "5"
+            }
+          },
+          {
+            "name": "timeBefore",
+            "in": "query",
+            "required": false,
+            "description": "Defined the point in time from which you want to retrieve previous results. It needs to be provided in the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. If provided, it will only return matches for with a scheduledStartTimeUtc is before this time.",
+            "schema": {
+              "type": "datetime",
+              "default": ""
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/teams/{teamId}/league-season-overview": {
+      "get": {
+        "tags": [
+          "Team Endpoints"
+        ],
+        "summary": "League and League Seasons by Team",
+        "operationId": "LeagueandLeagueSeasonsbyTeam",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNDDXMAJZPWET9S"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/persons/{personId}": {
+      "get": {
+        "tags": [
+          "Person Endpoints"
+        ],
+        "summary": "Person Info",
+        "operationId": "PersonInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "personId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNCZKSYQQHKA8TH"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/classifications/{classificationId}": {
+      "get": {
+        "tags": [
+          "Classification Endpoints"
+        ],
+        "summary": "Classification Info",
+        "operationId": "ClassificationInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "classificationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GS0005T000WhPtr"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/classifications/{classificationId}/results": {
+      "get": {
+        "tags": [
+          "Classification Endpoints"
+        ],
+        "summary": "Results by Classification",
+        "operationId": "ResultsbyClassification",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "classificationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GS0005T000WhPtr"
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "description": "Skip this number of elements in the response. If provided, it must be a non-negative integer and it must be provided together with the limit parameter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Limit for the number of elements in the response. If provided, it must be a positive integer and it must be provided together with the skip parameter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/overalls/{overallId}": {
+      "get": {
+        "tags": [
+          "Overall Endpoints"
+        ],
+        "summary": "Overall Info",
+        "operationId": "OverallInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "overallId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNEYFW8HYN7ZKEP"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/overalls/{overallId}/results": {
+      "get": {
+        "tags": [
+          "Overall Endpoints"
+        ],
+        "summary": "Results by Overall",
+        "operationId": "ResultsbyOverall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "overallId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNEYFW8HYN7ZKEP"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/overalls/{overallId}/classifications": {
+      "get": {
+        "tags": [
+          "Overall Endpoints"
+        ],
+        "summary": "Classifications by Overall",
+        "operationId": "ClassificationsbyOverall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "overallId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNEYFW8HYN7ZKEP"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/overalls/{overallId}/intermediates": {
+      "get": {
+        "tags": [
+          "Overall Endpoints"
+        ],
+        "summary": "Intermediates by Overall",
+        "operationId": "IntermediatesbyOverall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "overallId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN46CN6M8X623HW"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/phases/{phaseId}": {
+      "get": {
+        "tags": [
+          "Phase Endpoints"
+        ],
+        "summary": "Phase Info",
+        "operationId": "PhaseInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "phaseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNF057JFZJSXMEX"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/phases/{phaseId}/results": {
+      "get": {
+        "tags": [
+          "Phase Endpoints"
+        ],
+        "summary": "Results by Phase",
+        "operationId": "ResultsbyPhase",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "phaseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNF057JFZJSXMEX"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/phases/{phaseId}/classifications": {
+      "get": {
+        "tags": [
+          "Phase Endpoints"
+        ],
+        "summary": "Classifications by Phase",
+        "operationId": "ClassificationsbyPhase",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "phaseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNF057JFZJSXMEX"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/phases/{phaseId}/intermediates": {
+      "get": {
+        "tags": [
+          "Phase Endpoints"
+        ],
+        "summary": "Intermediates by Phase",
+        "operationId": "IntermediatesbyPhase",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "phaseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNC0RGPCA5JAYS7"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/intermediates/{intermediateId}": {
+      "get": {
+        "tags": [
+          "Intermediate Endpoints"
+        ],
+        "summary": "Intermediate Info",
+        "operationId": "IntermediateInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "intermediateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN6F8H22WEQ8WBX"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/intermediates/{intermediateId}/results": {
+      "get": {
+        "tags": [
+          "Intermediate Endpoints"
+        ],
+        "summary": "Results by Intermediate",
+        "operationId": "ResultsbyIntermediate",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "intermediateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN6F8H22WEQ8WBX"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/venues/{venueId}": {
+      "get": {
+        "tags": [
+          "Venue Endpoints"
+        ],
+        "summary": "Venue Info",
+        "operationId": "VenueInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "venueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN5S4SGRAMR5ZQQ"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/tiers/{tierId}": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Tier Info",
+        "operationId": "TierInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "tierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNABDRW1MCKJWSR"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/conferences/{conferenceId}": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Conference Info",
+        "operationId": "ConferenceInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "conferenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN25HXV0SZ178F5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/divisions/{divisionId}": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Division Info",
+        "operationId": "DivisionInfo",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "divisionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN467N412CEJ022"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/tiers": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Tiers by League",
+        "operationId": "TiersbyLeague",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN7R8RE5S9AWDH1"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Tiers by League Season",
+        "operationId": "TiersbyLeagueSeason",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNARF7S735K52SS"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/schedule-results": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Schedule and Results by League and Tier",
+        "operationId": "ScheduleandResultsbyLeagueandTier",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN7R8RE5S9AWDH1"
+            }
+          },
+          {
+            "name": "tierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNABDRW1MCKJWSR"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-06T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-16T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/schedule-results": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Schedule and Results by League and Conference",
+        "operationId": "ScheduleandResultsbyLeagueandConference",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN7R8RE5S9AWDH1"
+            }
+          },
+          {
+            "name": "conferenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN9YGMMJP9J0VCF"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-06T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-16T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/schedule-results": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Schedule and Results by League and Division",
+        "operationId": "ScheduleandResultsbyLeagueandDivision",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN7R8RE5S9AWDH1"
+            }
+          },
+          {
+            "name": "divisionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNAWRPGNM9P0V1B"
+            }
+          },
+          {
+            "name": "timeFrom",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-06T00:00:00"
+            }
+          },
+          {
+            "name": "timeTo",
+            "in": "query",
+            "required": true,
+            "description": "Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.",
+            "schema": {
+              "type": "datetime",
+              "default": "2024-12-16T00:00:00"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League and Tier",
+        "operationId": "StandingsbyLeagueandTier",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN7R8RE5S9AWDH1"
+            }
+          },
+          {
+            "name": "tierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNABDRW1MCKJWSR"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers/{tierId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League Season and Tier",
+        "operationId": "StandingsbyLeagueSeasonandTier",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNARF7S735K52SS"
+            }
+          },
+          {
+            "name": "tierId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNABDRW1MCKJWSR"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League and Conference",
+        "operationId": "StandingsbyLeagueandConference",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNF5NZP7QG532PN"
+            }
+          },
+          {
+            "name": "conferenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN25HXV0SZ178F5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/conferences/{conferenceId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League Season and Conference",
+        "operationId": "StandingsbyLeagueSeasonandConference",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4HRF7PQNEVG86"
+            }
+          },
+          {
+            "name": "conferenceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN25HXV0SZ178F5"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League and Division",
+        "operationId": "StandingsbyLeagueandDivision",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GNF5NZP7QG532PN"
+            }
+          },
+          {
+            "name": "divisionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN467N412CEJ022"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/gsd/lookup/v1/league-seasons/{leagueSeasonId}/divisions/{divisionId}/standings": {
+      "get": {
+        "tags": [
+          "Tier, Conference and Division Endpoints"
+        ],
+        "summary": "Standings by League Season and Division",
+        "operationId": "StandingsbyLeagueSeasonandDivision",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "leagueSeasonId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN4HRF7PQNEVG86"
+            }
+          },
+          {
+            "name": "divisionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "GN467N412CEJ022"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/LanguageQuery"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "AcceptHeader": {
+        "name": "Accept",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "application/json"
+          ],
+          "default": "application/json"
+        }
+      },
+      "LanguageQuery": {
+        "name": "language",
+        "in": "query",
+        "description": "Language Code which will translate all translatable fields into the requested language.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "ar-SA",
+            "cs-CZ",
+            "da-DK",
+            "de-DE",
+            "el-GR",
+            "en-GB",
+            "en-US",
+            "es-ES",
+            "fi-FI",
+            "fr-FR",
+            "hu-HU",
+            "it-IT",
+            "ja-JP",
+            "ko-KR",
+            "nb-NO",
+            "nl-BE",
+            "nl-NL",
+            "pl-PL",
+            "pt-BR",
+            "pt-PT",
+            "ro-RO",
+            "ru-RU",
+            "sv-SE",
+            "tr-TR",
+            "zh-CN",
+            "zh-HK"
+          ],
+          "default": "en-GB"
+        }
+      },
+      "ApiKeyQuery": {
+        "name": "api_key",
+        "in": "query",
+        "required": true,
+        "description": "API key for authentication",
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

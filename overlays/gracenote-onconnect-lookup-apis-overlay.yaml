@@ -1,0 +1,37 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for OnConnect Lookup APIs v1.1
+  version: 1.0.0
+extends: openapi/gracenote-onconnect-lookup-apis-openapi.json
+x-generated: '2026-09-12'
+x-method: generated
+x-source: openapi/_sources.yml
+x-note: Additive only. This overlay records API Evangelist findings alongside the published contract;
+  it never rewrites Gracenote content. The underlying spec in openapi/ is left exactly as fetched.
+actions:
+- target: $.info
+  description: Record the production base URL API Evangelist confirmed from the Gracenote documentation,
+    and the artifacts derived from this spec.
+  update:
+    x-apievangelist-production-base-url: https://data.tmsapi.com/v1.1
+    x-apievangelist-servers-note: The servers[] block in this document is the developer portal API Explorer
+      proxy path, not a callable host.
+    x-apievangelist-artifacts:
+      authentication: authentication/gracenote-authentication.yml
+      conventions: conventions/gracenote-conventions.yml
+      errors: errors/gracenote-problem-types.yml
+      rate_limits: rate-limits/gracenote-rate-limits.yml
+      lifecycle: lifecycle/gracenote-lifecycle.yml
+      data_model: data-model/gracenote-data-model.yml
+      conformance: conformance/gracenote-conformance.yml
+- target: $.info
+  description: Record the gaps API Evangelist measured in this contract, without modifying the contract
+    itself.
+  update:
+    x-apievangelist-gaps:
+      operations: 40
+      operations_missing_operationId: 40
+      error_responses_declared: []
+      idempotency_key: false
+      rate_limit_headers: false
+      problem_json: false

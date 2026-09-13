@@ -1,11 +1,11 @@
-generated: '2026-07-11'
+generated: '2026-09-12'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.gracenote.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 25 00:34:27 2026 GMT
+  cert_expires: Nov 25 23:36:01 2026 GMT
   hsts: true
   hsts_max_age: 31536000
 - host: developer.tmsapi.com

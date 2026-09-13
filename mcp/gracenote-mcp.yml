@@ -1,0 +1,172 @@
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/ai/index
+name: Gracenote MCP Servers
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote publishes two production, hosted Model Context Protocol servers — a Video MCP Server and
+  a Sports MCP Server — that ground LLM responses in Gracenote's verified entertainment and sports
+  metadata. Both are remote streamable-HTTP endpoints protected by OAuth 2.0; both advertise RFC 9728
+  protected-resource metadata and RFC 8414 authorization-server metadata at their own /.well-known/
+  paths. A third, unrelated MCP endpoint is served by the WordPress VIP platform that runs the
+  gracenote.com marketing site; it is recorded separately below because it exposes site content, not
+  the metadata products.
+deployment:
+  mode: remote
+  endpoint: https://video.mcp.gracenote.com/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    Two remote endpoints, one per product — https://video.mcp.gracenote.com/mcp and
+    https://sports.mcp.gracenote.com/mcp. `endpoint` above carries the Video server because it is the
+    flagship; see servers[] for both. There is no first-party stdio package: the documented
+    integration paths are (a) an MCP client pointed at the HTTPS endpoint (Claude Desktop, MCP
+    Inspector) and (b) a customer-written client using the OAuth2 client-credentials token endpoint.
+servers:
+- id: video-mcp-server
+  name: Gracenote Video MCP Server
+  endpoint: https://video.mcp.gracenote.com/mcp
+  transport: streamable-http
+  docs: https://devportal.gracenote.com/video/video-mcp-server/intro
+  tool_reference: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+  status: live
+  auth:
+    type: oauth2
+    flows:
+    - authorization_code
+    - refresh_token
+    - client_credentials
+    token_endpoint: https://auth.mcp.gracenote.com/oauth2/token
+    protected_resource_metadata: https://video.mcp.gracenote.com/.well-known/oauth-protected-resource/mcp
+    authorization_server_metadata: https://video.mcp.gracenote.com/.well-known/oauth-authorization-server
+    dynamic_client_registration: https://video.mcp.gracenote.com/register
+    pkce: S256
+    scopes_supported:
+    - openid
+    upstream_idp: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_ASUkV5fbV
+    note: >-
+      Gracenote documents a machine-to-machine client-credentials flow against
+      https://auth.mcp.gracenote.com/oauth2/token returning a one-hour access token, and states the
+      server does not enforce scopes on M2M tokens.
+  probe:
+    url: https://video.mcp.gracenote.com/mcp
+    method: POST tools/list (jsonrpc 2.0)
+    http_status: 401
+    www_authenticate: 'Bearer error="invalid_token" resource_metadata="https://video.mcp.gracenote.com/.well-known/oauth-protected-resource/mcp"'
+    fetched: '2026-09-12'
+    result: >-
+      Live server, auth-gated. Live tool schemas require an authenticated tools/list; the tools below
+      are transcribed from Gracenote's own published tool reference (names, descriptions and input
+      parameters only).
+  tools:
+  - name: gnv_resolve_entities
+    description: Find and disambiguate movies, TV shows, and episodes; returns Gracenote identifiers.
+    inputs: [entities (max 5), title, entityType (Movie|Show|Episode), language, countryCode, yearOfRelease, actors (max 3), duration, episodeTitle, seasonNumber, episodeNumber, searchRationale]
+  - name: gnv_get_availability
+    description: Get streaming and linear availability for a title by country.
+    inputs: [tmsIds (max 1), countryCode, deeplinkType (web|ios|android|stb|fire|android_tv)]
+  - name: gnv_get_root
+    description: Find alternate language versions of a title via its RootID.
+    inputs: [rootIds (max 1), language]
+  - name: gnv_get_tmsid
+    description: Get full metadata for a TMSID.
+    inputs: [tmsIds (max 1)]
+  - name: gnv_get_images
+    description: Retrieve all images for a TMSID.
+    inputs: [tmsIds (max 1)]
+  - name: gnv_web_search
+    description: Pre-process a query with web search results before entity resolution.
+    inputs: [query (max 400 chars), count (1-5), freshness (pd|pw|pm|py|date range), country]
+  - name: gnv_get_cast
+    description: Get cast members for a TMSID.
+    inputs: [tmsIds (max 1)]
+  - name: gnv_get_awards
+    description: Get awards won by a TMSID.
+    inputs: [tmsIds (max 1)]
+  - name: gnv_get_ratings
+    description: Get content ratings for a TMSID.
+    inputs: [tmsIds (max 1)]
+  deprecated_tools:
+  - names: [resolve_entities, get_availability]
+    note: >-
+      Gracenote states unprefixed tool names are deprecated and will be removed in a future release;
+      the gnv_ prefixed names are canonical.
+    source: https://devportal.gracenote.com/video/video-mcp-server/tool-reference
+- id: sports-mcp-server
+  name: Gracenote Sports MCP Server
+  endpoint: https://sports.mcp.gracenote.com/mcp
+  transport: streamable-http
+  docs: https://devportal.gracenote.com/sports/sports-mcp-server/intro
+  tool_reference: https://devportal.gracenote.com/sports/sports-mcp-server/tool-reference
+  status: live
+  auth:
+    type: oauth2
+    flows:
+    - authorization_code
+    - refresh_token
+    - client_credentials
+    token_endpoint: https://auth.mcp.gracenote.com/oauth2/token
+    protected_resource_metadata: https://sports.mcp.gracenote.com/.well-known/oauth-protected-resource/mcp
+    authorization_server_metadata: https://sports.mcp.gracenote.com/.well-known/oauth-authorization-server
+    dynamic_client_registration: https://sports.mcp.gracenote.com/register
+    pkce: S256
+    scopes_supported:
+    - openid
+    upstream_idp: https://cognito-idp.us-west-2.amazonaws.com/us-west-2_ASUkV5fbV
+  probe:
+    url: https://sports.mcp.gracenote.com/mcp
+    method: POST tools/list (jsonrpc 2.0)
+    http_status: 401
+    fetched: '2026-09-12'
+    result: Live server, auth-gated; tools transcribed from the published tool reference.
+  architecture: >-
+    Identity-first. gns_resolve_entities is always called first to turn names into Gracenote IDs;
+    every other tool takes an identifier, never a raw name. Step 2 discovers events, Step 3 tools
+    each answer one intent and must not be combined for a single query.
+  tools:
+  - name: gns_resolve_entities
+    description: Convert entity names (team, athlete, league, competition) to Gracenote IDs. Always called first.
+  - name: gns_discover_events
+    description: Find matches by resolved entity ID plus date and status filters; returns matchIds.
+  - name: gns_get_match_info
+    description: Structured match context — score, status, participants, venue, timing. Default tool for results and scores.
+  - name: gns_get_match_summary
+    description: Match recap with key moments and play-by-play narrative.
+  - name: gns_get_match_lineups
+    description: Match lineups including starters, substitutes, coaches, and officials.
+  - name: gns_where_to_watch
+    description: Streaming and linear availability for an upcoming match in the viewer's country.
+  - name: gns_get_team
+    description: Team profile by entity ID.
+  - name: gns_get_athlete
+    description: Athlete profile by person ID.
+  - name: gns_get_league
+    description: Static league, competition or tour profile by league ID.
+  - name: gns_get_standings
+    description: Standings, rankings and classifications by league, season or division ID.
+  - name: gns_get_images
+    description: Sports imagery by entity ID.
+other_endpoints:
+- id: gracenote-com-wordpress-mcp
+  name: gracenote.com site MCP endpoint (WordPress VIP)
+  endpoint: https://gracenote.com/wp-json/mcp/mcp-oauth-server
+  transport: streamable-http
+  auth:
+    type: oauth2
+    issuer: https://gracenote.com
+    authorization_endpoint: https://gracenote.com/oauth/authorize
+    token_endpoint: https://gracenote.com/oauth/token
+    scopes_supported: [mcp]
+    protected_resource_metadata: https://gracenote.com/.well-known/oauth-protected-resource
+    authorization_server_metadata: https://gracenote.com/.well-known/oauth-authorization-server
+  probe:
+    url: https://gracenote.com/wp-json/mcp/mcp-oauth-server
+    http_status: 401
+    body: '{"code":"mcp_unauthorized","message":"MCP authentication required."}'
+    fetched: '2026-09-12'
+  note: >-
+    Platform-provided, not a Gracenote metadata product. This is the WordPress VIP MCP surface on the
+    gracenote.com marketing site. Recorded because it is really served and really discoverable, but it
+    is not part of the developer offering and should not be confused with the Video or Sports servers.
+support: https://support.gracenote.com/hc/en-us/sections/48015402243857-MCP-Server-Notifications

@@ -1,0 +1,50 @@
+generated: '2026-09-12'
+method: generated
+source: openapi/ + mcp/gracenote-mcp.yml
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Packaged Agent Skills for the Gracenote API surface. Each is grounded in operations that exist in a
+  published Gracenote contract — real operationIds where the spec declares them, verbatim METHOD+path
+  where it does not, and real MCP tool names from Gracenote's own tool reference. Nothing here is
+  invented.
+skills:
+- file: skills/gracenote-mcp-grounded-answers.md
+  name: gracenote-mcp-grounded-answers
+  surface: MCP
+  apis: [video-mcp-server, sports-mcp-server]
+  summary: Connect to both MCP servers and use them in the identity-first order they require.
+- file: skills/gracenote-sports-schedule-and-standings.md
+  name: gracenote-sports-schedule-and-standings
+  surface: REST
+  apis: [global-sports-data-lookup-api]
+  summary: Resolve sport → league → season → match and answer schedule, result and standings questions.
+  grounded_in: real operationIds (all 73 operations declare them)
+- file: skills/gracenote-tv-listings-with-onconnect.md
+  name: gracenote-tv-listings-with-onconnect
+  surface: REST
+  apis: [onconnect-lookup-apis]
+  summary: Build a TV guide — lineup, channels, grid, program, series, movie, celebrity, theatrical, sports airings.
+  grounded_in: METHOD + path (this spec declares no operationIds)
+- file: skills/gracenote-publish-a-movie-to-gn-ids.md
+  name: gracenote-publish-a-movie-to-gn-ids
+  surface: REST
+  apis: [gn-ids-api]
+  summary: The only write workflow Gracenote publishes — root, version, presentation, imagery, publish.
+  grounded_in: real operationIds (all 74 operations declare them)
+  warning: >-
+    POST /publish has no documented reversal and no stated window. The skill says so in place, in
+    bold, at the step where it matters.
+not_covered:
+- api: gmd-api-v2
+  reason: 8 operations, no operationIds; covered adequately by the product docs.
+- api: gmd-api-v3
+  reason: Beta — Gracenote states interfaces are subject to change; a skill would go stale.
+- api: nexus-api
+  reason: Automotive integration is SDK-led, and the API's own spec carries Deprecated and Experimental tags.
+- api: gvd-api
+  reason: Bulk ingestion feed; a batch pipeline, not an agent flow.
+- api: global-sports-data-update-api
+  reason: Ingestion feed.
+- api: online-video-social-apis
+  reason: 6 operations, thin surface.

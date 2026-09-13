@@ -1,0 +1,98 @@
+generated: '2026-09-12'
+method: searched
+source: registry.npmjs.org, pypi.org, https://devportal.gracenote.com/
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote publishes no first-party client library to any public package registry. Its SDKs are real
+  and substantial — GNSDK, GNSDK for Mobile, GNSDK for Auto, the Nexus Auto SDK — but all of them are
+  distributed as licensed downloads through a Flexera-hosted "Dev Zone" entitlement portal, gated
+  behind a customer account. There is nothing an agent or a developer can `npm install` or `pip
+  install`. Every Gracenote package on npm is a community wrapper.
+official_count: 4
+registry_published_count: 0
+count_note: >-
+  official_count counts first-party Gracenote SDKs that exist and are documented (GNSDK, GNSDK for
+  Mobile, GNSDK for Auto, Nexus Auto SDK). registry_published_count counts how many of them can be
+  installed from a public package registry: none. Both numbers are true and they mean different things.
+packages:
+- name: GNSDK
+  official: true
+  language: C / C++ (with wrappers)
+  registry: vendor-portal
+  distribution: https://gracenote.flexnetoperations.com/control/grac/product
+  docs: https://devportal.gracenote.com/audio/gnsdk-info
+  version: null
+  published: null
+  note: >-
+    Gracenote's music/audio recognition SDK. Distributed through the Flexera-hosted Gracenote Dev Zone
+    entitlement portal, not a public registry, so no version or release date can be read without a
+    customer entitlement. `version: null` here means checked and unreadable, not unchecked.
+- name: GNSDK for Mobile
+  official: true
+  registry: vendor-portal
+  distribution: https://gracenote.flexnetoperations.com/control/grac/product?plneID=666851
+  docs: https://devportal.gracenote.com/audio/gnsdk-mobile-info
+  version: null
+  published: null
+  note: Same Dev Zone distribution; no public registry metadata endpoint exists to query.
+- name: GNSDK for Auto
+  official: true
+  registry: vendor-portal
+  distribution: https://gracenote.flexnetoperations.com/control/grac/product?plneID=633301
+  docs: https://devportal.gracenote.com/automotive/gnsdk-auto-info
+  version: null
+  published: null
+  note: Same Dev Zone distribution; no public registry metadata endpoint exists to query.
+- name: Nexus Auto SDK
+  official: true
+  language: Android / Kotlin
+  registry: vendor-portal
+  docs: https://devportal.gracenote.com/automotive/nexus-auto/nexus-auto-sdk/nexus-auto-sdk-dev-guide
+  release_notes: https://devportal.gracenote.com/automotive/nexus-auto/nexus-auto-sdk/nexus-auto-sdk-release-notes
+  version: null
+  published: null
+  note: >-
+    Has a published dev guide, SDK reference docs, release notes and a core canary channel on the
+    developer portal, but the artifact itself sits behind /automotive/nexus-auto/nexus-sdk-protected —
+    a gated route. Not on Maven Central or any other public registry.
+third_party:
+- name: node-gracenote
+  registry: npm
+  official: false
+  version: 0.0.3
+  published: null
+  repository: https://github.com/ddanninger/node-gracenote
+  note: Community wrapper. Not maintained by Gracenote.
+- name: gracenote-onconnect
+  registry: npm
+  official: false
+  version: 0.3.3-unstable
+  published: null
+  repository: https://github.com/methinksnot/gracenote-onconnect
+  note: Community wrapper for the OnConnect (formerly TMS) API. Not maintained by Gracenote.
+- name: node-tms-onconnect
+  registry: npm
+  official: false
+  version: 0.2.4
+  published: null
+  repository: https://github.com/apisandipas/node-tms-onconnect
+  note: Community wrapper. Not maintained by Gracenote.
+registries_checked:
+- registry: npm
+  query: gracenote
+  result: 5 matches, all third-party community wrappers; no @gracenote or @nielsen scope.
+- registry: PyPI
+  queries: [gracenote, gracenote-mcp]
+  result: 404 on both.
+- registry: GitHub
+  org: https://github.com/gracenote
+  result: >-
+    Organization exists (7 public repos, last org update 2024-09-26) but ships no client library —
+    timeline-metadata-api, Repographer, django-health-monitor, gnops_bind9, python_meetup,
+    sonic-descriptor-api, FakeTraveler. Newest push 2024-01-21.
+finding: >-
+  The strongest decay signal available here is the absence itself. Gracenote ships two brand-new MCP
+  servers (2026) and a freshly rebuilt developer portal, and still offers no installable client for any
+  language. The documented integration path for MCP is hand-written code against an OAuth token
+  endpoint, with Python snippets in the docs rather than a package.

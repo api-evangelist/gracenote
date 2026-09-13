@@ -1,0 +1,59 @@
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/video/on-api/release-notes
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Gracenote publishes per-product release notes, but the developer portal pages are pointers rather
+  than content: the On API release-notes page reads, in full, "For the latest release information, see
+  customer notifications on the Gracenote Help Center." The dated entries live in the Zendesk Help
+  Center at support.gracenote.com, which returns 403 to an anonymous crawler, so no dated entry list
+  could be captured.
+scheme: per-product release notes, dated, published to a Zendesk Help Center
+current_versions:
+- product: On API
+  version: '3.28'
+  source: openapi/gracenote-on-api-openapi.json
+- product: GVD API
+  version: '3.06'
+  source: openapi/gracenote-gvd-api-openapi.json
+- product: GMD API
+  version: '2.0'
+  source: openapi/gracenote-gmd-api-v2-openapi.json
+- product: GMD API
+  version: 3.0 Beta
+  source: openapi/gracenote-gmd-api-v3-openapi.json
+- product: GN IDS API
+  version: 1.9.3
+  source: openapi/gracenote-gn-ids-api-openapi.json
+- product: Nexus API
+  version: v1.1.5
+  source: openapi/gracenote-nexus-api-openapi.json
+- product: OnConnect Lookup APIs
+  version: '1.1'
+  source: openapi/gracenote-onconnect-lookup-apis-openapi.json
+- product: Online Video and Social APIs
+  version: '2.0'
+  source: openapi/gracenote-online-video-social-apis-openapi.json
+- product: Global Sports Data Lookup API
+  version: '1'
+  source: openapi/gracenote-global-sports-data-lookup-api-openapi.json
+- product: Global Sports Data Update API
+  version: '6'
+  source: openapi/gracenote-global-sports-data-update-api-openapi.json
+entries: []
+entries_note: >-
+  Empty on purpose. The portal's release-notes pages carry no dated entries of their own; every one
+  redirects the reader to the Help Center. An honest zero, not an unchecked field.
+portal_page_dates:
+  note: >-
+    The portal does expose a last-modified timestamp per docs page in its page metadata. Observed
+    2026-09-12 — On API release notes 2026-09-09T23:17:02Z, GMD v2 error codes 2026-09-09T23:17:02Z,
+    Video MCP tool reference 2026-09-09T23:17:02Z, AI landing page 2026-09-10T19:11:30Z. The portal is
+    actively maintained.
+release_notes_index: https://devportal.gracenote.com/
+help_center: https://support.gracenote.com/hc/en-us
+help_center_probe:
+  url: https://support.gracenote.com/hc/en-us
+  status: 403
+  fetched: '2026-09-12'

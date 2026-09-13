@@ -1,0 +1,118 @@
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+also_derived_from:
+- openapi/gracenote-gmd-api-v3-openapi.json
+- openapi/gracenote-nexus-api-openapi.json
+- openapi/gracenote-gn-ids-api-openapi.json
+provider: Gracenote
+providerId: gracenote
+format: vendor-json
+rfc9457: false
+envelope:
+  description: >-
+    Gracenote does not use RFC 9457 application/problem+json. The GMD and Nexus APIs share a flat
+    three-field JSON error envelope returned as application/json. The error identifier is a
+    snake_case string in `error`, not a URI.
+  content_type: application/json
+  fields:
+  - name: status
+    type: integer
+    description: HTTP status code, repeated in the body.
+  - name: error
+    type: string
+    description: Machine-readable snake_case error code.
+  - name: description
+    type: string
+    description: Human-readable explanation.
+  example:
+    status: 400
+    error: invalid_query_parameter_value
+    description: 'Data Type Error: limit must be of type integer.'
+problem_types:
+- code: invalid_query_parameter_value
+  status: 400
+  title: Bad Request
+  detail: Invalid query parameters or malformed request.
+  causes: [invalid parameter values, missing required parameters, incorrect data types, malformed query strings]
+  remediation: Correct the parameter value or type and retry.
+- code: unauthorized_missing_apikey
+  status: 401
+  title: Unauthorized
+  detail: Missing or invalid API key.
+  remediation: Include a valid GN-APIKEY header in the request.
+- code: plan_limit_exceeded
+  status: 403
+  title: Forbidden
+  detail: Plan limit exceeded or insufficient permissions.
+  remediation: Contact Gracenote to upgrade the plan or check account status.
+- code: resource_not_found
+  status: 404
+  title: Not Found
+  detail: Parameter given is not found.
+  note: For ID lookups the API returns null values in the data array rather than a 404.
+- code: request_too_large
+  status: 413
+  title: Payload Too Large
+  detail: Size of request exceeds 3MB.
+  remediation: Reduce the number of IDs in the request; maximum 100 per request.
+- code: rate_limit_exceeded
+  status: 429
+  title: Too Many Requests
+  detail: Number of queries per minute exceeds limit.
+  remediation: Implement client-side rate limiting and retry with exponential backoff.
+- code: internal_server_error
+  status: 500
+  title: Internal Server Error
+  detail: An internal server error occurred.
+  remediation: Retry after a delay; contact support if it persists.
+- code: service_unavailable
+  status: 503
+  title: Service Unavailable
+  detail: The requested service is not available.
+  remediation: Retry after a delay.
+- code: quota_limit_exceeded
+  status: 429
+  title: Too Many Requests
+  detail: Too many requests. Client exceeded their allocated rate limit.
+  api: Nexus API
+  source: openapi/gracenote-nexus-api-openapi.json components.responses.errorResponse429
+- code: entitlement_denied
+  status: 403
+  title: Forbidden
+  detail: >-
+    Nexus API keys are entitled to different sets of data and functionality; a 403 is returned when a
+    key attempts a feature it is not entitled to.
+  api: Nexus API
+  source: openapi/gracenote-nexus-api-openapi.json info.description
+  note: The code string is not published; the behaviour and status are. Recorded as behaviour, not as a literal code.
+status_codes_by_api:
+  gn-ids-api:
+    declared: ['200', '400', '401', '403', '404', '409', '413', '415', '422', '500', '598']
+    note: >-
+      The richest error surface Gracenote publishes — the only write API, so it declares conflict (409),
+      unsupported media type (415) and unprocessable entity (422). 598 is a non-standard code declared
+      in the spec.
+  gmd-api-v3:
+    declared: ['200', '400', '401', '403', '404', '429', '500']
+  nexus-api:
+    declared: ['200', '400', '401', '403', '404', '429', '4XX', '5XX']
+  gmd-api-v2:
+    declared: ['200', '400', '404']
+  on-api:
+    declared: ['200']
+    note: Declares success responses only; error behaviour is documented in prose, not in the contract.
+  gvd-api:
+    declared: ['200']
+  onconnect-lookup-apis:
+    declared: ['200']
+  global-sports-data-lookup-api:
+    declared: ['200']
+  global-sports-data-update-api:
+    declared: ['200']
+  online-video-social-apis:
+    declared: ['200']
+gap: >-
+  Six of the ten published specs (159 of 298 operations) declare only 200 responses. An agent reading
+  those contracts cannot tell what failure looks like; it has to find the GMD error-code page, which
+  documents a different product.

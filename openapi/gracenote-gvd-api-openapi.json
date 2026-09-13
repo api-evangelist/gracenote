@@ -1,0 +1,713 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "GVD API v3.06",
+    "description": "GVD API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information. Gracenote recommends a maximum limit of 1000 across all endpoints except Lineups. The maximum allowable limit for the Lineups endpoint is 10. Additionally, please use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.\n\n**Note:** The GVD API returns XML responses. The JSON schema shown in this Explorer represents the data structure. For XML response examples and format details, see the [GVD documentation](/video/gvd-api/overview).",
+    "version": "3.06"
+  },
+  "servers": [
+    {
+      "url": "/proxy/gvd"
+    }
+  ],
+  "paths": {
+    "/v1/programs": {
+      "get": {
+        "summary": "Programs",
+        "description": "Returns entitled programs data.  Use either updateId and limit for update mode and ID for lookups.",
+        "tags": [
+          "Programs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns programs modified at or after updateId. Can be used with limit parameter for handling batches of updated programs."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of programs to be returned by API. Response will send all contexts for a root program, ending when GN ID count is at or over limit count. To be used in conjunction with updateId for handling batches of program updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a program by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/country": {
+      "get": {
+        "summary": "Country",
+        "description": "Returns Country objects that cover the line ups, sources and program contexts available in a country.",
+        "tags": [
+          "Country"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Country objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Country objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Country object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/sources": {
+      "get": {
+        "summary": "Sources",
+        "description": "Returns Source objects that are delivered by the entitlement.",
+        "tags": [
+          "Sources"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Source objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Source objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Source object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/lineup": {
+      "get": {
+        "summary": "Lineups",
+        "description": "Returns Lineup_provider objects that are delivered by the entitlement.",
+        "tags": [
+          "Lineups"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Lineup_provider objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Lineup_provider objects to be returned by API. To be used in conjunction with updateId for handling batches of updates. Maximum limit is 10."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Lineup_provider object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/availabilityday": {
+      "get": {
+        "summary": "Availability Day",
+        "description": "Returns Availability Day objects that are delivered by the entitlement. These provide schedule driven data for channels.",
+        "tags": [
+          "Availability Day"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Availability Day objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Availability Day objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Availability Day object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/availabilityday/manifest": {
+      "get": {
+        "summary": "Availability Day Manifest",
+        "description": "Returns Availablity Day Manifests objects that are delivered by the entitlement.  These objects reference Availability Day objects to help create 14+ day EPG schedules.",
+        "tags": [
+          "Availability Day Manifest"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Availability Day Manifest objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Availability Day Manifest objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Availability Day Manifest object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/catalog/item": {
+      "get": {
+        "summary": "Catalog Item",
+        "description": "Returns Catalog Item objects which are delivered by the entitlement.",
+        "tags": [
+          "Catalog Item"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Catalog Item objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Catalog Items objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Catalog Items object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/catalog/manifest": {
+      "get": {
+        "summary": "Catalog Manifest",
+        "description": "Returns Catalog Manifest objects that are delivered by the entitlement.",
+        "tags": [
+          "Catalog Manifest"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Catalog Manifest objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Catalog Manifest objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Catalog Manifest object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/contributor": {
+      "get": {
+        "summary": "Contributor",
+        "description": "Returns Contributor objects that are delivered by the entitlement.",
+        "tags": [
+          "Contributor"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Contributor objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Contributor objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Contributor object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/media": {
+      "get": {
+        "summary": "Media",
+        "description": "Returns Media objects which are delivered by the entitlement.",
+        "tags": [
+          "Media"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns Media objects modified at or after updateId. Can be used with limit parameter for handling batches of updates."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of Media objects to be returned by API. To be used in conjunction with updateId for handling batches of updates."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a Media object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/cv": {
+      "get": {
+        "summary": "CV",
+        "description": "Returns the Controlled Vocabulary for Global Video Data.",
+        "tags": [
+          "Controlled Vocabulary"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns a Controlled Vocabulary object modified at or after updateId with all of the CV in a single object."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Approximate maximum number of CV objects to be returned by API. Frequently should be 1."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup a CV object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/videodescriptortaxonomyitems": {
+      "get": {
+        "summary": "Video Descriptor Taxonomy Items",
+        "description": "Returns the hierarchical taxonomy for Video Descriptors, grouped by Taxonomy Items (aka Video Descriptor Type). Each Video Descriptor Type is considered one object and is available as a Video Descriptor Taxonomy Item. Sold separately, contact your Gracenote representative.",
+        "tags": [
+          "Video Descriptors Taxonomy Items"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns full snapshot of Video Descriptors that belong to a Taxonomy Item (aka Video Descriptor Type) modified at or after updateId. Individual Video descriptors updates are not published independently."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Maximum number a Video Descriptor Taxonomy Items to be returned by the API."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "To lookup of all Video descriptors that belong to a single Taxonomy Item (aka Video Descriptor Type). Example all descriptors under Scenario (id = GN0FYAPK8TW10ZF). Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    },
+    "/v1/video-popularity": {
+      "get": {
+        "summary": "Video Popularity",
+        "description": "Assigns a numeric score to TV series and movies that represents the majority of the population's level of recognition of a video program.",
+        "tags": [
+          "Video Popularity"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiKeyQuery"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptHeader"
+          },
+          {
+            "name": "updateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0"
+            },
+            "description": "Returns full snapshot of video popularity modified at or after updateId."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "10"
+            },
+            "description": "Maximum number video popularity items to be returned by the API."
+          },
+          {
+            "name": "program_root_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "GN root ID for the program. The main ID associated with the score for a given day. All GN context IDs associated with a GN root ID will have the same score for a given country."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "ApiKeyQuery": {
+        "name": "api_key",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "API key for authentication"
+      },
+      "AcceptHeader": {
+        "name": "Accept",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "default": "application/json"
+        }
+      }
+    }
+  }
+}

@@ -1,101 +1,55 @@
-specification: API Commons Rate Limits
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-09-12'
+method: searched
+source: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
 provider: Gracenote
 providerId: gracenote
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Automotive
-  - Content Metadata
-  - Entertainment
-  - Music
-  - Nielsen
-  - Sports
-  - Streaming
-  - Television
-  - Video
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Gracenote API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+description: >-
+  Gracenote enforces rate limits and publishes the exhaustion behaviour, but does NOT publish the
+  numeric limits — they are per-contract, set by the plan a customer licenses. No rate-limit response
+  headers are declared in any of the ten public OpenAPI definitions, and none are documented.
+limit_count: 0
+limits: []
+exhaustion:
+  status: 429
+  body_error_codes:
+  - code: rate_limit_exceeded
+    api: GMD API
+    description: Number of queries per minute exceeds limit.
+  - code: quota_limit_exceeded
+    api: Nexus API
+    description: Too many requests. Client exceeded their allocated rate limit.
+  - code: plan_limit_exceeded
+    status: 403
+    api: GMD API
+    description: Number of queries exceeds plan limit. Returned as 403, not 429 — a separate, plan-level ceiling.
+  guidance: >-
+    Gracenote's documented remediation is client-side: "Implement rate limiting and retry logic with
+    exponential backoff."
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Gracenote OnConnect API
-      - Gracenote OnConnect Data API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Gracenote OnConnect API
-      - Gracenote OnConnect Data API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Gracenote OnConnect API
-      - Gracenote OnConnect Data API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Gracenote OnConnect API
-      - Gracenote OnConnect Data API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Gracenote OnConnect API
-      - Gracenote OnConnect Data API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+  published: false
+  retry_after: false
+  ratelimit_draft: false
+  x_ratelimit: false
+  note: >-
+    Probed the ten published OpenAPI definitions for X-RateLimit-*, RateLimit-* and Retry-After
+    response headers. Zero occurrences. An agent gets no runtime budget signal from Gracenote — it
+    learns it is throttled only by receiving a 429.
+payload_limits:
+- api: GMD API
+  limit: 3MB request size
+  error: request_too_large (413)
+- api: GMD API
+  limit: 100 IDs per request
+  source: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+- api: GVD API
+  limit: Gracenote recommends a maximum limit of 1000 across all endpoints
+  source: openapi/gracenote-gvd-api-openapi.json info.description
+- api: On API
+  limit: Gracenote recommends a maximum limit of 1000 across all endpoints
+  source: openapi/gracenote-on-api-openapi.json info.description
+- api: Video MCP Server
+  limit: >-
+    Per-tool input ceilings — max 5 entities per gnv_resolve_entities call, max 1 TMSID per
+    gnv_get_availability / gnv_get_tmsid / gnv_get_images / gnv_get_cast / gnv_get_awards /
+    gnv_get_ratings call, max 3 actor names, max 400 characters per web-search query, 1-5 results.
+  source: https://devportal.gracenote.com/video/video-mcp-server/tool-reference

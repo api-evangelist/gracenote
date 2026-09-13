@@ -1,0 +1,145 @@
+generated: '2026-09-12'
+method: probed
+source: direct HTTPS probes of each host, 2026-09-12
+provider: Gracenote
+providerId: gracenote
+description: >-
+  Named /.well-known/ probes across every host this record knows — the registrable domain and www,
+  the legacy OnConnect gateway and its API host, the new Zudoku developer portal, and both
+  production MCP hosts. Real hits: RFC 8414 authorization-server metadata and RFC 9728
+  protected-resource metadata on gracenote.com (WordPress VIP MCP surface) and on both
+  video.mcp.gracenote.com and sports.mcp.gracenote.com. No security.txt, no api-catalog, no
+  openid-configuration, no ai-plugin.json and no agent card anywhere.
+hosts:
+- host: gracenote.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/gracenote-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: well-known/gracenote-oauth-protected-resource.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.gracenote.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/gracenote-oauth-authorization-server.json
+    note: 301 to the apex; same document.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: video.mcp.gracenote.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: well-known/gracenote-video-mcp-oauth-protected-resource.json
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    file: well-known/gracenote-video-mcp-oauth-protected-resource-mcp.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/gracenote-video-mcp-oauth-authorization-server.json
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: sports.mcp.gracenote.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: well-known/gracenote-sports-mcp-oauth-protected-resource.json
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    file: well-known/gracenote-sports-mcp-oauth-protected-resource-mcp.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/gracenote-sports-mcp-oauth-authorization-server.json
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: devportal.gracenote.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: CloudFront AccessDenied XML — the object does not exist. Not a document.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: CloudFront AccessDenied XML. Not a document.
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: >-
+      SPA catch-all. Returns the same 42,467-byte HTML shell as every unknown route, including / and
+      /help. NOT a document — recorded as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA catch-all HTML shell, identical bytes. NOT a document — recorded as a miss.
+- host: developer.tmsapi.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+  note: Legacy Mashery-hosted gateway; the edge refuses every /.well-known/ path.
+- host: data.tmsapi.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 596
+  - path: /.well-known/openid-configuration
+    status: 596
+  - path: /.well-known/oauth-authorization-server
+    status: 596
+  - path: /.well-known/api-catalog
+    status: 596
+  - path: /.well-known/agent-card.json
+    status: 596
+  - path: /.well-known/agent.json
+    status: 596
+  note: >-
+    Mashery proxy. 596 "Service Not Found" for unmapped paths; a mapped path with no key returns 403
+    ERR_403_DEVELOPER_INACTIVE. The gateway is live, the /.well-known/ namespace simply is not routed.
+- host: auth.mcp.gracenote.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  note: >-
+    Named as the M2M token host in Gracenote's MCP connection docs and reached through
+    authorization_servers discovery, so probed per roadmap#244. It publishes no metadata of its own;
+    discovery is served by each MCP host instead.
+findings:
+  security_txt: false
+  api_catalog: false
+  openid_configuration: false
+  oauth_authorization_server: true
+  oauth_protected_resource: true
+  ai_plugin: false
+  agent_card: false

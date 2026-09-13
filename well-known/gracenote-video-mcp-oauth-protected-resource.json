@@ -1,0 +1,1 @@
+{"resource":"https://video.mcp.gracenote.com","authorization_servers":["https://cognito-idp.us-west-2.amazonaws.com/us-west-2_ASUkV5fbV"],"bearer_methods_supported":["header"],"scopes_supported":["openid","email"]}
