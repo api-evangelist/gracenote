@@ -1,17 +1,1212 @@
-generated: '2026-07-15'
+generated: '2026-09-16'
 method: generated
-source: openapi/gracenote-openapi.yml
+source: openapi/gracenote-albumeditions-api-openapi.yml, openapi/gracenote-albummasters-api-openapi.yml,
+  openapi/gracenote-artists-api-openapi.yml, openapi/gracenote-availability-day-api-openapi.yml,
+  openapi/gracenote-availability-day-manifest-api-openapi.yml, openapi/gracenote-bulk-api-openapi.yml,
+  openapi/gracenote-catalog-api-openapi.yml, openapi/gracenote-catalog-item-api-openapi.yml,
+  openapi/gracenote-catalog-manifest-api-openapi.yml, openapi/gracenote-celebrities-api-openapi.yml,
+  openapi/gracenote-classification-endpoints-api-openapi.yml, openapi/gracenote-collections-api-openapi.yml,
+  openapi/gracenote-contributor-api-openapi.yml, openapi/gracenote-controlled-vocabulary-api-openapi.yml,
+  openapi/gracenote-core-on-apis-api-openapi.yml, openapi/gracenote-country-api-openapi.yml,
+  openapi/gracenote-default-api-openapi.yml, openapi/gracenote-deprecated-api-openapi.yml, openapi/gracenote-descriptorcorrelations-api-openapi.yml,
+  openapi/gracenote-descriptorhierarchies-api-openapi.yml, openapi/gracenote-descriptors-api-openapi.yml,
+  openapi/gracenote-entitlements-api-openapi.yml, openapi/gracenote-experimental-api-openapi.yml,
+  openapi/gracenote-export-api-openapi.yml, openapi/gracenote-general-endpoints-api-openapi.yml,
+  openapi/gracenote-images-api-openapi.yml, openapi/gracenote-intermediate-endpoints-api-openapi.yml,
+  openapi/gracenote-league-endpoints-api-openapi.yml, openapi/gracenote-league-season-endpoints-api-openapi.yml,
+  openapi/gracenote-lineups-api-openapi.yml, openapi/gracenote-match-endpoints-api-openapi.yml,
+  openapi/gracenote-media-api-openapi.yml, openapi/gracenote-movie-presentation-api-openapi.yml,
+  openapi/gracenote-movie-root-api-openapi.yml, openapi/gracenote-movie-version-api-openapi.yml,
+  openapi/gracenote-movies-api-openapi.yml, openapi/gracenote-movies-in-theatres-api-openapi.yml,
+  openapi/gracenote-movies-on-tv-api-openapi.yml, openapi/gracenote-music-api-openapi.yml, openapi/gracenote-online-social-api-openapi.yml,
+  openapi/gracenote-online-video-api-openapi.yml, openapi/gracenote-overall-endpoints-api-openapi.yml,
+  openapi/gracenote-person-endpoints-api-openapi.yml, openapi/gracenote-phase-endpoints-api-openapi.yml,
+  openapi/gracenote-podcasts-api-openapi.yml, openapi/gracenote-program-summaries-api-openapi.yml,
+  openapi/gracenote-programs-api-openapi.yml, openapi/gracenote-publish-api-openapi.yml, openapi/gracenote-radio-stations-api-openapi.yml,
+  openapi/gracenote-recordings-api-openapi.yml, openapi/gracenote-search-api-openapi.yml, openapi/gracenote-series-api-openapi.yml,
+  openapi/gracenote-series-endpoints-api-openapi.yml, openapi/gracenote-series-season-endpoints-api-openapi.yml,
+  openapi/gracenote-show-episode-api-openapi.yml, openapi/gracenote-show-presentation-api-openapi.yml,
+  openapi/gracenote-show-root-api-openapi.yml, openapi/gracenote-show-season-api-openapi.yml,
+  openapi/gracenote-show-version-api-openapi.yml, openapi/gracenote-sourceprograms-apis-api-openapi.yml,
+  openapi/gracenote-sources-api-openapi.yml, openapi/gracenote-sport-endpoints-api-openapi.yml,
+  openapi/gracenote-sports-api-openapi.yml, openapi/gracenote-sports-apis-api-openapi.yml, openapi/gracenote-stations-api-openapi.yml,
+  openapi/gracenote-team-endpoints-api-openapi.yml, openapi/gracenote-tier-conference-and-division-endpoints-api-openapi.yml,
+  openapi/gracenote-tracks-api-openapi.yml, openapi/gracenote-update-endpoints-api-openapi.yml,
+  openapi/gracenote-venue-endpoints-api-openapi.yml, openapi/gracenote-video-api-openapi.yml,
+  openapi/gracenote-video-descriptors-taxonomy-items-api-openapi.yml, openapi/gracenote-video-popularity-api-openapi.yml,
+  openapi/gracenote-vocabulary-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 17
+  operations: 311
   by_action_class:
-    connected: 17
+    connected: 266
+    acting: 45
   by_consequence:
-    read: 17
+    read: 266
+    write: 41
+    physical: 4
   human_in_the_loop_required: 0
 operations:
+- path: /albumEditions/search
+  method: get
+  operationId: getAlbumEditionsSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumEditions/{idType}
+  method: get
+  operationId: getAlbumEditionsByIdType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumEditions/lookup
+  method: get
+  operationId: getAlbumEditionsLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumEditions/explore
+  method: get
+  operationId: getAlbumEditionsExplore
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumMasters/explore
+  method: get
+  operationId: getAlbumMastersExplore
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /artists/search
+  method: get
+  operationId: getArtistsSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /artists/{idType}
+  method: get
+  operationId: getArtistsByIdType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /artists/lookup
+  method: get
+  operationId: getArtistsLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /artists/explore
+  method: get
+  operationId: getArtistsExplore
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/availabilityday
+  method: get
+  operationId: getV1Availabilityday
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/availabilityday/manifest
+  method: get
+  operationId: getV1AvailabilitydayManifest
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/movies/batches
+  method: get
+  operationId: queryMovieBatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/movies/batches
+  method: post
+  operationId: createMovieBatch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /bulk/movies/batches/{gnID}
+  method: get
+  operationId: queryMovieBatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/shows/batches
+  method: get
+  operationId: queryShowBatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/shows/batches
+  method: post
+  operationId: createShowBatch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /bulk/shows/batches/{gnID}
+  method: get
+  operationId: queryShowBatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalogPrograms
+  method: post
+  operationId: addProgramsToCatalog
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalogPrograms
+  method: patch
+  operationId: removePresFromCatalog
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalogs
+  method: get
+  operationId: queryCatalogs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalogs
+  method: put
+  operationId: updateCatalog
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalogs
+  method: post
+  operationId: createCatalog
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalogs/{gnID}
+  method: get
+  operationId: getCatalog
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalogs/{gnID}
+  method: delete
+  operationId: deleteCatalog
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/catalog/item
+  method: get
+  operationId: getV1CatalogItem
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/catalog/manifest
+  method: get
+  operationId: getV1CatalogManifest
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/celebs/{personId}
+  method: get
+  operationId: getV11CelebsByPersonId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/celebs/{personId}/airings
+  method: get
+  operationId: getV11CelebsByPersonIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/celebs/talkShowAirings
+  method: get
+  operationId: getV11CelebsTalkShowAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/celebs/{personId}/images
+  method: get
+  operationId: getV11CelebsByPersonIdImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /celebs
+  method: get
+  operationId: searchCelebrities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /celebs/{celebId}
+  method: get
+  operationId: getCelebrity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/classifications/{classificationId}
+  method: get
+  operationId: ClassificationInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/classifications/{classificationId}/results
+  method: get
+  operationId: ResultsbyClassification
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /collections
+  method: get
+  operationId: getCollections
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /collections/{collectionID}
+  method: get
+  operationId: getCollectionsByCollectionID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/contributor
+  method: get
+  operationId: getV1Contributor
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/cv
+  method: get
+  operationId: getV1Cv
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Celebrities
+  method: get
+  operationId: getV3Celebrities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/ControlledVocabulary
+  method: get
+  operationId: getV3ControlledVocabulary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Lineups
+  method: get
+  operationId: getV3Lineups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Programs
+  method: get
+  operationId: getV3Programs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/ProgramAnnotations
+  method: get
+  operationId: getV3ProgramAnnotations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/ProgramAvailabilities
+  method: get
+  operationId: getV3ProgramAvailabilities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/ProgramMappings
+  method: get
+  operationId: getV3ProgramMappings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Schedules
+  method: get
+  operationId: getV3Schedules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Sources
+  method: get
+  operationId: getV3Sources
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/VideoDescriptorsTaxonomy
+  method: get
+  operationId: getV3VideoDescriptorsTaxonomy
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/VideoPopularity
+  method: get
+  operationId: getV3VideoPopularity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/country
+  method: get
+  operationId: getV1Country
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /publications
+  method: get
+  operationId: getPublications
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programbundles
+  method: get
+  operationId: getProgrambundles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programBundles
+  method: get
+  operationId: getProgramBundles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumEditions
+  method: get
+  operationId: getAlbumEditions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumEditions/{albumEditionID}
+  method: get
+  operationId: getAlbumEditionsByAlbumEditionID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /descriptorCorrelations/lookup
+  method: get
+  operationId: getDescriptorCorrelationsLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /descriptorHierarchy/lookup
+  method: get
+  operationId: getDescriptorHierarchyLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /descriptorCorrelations/{descriptorType}
+  method: get
+  operationId: getDescriptorCorrelationsByDescriptorType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /entitlements/lookup
+  method: get
+  operationId: getEntitlementsLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /teams/resolution
+  method: get
+  operationId: getTeamsResolution
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/resolution
+  method: get
+  operationId: getLeaguesResolution
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /conferences/resolution
+  method: get
+  operationId: getConferencesResolution
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /divisions/resolution
+  method: get
+  operationId: getDivisionsResolution
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumeditions
+  method: get
+  operationId: getAlbumeditions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings
+  method: get
+  operationId: getRecordings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/programs/exports
+  method: get
+  operationId: getExports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/programs/exports
+  method: post
+  operationId: createExport
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /bulk/programs/exports/{gnID}
+  method: get
+  operationId: getExportByGnID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/programs/exports/{gnID}/results
+  method: get
+  operationId: getExportByGnID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/sports
+  method: get
+  operationId: Sports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series
+  method: get
+  operationId: Series
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues
+  method: get
+  operationId: Leagues
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/schedule-results
+  method: get
+  operationId: ScheduleandResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /images
+  method: get
+  operationId: searchImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /images
+  method: post
+  operationId: createImage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /images/{gnID}
+  method: get
+  operationId: queryImageByID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /images/{gnID}
+  method: put
+  operationId: updateImage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /images/{gnID}
+  method: delete
+  operationId: deleteImage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /programImages
+  method: get
+  operationId: searchProgramImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programImages
+  method: post
+  operationId: mapProgramImages
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /programImages
+  method: patch
+  operationId: unmapProgramImages
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /gsd/lookup/v1/intermediates/{intermediateId}
+  method: get
+  operationId: IntermediateInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/intermediates/{intermediateId}/results
+  method: get
+  operationId: ResultsbyIntermediate
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}
+  method: get
+  operationId: LeagueInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/league-seasons
+  method: get
+  operationId: LeagueSeasonsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/structure
+  method: get
+  operationId: StructurebyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/schedule-results
+  method: get
+  operationId: ScheduleandResultsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/standings
+  method: get
+  operationId: StandingsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/league-season-overall-classifications
+  method: get
+  operationId: LeagueSeasonandOverallClassificationsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/teams
+  method: get
+  operationId: TeamsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/roster
+  method: get
+  operationId: TeamRosterbyLeagueandTeam
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/schedule-results
+  method: get
+  operationId: ScheduleandResultsbyLeagueandTeam
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/teams/{teamId}/stats
+  method: get
+  operationId: StatsbyLeagueandTeam
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/persons/{personId}/stats
+  method: get
+  operationId: StatsbyLeagueandPerson
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/brackets
+  method: get
+  operationId: BracketsbyLeague
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}
+  method: get
+  operationId: LeagueSeasonInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/structure
+  method: get
+  operationId: StructurebyLeagueSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/standings
+  method: get
+  operationId: StandingsbyLeagueSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/league-season-overall-classifications
+  method: get
+  operationId: LeagueSeasonandOverallClassificationsbyLeagueSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams
+  method: get
+  operationId: TeamsbyLeagueSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/roster
+  method: get
+  operationId: TeamRosterbyLeagueSeasonandTeam
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/stats
+  method: get
+  operationId: StatsbyLeagueSeasonandTeam
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/persons/{personId}/stats
+  method: get
+  operationId: StatsbyLeagueSeasonandPerson
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/brackets
+  method: get
+  operationId: BracketsbyLeagueSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/lineups
+  method: get
+  operationId: getV11Lineups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/lineups/{lineupId}
+  method: get
+  operationId: getV11LineupsByLineupId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/lineups/{lineupId}/channels
+  method: get
+  operationId: getV11LineupsByLineupIdChannels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/lineups/{lineupId}/grid
+  method: get
+  operationId: getV11LineupsByLineupIdGrid
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /lineups
   method: get
   operationId: searchLineups
@@ -52,6 +1247,1796 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /v1/lineup
+  method: get
+  operationId: getV1Lineup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}
+  method: get
+  operationId: MatchInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/lineups
+  method: get
+  operationId: LineupsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/actions
+  method: get
+  operationId: ActionsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/team-stats
+  method: get
+  operationId: TeamStatsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/person-stats
+  method: get
+  operationId: PersonStatsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/classifications
+  method: get
+  operationId: ClassificationsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/matches/{matchId}/previous-results
+  method: get
+  operationId: PreviousResultsbyMatch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/media
+  method: get
+  operationId: getV1Media
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/versions/{versionGnID}/presentations
+  method: post
+  operationId: createMoviePresentationWithVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/presentationRelationships
+  method: patch
+  operationId: mapMoviePresentationsToVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/presentationRelationships/{gnID}
+  method: delete
+  operationId: deleteMoviePresentationToVersionMapping
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/presentations
+  method: get
+  operationId: getMoviePresentations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/versions/presentations
+  method: post
+  operationId: createMoviePresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/presentations/{gnID}
+  method: get
+  operationId: getMoviePresentation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/versions/presentations/{gnID}
+  method: put
+  operationId: updateMoviePresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/presentations/{gnID}
+  method: delete
+  operationId: deleteMoviePresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies
+  method: post
+  operationId: createMovieRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/{gnID}
+  method: get
+  operationId: getMovieRoot
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/{gnID}
+  method: put
+  operationId: updateMovieRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/{gnID}
+  method: delete
+  operationId: deleteMovieRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/{rootGnID}/versions
+  method: post
+  operationId: createMovieVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions
+  method: get
+  operationId: getMovieVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/versions/{gnID}
+  method: get
+  operationId: getMovieVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/versions/{gnID}
+  method: put
+  operationId: updateMovieVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies/versions/{gnID}
+  method: delete
+  operationId: deleteMovieVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /movies
+  method: get
+  operationId: searchMovies
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /movies/{movieId}
+  method: get
+  operationId: getMovie
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/showings
+  method: get
+  operationId: getV11MoviesShowings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/theatres
+  method: get
+  operationId: getV11Theatres
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/theatres/{theatreId}
+  method: get
+  operationId: getV11TheatresByTheatreId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/theatres/{theatreId}/showings
+  method: get
+  operationId: getV11TheatresByTheatreIdShowings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/{movieId}/showings
+  method: get
+  operationId: getV11MoviesByMovieIdShowings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/futureReleases
+  method: get
+  operationId: getV11MoviesFutureReleases
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/airings
+  method: get
+  operationId: getV11MoviesAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/{rootId}/versions
+  method: get
+  operationId: getV11MoviesByRootIdVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/movies/{rootId}/airings
+  method: get
+  operationId: getV11MoviesByRootIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /artists/{artistID}
+  method: get
+  operationId: getArtistsByArtistID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /albumeditions/{albumEditionID}
+  method: get
+  operationId: getAlbumeditionsByAlbumEditionID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings/{recordingID}
+  method: get
+  operationId: getRecordingsByRecordingID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /social/{rootIdOrSeriesId}
+  method: get
+  operationId: getSocialLinks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/episodes/{rootIdOrTmsId}
+  method: get
+  operationId: getSingleEpisode
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/episodes.xml
+  method: get
+  operationId: getMultipleEpisodes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/series/{seriesId}
+  method: get
+  operationId: getSeries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/movies/{rootIdOrTmsId}
+  method: get
+  operationId: getMovie
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/specials/{rootIdOrTmsId}
+  method: get
+  operationId: getSpecial
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/overalls/{overallId}
+  method: get
+  operationId: OverallInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/overalls/{overallId}/results
+  method: get
+  operationId: ResultsbyOverall
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/overalls/{overallId}/classifications
+  method: get
+  operationId: ClassificationsbyOverall
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/overalls/{overallId}/intermediates
+  method: get
+  operationId: IntermediatesbyOverall
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/persons/{personId}
+  method: get
+  operationId: PersonInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/phases/{phaseId}
+  method: get
+  operationId: PhaseInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/phases/{phaseId}/results
+  method: get
+  operationId: ResultsbyPhase
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/phases/{phaseId}/classifications
+  method: get
+  operationId: ClassificationsbyPhase
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/phases/{phaseId}/intermediates
+  method: get
+  operationId: IntermediatesbyPhase
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /podcasts/{podcastID}
+  method: get
+  operationId: getPodcastsByPodcastID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /podcasts/{podcastID}/episodes/{podcastEpisodeID}
+  method: get
+  operationId: getPodcastsByPodcastIDEpisodesByPodcastEpisodeID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programSummaries
+  method: get
+  operationId: getProgramSummaries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/newShowAirings
+  method: get
+  operationId: getV11ProgramsNewShowAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/search
+  method: get
+  operationId: getV11ProgramsSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/{tmsId}
+  method: get
+  operationId: getV11ProgramsByTmsId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/{tmsId}/airings
+  method: get
+  operationId: getV11ProgramsByTmsIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/newShowsLastWeek
+  method: get
+  operationId: getV11ProgramsNewShowsLastWeek
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/advancePlanner
+  method: get
+  operationId: getV11ProgramsAdvancePlanner
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/{resourceId}/images
+  method: get
+  operationId: getV11ProgramsByResourceIdImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/programs/genres
+  method: get
+  operationId: getV11ProgramsGenres
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs
+  method: get
+  operationId: searchPrograms
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{programId}
+  method: get
+  operationId: getProgram
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/programs
+  method: get
+  operationId: getV1Programs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /bulk/publish
+  method: post
+  operationId: bulkPublishPresentations
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /publish
+  method: post
+  operationId: publishPresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /radiostations
+  method: get
+  operationId: getRadiostations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /radiostations/{radioStationID}
+  method: get
+  operationId: getRadiostationsByRadioStationID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings/search
+  method: get
+  operationId: getRecordingsSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings/{idType}
+  method: get
+  operationId: getRecordingsByIdType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings/lookup
+  method: get
+  operationId: getRecordingsLookup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /recordings/explore
+  method: get
+  operationId: getRecordingsExplore
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /search
+  method: get
+  operationId: getSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/series/{seriesId}
+  method: get
+  operationId: getV11SeriesBySeriesId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/series/{seriesId}/airings
+  method: get
+  operationId: getV11SeriesBySeriesIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/series/{seriesId}/episodes
+  method: get
+  operationId: getV11SeriesBySeriesIdEpisodes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /series/{seriesId}
+  method: get
+  operationId: getSeries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /series/{seriesId}/episodes
+  method: get
+  operationId: getSeriesEpisodes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series/{seriesId}
+  method: get
+  operationId: SeriesInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series/{seriesId}/league-overview
+  method: get
+  operationId: LeagueOverviewbySeries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series/{seriesId}/series-seasons
+  method: get
+  operationId: SeriesSeasonsbySeries
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series-seasons/{seriesSeasonId}
+  method: get
+  operationId: SeriesSeasonInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/series-seasons/{seriesSeasonId}/league-overview
+  method: get
+  operationId: LeagueOverviewbySeriesSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/seasons/{gnID}/episodes
+  method: post
+  operationId: createShowEpisode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/seasons/episodes
+  method: get
+  operationId: searchShowEpisodes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/seasons/episodes/{gnID}
+  method: get
+  operationId: getShowEpisode
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/seasons/episodes/{gnID}
+  method: put
+  operationId: updateShowEpisode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/seasons/episodes/{gnID}
+  method: delete
+  operationId: deleteShowEpisode
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/{gnID}/presentations
+  method: post
+  operationId: createShowPresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentationRelationships
+  method: patch
+  operationId: mapShowPresentationsToVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentationRelationships/{gnID}
+  method: delete
+  operationId: deleteShowPresentationToVersionMapping
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations
+  method: get
+  operationId: getShowPresentations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations
+  method: post
+  operationId: createShowPresentationWithoutVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/{gnID}
+  method: get
+  operationId: getShowPresentation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/{gnID}
+  method: put
+  operationId: updateShowPresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/{gnID}
+  method: delete
+  operationId: deleteShowPresentation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows
+  method: post
+  operationId: createShowRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/{gnID}
+  method: get
+  operationId: getShowRoot
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/{gnID}
+  method: put
+  operationId: updateShowRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/{gnID}
+  method: delete
+  operationId: deleteShowRoot
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/{gnID}/seasons
+  method: post
+  operationId: createShowSeason
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/seasons
+  method: get
+  operationId: searchShowSeasons
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/seasons/{gnID}
+  method: get
+  operationId: getShowSeason
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/presentations/seasons/{gnID}
+  method: put
+  operationId: updateShowSeason
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/presentations/seasons/{gnID}
+  method: delete
+  operationId: deleteShowSeason
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/{gnID}/versions
+  method: post
+  operationId: createShowVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions
+  method: get
+  operationId: getShowVersions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/{gnID}
+  method: get
+  operationId: getShowVersion
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /shows/versions/{gnID}
+  method: put
+  operationId: updateShowVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /shows/versions/{gnID}
+  method: delete
+  operationId: deleteShowVersion
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v3/Source/Programs
+  method: get
+  operationId: getV3SourcePrograms
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/sources
+  method: get
+  operationId: getV1Sources
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/sports/{sportId}
+  method: get
+  operationId: SportInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/sports/{sportId}/series
+  method: get
+  operationId: SeriesbySport
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/sports/{sportId}/leagues
+  method: get
+  operationId: LeaguesbySport
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/sports/{sportId}/schedule-results
+  method: get
+  operationId: ScheduleandResultsbySport
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/{sportsId}/events/airings
+  method: get
+  operationId: getV11SportsBySportsIdEventsAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/{sportsId}
+  method: get
+  operationId: getV11SportsBySportsId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/{sportsId}/non-events/airings
+  method: get
+  operationId: getV11SportsBySportsIdNonEventsAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/universities
+  method: get
+  operationId: getV11SportsUniversities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/organizations/{organizationId}
+  method: get
+  operationId: getV11SportsOrganizationsByOrganizationId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/universities/{universityId}
+  method: get
+  operationId: getV11SportsUniversitiesByUniversityId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/teams/{teamBrandId}
+  method: get
+  operationId: getV11SportsTeamsByTeamBrandId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/teams/{teamBrandId}/airings
+  method: get
+  operationId: getV11SportsTeamsByTeamBrandIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/sports/organizations/{organizationId}/airings
+  method: get
+  operationId: getV11SportsOrganizationsByOrganizationIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /sports
+  method: get
+  operationId: searchSports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /sports/{sportId}
+  method: get
+  operationId: getSport
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues
+  method: get
+  operationId: getLeagues
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}
+  method: get
+  operationId: getLeaguesByLeagueID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/standings
+  method: get
+  operationId: getLeaguesByLeagueIDStandings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/rankings
+  method: get
+  operationId: getLeaguesByLeagueIDRankings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/matches
+  method: get
+  operationId: getLeaguesByLeagueIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/conferences/{conferenceID}/matches
+  method: get
+  operationId: getLeaguesByLeagueIDConferencesByConferenceIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/divisions/{divisionID}/matches
+  method: get
+  operationId: getLeaguesByLeagueIDDivisionsByDivisionIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/overalls/{overallID}/matches
+  method: get
+  operationId: getLeaguesByLeagueIDOverallsByOverallIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /leagues/{leagueID}/phases
+  method: get
+  operationId: getLeaguesByLeagueIDPhases
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /phases/{phaseID}
+  method: get
+  operationId: getPhasesByPhaseID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /matches/{matchID}
+  method: get
+  operationId: getMatchesByMatchID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /teams/{teamID}
+  method: get
+  operationId: getTeamsByTeamID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /teams/{teamID}/matches
+  method: get
+  operationId: getTeamsByTeamIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /teams/{teamID}/phases
+  method: get
+  operationId: getTeamsByTeamIDPhases
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /persons/{personID}
+  method: get
+  operationId: getPersonsByPersonID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /persons/{personID}/matches
+  method: get
+  operationId: getPersonsByPersonIDMatches
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /persons/{personID}/phases
+  method: get
+  operationId: getPersonsByPersonIDPhases
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Organizations
+  method: get
+  operationId: getV3Organizations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Teams
+  method: get
+  operationId: getV3Teams
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Universities
+  method: get
+  operationId: getV3Universities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Venues
+  method: get
+  operationId: getV3Venues
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/Sports
+  method: get
+  operationId: getV3Sports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/SportsEvents
+  method: get
+  operationId: getV3SportsEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v3/SportsSchedules
+  method: get
+  operationId: getV3SportsSchedules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/stations/search
+  method: get
+  operationId: getV11StationsSearch
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/stations/{stationId}
+  method: get
+  operationId: getV11StationsByStationId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1.1/stations/{stationId}/airings
+  method: get
+  operationId: getV11StationsByStationIdAirings
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /stations
   method: get
   operationId: searchStations
@@ -82,9 +3067,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /programs
+- path: /gsd/lookup/v1/teams/{teamId}
   method: get
-  operationId: searchPrograms
+  operationId: TeamInfo
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -92,9 +3077,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /programs/{programId}
+- path: /gsd/lookup/v1/teams/{teamId}/schedule-results
   method: get
-  operationId: getProgram
+  operationId: ScheduleandResultsbyTeam
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -102,9 +3087,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /series/{seriesId}
+- path: /gsd/lookup/v1/teams/{teamId}/previous-results
   method: get
-  operationId: getSeries
+  operationId: PreviousResultsbyTeam
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -112,9 +3097,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /series/{seriesId}/episodes
+- path: /gsd/lookup/v1/teams/{teamId}/league-season-overview
   method: get
-  operationId: getSeriesEpisodes
+  operationId: LeagueandLeagueSeasonsbyTeam
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -122,9 +3107,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /movies
+- path: /gsd/lookup/v1/tiers/{tierId}
   method: get
-  operationId: searchMovies
+  operationId: TierInfo
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -132,9 +3117,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /movies/{movieId}
+- path: /gsd/lookup/v1/conferences/{conferenceId}
   method: get
-  operationId: getMovie
+  operationId: ConferenceInfo
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -142,9 +3127,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /sports
+- path: /gsd/lookup/v1/divisions/{divisionId}
   method: get
-  operationId: searchSports
+  operationId: DivisionInfo
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -152,9 +3137,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /sports/{sportId}
+- path: /gsd/lookup/v1/leagues/{leagueId}/tiers
   method: get
-  operationId: getSport
+  operationId: TiersbyLeague
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -162,9 +3147,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /celebs
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers
   method: get
-  operationId: searchCelebrities
+  operationId: TiersbyLeagueSeason
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -172,9 +3157,279 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /celebs/{celebId}
+- path: /gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/schedule-results
   method: get
-  operationId: getCelebrity
+  operationId: ScheduleandResultsbyLeagueandTier
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/schedule-results
+  method: get
+  operationId: ScheduleandResultsbyLeagueandConference
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/schedule-results
+  method: get
+  operationId: ScheduleandResultsbyLeagueandDivision
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/standings
+  method: get
+  operationId: StandingsbyLeagueandTier
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers/{tierId}/standings
+  method: get
+  operationId: StandingsbyLeagueSeasonandTier
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/standings
+  method: get
+  operationId: StandingsbyLeagueandConference
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/conferences/{conferenceId}/standings
+  method: get
+  operationId: StandingsbyLeagueSeasonandConference
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/standings
+  method: get
+  operationId: StandingsbyLeagueandDivision
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/league-seasons/{leagueSeasonId}/divisions/{divisionId}/standings
+  method: get
+  operationId: StandingsbyLeagueSeasonandDivision
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /tracks/{idType}
+  method: get
+  operationId: getTracksByIdType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Sports
+  method: get
+  operationId: getTvSportsDataSports
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Disciplines
+  method: get
+  operationId: getTvSportsDataDisciplines
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Events
+  method: get
+  operationId: getTvSportsDataEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Organizations
+  method: get
+  operationId: getTvSportsDataOrganizations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Persons
+  method: get
+  operationId: getTvSportsDataPersons
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Venues
+  method: get
+  operationId: getTvSportsDataVenues
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/EventParticipants
+  method: get
+  operationId: getTvSportsDataEventParticipants
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/EventClassifications
+  method: get
+  operationId: getTvSportsDataEventClassifications
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Actions
+  method: get
+  operationId: getTvSportsDataActions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Phases
+  method: get
+  operationId: getTvSportsDataPhases
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Articles
+  method: get
+  operationId: getTvSportsDataArticles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Images
+  method: get
+  operationId: getTvSportsDataImages
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /TvSportsData/Translations
+  method: get
+  operationId: getTvSportsDataTranslations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gsd/lookup/v1/venues/{venueId}
+  method: get
+  operationId: VenueInfo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /programs/{programID}
+  method: get
+  operationId: getProgramsByProgramID
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/videodescriptortaxonomyitems
+  method: get
+  operationId: getV1Videodescriptortaxonomyitems
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/video-popularity
+  method: get
+  operationId: getV1VideoPopularity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /gnvocabulary
+  method: get
+  operationId: getVocabulary
   x-agentic-access:
     action-class: connected
     consequence: read
