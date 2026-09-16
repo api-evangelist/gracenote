@@ -37,6 +37,20 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gracenote.png
 tags:
+  - Artificial Intelligence
+  - Automotive
+  - Content Metadata
+  - Entertainment
+  - MCP
+  - Music
+  - Nielsen
+  - Sports
+  - Sports Data
+  - Streaming
+  - Television
+  - Video
+  - Video Metadata
+tags_raw:
   - AI
   - Automotive
   - Content Metadata
@@ -169,269 +183,23 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/gracenote-stations-api-openapi.yml
-- aid: gracenote:on-api
-  name: Gracenote On API
-  description: >-
-    The On API is Gracenote's database-ingestion surface for television schedule data and related
-    information — programs, schedules, celebrities, lineups, sources, sports events, teams, venues,
-    video popularity and the controlled vocabulary behind them. It is built for platforms that pull
-    updates on demand into their own store rather than querying per user request, and Gracenote
-    recommends a maximum page limit of 1000 across all endpoints.
-  humanURL: https://devportal.gracenote.com/video/on-api/about-the-on-api
-  baseURL: https://on-api.gracenote.com
-  tags:
-  - Electronic Program Guide
-  - Ingestion
-  - Schedules
-  - Sports
-  - Television
-  - Video Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-on-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-on-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/on-api
-  - type: Documentation
-    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/on-api/release-notes
-- aid: gracenote:onconnect-lookup-apis
-  name: Gracenote OnConnect Lookup APIs
-  description: >-
-    The current published definition of the OnConnect lookup family — 40 operations across programs,
-    series, movies on TV and in theatres, celebrities, sports, stations and lineups. This is the
-    request-response counterpart to the ingestion-oriented On API, and the surface behind most TV
-    guide, search and discovery experiences built on Gracenote data.
-  humanURL: https://devportal.gracenote.com/catalog/onconnect
-  baseURL: https://data.tmsapi.com/v1.1
-  tags:
-  - Celebrities
-  - Content Discovery
-  - Electronic Program Guide
-  - Movies
-  - Sports
-  - Television
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-onconnect-lookup-apis-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-onconnect-lookup-apis-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/onconnect
-  - type: Documentation
-    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
-  - type: AgentSkill
-    url: skills/gracenote-tv-listings-with-onconnect.md
-- aid: gracenote:gvd-api
-  name: Gracenote GVD API
-  description: >-
-    The Global Video Data API is Gracenote's worldwide video metadata feed — schedules, VOD catalogs,
-    availability days, lineups, media, contributors, controlled vocabulary and video popularity across
-    90+ countries in one unified schema. Like the On API it is designed for database ingestion with
-    on-demand update retrieval rather than per-user queries.
-  humanURL: https://devportal.gracenote.com/video/gvd-api/overview
-  baseURL: https://gvd-api.gracenote.com
-  tags:
-  - Availability
-  - Catalog
-  - Ingestion
-  - Streaming
-  - Video Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-gvd-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-gvd-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gvd
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
-- aid: gracenote:gn-ids-api
-  name: Gracenote GN IDS API
-  description: >-
-    The GN IDS API is the only write surface Gracenote publishes. It lets content providers create,
-    retrieve, update, delete and publish programs into Gracenote-licensed datasets across 85+
-    countries using Gracenote's video IDs — movie roots, versions and presentations, show roots,
-    versions, presentations, seasons and episodes, plus images, catalogs, bulk batches and exports.
-    45 of its 74 operations mutate state.
-  humanURL: https://devportal.gracenote.com/video/gn-ids-api/about-gn-ids-api
-  baseURL: https://gnids.gracenote.com/api/v1
-  tags:
-  - Content Distribution
-  - Content Metadata
-  - Identifiers
-  - Publishing
-  - Video Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-gn-ids-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-gn-ids-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gnids
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
-  - type: AgentSkill
-    url: skills/gracenote-publish-a-movie-to-gn-ids.md
-- aid: gracenote:gmd-api-v2
-  name: Gracenote GMD API v2
-  description: >-
-    The Global Music Data API v2 provides artist, recording, album-edition, track and descriptor
-    lookups and text search, with artist images, cover art, popularity scores, partner and industry
-    IDs sold as add-ons on top of base, search, discovery and advanced-discovery packages. A key's
-    subscription determines which fields appear in responses.
-  humanURL: https://devportal.gracenote.com/audio/gmd-api-v2/Overview
-  baseURL: https://api.gmd.music.gracenote.com/v2
-  tags:
-  - Album Art
-  - Music
-  - Music Metadata
-  - Search
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-gmd-api-v2-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-gmd-api-v2-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gmd-v2
-  - type: ErrorCatalog
-    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
-  - type: Documentation
-    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
-- aid: gracenote:gmd-api-v3
-  name: Gracenote GMD API v3 (Beta)
-  description: >-
-    The beta third generation of the Global Music Data API, adding album masters, descriptor
-    correlations, descriptor hierarchies and an entitlements lookup that lets a key ask what it is
-    licensed for. Gracenote states in the specification itself that interfaces are subject to change,
-    and it is the only Gracenote API that declares a full 400/401/403/404/429/500 error surface.
-  humanURL: https://devportal.gracenote.com/audio/gmd-api-v3/overview
-  baseURL: https://api.gmd.music.gracenote.com/v3
-  tags:
-  - Beta
-  - Entitlements
-  - Music
-  - Music Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-gmd-api-v3-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-gmd-api-v3-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gmd-v3
-  - type: ErrorCatalog
-    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
-- aid: gracenote:nexus-api
-  name: Gracenote Nexus API
-  description: >-
-    Nexus is Gracenote's automotive entertainment platform API — music, podcasts, radio stations,
-    sports, video, search, collections and per-user settings shaped for in-car infotainment. Keys are
-    entitled to different feature sets and return 403 outside them, and the specification carries
-    first-class Deprecated and Experimental tags, including experimental endpoints explicitly designed
-    for LLM consumption with reduced payloads.
-  humanURL: https://devportal.gracenote.com/automotive/nexus-auto/platform/overview
-  baseURL: https://api.nexus.gracenote.com/v1
-  tags:
-  - Automotive
-  - Music
-  - Podcasts
-  - Radio
-  - Sports
-  - Video
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-nexus-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-nexus-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
-  - type: GettingStarted
-    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
-- aid: gracenote:global-sports-data-lookup-api
-  name: Gracenote Global Sports Data Lookup API
-  description: >-
-    Seventy-three read operations over Gracenote's sports data covering 4,000+ competitions — sports,
-    series, leagues, league seasons, matches, teams, persons, venues, standings, brackets,
-    classifications, phases and intermediates, with tier, conference and division variants for leagues
-    that have internal structure. Every operation declares an operationId, which makes it the most
-    machine-navigable contract Gracenote publishes.
-  humanURL: https://devportal.gracenote.com/sports/Global-Sports-Data/global-sports-data-overview
-  baseURL: https://api.sports.gracenote.com/gns-api
-  tags:
-  - Live Scores
-  - Schedules
-  - Sports
-  - Sports Data
-  - Standings
-  - Statistics
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-global-sports-data-lookup-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-global-sports-data-lookup-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/global-sports
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
-  - type: AgentSkill
-    url: skills/gracenote-sports-schedule-and-standings.md
-- aid: gracenote:global-sports-data-update-api
-  name: Gracenote Global Sports Data Update API
-  description: >-
-    The update and ingestion counterpart to the Global Sports Data Lookup API — thirteen endpoints
-    that deliver changed sports records so a consumer can keep a local store in sync rather than
-    re-polling the lookup surface.
-  humanURL: https://devportal.gracenote.com/catalog/global-sports-data
-  baseURL: https://api.sports.gracenote.com/gns-api
-  tags:
-  - Ingestion
-  - Sports
-  - Sports Data
-  - Updates
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-global-sports-data-update-api-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-global-sports-data-update-api-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/global-sports-data
-- aid: gracenote:online-video-social-apis
-  name: Gracenote Online Video and Social APIs
-  description: >-
-    Curated links to online and over-the-top video content, indexed and synced to Gracenote TMS IDs,
-    alongside online social signals — for adding OTT availability and social context to a video
-    product. Covers AU, BR, CA, DE, ES, FR, IT, MX, SE, UK and US.
-  humanURL: https://devportal.gracenote.com/catalog/onconnect-video-social
-  baseURL: https://data.tmsapi.com/v1.1
-  tags:
-  - Online Video
-  - OTT
-  - Social
-  - Streaming
-  - Video Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-online-video-social-apis-openapi.json
-  - type: Overlay
-    url: overlays/gracenote-online-video-social-apis-overlay.yaml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/onconnect-video-social
 - aid: gracenote:video-mcp-server
   name: Gracenote Video MCP Server
   description: >-
-    A production remote Model Context Protocol server that grounds LLM responses in Gracenote's
-    verified video metadata — more than 55 million titles plus continually updated viewing
-    availability. Nine tools cover entity resolution, streaming availability, root and TMSID metadata,
-    images, cast, awards, content ratings and a web-search pre-processing step. OAuth 2.0 protected,
-    with RFC 9728 protected-resource metadata, RFC 8414 authorization-server metadata and dynamic
-    client registration.
+    A production remote Model Context Protocol server that grounds LLM responses in Gracenote's verified
+    video metadata — more than 55 million titles plus continually updated viewing availability. Nine tools
+    cover entity resolution, streaming availability, root and TMSID metadata, images, cast, awards, content
+    ratings and a web-search pre-processing step. OAuth 2.0 protected, with RFC 9728 protected-resource
+    metadata, RFC 8414 authorization-server metadata and dynamic client registration.
   humanURL: https://devportal.gracenote.com/video/video-mcp-server/intro
   baseURL: https://video.mcp.gracenote.com/mcp
   tags:
+  - Agents
+  - Artificial Intelligence
+  - MCP
+  - Streaming
+  - Video Metadata
+  tags_raw:
   - Agents
   - AI
   - MCP
@@ -456,14 +224,20 @@ apis:
 - aid: gracenote:sports-mcp-server
   name: Gracenote Sports MCP Server
   description: >-
-    A production remote Model Context Protocol server for live, upcoming and recent sports — eleven
-    tools covering entity resolution, event discovery, match info, recaps, lineups, where-to-watch,
-    team and athlete profiles, league profiles, standings and imagery. It enforces an identity-first
-    call pattern: names are resolved to Gracenote IDs before any other tool runs. OAuth 2.0 protected,
-    with full RFC 9728 and RFC 8414 discovery.
+    A production remote Model Context Protocol server for live, upcoming and recent sports — eleven tools
+    covering entity resolution, event discovery, match info, recaps, lineups, where-to-watch, team and
+    athlete profiles, league profiles, standings and imagery. It enforces an identity-first call pattern:
+    names are resolved to Gracenote IDs before any other tool runs. OAuth 2.0 protected, with full RFC
+    9728 and RFC 8414 discovery.
   humanURL: https://devportal.gracenote.com/sports/sports-mcp-server/intro
   baseURL: https://sports.mcp.gracenote.com/mcp
   tags:
+  - Agents
+  - Artificial Intelligence
+  - Live Scores
+  - MCP
+  - Sports Data
+  tags_raw:
   - Agents
   - AI
   - Live Scores
@@ -485,7 +259,3701 @@ apis:
     url: https://devportal.gracenote.com/sports/sports-mcp-server/about-release
   - type: AgentSkill
     url: skills/gracenote-mcp-grounded-answers.md
+- aid: gracenote:gracenote-albumeditions-api
+  name: Gracenote Album Editions API
+  description: The AlbumEditions API from Gracenote — 4 operation(s) for albumeditions.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - AlbumEditions
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-albumeditions-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-albummasters-api
+  name: Gracenote Album Masters API
+  description: >-
+    An Album Master groups all known Album Editions for a given logical release and
+
+    provides a single, canonical view across those editions.
+
+
+    Think of it as a "parent" that holds together the remastered version, the deluxe
+
+    edition, regional variants, etc. — so you can show one clean entry per album
+
+    in a discography instead of listing every re-release separately.
+
+
+    Each Album Master has a `preferredEditionID` (the best-fit edition picked by
+
+    Gracenote's algorithms) and an `allAlbumEditions` array with every known variant.
+
+
+    **How it fits together:**
+
+    Artist → Album Master → Album Editions → Tracks → Recordings
+
+
+    **Good to know:**
+
+    - Only the `/albumMasters/explore` endpoint exists — there is no lookup or search.
+
+    - If you need a specific master, filter by `artistIDs` and page through results,
+      or grab an Album Edition via `/albumEditions/lookup` and work backwards from there.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - AlbumMasters
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-albummasters-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-artists-api
+  name: Gracenote Artists API
+  description: The Artists API from Gracenote — 4 operation(s) for artists.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Artists
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-artists-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-availability-day-api
+  name: Gracenote Availability Day API
+  description: The Availability Day API from Gracenote — 1 operation(s) for availability day.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Availability Day
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-availability-day-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-availability-day-manifest-api
+  name: Gracenote Availability Day Manifest API
+  description: >-
+    The Availability Day Manifest API from Gracenote — 1 operation(s) for availability day manifest.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Availability Day Manifest
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-availability-day-manifest-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-bulk-api
+  name: Gracenote Bulk API
+  description: The bulk API from Gracenote — 4 operation(s) for bulk.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - bulk
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-bulk-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-catalog-api
+  name: Gracenote Catalog API
+  description: The catalog API from Gracenote — 3 operation(s) for catalog.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-catalog-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-catalog-item-api
+  name: Gracenote Catalog Item API
+  description: The Catalog Item API from Gracenote — 1 operation(s) for catalog item.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Catalog Item
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-catalog-item-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-catalog-manifest-api
+  name: Gracenote Catalog Manifest API
+  description: The Catalog Manifest API from Gracenote — 1 operation(s) for catalog manifest.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Catalog Manifest
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-catalog-manifest-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-classification-endpoints-api
+  name: Gracenote Classification Endpoints API
+  description: >-
+    The Classification Endpoints API from Gracenote — 2 operation(s) for classification endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Classification Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-classification-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-collections-api
+  name: Gracenote Collections API
+  description: API endpoints related to curated content collections.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-collections-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-contributor-api
+  name: Gracenote Contributor API
+  description: The Contributor API from Gracenote — 1 operation(s) for contributor.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Contributor
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-contributor-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-controlled-vocabulary-api
+  name: Gracenote Controlled Vocabulary API
+  description: The Controlled Vocabulary API from Gracenote — 1 operation(s) for controlled vocabulary.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Controlled Vocabulary
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-controlled-vocabulary-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-core-on-apis-api
+  name: Gracenote Core On APIs API
+  description: The Core On APIs API from Gracenote — 11 operation(s) for core on apis.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Core On APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-core-on-apis-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-country-api
+  name: Gracenote Country API
+  description: The Country API from Gracenote — 1 operation(s) for country.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Country
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-country-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-default-api
+  name: Gracenote Default API
+  description: The Default API from Gracenote — 1 operation(s) for default.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Default
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-default-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-deprecated-api
+  name: Gracenote Deprecated API
+  description: API endpoints to be removed in a future release.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Deprecated
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-deprecated-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-descriptorcorrelations-api
+  name: Gracenote Descriptor Correlations API
+  description: >-
+    The descriptor correlation request enables the computation of Artist and Recording
+
+    similarity by providing numerical values representing similarity or dissimilarity.
+
+    These values can be used to inform music discovery and catalog navigation models
+
+    and algorithms.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - DescriptorCorrelations
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-descriptorcorrelations-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-descriptorhierarchies-api
+  name: Gracenote Descriptor Hierarchies API
+  description: "Descriptor hierarchies provide structured access to Gracenote's comprehensive taxonomies\
+    \ of musical \ndescriptors including GENRES, LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES,\
+    \ and TEMPOS. Each hierarchy contains \norganized, multi-level categorical data with parent-child\
+    \ relationships that can be used for discovery of the music catalog."
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - DescriptorHierarchies
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-descriptorhierarchies-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-descriptors-api
+  name: Gracenote Descriptors API
+  description: The Descriptors API from Gracenote — 1 operation(s) for descriptors.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Descriptors
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-descriptors-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-entitlements-api
+  name: Gracenote Entitlements API
+  description: "Entitlements represent authorization levels, determining the specific data access granted\
+    \ \nto a user based on their API key. All valid API keys are provisioned with the 'base' package at\
+    \ least. \nAPI keys may have additional packages and addOns assigned to them, granting extended functionality."
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Entitlements
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-entitlements-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-experimental-api
+  name: Gracenote Experimental API
+  description: API endpoints related to forthcoming features.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Experimental
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-experimental-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-export-api
+  name: Gracenote Export API
+  description: The export API from Gracenote — 3 operation(s) for export.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - export
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-export-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-general-endpoints-api
+  name: Gracenote General Endpoints API
+  description: The General Endpoints API from Gracenote — 4 operation(s) for general endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - General Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-general-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-images-api
+  name: Gracenote Images API
+  description: The images API from Gracenote — 3 operation(s) for images.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - images
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-images-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-intermediate-endpoints-api
+  name: Gracenote Intermediate Endpoints API
+  description: >-
+    The Intermediate Endpoints API from Gracenote — 2 operation(s) for intermediate endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Intermediate Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-intermediate-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-league-endpoints-api
+  name: Gracenote League Endpoints API
+  description: The League Endpoints API from Gracenote — 12 operation(s) for league endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - League Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-league-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-league-season-endpoints-api
+  name: Gracenote League Season Endpoints API
+  description: >-
+    The League Season Endpoints API from Gracenote — 9 operation(s) for league season endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - League Season Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-league-season-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-match-endpoints-api
+  name: Gracenote Match Endpoints API
+  description: The Match Endpoints API from Gracenote — 7 operation(s) for match endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Match Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-match-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-media-api
+  name: Gracenote Media API
+  description: The Media API from Gracenote — 1 operation(s) for media.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-media-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-movie-presentation-api
+  name: Gracenote Movie Presentation API
+  description: The movie-presentation API from Gracenote — 5 operation(s) for movie-presentation.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - movie-presentation
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movie-presentation-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-movie-root-api
+  name: Gracenote Movie Root API
+  description: The movie-root API from Gracenote — 2 operation(s) for movie-root.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - movie-root
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movie-root-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-movie-version-api
+  name: Gracenote Movie Version API
+  description: The movie-version API from Gracenote — 3 operation(s) for movie-version.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - movie-version
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movie-version-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-movies-in-theatres-api
+  name: Gracenote Movies in Theatres API
+  description: The Movies in Theatres API from Gracenote — 6 operation(s) for movies in theatres.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Movies in Theatres
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movies-in-theatres-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-movies-on-tv-api
+  name: Gracenote Movies on TV API
+  description: The Movies on TV API from Gracenote — 3 operation(s) for movies on tv.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Movies on TV
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-movies-on-tv-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-music-api
+  name: Gracenote Music API
+  description: API endpoints related to music content.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Music
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-music-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-online-social-api
+  name: Gracenote Online Social API
+  description: Retrieve social media links for movies and TV series.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Online Social
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-online-social-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-online-video-api
+  name: Gracenote Online Video API
+  description: >-
+    Retrieve online video availability and metadata for episodes, series, movies, and specials.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Online Video
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-online-video-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-overall-endpoints-api
+  name: Gracenote Overall Endpoints API
+  description: The Overall Endpoints API from Gracenote — 4 operation(s) for overall endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Overall Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-overall-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-person-endpoints-api
+  name: Gracenote Person Endpoints API
+  description: The Person Endpoints API from Gracenote — 1 operation(s) for person endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Person Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-person-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-phase-endpoints-api
+  name: Gracenote Phase Endpoints API
+  description: The Phase Endpoints API from Gracenote — 4 operation(s) for phase endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Phase Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-phase-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-podcasts-api
+  name: Gracenote Podcasts API
+  description: API endpoints related to podcast metadata.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Podcasts
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-podcasts-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-program-summaries-api
+  name: Gracenote Program Summaries API
+  description: The program-summaries API from Gracenote — 1 operation(s) for program-summaries.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - program-summaries
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-program-summaries-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-publish-api
+  name: Gracenote Publish API
+  description: The publish API from Gracenote — 2 operation(s) for publish.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - publish
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-publish-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-radiostations-api
+  name: Gracenote Radio Stations API
+  description: API endpoints related to radio station metadata.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - RadioStations
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-radiostations-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-recordings-api
+  name: Gracenote Recordings API
+  description: The Recordings API from Gracenote — 4 operation(s) for recordings.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Recordings
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-recordings-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-search-api
+  name: Gracenote Search API
+  description: API endpoints related to content search.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-search-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-series-endpoints-api
+  name: Gracenote Series Endpoints API
+  description: The Series Endpoints API from Gracenote — 3 operation(s) for series endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Series Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-series-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-series-season-endpoints-api
+  name: Gracenote Series Season Endpoints API
+  description: >-
+    The Series Season Endpoints API from Gracenote — 2 operation(s) for series season endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Series Season Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-series-season-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-show-episode-api
+  name: Gracenote Show Episode API
+  description: The show-episode API from Gracenote — 3 operation(s) for show-episode.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - show-episode
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-show-episode-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-show-presentation-api
+  name: Gracenote Show Presentation API
+  description: The show-presentation API from Gracenote — 5 operation(s) for show-presentation.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - show-presentation
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-show-presentation-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-show-root-api
+  name: Gracenote Show Root API
+  description: The show-root API from Gracenote — 2 operation(s) for show-root.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - show-root
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-show-root-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-show-season-api
+  name: Gracenote Show Season API
+  description: The show-season API from Gracenote — 3 operation(s) for show-season.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - show-season
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-show-season-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-show-version-api
+  name: Gracenote Show Version API
+  description: The show-version API from Gracenote — 3 operation(s) for show-version.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - show-version
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-show-version-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-sourceprograms-apis-api
+  name: Gracenote SourcePrograms APIs API
+  description: The SourcePrograms APIs API from Gracenote — 1 operation(s) for sourceprograms apis.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - SourcePrograms APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-sourceprograms-apis-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-sources-api
+  name: Gracenote Sources API
+  description: The Sources API from Gracenote — 1 operation(s) for sources.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-sources-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-sport-endpoints-api
+  name: Gracenote Sport Endpoints API
+  description: The Sport Endpoints API from Gracenote — 4 operation(s) for sport endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Sport Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-sport-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-sports-apis-api
+  name: Gracenote Sports APIs API
+  description: The Sports APIs API from Gracenote — 7 operation(s) for sports apis.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Sports APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-sports-apis-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-team-endpoints-api
+  name: Gracenote Team Endpoints API
+  description: The Team Endpoints API from Gracenote — 4 operation(s) for team endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Team Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-team-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-tier-conference-and-division-endpoints-api
+  name: Gracenote Tier, Conference and Division Endpoints API
+  description: >-
+    The Tier, Conference and Division Endpoints API from Gracenote — 14 operation(s) for tier, conference
+    and division endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Tier, Conference and Division Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-tier-conference-and-division-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-tracks-api
+  name: Gracenote Tracks API
+  description: The Tracks API from Gracenote — 1 operation(s) for tracks.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Tracks
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-tracks-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-update-endpoints-api
+  name: Gracenote Update Endpoints API
+  description: The Update Endpoints API from Gracenote — 13 operation(s) for update endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Update Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-update-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-venue-endpoints-api
+  name: Gracenote Venue Endpoints API
+  description: The Venue Endpoints API from Gracenote — 1 operation(s) for venue endpoints.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Venue Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-venue-endpoints-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-video-api
+  name: Gracenote Video API
+  description: API endpoints related to video program content.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Video
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-video-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-video-descriptors-taxonomy-items-api
+  name: Gracenote Video Descriptors Taxonomy Items API
+  description: >-
+    The Video Descriptors Taxonomy Items API from Gracenote — 1 operation(s) for video descriptors taxonomy
+    items.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Video Descriptors Taxonomy Items
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-video-descriptors-taxonomy-items-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-video-popularity-api
+  name: Gracenote Video Popularity API
+  description: The Video Popularity API from Gracenote — 1 operation(s) for video popularity.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Video Popularity
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-video-popularity-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-vocabulary-api
+  name: Gracenote Vocabulary API
+  description: The vocabulary API from Gracenote — 1 operation(s) for vocabulary.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - vocabulary
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-vocabulary-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
 common:
+  - type: Overlay
+    url: overlays/gracenote-on-api-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-onconnect-lookup-apis-overlay.yaml
+  - type: AgentSkill
+    url: skills/gracenote-tv-listings-with-onconnect.md
+  - type: Overlay
+    url: overlays/gracenote-gvd-api-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-gn-ids-api-overlay.yaml
+  - type: AgentSkill
+    url: skills/gracenote-publish-a-movie-to-gn-ids.md
+  - type: Overlay
+    url: overlays/gracenote-gmd-api-v2-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-gmd-api-v3-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-nexus-api-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-global-sports-data-lookup-api-overlay.yaml
+  - type: AgentSkill
+    url: skills/gracenote-sports-schedule-and-standings.md
+  - type: Overlay
+    url: overlays/gracenote-global-sports-data-update-api-overlay.yaml
+  - type: Overlay
+    url: overlays/gracenote-online-video-social-apis-overlay.yaml
   - type: CapabilityMap
     url: capabilities/gracenote-capability-edges.yml
     name: Gracenote Business Capability Map
