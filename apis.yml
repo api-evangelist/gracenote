@@ -2680,60 +2680,6 @@ apis:
     url: https://devportal.gracenote.com/catalog/global-sports-data
   - type: APIReference
     url: https://devportal.gracenote.com/catalog/onconnect-video-social
-- aid: gracenote:gracenote-radiostations-api
-  name: Gracenote Radio Stations API
-  description: API endpoints related to radio station metadata.
-  humanURL: https://developer.tmsapi.com/
-  baseURL: https://data.tmsapi.com/v1.1
-  tags:
-  - RadioStations
-  properties:
-  - type: OpenAPI
-    url: openapi/gracenote-radiostations-api-openapi.yml
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/on-api
-  - type: Documentation
-    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/on-api/release-notes
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/onconnect
-  - type: Documentation
-    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gvd
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gnids
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gmd-v2
-  - type: ErrorCatalog
-    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
-  - type: Documentation
-    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/gmd-v3
-  - type: ErrorCatalog
-    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
-  - type: APIReference
-    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
-  - type: GettingStarted
-    url: >-
-      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
-  - type: ChangeLog
-    url: >-
-      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/global-sports
-  - type: ChangeLog
-    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/global-sports-data
-  - type: APIReference
-    url: https://devportal.gracenote.com/catalog/onconnect-video-social
 - aid: gracenote:gracenote-recordings-api
   name: Gracenote Recordings API
   description: The Recordings API from Gracenote — 4 operation(s) for recordings.
@@ -3883,6 +3829,60 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/gracenote-vocabulary-api-openapi.yml
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/on-api
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-api/about-the-on-api
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/on-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect
+  - type: Documentation
+    url: https://devportal.gracenote.com/video/on-connect-lookup-apis/index
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gvd
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gvd-api/api-reference/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gnids
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/video/gn-ids-api/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v2
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/error-codes
+  - type: Documentation
+    url: https://devportal.gracenote.com/audio/gmd-api-v2/get-started
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/gmd-v3
+  - type: ErrorCatalog
+    url: https://devportal.gracenote.com/audio/gmd-api-v3/error-codes
+  - type: APIReference
+    url: https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/api-reference
+  - type: GettingStarted
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/getting-started
+  - type: ChangeLog
+    url: >-
+      https://devportal.gracenote.com/automotive/nexus-auto/nexus-api-dev-guide/nexus-auto-api-release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports
+  - type: ChangeLog
+    url: https://devportal.gracenote.com/sports/Global-Sports-Data/release-notes
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/global-sports-data
+  - type: APIReference
+    url: https://devportal.gracenote.com/catalog/onconnect-video-social
+- aid: gracenote:gracenote-radio-stations-api
+  name: Gracenote Radio Stations API
+  description: API endpoints related to radio station metadata.
+  humanURL: https://developer.tmsapi.com/
+  baseURL: https://data.tmsapi.com/v1.1
+  tags:
+  - Radio Stations
+  properties:
+  - type: OpenAPI
+    url: openapi/gracenote-radio-stations-api-openapi.yml
   - type: APIReference
     url: https://devportal.gracenote.com/catalog/on-api
   - type: Documentation
