@@ -83,6 +83,13 @@ apis:
   tags:
   - Content Discovery
   - Electronic Program Guide
+  - Schedule
+  - Sports
+  - Television
+  - Video Metadata
+  tags_raw:
+  - Content Discovery
+  - Electronic Program Guide
   - Schedules
   - Sports
   - Television
@@ -564,6 +571,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Bulk
+  tags_raw:
   - bulk
   properties:
   - type: OpenAPI
@@ -618,6 +627,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Catalog
+  tags_raw:
   - catalog
   properties:
   - type: OpenAPI
@@ -835,6 +846,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -1104,7 +1117,8 @@ apis:
   description: The Default API from Gracenote — 1 operation(s) for default.
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
-  tags:
+  tags: []
+  tags_raw:
   - Default
   properties:
   - type: OpenAPI
@@ -1495,6 +1509,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Export
+  tags_raw:
   - export
   properties:
   - type: OpenAPI
@@ -1603,6 +1619,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Image
+  tags_raw:
   - images
   properties:
   - type: OpenAPI
@@ -2632,6 +2650,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Publish
+  tags_raw:
   - publish
   properties:
   - type: OpenAPI
@@ -2686,6 +2706,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Recording
+  tags_raw:
   - Recordings
   properties:
   - type: OpenAPI
@@ -3825,6 +3847,8 @@ apis:
   humanURL: https://developer.tmsapi.com/
   baseURL: https://data.tmsapi.com/v1.1
   tags:
+  - Vocabulary
+  tags_raw:
   - vocabulary
   properties:
   - type: OpenAPI
