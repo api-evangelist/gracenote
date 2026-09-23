@@ -1,0 +1,1245 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Movie Version API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: movie-version
+paths:
+  /movies/{rootGnID}/versions:
+    post:
+      tags:
+      - movie-version
+      summary: Create a movie version under a movie root given the root's gnID
+      operationId: createMovieVersion
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: rootGnID
+        in: path
+        description: The Gracenote ID of the parent movie root to create the version under.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMovieVersion'
+        required: false
+      responses:
+        '200':
+          description: MovieVersionResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieVersionResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: NewMovieVersion
+  /movies/versions:
+    get:
+      tags:
+      - movie-version
+      summary: Query for movie versions which match the provided search criteria
+      description: At least one query parameter must be specified.
+      operationId: getMovieVersions
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: rootGnID
+        in: query
+        description: The gnID of a version's parent movie Root.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MovieVersionsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieVersionsResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+  /movies/versions/{gnID}:
+    get:
+      tags:
+      - movie-version
+      summary: Query for a version of a movie with the provided gnID
+      operationId: getMovieVersion
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the version being queried.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MovieVersionResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieVersionResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    put:
+      tags:
+      - movie-version
+      summary: Update a movie version identified by the provided gnID
+      operationId: updateMovieVersion
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the movie version.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMovieVersion'
+        required: false
+      responses:
+        '200':
+          description: MovieVersionResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieVersionResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: UpdatedMovieVersion
+    delete:
+      tags:
+      - movie-version
+      summary: Delete a movie's version with the provided gnID
+      description: All presentations of the version will be deleted as well.
+      operationId: deleteMovieVersion
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the version being deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeletedMovieVersionResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedMovieVersionResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    DeletedMovieVersion:
+      description: 'DeletedVersion represents the version of a deleted movie
+
+        The model only has enough fields to empower the delete use case of movie versions.'
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          examples:
+          - GNLZZZ300000000
+        presentations:
+          type: array
+          description: The GracenoteID of the deleted presentations.
+          items:
+            $ref: '#/components/schemas/DeletedPresentation'
+    NewMovieVersion:
+      description: 'NewVersion defines what information may be provided to create a
+
+        new movie version record.'
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+    MovieVersion:
+      description: Version represents the version of a movie
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        presentationGnIDs:
+          type: array
+          description: A list of the version's children presentation GnIDs.
+          readOnly: true
+          items:
+            type: string
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+    MovieVersionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedMovieVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedMovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MovieVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    UpdateMovieVersion:
+      required:
+      - title
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+      description: 'UpdateVersion defines what information may be provided to modify an
+
+        existing Version record. All field are required, pointers are used
+
+        to indicate that a field was not provided. Normally we do not encourage
+
+        pointer usage for basic operations, but here an exception is being made.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    DeletedPresentation:
+      description: DeletedPresentation represents a deleted presentation
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        versionGnID:
+          type: string
+          description: The ID of the presentation's parent version.
+          examples:
+          - GNLZZZ300000000
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

@@ -1,0 +1,439 @@
+openapi: 3.2.0
+info:
+  title: On API v3.28 Core On APIs API
+  description: On API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information.
+  version: '3.28'
+servers:
+- url: /proxy/on-api
+tags:
+- name: Core On APIs
+paths:
+  /v3/Celebrities:
+    get:
+      summary: Celebrities
+      description: Get celebrity updates starting from specified updateId, or lookup metadata for specified celebrities.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Returns celebrities beginning with specified updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of celebrities to be returned by API. Use with updateId.
+      - name: personId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of personIds for celebrity data. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Celebrities
+      x-operation-id-source: derived
+  /v3/ControlledVocabulary:
+    get:
+      summary: ControlledVocabulary
+      description: Defines terms managed (controlled) to simplify data indexing and searching.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Returns CV values beginning with specified updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of CV values to be returned by API. Use with updateId.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3ControlledVocabulary
+      x-operation-id-source: derived
+  /v3/Lineups:
+    get:
+      summary: Lineups
+      description: Get lineup metadata updates starting from specified updateId, or lookup lineup metadata for specified lineup ID.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Lineups modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of lineups to be returned. Use with updateId. Maximum limit is 10.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Accepts comma-separated list of Lineup Ids. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Lineups
+      x-operation-id-source: derived
+  /v3/Programs:
+    get:
+      summary: Programs
+      description: Get program metadata updates starting from specified updateId, or lookup program metadata for specified program id (tmsId).
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Programs modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of programs to be returned. Use with updateId.
+      - name: tmsId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. 14-char format tmsID. Accepts comma-separated list of tmsIDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      - name: rootId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups by rootId. Supports a single value only. Does not support a comma-separated list of IDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Programs
+      x-operation-id-source: derived
+  /v3/ProgramAnnotations:
+    get:
+      summary: ProgramAnnotations
+      description: Get Program level Video Descriptors metadata updates starting from specified updateId, or lookup video descriptors metadata for specified program id (tmsId). The Video Descriptors feature is sold separately. Contact your Gracenote representative to get this feature.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Programs modified at or after updateId.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of programs to be returned. Use with updateId.
+      - name: tmsId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. 14-char format tmsId. Accepts comma-separated list of tmsIDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3ProgramAnnotations
+      x-operation-id-source: derived
+  /v3/ProgramAvailabilities:
+    get:
+      summary: ProgramAvailabilities
+      description: Get program availability updates from specified updateId, or lookup specified program availability (using tmsId). You must be license Gracenote's online video dataset prior to accessing the endpoint here.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Program availabilities modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of program availabilities to be returned, to be used in conjunction with updateId to specify batch size.
+      - name: tmsId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. 14-char format tmsId. Accepts comma-separated list of tmsIds. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3ProgramAvailabilities
+      x-operation-id-source: derived
+  /v3/ProgramMappings:
+    get:
+      summary: ProgramMappings
+      description: Get program mapping updates from specified updateId, or lookup-specified program mappings (using programMappingId, tmsId, or providerId). You must be using Gracenote's VOD Program Services prior to receiving API delivery of mappings.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Program mappings modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of program mappings to be returned, to be used in conjunction with updateId to specify batch size.
+      - name: programMappingId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups by programMappingId. Accepts comma-separated list of programMapping IDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      - name: tmsId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. 14-char tmsId format. Accepts comma-separated list of tmsIDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      - name: providerId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Customer-specific providerId for mappings assets. Accepts comma-separated list of providerIds. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3ProgramMappings
+      x-operation-id-source: derived
+  /v3/Schedules:
+    get:
+      summary: Schedules
+      description: Get television schedule data updates starting from specified updateId, or lookup metadata for specified source and date range.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Schedules modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of schedules (station-days) to be returned, to be used in conjunction with updateId to specify batch size.
+      - name: prgSvcId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Accepts a comma-separated list of programming service IDs (prgSvcId). Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Date in yyyy-mm-dd format. Results  include station days >= startDate (midnight UTC). Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Date in yyyy-mm-dd format. Results include station days < endDate (midnight UTC). Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Schedules
+      x-operation-id-source: derived
+  /v3/Sources:
+    get:
+      summary: Sources
+      description: Get source updates starting from specified updateId, or lookup metadata for specified sources (programming services).
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Programming services modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of programming services to be returned.
+      - name: prgSvcId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of programming service IDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Sources
+      x-operation-id-source: derived
+  /v3/VideoDescriptorsTaxonomy:
+    get:
+      summary: Video Descriptors Taxonomy
+      description: Get video descriptors hierarchical taxonomy updates organized by video descriptor types starting from specified updateId, or lookup video descriptors for specified type (typeId). The Video Descriptors feature is sold separately. Contact your Gracenote representative to get this feature.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Video descriptor types modified at or after updateId. Use with  limit parameter for handling batches of updated types
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '1'
+        description: Batch size. Maximum number of types to be returned. Use with updateId.
+      - name: typeId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: 'For non-batch lookups. typeId in GNID format (Example: GNFMQH6ZGH1477N), provides all video descriptors that belong to the type. Accepts comma-separated list of IDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.'
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3VideoDescriptorsTaxonomy
+      x-operation-id-source: derived
+  /v3/VideoPopularity:
+    get:
+      summary: Video Popularity
+      description: Get a numeric score to TV series and movies that represents the majority of the population's level of recognition of a video program.
+      tags:
+      - Core On APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Video popularities modified at or after updateId.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of video popularities to be returned. Use with updateId.
+      - name: tmsId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. 14-char tmsId format. Accepts comma-separated list of IDs. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3VideoPopularity
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

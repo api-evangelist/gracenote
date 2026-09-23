@@ -1,0 +1,717 @@
+openapi: 3.2.0
+info:
+  title: Nexus API v1.1.5 Podcasts API
+  description: This is the OpenAPI spec for Gracenote's Nexus API.
+  contact:
+    email: nexusengineering@nielsen.com
+  version: v1.1.5
+servers:
+- url: /proxy/nexus/v1
+tags:
+- name: Podcasts
+  description: API endpoints related to podcast metadata.
+paths:
+  /podcasts/{podcastID}:
+    get:
+      tags:
+      - Podcasts
+      description: Fetch the details of a specific podcast series identified by the podcastID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: podcastID
+        in: path
+        required: true
+        description: The unique identifier of the podcast.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodcastsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get podcasts by podcast id
+      x-summary-source: derived
+      operationId: getPodcastsByPodcastID
+      x-operation-id-source: derived
+  /podcasts/{podcastID}/episodes/{podcastEpisodeID}:
+    get:
+      tags:
+      - Podcasts
+      description: Fetch the details of a specific podcast episode identified by the podcastEpisodeID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: podcastID
+        in: path
+        required: true
+        description: The unique identifier of the podcast series.
+        schema:
+          type: string
+      - name: podcastEpisodeID
+        in: path
+        required: true
+        description: The unique identifier of the podcast episode.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodcastEpisodesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get podcasts by podcast id episodes by podcast episode id
+      x-summary-source: derived
+      operationId: getPodcastsByPodcastIDEpisodesByPodcastEpisodeID
+      x-operation-id-source: derived
+components:
+  schemas:
+    CollectionCategory:
+      type: string
+      description: note that GENERAL has been deprecated. Please use CATEGORY for radio station collections organized by Radio Station Category like 'Adult Pop' or 'Local & Community' and TOPIC for podcast collections organized by topics like 'Health & Living' and 'News & Politics'. GENRE is used for VIDEOPROGRAMS (program bundle) collections.
+      enum:
+      - NEWS
+      - CATEGORY
+      - TOPIC
+      - GENRE
+      - TEAM
+      - LEAGUE
+      - CONFERENCE
+      - SPORT
+      - CITY
+      - STATE
+      - COUNTRY
+      - GENERAL
+    URLObject:
+      type: object
+      additionalProperties: false
+      required:
+      - URL
+      - type
+      - content
+      - contentType
+      properties:
+        URL:
+          type: string
+        type:
+          type: string
+          enum:
+          - web
+          - mobile
+          - desktop
+        content:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MEDIA
+          - FEED
+          - WEBSITE
+          - STREAM
+        contentType:
+          type:
+          - string
+          - 'null'
+          examples:
+          - audio/mpeg
+    CollectionTag:
+      type: object
+      additionalProperties: false
+      description: Tag object for collection metadata. Populated for VIDEOPROGRAMS collections (genreType, programType); unused for other itemTypes.
+      required:
+      - genreType
+      - programType
+      properties:
+        genreType:
+          type: string
+          description: Video collection genre (e.g. COMEDY, SCIENCE-FICTION). Empty string when not applicable.
+        programType:
+          type: string
+          description: Whether the collection contains movies or series. Empty string when not applicable.
+          enum:
+          - MOVIES
+          - SERIES
+    PodcastEpisodeLink:
+      type: object
+      additionalProperties: false
+      required:
+      - URL
+      - contentType
+      - sizeBytes
+      properties:
+        URL:
+          type: string
+        contentType:
+          type:
+          - string
+          - 'null'
+          examples:
+          - audio/mpeg
+        sizeBytes:
+          type:
+          - integer
+          - 'null'
+    Image:
+      type: object
+      additionalProperties: false
+      required:
+      - orientation
+      - type
+      - URL
+      - contentType
+      properties:
+        orientation:
+          type: string
+          description: Orientation of the image.
+          enum:
+          - LANDSCAPE
+          - PORTRAIT
+          - SQUARE
+        type:
+          type: string
+          enum:
+          - ARTWORK
+          - LOGO
+          - HEADSHOT
+          - FLAG
+          - ARTIST
+          - JERSEY
+          - POSTER
+          - BANNER
+          - IMAGE_3_4
+          - IMAGE_4_3
+          - IMAGE_16_9
+          - BRAND_LOGO
+        URL:
+          type: string
+          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
+        contentType:
+          type:
+          - string
+          - 'null'
+    PodcastsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Podcast'
+    PodcastEpisodesResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - error
+      - description
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
+    Meta:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - version
+      - references
+      properties:
+        total:
+          type: integer
+          description: Total number of data objects available.
+        version:
+          type: string
+          description: The API version
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            preferredLanguage:
+              type: string
+            contentMarket:
+              type: string
+            leagueID:
+              type: string
+            teamID:
+              type: string
+            personID:
+              type: string
+            divisionID:
+              type: string
+            conferenceID:
+              type: string
+            overallID:
+              type: string
+            matchID:
+              type: string
+            omitCatalogIDs:
+              type: string
+            minDuration:
+              type: string
+            maxDuration:
+              type: string
+            bundleID:
+              type: string
+            programID:
+              type: string
+            catalogID:
+              type: string
+            phaseID:
+              type: string
+            artistID:
+              type: string
+            albumEditionID:
+              type: string
+            recordingID:
+              type: string
+            artistName:
+              type: string
+            albumEditionName:
+              type: string
+            recordingName:
+              type: string
+            podcastID:
+              type: string
+            podcastEpisodeID:
+              type: string
+            radioStationID:
+              type: string
+            collectionID:
+              type: string
+            collectionCategory:
+              type: string
+            itemTypes:
+              type: string
+            text:
+              type: string
+            topOnly:
+              type: string
+    ColorPalette:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      required:
+      - muted
+      - vibrant
+      - darkMuted
+      - lightMuted
+      - darkVibrant
+      - lightVibrant
+      properties:
+        muted:
+          type:
+          - string
+          - 'null'
+        vibrant:
+          type:
+          - string
+          - 'null'
+        darkMuted:
+          type:
+          - string
+          - 'null'
+        lightMuted:
+          type:
+          - string
+          - 'null'
+        darkVibrant:
+          type:
+          - string
+          - 'null'
+        lightVibrant:
+          type:
+          - string
+          - 'null'
+    CollectionShort:
+      type: object
+      additionalProperties: false
+      required:
+      - collectionID
+      - name
+      - collectionCategory
+      - itemType
+      - lastUpdatedUTC
+      - contentMarket
+      - tags
+      properties:
+        collectionID:
+          type: string
+        name:
+          type: string
+        collectionCategory:
+          $ref: '#/components/schemas/CollectionCategory'
+        itemType:
+          $ref: '#/components/schemas/CollectionItemType'
+        lastUpdatedUTC:
+          type: string
+          format: date-time
+          examples:
+          - '2026-01-02T15:42:22.000Z'
+        contentMarket:
+          type: string
+          description: ISO 3166-1 alpha-3 content market for the collection (e.g. USA, DEU).
+        tags:
+          type: array
+          description: Required. May be empty for PODCASTS and RADIOSTATIONS collections. For VIDEOPROGRAMS, contains a tag object with genreType and programType.
+          items:
+            $ref: '#/components/schemas/CollectionTag'
+    Podcast:
+      type: object
+      additionalProperties: false
+      required:
+      - podcastID
+      - name
+      - description
+      - seriesType
+      - explicitLanguage
+      - language
+      - owner
+      - author
+      - images
+      - colorPalette
+      - relatedCollections
+      - episodes
+      properties:
+        podcastID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        contentType:
+          deprecated: true
+          description: Deprecated - use seriesType instead.
+          type:
+          - string
+          - 'null'
+          enum:
+          - EPISODIC
+          - SERIAL
+        seriesType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - EPISODIC
+          - SERIAL
+        explicitLanguage:
+          type:
+          - boolean
+          - 'null'
+        language:
+          type:
+          - string
+          - 'null'
+        author:
+          type:
+          - string
+          - 'null'
+        owner:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        colorPalette:
+          $ref: '#/components/schemas/ColorPalette'
+        relatedCollections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionShort'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    CollectionItemType:
+      type: string
+      description: This specifies what kind of items are in a collection.
+      enum:
+      - PODCASTS
+      - RADIOSTATIONS
+      - VIDEOPROGRAMS
+    PodcastEpisode:
+      type: object
+      additionalProperties: false
+      required:
+      - podcastEpisodeID
+      - podcastID
+      - name
+      - description
+      - links
+      - publicationDateUTC
+      - seasonNumber
+      - episodeType
+      - explicitLanguage
+      - durationMilliseconds
+      - webPage
+      - images
+      - colorPalette
+      properties:
+        podcastEpisodeID:
+          type: string
+        podcastID:
+          type: string
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        URLs:
+          deprecated: true
+          description: Deprecated - replaced by links and wePage.
+          type: array
+          items:
+            $ref: '#/components/schemas/URLObject'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisodeLink'
+        publicationDateUTC:
+          type: string
+          format: date-time
+          examples:
+          - '2026-01-04T22:30:00.000Z'
+        webPage:
+          type:
+          - string
+          - 'null'
+        seasonNumber:
+          type:
+          - integer
+          - 'null'
+        episodeType:
+          type:
+          - string
+          - 'null'
+          description: todo enum? [FULL, TRAILER, BONUS, null]
+        explicitLanguage:
+          type:
+          - boolean
+          - 'null'
+        durationMilliseconds:
+          type:
+          - integer
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        colorPalette:
+          $ref: '#/components/schemas/ColorPalette'
+        sizeBytes:
+          deprecated: true
+          description: Deprecated - use the sizeBytes in the episode link instead.
+          type:
+          - integer
+          - 'null'
+  responses:
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse404:
+      description: The specified object was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Resource not found.
+    errorResponse5XX:
+      description: An unexpected error occurred on the server. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+  parameters:
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    encodingParam:
+      description: Optional header to specify the encoding type that the client is hoping to receive.
+      name: Accept-Encoding
+      in: header
+      required: false
+      schema:
+        type: string
+        examples:
+        - gzip
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB

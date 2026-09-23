@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: GVD API v3.06 Catalog Manifest API
+  description: GVD API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information.
+  version: '3.06'
+servers:
+- url: /proxy/gvd
+tags:
+- name: Catalog Manifest
+paths:
+  /v1/catalog/manifest:
+    get:
+      summary: Catalog Manifest
+      description: Returns Catalog Manifest objects that are delivered by the entitlement.
+      tags:
+      - Catalog Manifest
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Returns Catalog Manifest objects modified at or after updateId. Can be used with limit parameter for handling batches of updates.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Approximate maximum number of Catalog Manifest objects to be returned by API. To be used in conjunction with updateId for handling batches of updates.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: To lookup a Catalog Manifest object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV1CatalogManifest
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

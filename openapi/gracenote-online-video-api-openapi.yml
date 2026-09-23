@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  title: Social APIs v2.0 Online Video API
+  version: '2.0'
+  description: Integrate online and over-the-top (OTT) video content and capabilities into your video product offerings. Online Video APIs offer curated links to thousands of online videos, indexed and synced to TMS Unique IDs. Online Social APIs allow you to add relevant social media links to your interface.
+servers:
+- url: /proxy/ovd
+tags:
+- name: Online Video
+  description: Retrieve online video availability and metadata for episodes, series, movies, and specials.
+paths:
+  /v2/episodes/{rootIdOrTmsId}:
+    get:
+      tags:
+      - Online Video
+      summary: Single Episode Information
+      description: Obtain single episode information (for example tmsId=EP006883590220)
+      operationId: getSingleEpisode
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: rootIdOrTmsId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: rootId or tmsId of TV episode.
+      - $ref: '#/components/parameters/RegionParam'
+      responses:
+        '200':
+          description: Successful response
+  /v2/episodes.xml:
+    get:
+      tags:
+      - Online Video
+      summary: Multiple Episode Information
+      description: Obtain multiple episode information (for example EP005000800081,EP005000800083)
+      operationId: getMultipleEpisodes
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: episode_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The episode IDs (rootIds or tmsIds) separated by commas
+      - $ref: '#/components/parameters/RegionParam'
+      responses:
+        '200':
+          description: Successful response
+  /v2/series/{seriesId}:
+    get:
+      tags:
+      - Online Video
+      summary: Series Information
+      description: Obtain series information (for example, seriesId=185554)
+      operationId: getSeries
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: seriesId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: seriesId of TV show
+      - $ref: '#/components/parameters/RegionParam'
+      responses:
+        '200':
+          description: Successful response
+  /v2/movies/{rootIdOrTmsId}:
+    get:
+      tags:
+      - Online Video
+      summary: Movie Information
+      description: Obtain movie information (for example, rootId=17420)
+      operationId: getMovie
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: rootIdOrTmsId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: rootId or tmsId of movie
+      - $ref: '#/components/parameters/RegionParam'
+      responses:
+        '200':
+          description: Successful response
+  /v2/specials/{rootIdOrTmsId}:
+    get:
+      tags:
+      - Online Video
+      summary: Specials Information
+      description: Obtain specials information
+      operationId: getSpecial
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: rootIdOrTmsId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: rootId or tmsId of special
+      - $ref: '#/components/parameters/RegionParam'
+      responses:
+        '200':
+          description: Successful response
+components:
+  parameters:
+    RegionParam:
+      name: region
+      in: query
+      required: false
+      schema:
+        type: string
+      description: 'Region code to specify the host region for content matches. If omitted, the API auto-detects based on the description language of the provided TMS ID. Available codes: AU, BR, CA, DE, ES, FR, IT, MX, SE, UK, US'
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

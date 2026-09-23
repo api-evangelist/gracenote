@@ -1,16 +1,765 @@
 openapi: 3.2.0
 info:
-  title: Gracenote OnConnect TMS Celebrities Programs API
-  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
-  version: '1.1'
+  title: Gracenote Programs API
+  version: '1.0'
+  description: 'Operations tagged Programs across 3 of this provider''s published API definitions: gracenote-onconnect-lookup-apis-openapi.json, gracenote-openapi.yml, gracenote-programs-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /proxy/onconnect
 - url: http://data.tmsapi.com/v1.1
   description: Gracenote OnConnect (data_v1_1)
-security:
-- apiKey: []
+- url: /proxy/gvd
 tags:
 - name: Programs
 paths:
+  /v1.1/programs/newShowAirings:
+    get:
+      summary: New Shows Airing on TV
+      description: Returns all shows and episodes and associated metadata airing new (or live) on a lineup for a given time period up to 24 hours in length and up to 14 days in advance.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: includeAdult
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include adult TV shows in response. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsNewShowAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/search:
+    get:
+      summary: Program Search
+      description: Returns basic program metatdata based on free-form search criteria.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Query string.
+      - name: queryFields
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Comma-separated list of fields in which the search string is queried against. Valid fields are title, cast, genres, and directors. Do not include spaces in list.
+      - name: entityType
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Comma-separated list of program types to search. Valid values are movie, episode, sports, show. Do not include spaces in list.
+      - name: genres
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Filter results by the specified comma-separated list of genres. See Program Genres method for available genres.
+      - name: subType
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Filter results by the specified program subType.
+      - name: includeAdult
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include programs with 'Adults Only' genre in response. Defaults to false.
+      - name: titleLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Filter results based on the specified title language (e.g., en=English, es=Spanish, en-GB=British English, en-AU=Australian English pt-BR=Brazilian Portugese)
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Filter results based on the specified description language, using IETF language tags.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: The maximum number of results to be returned from the query. Valid values are between 1 and 50. Default is 50.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Zero-based offset index on the result set. Used in conjunction with limit to page through results. For example, offset=10 will set response data to begin with 11th hit.
+      - name: lineupId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Lineup ID. If specified, response will include only programs found in the schedule and list their airings under each program summary. If not specified, all programs matching the query will be returned, and no airings will be listed.
+      - name: startDateTime
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: 'Date/Time to start from (ISO 8601). Defaults to start of current hour. Only used when lineupId is specified. Example: 2013-03-05T22:00Z'
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Date/Time to end on (ISO 8601). If not specified, airings will be shown chronologically from the startDateTime, up to the maximum of 50 per program. Only used when lineupId is specified.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsSearch
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/{tmsId}:
+    get:
+      summary: Program Details
+      description: Returns detailed metadata for any program (Movie, Show, Episode, or Sports) referred to by a given TMS ID or TMS root ID.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: tmsId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: SH006883590000
+        description: TMS ID or TMS root ID
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsByTmsId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/{tmsId}/airings:
+    get:
+      summary: Program Airings
+      description: Returns all airings of a specific program for a given lineup and time period up to 14 days in advance.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: tmsId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: SH006883590000
+        description: TMS ID
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: includeDetail
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include detailed program metadata with each airing. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsByTmsIdAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/newShowsLastWeek:
+    get:
+      summary: New Shows that Aired in Last Week
+      description: Returns all shows and episodes and associated metadata that aired new (or live) for given past dates up to 7 days. *Available with R&D/Commercial plans only.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Date to start (yyyy-mm-dd).
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: date
+          default: ''
+        description: Date to end (yyyy-mm-dd). Defaults to startDate.
+      - name: includeAdult
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include adult TV shows in response. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsNewShowsLastWeek
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/advancePlanner:
+    get:
+      summary: Advance Planner
+      description: Returns a list of notable TV programming and associated metadata due to air at future date. *Available with R&D/Commercial plans only.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Date to start (yyyy-mm-dd).
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: date
+          default: ''
+        description: Date to end (yyyy-mm-dd). Defaults to 31 days after startDate.
+      - name: eventCode
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+          - '10'
+          - '11'
+        description: Comma-separated list corresponding to selected event type codes. Default will return all types.
+      - name: titleLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Filter results based on the specified title language (e.g., en=English, es=Spanish, en-GB=British English, pt-BR=Brazilian Portugese)
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Preference for description language to be returned. If specified descriptionLang not found for series, reverts to primary TMS ID for series.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the images to be returned. If not specified, images in all available sizes will be returned.
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the images to be returned. Only applies to TV content. If not specified, images in all available aspect ratios will be returned.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsAdvancePlanner
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/{resourceId}/images:
+    get:
+      summary: All Program Images
+      description: Returns all available images associated with a program. *Available with R&D/Commercial plans only.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: resourceId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: SH006883590000
+        description: tmsId or rootId for program
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: If specified, only images in selected size will be included. Default will return all available image sizes.
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: If specified, only images in selected aspect ratio will be included. Only applies to TV content. Default will return images in all available aspect ratios.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating filter for image types with or without text. If not specified, will return all image types.
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsByResourceIdImages
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/programs/genres:
+    get:
+      summary: Program Genres
+      description: 'Returns a list of program genres, to be used in conjunction with Program Search. Note: language parameter deprecated in v1.1.'
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11ProgramsGenres
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
   /programs:
     get:
       tags:
@@ -40,6 +789,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Program'
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /programs/{programId}:
     get:
       tags:
@@ -59,7 +813,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Program'
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
+  /v1/programs:
+    servers:
+    - url: /proxy/gvd
+    get:
+      summary: Programs
+      description: Returns entitled programs data. Use either updateId and limit for update mode and ID for lookups.
+      tags:
+      - Programs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Returns programs modified at or after updateId. Can be used with limit parameter for handling batches of updated programs.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Approximate maximum number of programs to be returned by API. Response will send all contexts for a root program, ending when GN ID count is at or over limit count. To be used in conjunction with updateId for handling batches of program updates.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: To lookup a program by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV1Programs
+      x-operation-id-source: derived
 components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
   schemas:
     Program:
       type: object
@@ -118,3 +929,7 @@ components:
       type: apiKey
       in: query
       name: api_key
+x-refined-from:
+- gracenote-onconnect-lookup-apis-openapi.json
+- gracenote-openapi.yml
+- gracenote-programs-api-openapi.yml

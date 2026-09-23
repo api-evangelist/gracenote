@@ -1,0 +1,38 @@
+openapi: 3.2.0
+info:
+  title: Online Video and Social APIs v2.0 Online Social API
+  version: '2.0'
+  description: Integrate online and over-the-top (OTT) video content and capabilities into your video product offerings. Online Video APIs offer curated links to thousands of online videos, indexed and synced to TMS Unique IDs. Online Social APIs allow you to add relevant social media links to your interface.
+servers:
+- url: /proxy/ovd
+tags:
+- name: Online Social
+  description: Retrieve social media links for movies and TV series.
+paths:
+  /social/{rootIdOrSeriesId}:
+    get:
+      tags:
+      - Online Social
+      summary: Social Links
+      description: Obtain social links for a single movie or TV series. Uses the rootId of a movie or seriesId of a TV show.
+      operationId: getSocialLinks
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: rootIdOrSeriesId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Movie rootId, or TV show seriesId
+      responses:
+        '200':
+          description: Successful response
+components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

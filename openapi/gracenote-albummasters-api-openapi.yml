@@ -1,0 +1,713 @@
+openapi: 3.2.0
+info:
+  version: 3.0 Beta
+  title: GMD API v3.0 Beta Album Masters API
+  description: Gracenote Global Music Data (GMD) API V3.0 **Beta** Specification. Interfaces are subject to change.
+servers:
+- url: https://api.gmd.music.gracenote.com/v3
+security:
+- ApiKeyAuth: []
+tags:
+- name: AlbumMasters
+  description: 'An Album Master groups all known Album Editions for a given logical release and
+
+    provides a single, canonical view across those editions.'
+paths:
+  /albumMasters/explore:
+    get:
+      tags:
+      - AlbumMasters
+      summary: Explore Album Master(s)
+      description: 'Returns Album Master objects — one per logical album — so you can build a
+
+        discography without worrying about duplicate editions.
+
+
+        You must supply at least one filter: `artistIDs`, `tmsIDs`, or
+
+        `videoMusicReleaseType`. Combine them if you like; when more than one is
+
+        present they''re ANDed together.
+
+
+        If you don''t pass a `sort` parameter, results come back in newest-first
+
+        (descending release year) order.
+
+
+        There''s no lookup or search for Album Masters. If you already have an
+
+        Album Edition ID, use `/albumEditions/lookup` and work from there instead.
+
+
+        **Example:** Get an artist''s albums, newest first
+
+        `https://.../albumMasters/explore?artistIDs=GMGZZX800003Y64&sort=-releaseYear`
+
+
+        **Example:** Find soundtracks tied to a TMS program
+
+        `https://.../albumMasters/explore?tmsIDs=12345&videoMusicReleaseType=soundtrack`
+
+
+        **Example:** Only main canon albums for an artist
+
+        `https://.../albumMasters/explore?artistIDs=GMGZZX800003Y64&releaseTypes=mainCanon`'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/artistIDs'
+      - $ref: '#/components/parameters/tmsIDs'
+      - $ref: '#/components/parameters/releaseTypes'
+      - $ref: '#/components/parameters/genreIDs'
+      - $ref: '#/components/parameters/videoMusicReleaseType'
+      - $ref: '#/components/parameters/sortAlbumMasters'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/displayLanguage'
+      - $ref: '#/components/parameters/genreList'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/AlbumMasterObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400'
+      operationId: getAlbumMastersExplore
+      x-operation-id-source: derived
+components:
+  parameters:
+    genreIDs:
+      name: genreIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    genreList:
+      name: genreList
+      in: query
+      required: false
+      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
+      schema:
+        type: string
+        default: GENRES-GLOBAL-DETAILED
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    limit:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 25.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 10
+    sortAlbumMasters:
+      name: sort
+      in: query
+      required: false
+      description: 'How to order the results. Prefix with `-` for descending.
+
+
+        Leave this out and you''ll get newest albums first (descending release year).
+
+
+        When sorting by `releaseType`, the order is:
+
+        mainCanon → mainCanonCollection → singleEP → singleArtistCollection →
+
+        multiArtistCollection → unclassified.
+
+
+        Albums without a `releaseYear` end up at the bottom when you sort by year.
+
+        '
+      schema:
+        type: string
+        enum:
+        - releaseYear
+        - -releaseYear
+        - releaseType
+        - -releaseType
+        - albumMasterName
+        - -albumMasterName
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    displayLanguage:
+      name: displayLanguage
+      in: query
+      required: false
+      description: Specify the language for descriptor label localization in the response.
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    videoMusicReleaseType:
+      name: videoMusicReleaseType
+      in: query
+      required: false
+      description: 'Filter by one or more video music release types. Pass a single value or a comma-separated list (e.g. `score,soundtrack`).
+
+        When omitted, no filtering is applied and rows with any value (including null/empty) are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          enum:
+          - soundtrack
+          - score
+    artistIDs:
+      name: artistIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      schema:
+        type: string
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
+      schema:
+        type: integer
+        default: 0
+        maximum: 25000
+    tmsIDs:
+      name: tmsIDs
+      in: query
+      required: false
+      description: 'Comma-separated TMS IDs (max 100). TMS stands for Tribune Media Services —
+
+        these IDs tie an album to a specific film or TV program. You''ll need the
+
+        `tms-id` add-on enabled on your API key.
+
+        '
+      schema:
+        type: string
+    releaseTypes:
+      name: releaseTypes
+      in: query
+      required: false
+      description: Filter by album release type.
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - mainCanon
+          - mainCanonCollection
+          - singleArtistCollection
+          - multiArtistCollection
+          - singleEP
+          default: none
+  schemas:
+    ExternalID:
+      type: object
+      additionalProperties: false
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
+      required:
+      - source
+      - ID
+    ArtistShort:
+      title: artist
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          nullable: false
+          type: string
+          description: Artist Name
+      required:
+      - artistID
+      - artistName
+    AlbumMasterObject:
+      title: album master object
+      nullable: false
+      type: object
+      additionalProperties: false
+      description: 'One entry per logical album. Groups together all the remastered, deluxe,
+
+        and regional editions under a single ID so you don''t have to de-dupe them yourself.
+
+        '
+      properties:
+        objectType:
+          enum:
+          - albumMaster
+          description: Always `albumMaster`.
+          type: string
+        albumMasterID:
+          nullable: false
+          type: string
+          description: Unique Gracenote ID for this album grouping.
+        albumMasterName:
+          nullable: false
+          type: string
+          description: Display name for the album, usually taken from the preferred edition.
+        artist:
+          $ref: '#/components/schemas/ArtistShort'
+        descriptors:
+          nullable: false
+          description: 'Genre data only — moods, tempos, and styles live on the individual Recordings.
+
+            Requires GMD Discovery or Advanced Discovery package.
+
+            '
+          type: object
+          additionalProperties: false
+          properties:
+            genres:
+              $ref: '#/components/schemas/DescriptorObject'
+        preferredEditionID:
+          type:
+          - string
+          - 'null'
+          description: 'Points to the edition Gracenote considers the best default pick.
+
+            Will be `null` if no preferred edition has been assigned yet.
+
+            Matches the item in `allAlbumEditions` where `isSelectedAlbumEdition` is `true`.
+
+            '
+        languageContext:
+          $ref: '#/components/schemas/LanguageContext'
+        releaseType:
+          type:
+          - string
+          - 'null'
+          description: 'What kind of release this is. Requires GMD Discovery/Advanced Discovery.
+
+
+            Note: you might see `unclassified` in responses, but you can''t filter on it
+
+            — the `releaseTypes` query param won''t accept it.
+
+            '
+          enum:
+          - mainCanon
+          - mainCanonCollection
+          - singleArtistCollection
+          - multiArtistCollection
+          - singleEP
+          - unclassified
+        releaseYear:
+          description: Year the album came out. Requires GMD Search package.
+          type:
+          - integer
+          - 'null'
+        allAlbumEditions:
+          nullable: false
+          type: array
+          description: 'Every edition we know about for this album. Check `isSelectedAlbumEdition`
+
+            on each item to find the preferred one.
+
+            '
+          items:
+            $ref: '#/components/schemas/AlbumMasterEditionItem'
+        externalIDs:
+          nullable: false
+          type: array
+          description: Partner catalog IDs (Spotify, Apple, etc.). Requires Partner IDs add-on.
+          items:
+            $ref: '#/components/schemas/ExternalID'
+        images:
+          nullable: false
+          type: array
+          description: 'Cover art pulled from the preferred edition. You''ll get an empty array
+
+            if there''s no preferred edition set. Requires Cover Art add-on.
+
+            '
+          items:
+            $ref: '#/components/schemas/Image'
+        videoMusicReleaseType:
+          type:
+          - string
+          - 'null'
+          description: '`soundtrack`, `score`, or `null` if the album isn''t tied to film/TV.
+
+            '
+          enum:
+          - soundtrack
+          - score
+        submittedArtistID:
+          type:
+          - string
+          - 'null'
+          description: Echoes back the artistID you filtered on. Null when the request wasn't filtered by artist.
+      required:
+      - objectType
+      - albumMasterID
+      - artist
+      - albumMasterName
+      - preferredEditionID
+      - languageContext
+      - allAlbumEditions
+      - videoMusicReleaseType
+      examples:
+      - objectType: albumMaster
+        albumMasterID: GMGZZX5000001AB
+        albumMasterName: Abbey Road
+        artist:
+          artistID: GMGZZX80000006S
+          artistName: The Beatles
+        descriptors:
+          genres:
+          - hierarchy:
+            - level: 1
+              descriptorID: ''
+              label: Rock
+            - level: 2
+              descriptorID: ''
+              label: AOR Classic Rock
+            - level: 3
+              descriptorID: ''
+              label: AOR Classic Rock
+            - level: 4
+              descriptorID: '2804'
+              label: Classic Rock
+            type: genres
+            weight: 50
+        preferredEditionID: GMGZZX400000GF2
+        languageContext:
+          language: English
+          script: Latin
+        releaseType: mainCanon
+        releaseYear: 1969
+        allAlbumEditions:
+        - albumEditionID: GMGZZX400000GF2
+          albumEditionName: Abbey Road [Remastered]
+          isSelectedAlbumEdition: true
+        - albumEditionID: GMGZZX400000GF3
+          albumEditionName: Abbey Road [Super Deluxe]
+          isSelectedAlbumEdition: false
+        externalIDs:
+        - source: spotify-album-id
+          ID: 0ETFjACtuP2ADo6LFhL6HN
+        images:
+        - imageType: coverArt
+          imageID: 97D84DCF10F11D1B
+          assets:
+          - size: XLARGE
+            width: 1080
+            height: 1080
+            url: https://akamai-b.cdn.cddbp.net/cds/2.0/cover/97D8/4DCF/10F1/1D1B_xlarge_front.jpg
+        videoMusicReleaseType: null
+        submittedArtistID: GMGZZX80000006S
+    ResponseMeta:
+      title: meta object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+          description: Total data objects for the query criteria
+        count:
+          type: integer
+          nullable: false
+          description: Count of objects in the returned result set
+        offset:
+          type: integer
+          nullable: false
+          description: Current offset for result set
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            genreList:
+              type: string
+              description: Hierarchical Genre List used for response.
+            displayLanguage:
+              type: string
+              description: Display language used for descriptor strings.
+      required:
+      - total
+      - count
+      - offset
+      examples:
+      - total: 1
+        count: 1
+        offset: 0
+        references:
+          genreList: GENRES-US-DETAILED
+          displayLanguage: en
+    Image:
+      title: image
+      type: object
+      additionalProperties: false
+      properties:
+        imageType:
+          type: string
+          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
+          enum:
+          - artistImage-promotional
+          - artistImage-inPerformance
+          - artistImage-redCarpet
+          - artistImage-other
+          - artistImage-headshot
+          - artistImage-iconic
+          - artistImage-backdrop
+          - coverArt
+        imageID:
+          type: string
+          nullable: false
+        preferred:
+          type: string
+          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
+          enum:
+          - 'true'
+          - 'false'
+        assets:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+      - imageType
+      - imageID
+      - assets
+    Asset:
+      title: image asset
+      type: object
+      additionalProperties: false
+      properties:
+        size:
+          type: string
+          nullable: false
+        height:
+          type: integer
+          nullable: false
+        width:
+          type: integer
+          nullable: false
+        url:
+          type: string
+          pattern: ^https://
+      required:
+      - size
+      - height
+      - width
+      - url
+    LanguageContext:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+        script:
+          type:
+          - string
+          - 'null'
+      required:
+      - language
+      - script
+    DescriptorObject:
+      nullable: false
+      title: descriptor object
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            type: string
+            enum:
+            - artistTypes
+            - eras
+            - genres
+            - languages
+            - moods
+            - origins
+            - styles
+            - tempos
+          weight:
+            type: integer
+          hierarchy:
+            nullable: false
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                label:
+                  nullable: false
+                  type: string
+                descriptorID:
+                  nullable: false
+                  type: string
+                level:
+                  type: integer
+        required:
+        - type
+        - weight
+        - hierarchy
+    ErrorResponse:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    AlbumMasterEditionItem:
+      title: album master edition item
+      nullable: false
+      type: object
+      additionalProperties: false
+      description: Short reference to one edition inside an Album Master.
+      properties:
+        albumEditionID:
+          nullable: false
+          type: string
+          description: Gracenote Album Edition ID.
+        albumEditionName:
+          nullable: false
+          type: string
+          description: Display name (e.g. "Abbey Road [Remastered]").
+        isSelectedAlbumEdition:
+          nullable: false
+          type: boolean
+          description: '`true` for the one edition Gracenote picked as the default.
+
+            Only one item per master will be `true`.
+
+            '
+      required:
+      - albumEditionID
+      - albumEditionName
+      - isSelectedAlbumEdition
+  responses:
+    ErrorResponse400:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      description: API key provided during registration
+      name: GN-APIKEY

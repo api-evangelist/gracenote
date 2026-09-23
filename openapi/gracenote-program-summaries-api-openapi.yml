@@ -1,0 +1,461 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Program Summaries API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: program-summaries
+paths:
+  /programSummaries:
+    get:
+      tags:
+      - program-summaries
+      summary: Returns a paginated collection of program summaries in a source's catalog
+      description: 'A program summary is a simplified version of a presentation which contains only the minimal
+
+        information needed to search though and identify programs in a source''s catalog.'
+      operationId: getProgramSummaries
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: type
+        in: query
+        description: Program types to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: subTypes
+        in: query
+        description: SubTypes to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: publishStatus
+        in: query
+        description: 'PublishingStatuses to filter summaries by. Valid values may be
+
+          found in the Gracenote Vocabulary.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: genres
+        in: query
+        description: Genres to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: catalogGnIDs
+        in: query
+        description: CatalogGnIDs to filter summaries by
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: title
+        in: query
+        description: The raw string value of a title to filter summaries by.
+        schema:
+          type: string
+      - name: externalIDs
+        in: query
+        description: ExternalIDs to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: tmsIDs
+        in: query
+        description: TMSIDs to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortDirection
+        in: query
+        description: Sort hits in ascending or descending order.
+        schema:
+          type: string
+          enum:
+          - ASC
+          - ' asc'
+          - ' DESC'
+          - ' desc'
+      - name: sortField
+        in: query
+        description: Field by which to sort hits by.
+        schema:
+          type: string
+          enum:
+          - presentationGnID versionGnID rootGnID seasonGnID showPresentationGnID showTitle seasonNumber episodeNumber title type subType releaseDate releaseYear tmsID updated
+      responses:
+        '200':
+          description: ProgramSummariesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramSummariesResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    ProgramSummariesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramSummary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ProgramType:
+      type: string
+      description: 'ProgramType aliases string to provide
+
+        "enums" for available program types.'
+    ProgramSummary:
+      type: object
+      properties:
+        catalogGnIDs:
+          type: array
+          description: The associated CatalogGnIDs of a program
+          items:
+            type: string
+          examples:
+          - - GN1
+        episodeNumber:
+          type: string
+          description: The episode number of the program.
+          examples:
+          - '1'
+        externalIDs:
+          type: array
+          description: External identifiers of the program.
+          items:
+            type: object
+            additionalProperties:
+              type: object
+          examples:
+          - - id: '1'
+              isPrimary: true
+              isProvider: true
+              label: source
+        genres:
+          type: array
+          description: Genres of the program.
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        latestUpdate:
+          type: string
+          description: 'The latest update to the program. This is the latest of the updates to the program''s
+
+            related root, version, presentation, and (as applicable) season and episode.'
+          examples:
+          - '2020-10-23T00:00:00.000Z'
+        presentationGnID:
+          type: string
+          description: The GnID of the program's Presentation.
+          examples:
+          - GNLZZXZ00000000
+        presentationLabels:
+          type: array
+          description: Presentation labels of the program.
+          items:
+            type: string
+          examples:
+          - - en-US
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: A map of reason and details that describe why a program failed the publishing process.
+        publishStatus:
+          type: string
+          description: The current publishing status of the presentation.
+          examples:
+          - registered
+        releaseDate:
+          type: string
+          description: Release date of the program.
+          examples:
+          - '2022-09-02T00:00:00.000Z'
+        releaseYear:
+          type: string
+          description: 'The release year of the program. This is only
+
+            populated for summary''s with the type "movie".'
+          examples:
+          - '2022'
+        rootGnID:
+          type: string
+          description: The GnID of the program's Root.
+          examples:
+          - GNLZZZ700000000
+        seasonGnID:
+          type: string
+          description: The GnID of an episode's season.
+          examples:
+          - GNLZZZ200000000
+        seasonNumber:
+          type: string
+          description: The season number the program belongs to.
+          examples:
+          - '1'
+        showPresentationGnID:
+          type: string
+          description: 'The GnID of a show''s (or episode''s show''s) presentation GnID.
+
+            This will only be populated when the summary''s type is of "episode" or "show".'
+          examples:
+          - GNLZZZ200000000
+        showTitle:
+          type: string
+          description: 'The title of a show''s presentation. This will only be populated
+
+            if the summary''s type is of "show" or "episode".'
+          examples:
+          - Rings of Power
+        subType:
+          type: string
+          description: The subType of the program.
+          examples:
+          - episode
+        title:
+          type: string
+          description: 'The Title of a movie presentation or episode''s title.
+
+            For the title of a show, see showTitle.'
+          examples:
+          - episode one
+        tmsID:
+          type: string
+          description: 'The assigned TMS ID of a presentation. This
+
+            will only be assigned after a successfully publishing
+
+            the presentation.'
+          examples:
+          - EP12345678000000
+        type:
+          $ref: '#/components/schemas/ProgramType'
+        versionGnID:
+          type: string
+          description: The GnID of the program's Version.
+          examples:
+          - GNLZZZ300000000
+        versionLabels:
+          type: array
+          description: Version labels of the program.
+          items:
+            type: string
+          examples:
+          - - original
+      description: Summary represents an aggregate view of Roots, Version, Presentations, Seasons, and Episodes
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

@@ -1,0 +1,390 @@
+openapi: 3.2.0
+info:
+  title: Global Sports Data Update API v6 Update Endpoints API
+  description: Update endpoints for Global Sports Data
+  version: '6'
+servers:
+- url: /proxy/sports
+tags:
+- name: Update Endpoints
+paths:
+  /TvSportsData/Sports:
+    get:
+      summary: Sports
+      description: Returns all sports.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataSports
+      x-operation-id-source: derived
+  /TvSportsData/Disciplines:
+    get:
+      summary: Disciplines
+      description: Returns all sport disciplines.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataDisciplines
+      x-operation-id-source: derived
+  /TvSportsData/Events:
+    get:
+      summary: Events
+      description: Returns all sports events. Events represent matches (e.g. Philadelphia-NY Giants) as well as league/conference/division seasons (e.g. 2016-2017 NFL, 2016-2017 NFC, 2016-2017 NFC East ) and league/conference/division season phases (e.g. NFL 2016-2017 Regular Season, NFL 2016-2017 Regular Season - Week 1).
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataEvents
+      x-operation-id-source: derived
+  /TvSportsData/Organizations:
+    get:
+      summary: Organizations
+      description: Returns all sports organizations. Organizations represent teams (e.g. Philadelphia Eagles), leagues (e.g. NFL), conferences (e.g. NFC) and divisions (e.g.. NFC East).
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataOrganizations
+      x-operation-id-source: derived
+  /TvSportsData/Persons:
+    get:
+      summary: Persons
+      description: Returns all people (players, officials).
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataPersons
+      x-operation-id-source: derived
+  /TvSportsData/Venues:
+    get:
+      summary: Venues
+      description: Returns all sports venues.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataVenues
+      x-operation-id-source: derived
+  /TvSportsData/EventParticipants:
+    get:
+      summary: EventParticipants
+      description: Returns all participants (teams, persons, venues) from events and their stats.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataEventParticipants
+      x-operation-id-source: derived
+  /TvSportsData/EventClassifications:
+    get:
+      summary: EventClassifications
+      description: Returns all event classifications.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataEventClassifications
+      x-operation-id-source: derived
+  /TvSportsData/Actions:
+    get:
+      summary: Actions
+      description: Returns all actions for sports events. Actions represent the play-by-play for matches with this level of coverage.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataActions
+      x-operation-id-source: derived
+  /TvSportsData/Phases:
+    get:
+      summary: Phases
+      description: ''
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataPhases
+      x-operation-id-source: derived
+  /TvSportsData/Articles:
+    get:
+      summary: Articles
+      description: ''
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataArticles
+      x-operation-id-source: derived
+  /TvSportsData/Images:
+    get:
+      summary: Images
+      description: Returns all sports images.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataImages
+      x-operation-id-source: derived
+  /TvSportsData/Translations:
+    get:
+      summary: Translations
+      description: Returns all translations.
+      tags:
+      - Update Endpoints
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Token-based update retrieval. Updates will be retrieved with specified updateId value. For full seeding, specify updateId=0. Increment max updateId by one to retrieve next set of updated records.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of objects to retrieve for processing predictable batch sizes. Each iteration would retain limit number for same batch size.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getTvSportsDataTranslations
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

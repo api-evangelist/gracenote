@@ -1,0 +1,372 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Vocabulary API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: Vocabulary
+paths:
+  /gnvocabulary:
+    get:
+      tags:
+      - Vocabulary
+      summary: Retrieve the Gracenote Vocabulary
+      description: Retrieves Gracenote vocabulary lists. Optionally accepts a query parameter to filter by a specific list name.
+      operationId: getVocabulary
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: listname
+        in: query
+        description: The field to filter on.
+        schema:
+          type: string
+          enum:
+          - airingType
+          - castType
+          - color
+          - countries
+          - crewType
+          - descriptionLength
+          - genre
+          - imageCategories
+          - languages
+          - programType
+          - ratingBody
+          - targetAudience
+          - versionLabels
+          - publishStatus
+          - entitlements
+          - batchStatuses
+      responses:
+        '200':
+          description: VocabResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VocabResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    Entitlement:
+      type: object
+      properties:
+        imageActions:
+          type: array
+          description: Which image actions a user is entitled to use.
+          items:
+            type: string
+          examples:
+          - - register
+            - certify
+            - deliver
+        languages:
+          type: array
+          description: 'Which languages a user is entitled to use. Corresponds to languages
+
+            represented by a LabelValuePair.Value.'
+          items:
+            type: string
+          examples:
+          - - en
+            - es
+            - fr
+            - fr-CA
+        mappings:
+          type: array
+          description: Which mapping data a user is entitled to see
+          items:
+            type: string
+          examples:
+          - - tmsID
+      description: Entitlement represents what data actions and languages a user is entitled to use
+    GNVocabulary:
+      type: object
+      properties:
+        airingType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        batchStatuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        castType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        color:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        crewType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        descriptionLength:
+          type: array
+          items:
+            type: integer
+            format: int64
+        entitlements:
+          $ref: '#/components/schemas/Entitlement'
+        genre:
+          type: array
+          items:
+            type: string
+        imageCategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        mappingIDOrigins:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        productionStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        programType:
+          type: array
+          items:
+            $ref: '#/components/schemas/GnVocabProgramType'
+        publishStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        ratingBody:
+          type: array
+          items:
+            $ref: '#/components/schemas/RatingBody'
+        targetAudience:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        userMappingIDTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        versionLabels:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+      description: GNVocabulary contains multiple lists of GN Vocabulary
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
+    LabelledValue:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: LabelValuePair represents objects containing a label and a value
+    VocabResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GNVocabulary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    GnVocabProgramType:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        programSubType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: ProgramType represents the program type in GN Vocab
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    RatingBody:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        rating:
+          type: array
+          items:
+            type: string
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: RatingBody represents the rating body in GN Vocab
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

@@ -1,0 +1,2396 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Movie Presentation API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: movie-presentation
+paths:
+  /movies/versions/{versionGnID}/presentations:
+    post:
+      tags:
+      - movie-presentation
+      summary: Create a movie presentation under a movie version given the version's gnID
+      description: 'Creates a new movie presentation resource under a specific movie version.
+
+        Requires the `versionGnID` path parameter and a JSON payload defining the presentation''s attributes.'
+      operationId: createMoviePresentationWithVersion
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: versionGnID
+        in: path
+        description: The Gracenote ID of the parent movie version to create the presentation under.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMoviePresentation'
+        required: false
+      responses:
+        '200':
+          description: MoviePresentationResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePresentationResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: NewMoviePresentation
+  /movies/versions/presentationRelationships:
+    patch:
+      tags:
+      - movie-presentation
+      summary: Map movie presentations to versions
+      description: 'Maps one or more movie presentations to their respective versions. Each presentation can only be mapped to one version.
+
+        This endpoint is part of the relaxed presentation hierarchy functionality.'
+      operationId: mapMoviePresentationsToVersion
+      requestBody:
+        description: 'Array of version-presentation mappings to create.
+
+          Each mapping associates a presentation with a version.'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/VersionPresentationMapping'
+        required: false
+      responses:
+        '200':
+          description: VersionPresentationMappingsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionPresentationMappingsResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '422':
+          description: UnprocessableEntityError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - presentation GN1234567890123 is already mapped to catalog
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/catalogPrograms
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: MovieVersionPresentationMappings
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /movies/versions/presentationRelationships/{gnID}:
+    delete:
+      tags:
+      - movie-presentation
+      summary: Delete version mapping from a movie presentation
+      description: 'Removes the version mapping from a movie presentation, effectively making it a relaxed presentation
+
+        without a direct parent version relationship.'
+      operationId: deleteMoviePresentationToVersionMapping
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the movie presentation to unmap from its version.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeleteVersionPresentationMappingsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteVersionPresentationMappingsResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+  /movies/versions/presentations:
+    get:
+      tags:
+      - movie-presentation
+      summary: Query for movie presentations associated with the provided filter criteria
+      description: rootGnID and presentationGnIDs are filterable options and at least one must be provided.
+      operationId: getMoviePresentations
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: rootGnID
+        in: query
+        description: Filter movie presentations by those associated with the provided movie root gnID.
+        schema:
+          type: string
+      - name: presentationGnIDs
+        in: query
+        description: Filter movie presentations by the provided presentation gnID values
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: MoviePresentationsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePresentationsResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    post:
+      tags:
+      - movie-presentation
+      summary: Create a new movie presentation without a movie version
+      description: 'Create a new movie presentation without a movie version. This endpoint supports relaxed
+
+        presentation hierarchy where presentations can exist without being directly linked to versions.'
+      operationId: createMoviePresentation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMoviePresentation'
+        required: false
+      responses:
+        '200':
+          description: MoviePresentationResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePresentationResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: NewMoviePresentation
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /movies/versions/presentations/{gnID}:
+    get:
+      tags:
+      - movie-presentation
+      summary: Query for a movie presentation with the provided gnID
+      operationId: getMoviePresentation
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the presentation being queried.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MoviePresentationResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePresentationResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    put:
+      tags:
+      - movie-presentation
+      summary: Update a movie presentation identified by the provided gnID
+      description: 'Updates a specific movie presentation resource. Requires the presentation
+
+        `gnID` path parameter and a JSON payload with the presentation''s updated attributes.'
+      operationId: updateMoviePresentation
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the movie presentation.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMoviePresentation'
+        required: false
+      responses:
+        '200':
+          description: MoviePresentationResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePresentationResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: UpdatedMoviePresentation
+    delete:
+      tags:
+      - movie-presentation
+      summary: Delete a presentation of a movie with the provided gnID
+      description: Deletes a specific movie presentation resource. Requires the presentation `gnID` path parameter.
+      operationId: deleteMoviePresentation
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the presentation being deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeletedMoviePresentationResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedMoviePresentationResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    ExternalID:
+      required:
+      - id
+      - isPrimary
+      type: object
+      properties:
+        id:
+          type: string
+          description: id is the external identifier.
+        isPrimary:
+          type: boolean
+          description: 'indicates that the external ID is the primary ID
+
+            used to identify the program external to Gracenote.
+
+            Exactly one primary external ID is allowed (and required) per program.'
+        isProvider:
+          type: boolean
+          description: 'indicates that the source provider uses this ID as
+
+            their internal ID for the program. Exactly one provider
+
+            external ID is allowed per program.'
+        label:
+          type: string
+          description: label is a tag to describe the identifier.
+      description: ExternalID is an external (to Gracenote) identifier of the program
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
+    VersionPresentationMapping:
+      type: object
+      properties:
+        presentationGnID:
+          type: string
+        versionGnID:
+          type: string
+    ExternalIDs:
+      type: array
+      description: ExternalIDs is a convenience alias on a slice of ExternalID types
+      items:
+        $ref: '#/components/schemas/ExternalID'
+    Crew:
+      description: 'Crew is a member who was part of
+
+        a program''s production crew.'
+      required:
+      - name
+      - order
+      - type
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        type:
+          type: string
+          description: 'Type describes the role or "crew type" of the crew member.
+
+            Defined by the Gracenote Vocabulary.'
+    MoviePresentationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoviePresentation'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    VersionPresentationMappingsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionPresentationMapping'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    UpdateMoviePresentation:
+      required:
+      - title
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        productionStatus:
+          type: string
+          description: Describes the production status of the movie.
+          examples:
+          - completed
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the movie was released.
+
+
+            ReleaseDate is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The year in which the movie was released.
+
+
+            ReleaseYear is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: int64
+          examples:
+          - 2000
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+      description: 'UpdatePresentation defines what information may be
+
+        provided to modify an existing movie presentation record.'
+    Descriptions:
+      title: Descriptions is an array of Description types
+      type: array
+      description: A maximum of 10 descriptions can be assigned to a program
+      items:
+        $ref: '#/components/schemas/Description'
+    Cast:
+      description: Cast is an individual who performed in a production
+      required:
+      - name
+      - order
+      - role
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        character:
+          type: string
+          description: Character is the name of the cast member's portrayed character.
+        role:
+          type: string
+          description: 'Role defines the cast member''s credited contribution.
+
+            Defined by the Gracenote Vocabulary.'
+    MoviePresentationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MoviePresentation'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    FieldErrors:
+      type: array
+      description: FieldErrors represents a collection of field errors
+      items:
+        $ref: '#/components/schemas/FieldError'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    Name:
+      required:
+      - first
+      type: object
+      properties:
+        first:
+          type: string
+          description: The first name of the member.
+        last:
+          type: string
+          description: The last name of the member.
+        middle:
+          type: string
+          description: The middle name of the member.
+        prefix:
+          type: string
+          description: The prefix of the member's name.
+        suffix:
+          type: string
+          description: The suffix of the member's name.
+      description: 'Name contains the components of the full name
+
+        of a crew or cast member.'
+    Rating:
+      required:
+      - ratingBody
+      type: object
+      properties:
+        advisories:
+          type: array
+          description: 'Content advisories that should be attached to the presentation.
+
+            Free form entry. Reference the GN Vocabulary for suggested advisories.'
+          items:
+            type: string
+          examples:
+          - - contains strong language
+        notYetRated:
+          type: boolean
+          description: When true, indicates that the presentation is yet to be rated.
+        rating:
+          type: string
+          description: 'The assigned rating value as determined by the rating body.
+
+            Required if ratingBody & notYetRated are false.'
+          examples:
+          - PG-13
+        ratingBody:
+          type: string
+          description: The rating body responsible for assigning ratings.
+          examples:
+          - MPAA
+        ratingExempt:
+          type: boolean
+          description: 'When set to true, indicates that the presentation is exempt from and
+
+            will not receive ratings.'
+      description: Rating represents a rating of a program as assigned by a rating body
+    MoviePresentation:
+      description: Presentation represents the presentation of a movie
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        productionStatus:
+          type: string
+          description: Describes the production status of the movie.
+          examples:
+          - completed
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the movie was released.
+
+
+            ReleaseDate is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The year in which the movie was released.
+
+
+            ReleaseYear is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: int64
+          examples:
+          - 2000
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        catalogGnIDs:
+          type: array
+          description: The IDs of the catalogs that the presentation is a part of.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZWT00000001
+            - GNLZZWT00000002
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+          examples:
+          - GNLZZXW00000001
+        publishPrereqs:
+          $ref: '#/components/schemas/FieldErrors'
+        rootGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ600000001
+        sourceId:
+          type: string
+          description: The internal Source Gracenote ID associated with the program.
+          readOnly: true
+          examples:
+          - GNLZZZ400000001
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent version.
+          readOnly: true
+          examples:
+          - GNLZZXX00000001
+    DeleteVersionPresentationMappingsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VersionPresentationMapping'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedMoviePresentationResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedMoviePresentation'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedMoviePresentation:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The deleted presentation's GnID.
+          readOnly: true
+          examples:
+          - GNLZZXW00000001
+        versionGnID:
+          type: string
+          description: The GnID of the presentation's parent version.
+          readOnly: true
+          examples:
+          - GNLZZXX00000001
+      description: DeletedPresentation represents a deleted movie presentation
+    FieldError:
+      type: object
+      properties:
+        error:
+          type: string
+        field:
+          type: string
+        level:
+          type: string
+      description: FieldError is used to indicate an error with a specific request field
+    NewMoviePresentation:
+      description: 'NewPresentation defines what information may be provided to create a
+
+        new movie presentation record.'
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        productionStatus:
+          type: string
+          description: Describes the production status of the movie.
+          examples:
+          - completed
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the movie was released.
+
+
+            ReleaseDate is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The year in which the movie was released.
+
+
+            ReleaseYear is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: int64
+          examples:
+          - 2000
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+    MappingInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

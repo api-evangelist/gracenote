@@ -1,0 +1,267 @@
+openapi: 3.2.0
+info:
+  version: 3.0 Beta
+  title: GMD API v3.0 Beta Descriptor Correlations API
+  description: Gracenote Global Music Data (GMD) API V3.0 **Beta** Specification. Interfaces are subject to change.
+servers:
+- url: https://api.gmd.music.gracenote.com/v3
+security:
+- ApiKeyAuth: []
+tags:
+- name: DescriptorCorrelations
+  description: 'The descriptor correlation request enables the computation of Artist and Recording
+
+    similarity by providing numerical values representing similarity or dissimilarity.
+
+    These values can be used to inform music discovery and catalog navigation models
+
+    and algorithms.'
+paths:
+  /descriptorCorrelations/lookup:
+    get:
+      tags:
+      - DescriptorCorrelations
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/idTypeCorrelations'
+      - $ref: '#/components/parameters/ids'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/DescriptorCorrelationsObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400'
+        '404':
+          $ref: '#/components/responses/ErrorResponse404'
+      description: 'The descriptor correlation API enables the computation of Artist and Recording similarity by providing numerical values representing that similarity. These similarity values can be used to inform music discovery and catalog navigation models and algorithms.
+
+
+        The following workflow illustrates how correlates are used to show that the genre **Psychedelic Rock** is more similar to **Post-Modern Rock** than it is to **Ragtime**.
+
+
+        1. The leaf genreID for \"Psychedelic Rock\" is `2844`.
+
+        2. The `/descriptors/descriptorCorrelations` API is used with `genreID` value `2844`
+
+        ```
+
+        curl https:///descriptorCorrelations/lookup?idType=genreID&ids=2844
+
+        ...
+
+        {
+
+        {
+
+        "descriptorID": "33121",
+
+        "label": "Post-Modern Rock",
+
+        "weight": "200"
+
+        },
+
+        {
+
+        "descriptorID": "3128",
+
+        "label": "Ragtime",
+
+        "weight": "-700"
+
+        }
+
+        ...
+
+        }
+
+        ```
+
+
+        3. The results show that **Post-Modern Rock** is correlated to **Psychedelic Rock** with a weight of **200** while **Ragtime** is correlated with weight of **-700**. Therefore, **Post-Modern Rock** is the most similar genre.'
+      summary: Calculate Artist and Recording similarity
+      operationId: getDescriptorCorrelationsLookup
+      x-operation-id-source: derived
+components:
+  responses:
+    ErrorResponse400:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
+  schemas:
+    DescriptorCorrelationsObject:
+      title: correlations object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        descriptorID:
+          type: string
+        descriptorType:
+          type: string
+        correlations:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationObject'
+      required:
+      - descriptorID
+      - descriptorType
+      - correlations
+    ResponseMeta:
+      title: meta object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+          description: Total data objects for the query criteria
+        count:
+          type: integer
+          nullable: false
+          description: Count of objects in the returned result set
+        offset:
+          type: integer
+          nullable: false
+          description: Current offset for result set
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            genreList:
+              type: string
+              description: Hierarchical Genre List used for response.
+            displayLanguage:
+              type: string
+              description: Display language used for descriptor strings.
+      required:
+      - total
+      - count
+      - offset
+      examples:
+      - total: 1
+        count: 1
+        offset: 0
+        references:
+          genreList: GENRES-US-DETAILED
+          displayLanguage: en
+    CorrelationObject:
+      type: object
+      additionalProperties: false
+      properties:
+        descriptorID:
+          type: string
+        label:
+          type: string
+        correlationValue:
+          type: integer
+      required:
+      - descriptorID
+      - label
+      - correlationValue
+    ErrorResponse:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+  parameters:
+    idTypeCorrelations:
+      name: idType
+      in: query
+      required: true
+      description: Descriptor type
+      schema:
+        type: string
+        enum:
+        - genreID
+        - artistTypeID
+        - eraID
+        - originID
+        - moodID
+        - styleID
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    ids:
+      name: ids
+      in: query
+      required: true
+      description: Comma separated list of ids (max 100)
+      schema:
+        type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      description: API key provided during registration
+      name: GN-APIKEY

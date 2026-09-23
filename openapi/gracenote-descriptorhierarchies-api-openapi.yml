@@ -1,0 +1,368 @@
+openapi: 3.2.0
+info:
+  version: 3.0 Beta
+  title: GMD API v3.0 Beta Descriptor Hierarchies API
+  description: Gracenote Global Music Data (GMD) API V3.0 **Beta** Specification. Interfaces are subject to change.
+servers:
+- url: https://api.gmd.music.gracenote.com/v3
+security:
+- ApiKeyAuth: []
+tags:
+- name: DescriptorHierarchies
+  description: 'Descriptor hierarchies provide structured access to Gracenote''s comprehensive taxonomies of musical
+
+    descriptors including GENRES, LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES, and TEMPOS. Each hierarchy contains
+
+    organized, multi-level categorical data with parent-child relationships that can be used for discovery of the music catalog.'
+paths:
+  /descriptorHierarchy/lookup:
+    get:
+      tags:
+      - DescriptorHierarchies
+      summary: Retrieve Structured Music Descriptor Taxonomies
+      description: 'Get structured descriptor hierarchy data for Gracenote''s music descriptor taxonomies.
+
+
+        Supports 17 different genre hierarchies (regional and complexity variants) plus additional descriptor types including LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES, and TEMPOS.
+
+        The endpoint returns organized, multi-level categorical data that can be filtered by specific levels.
+
+
+        **Example:** Get full GENRES-US-SIMPLIFIED hierarchy
+
+
+        `https://.../descriptorHierarchy/lookup?descriptorList=GENRES-US-SIMPLIFIED`
+
+
+        **Example:** Get only level 2 data from ORIGINS hierarchy
+
+
+        `https://.../descriptorHierarchy/lookup?descriptorList=ORIGINS&level=2`
+
+
+        **Note:** The API returns different data based on query parameters: full hierarchy requests include projected nodes for continuity, while level-specific queries return only authentic nodes, excluding projected entries. The lowest hierarchy level contains entries with English-only labels. Future development plans may include localization, which is currently not yet complete.'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/descriptorList'
+      - $ref: '#/components/parameters/displayLanguage'
+      - $ref: '#/components/parameters/level'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/DescriptorHierarchyResponseMeta'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/DescriptorHierarchyObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponseDescriptorHierarchy400'
+        '401':
+          $ref: '#/components/responses/ErrorResponse401'
+        '403':
+          $ref: '#/components/responses/ErrorResponse403Entitlements'
+        '429':
+          $ref: '#/components/responses/ErrorResponse429'
+        '500':
+          $ref: '#/components/responses/ErrorResponse500'
+      operationId: getDescriptorHierarchyLookup
+      x-operation-id-source: derived
+components:
+  responses:
+    ErrorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_apikey
+                description: API key is required.
+    ErrorResponseDescriptorHierarchy400:
+      description: Bad Request - Invalid descriptor hierarchy parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidDescriptorList:
+              summary: Invalid descriptorList value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Invalid descriptorList value. Must be one of: GENRES-* hierarchies, LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES, or TEMPOS.'
+            invalidLevel:
+              summary: Invalid level value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Invalid level value. Must be an integer between 1 and 5.
+            invalidDisplayLanguage:
+              summary: Invalid displayLanguage value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Invalid displayLanguage value.
+    ErrorResponse500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Unexpected server error.
+    ErrorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: rate_limit_exceeded
+                description: Number of queries per minute exceeds limit.
+    ErrorResponse403Entitlements:
+      description: Forbidden - Access Denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: missing_entitlements
+                description: Access denied. Please check your API key entitlements.
+  parameters:
+    displayLanguage:
+      name: displayLanguage
+      in: query
+      required: false
+      description: Specify the language for descriptor label localization in the response.
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    descriptorList:
+      name: descriptorList
+      in: query
+      required: true
+      description: "Specify the descriptor hierarchy to retrieve. \n\n**For genres:** Must use exact hierarchy labels (e.g., GENRES-US-SIMPLIFIED, GENRES-US-DETAILED)\n\n**For other types:** Can use simple descriptor type name:\n- LANGUAGES\n- ORIGINS\n- ERAS\n- ARTISTTYPES\n- MOODS\n- STYLES\n- TEMPOS\n"
+      schema:
+        type: string
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+        - LANGUAGES
+        - ORIGINS
+        - ERAS
+        - ARTISTTYPES
+        - MOODS
+        - STYLES
+        - TEMPOS
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    level:
+      name: level
+      in: query
+      required: false
+      description: "Filter hierarchy data by specific level. \n\nWhen provided, only nodes at the specified level will be returned.\nIf not provided, the complete hierarchy tree is returned.\n\n**Note:** Only descriptor types with data at the requested level will return results.\n"
+      schema:
+        type: integer
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+  schemas:
+    DescriptorHierarchyResponseMeta:
+      title: descriptor hierarchy response meta object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+          description: Total number of hierarchy nodes returned
+        references:
+          type:
+          - object
+          - 'null'
+          additionalProperties: false
+          properties:
+            descriptorList:
+              type: string
+              description: The descriptor hierarchy that was requested
+            displayLanguage:
+              type: string
+              description: The display language used for labels
+          required:
+          - descriptorList
+          - displayLanguage
+      required:
+      - total
+      examples:
+      - total: 1
+        references:
+          genreList: GENRES-GLOBAL-DETAILED
+          displayLanguage: en
+    DescriptorHierarchyObject:
+      title: descriptor hierarchy object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        level:
+          type: integer
+          nullable: false
+          description: Hierarchy level (1-5)
+          minimum: 1
+          maximum: 5
+        descriptorID:
+          type: string
+          nullable: false
+          description: Unique identifier for this descriptor
+        label:
+          type: string
+          nullable: false
+          description: Human-readable label for this descriptor
+        children:
+          type: array
+          nullable: false
+          description: Child nodes in the hierarchy (only present for hierarchical data)
+          items:
+            $ref: '#/components/schemas/DescriptorHierarchyObject'
+      required:
+      - level
+      - descriptorID
+      - label
+      - children
+      examples:
+      - level: 1
+        descriptorID: '24046'
+        label: Pop
+        children:
+        - level: 2
+          descriptorID: '35331'
+          label: Southeast Asian Pop
+          children:
+          - level: 3
+            descriptorID: '24569'
+            label: Malaysian Pop
+            children:
+            - level: 4
+              descriptorID: '82666'
+              label: 'Malay/Indo Pop: Pop/Ballad'
+              children: []
+    ErrorResponse:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      description: API key provided during registration
+      name: GN-APIKEY

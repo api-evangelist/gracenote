@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Global Sports Data Lookup API v1 Sport Endpoints API
+  description: This page contains all Lookup API endpoints that are part of our Core Sports Data.
+  version: '1'
+servers:
+- url: /proxy/sports
+tags:
+- name: Sport Endpoints
+paths:
+  /gsd/lookup/v1/sports/{sportId}:
+    get:
+      tags:
+      - Sport Endpoints
+      summary: Sport Info
+      operationId: SportInfo
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: sportId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNFB17MNF4TH4KM
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/sports/{sportId}/series:
+    get:
+      tags:
+      - Sport Endpoints
+      summary: Series by Sport
+      operationId: SeriesbySport
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: sportId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNBF6D927MH62TN
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/sports/{sportId}/leagues:
+    get:
+      tags:
+      - Sport Endpoints
+      summary: Leagues by Sport
+      operationId: LeaguesbySport
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: sportId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNFB17MNF4TH4KM
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/sports/{sportId}/schedule-results:
+    get:
+      tags:
+      - Sport Endpoints
+      summary: Schedule and Results by Sport
+      operationId: ScheduleandResultsbySport
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: sportId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNFB17MNF4TH4KM
+      - name: timeFrom
+        in: query
+        required: true
+        description: 'Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2022-02-15T00:00:00'
+      - name: timeTo
+        in: query
+        required: true
+        description: 'Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 36 hours and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2022-02-16T00:00:00'
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      description: API key for authentication
+      schema:
+        type: string
+    LanguageQuery:
+      name: language
+      in: query
+      description: Language Code which will translate all translatable fields into the requested language.
+      schema:
+        type: string
+        enum:
+        - ''
+        - ar-SA
+        - cs-CZ
+        - da-DK
+        - de-DE
+        - el-GR
+        - en-GB
+        - en-US
+        - es-ES
+        - fi-FI
+        - fr-FR
+        - hu-HU
+        - it-IT
+        - ja-JP
+        - ko-KR
+        - nb-NO
+        - nl-BE
+        - nl-NL
+        - pl-PL
+        - pt-BR
+        - pt-PT
+        - ro-RO
+        - ru-RU
+        - sv-SE
+        - tr-TR
+        - zh-CN
+        - zh-HK
+        default: en-GB

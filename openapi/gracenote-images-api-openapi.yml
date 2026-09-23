@@ -1,0 +1,1840 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Images API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: Images
+paths:
+  /images:
+    get:
+      tags:
+      - Images
+      operationId: searchImages
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: aspectRatio
+        in: query
+        description: Aspect Ratios to filter images by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: category
+        in: query
+        description: Image categories to filter by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: language
+        in: query
+        description: 'Language string to filter by.
+
+          Results may have overlap but not strictly be a sub-set.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: market
+        in: query
+        description: 'Market string to filter by.
+
+          Results may have overlap but not strictly be a sub-set.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: sortField
+        in: query
+        description: Field by which to sort images by.
+        schema:
+          type: string
+          default: updated
+          enum:
+          - gnID
+          - title
+          - category
+          - width
+          - height
+          - updated
+      - name: sortDirection
+        in: query
+        description: Direction by which to sort the search results.
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - asc
+          - DESC
+          - desc
+      responses:
+        '200':
+          description: ImagesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImagesResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      summary: Search images
+      x-summary-source: derived
+    post:
+      tags:
+      - Images
+      summary: Create a new image
+      description: 'Create a new image resource. Accepts JSON image data in the request body.
+
+
+        It is necessary to have the image register entitlement to use this endpoint.
+
+
+        ### Below are the list of categories (confirming) those can be used while registering an image.
+
+
+        1. __Production Art (Texted)__ - Home video movie art that includes the movie title only
+
+        (does not contain billing block). Promotional series art that includes the show title only.
+
+        Deliver the most recent/upcoming season artwork and previous season artwork upon request.
+
+        Actor names and taglines are also acceptable. Layered files are preferred.
+
+
+        2. __Production Art (Textless)__ - Promotional Key Art without any text. Promotional series should
+
+        be centered and represent the show by featuring leading cast or scenic elements. Ideally, the
+
+        textless artwork matches the texted key art, but this is not a requirement.
+
+
+        3. __Still Frame__ - For a movie, 5-10 images from a scene in the movie. For an episode, 3-5 unique
+
+        images from scenes from the episode. The show should have multiple images for each episode in
+
+        the season. Contains no text.
+
+        __Note__: Do not send: Behind-the-scenes photos. (green screens, visible microphones, directors on-set).
+
+
+        4. __Backdrop__ - For movie and show, right-justified, full-frame art. For the movie that does not contain
+
+        any text.
+
+        __Note__: For a show, do not apply a gradient that conceals any part of the image.
+
+
+        5. __Title Treatment__ - The title of a movie or series with a transparent background. Layered files only.
+
+        Vector, TIFF, PNG or PSD files are acceptable.
+
+        __Note__: Title Treatment should not include channel or streaming service logo or branding.
+
+
+        6. __Cast in Character__ - Cast images of of a celebrity or host as their character. Separate from celebrity images.
+
+
+        7. __Cast Ensemble__ - Cast images as part of program image library. Separate from celebrity images.
+
+
+        ### Below table provides confirming programType mapping for category and aspect ratio.
+
+
+        Category | Aspect Ratio |
+
+        | 2:3 | 3:4 | 4:3 | 16:9 | 2:1 | 1:1 | 9:5 |
+
+        Production Art(Texted) | M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| |
+
+        Production Art(Textless)| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| |
+
+        Still Frame | M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| |
+
+        Backdrop | | | | M,SH,SE,E| | | |
+
+        Title Treatment | | | | | | | M,SH,SE,E|
+
+        Cast in Character | | M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| | | |
+
+        Cast Ensemble | | M,SH,SE,E| M,SH,SE,E| M,SH,SE,E| | | |
+
+
+        ### Legend:
+
+
+        M - Movie
+
+
+        SH - Show/Series
+
+
+        SE - Season
+
+
+        E - Episode'
+      operationId: createImage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewImage'
+        required: false
+      responses:
+        '200':
+          description: ImageResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '409':
+          description: ConflictError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: newImage
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /images/{gnID}:
+    get:
+      tags:
+      - Images
+      summary: Query an image using its gnID
+      description: Retrieves a specific image resource identified by its `gnID` path parameter.
+      operationId: queryImageByID
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the image being queried.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ImageResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    put:
+      tags:
+      - Images
+      summary: Update an existing image
+      description: 'Updates an existing image resource. Requires the `gnID` path parameter and
+
+        accepts a JSON payload with the image''s updated attributes.'
+      operationId: updateImage
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the image being queried.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewImage'
+        required: false
+      responses:
+        '200':
+          description: ImageResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: newImage
+    delete:
+      tags:
+      - Images
+      summary: Delete an image using its gnID
+      description: Deletes an image resource identified by its `gnID` path parameter.
+      operationId: deleteImage
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the image being deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeletedImageResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedImageResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+  /programImages:
+    get:
+      tags:
+      - Images
+      summary: Search for program-image mappings
+      operationId: searchProgramImages
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: imageGnID
+        in: query
+        schema:
+          type: string
+      - name: presentationGnID
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ProgramImagesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramImagesResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    post:
+      tags:
+      - Images
+      summary: Map an image to a presentation (movie, show, season or episode) using their…
+      description: 'Maps an image resource to a program presentation (movie, show, season, or episode).
+
+        Requires `gnID`s for both the image and the presentation within the JSON payload.'
+      operationId: mapProgramImages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProgramImage'
+        required: false
+      responses:
+        '200':
+          description: ProgramImagesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramImagesResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '422':
+          description: UnprocessableEntityErrorProgramImages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - mapping conflicts
+                  descriptionDetails:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - imageGnID: GN2345678901234
+                        presentationGnID: GN1234567890123
+                        type: image_not_found
+                      - imageGnID: GN2345678901234
+                        presentationGnID: GN1234567890123
+                        type: presentation_not_found
+                      - imageGnID: GN2345678901234
+                        presentationGnID: GN1234567890123
+                        type: duplicate_mapping
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/programImages
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: newProgramImage
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+    patch:
+      tags:
+      - Images
+      summary: Delete a mapping between an image and a presentation (movie, show, season or…
+      operationId: unmapProgramImages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProgramImage'
+        required: false
+      responses:
+        '200':
+          description: ProgramImagesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramImagesResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '422':
+          description: UnprocessableEntityErrorProgramImages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - mapping conflicts
+                  descriptionDetails:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - imageGnID: GN2345678901234
+                        presentationGnID: GN1234567890123
+                        type: duplicate_mapping
+                      - imageGnID: GN2345678901234
+                        presentationGnID: GN1234567890123
+                        type: mapping_not_found
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/programImages
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 73fdfc07-2182-4567-963f-5f0f9a621d15
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: newProgramImage
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+components:
+  schemas:
+    DeletedImageResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedImage'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ImagesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ProgramImage:
+      title: ProgramImage represents the relationship between an Image and a Presentation.
+      required:
+      - imageGnID
+      - presentationGnID
+      type: object
+      properties:
+        imageGnID:
+          type: string
+          description: ImageID is the GnID of an image.
+          examples:
+          - GNLZZZ200000004
+        isConforming:
+          type: boolean
+          description: 'IsConforming indicates if the Image conforms to Gracenote Rich Media
+
+            categorical image standards with respect to the mapped Presentation.'
+          readOnly: true
+        presentationGnID:
+          type: string
+          description: PresentationGnID is the GnID of a Presentation.
+          examples:
+          - GNLZZXT00000004
+    DeletedImage:
+      title: DeletedImage represents a a deleted image.
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted image.
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
+    ProgramImagesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramImage'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    AspectRatio:
+      title: AspectRatio defines aspect ratio values which are known to conform.
+      type: string
+      description: Custom aspect ratios may be used, but they will never conform.
+    NewImage:
+      required:
+      - category
+      - dimensions
+      - fileType
+      - title
+      - url
+      type: object
+      properties:
+        brandDescription:
+          type: string
+          description: 'Description that indicates the branding applied to the image.
+
+            If the description is provided, then branded is assumed to be true.
+
+            brandDescription is not required, even if branded is specified as true.
+
+            Cannot exceed 1000 character length limit.'
+        branded:
+          type: boolean
+          description: Indicates that the image has branded content such as a source, channel, or network name or logo.
+          default: false
+        category:
+          $ref: '#/components/schemas/Category'
+        customAttributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom key:value pairs to associate with the image.
+        description:
+          $ref: '#/components/schemas/Description'
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        fileType:
+          type: string
+          description: The media or file-type of the image at the URL.
+          enum:
+          - bmp
+          - ' psd'
+          - ' jpeg'
+          - ' jpg'
+          - ' tiff'
+          - ' png'
+        gracenoteUsage:
+          type: boolean
+          description: 'Indicates that the client agrees that, upon a successful publish request,
+
+            Gracenote may use the provided image in Gracenote''s customer-facing datasets.
+
+            If the client does not agree, then this field should be set to false.'
+          default: true
+        languages:
+          type: array
+          description: Primary languages used in the image.
+          items:
+            type: string
+          examples:
+          - - en
+            - en-GB
+            - en-AU
+            - es
+            - es-ES
+        markets:
+          type: array
+          description: 'Applicable markets for the image.
+
+            Must conform to GN Vocabulary (ISO 3166-1 Alpha-2 codes).'
+          items:
+            type: string
+          examples:
+          - - US
+            - MX
+            - ES
+            - AU
+            - GB
+        productionDate:
+          type: string
+          description: The ISO-8601 date that the image was originally created.
+          format: date
+        sensitive:
+          type: boolean
+          description: Indicates that the image contains sensitive material.
+          default: false
+        tags:
+          type: array
+          description: Custom tags to associate with the image.
+          items:
+            type: string
+        title:
+          type: string
+          description: The tile (or name) of the image. Cannot exceed 1000 character length limit.
+        url:
+          type: string
+          description: The URL at which the image file may be accessed. Cannot exceed 8000 character length limit.
+          format: uri
+      description: NewImage represents the metadata for creating a new image
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
+    Dimensions:
+      required:
+      - aspectRatio
+      - height
+      - width
+      type: object
+      properties:
+        aspectRatio:
+          $ref: '#/components/schemas/AspectRatio'
+        height:
+          maximum: 32767
+          type: integer
+          description: The pixel height of the image.
+          format: int16
+        width:
+          maximum: 32767
+          type: integer
+          description: The pixel width of the image.
+          format: int16
+      description: Dimensions represents the dimensions of an Image
+    Image:
+      description: Image represents the metadata describing a source provided image
+      required:
+      - category
+      - dimensions
+      - fileType
+      - title
+      - url
+      type: object
+      properties:
+        brandDescription:
+          type: string
+          description: 'Description that indicates the branding applied to the image.
+
+            If the description is provided, then branded is assumed to be true.
+
+            brandDescription is not required, even if branded is specified as true.
+
+            Cannot exceed 1000 character length limit.'
+        branded:
+          type: boolean
+          description: Indicates that the image has branded content such as a source, channel, or network name or logo.
+          default: false
+        category:
+          $ref: '#/components/schemas/Category'
+        customAttributes:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom key:value pairs to associate with the image.
+        description:
+          $ref: '#/components/schemas/Description'
+        dimensions:
+          $ref: '#/components/schemas/Dimensions'
+        fileType:
+          type: string
+          description: The media or file-type of the image at the URL.
+          enum:
+          - bmp
+          - ' psd'
+          - ' jpeg'
+          - ' jpg'
+          - ' tiff'
+          - ' png'
+        gracenoteUsage:
+          type: boolean
+          description: 'Indicates that the client agrees that, upon a successful publish request,
+
+            Gracenote may use the provided image in Gracenote''s customer-facing datasets.
+
+            If the client does not agree, then this field should be set to false.'
+          default: true
+        languages:
+          type: array
+          description: Primary languages used in the image.
+          items:
+            type: string
+          examples:
+          - - en
+            - en-GB
+            - en-AU
+            - es
+            - es-ES
+        markets:
+          type: array
+          description: 'Applicable markets for the image.
+
+            Must conform to GN Vocabulary (ISO 3166-1 Alpha-2 codes).'
+          items:
+            type: string
+          examples:
+          - - US
+            - MX
+            - ES
+            - AU
+            - GB
+        productionDate:
+          type: string
+          description: The ISO-8601 date that the image was originally created.
+          format: date
+        sensitive:
+          type: boolean
+          description: Indicates that the image contains sensitive material.
+          default: false
+        tags:
+          type: array
+          description: Custom tags to associate with the image.
+          items:
+            type: string
+        title:
+          type: string
+          description: The tile (or name) of the image. Cannot exceed 1000 character length limit.
+        url:
+          type: string
+          description: The URL at which the image file may be accessed. Cannot exceed 8000 character length limit.
+          format: uri
+        created:
+          type: string
+          description: The time at which the image was created in system.
+          readOnly: true
+        gnID:
+          type: string
+          description: The Gracenote ID of the Image.
+          readOnly: true
+        updated:
+          type: string
+          description: The time at which the image was last updated in system.
+          readOnly: true
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    ImageResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Image'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

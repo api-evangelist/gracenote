@@ -1,0 +1,1265 @@
+openapi: 3.2.0
+info:
+  title: Gracenote Album Editions API
+  version: '1.0'
+  description: 'Operations tagged AlbumEditions across 2 of this provider''s published API definitions: gracenote-gmd-api-v2-openapi.json, gracenote-gmd-api-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /proxy/gmd/v2
+- url: https://api.gmd.music.gracenote.com/v3
+tags:
+- name: AlbumEditions
+paths:
+  /albumEditions/search:
+    get:
+      tags:
+      - AlbumEditions
+      summary: Album text search
+      description: 'Text search for `Album` objects using album name and/or artist name.
+
+
+        Note that one of either album or artist name is required. Omitting both
+
+        will result in an error.'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/albumName'
+      - $ref: '#/components/parameters/artistName'
+      - $ref: '#/components/parameters/releaseType'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/offset'
+      - $ref: '#/components/parameters/categoriesLanguage'
+      - $ref: '#/components/parameters/genreCategories'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/AlbumObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400'
+        '404':
+          $ref: '#/components/responses/ErrorResponse404'
+      operationId: getAlbumEditionsSearch
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/gmd/v2
+  /albumEditions/{idType}:
+    get:
+      tags:
+      - AlbumEditions
+      summary: Lookup Album(s) by ID
+      description: 'Get `Album` object(s) by ID
+
+
+        **Notes**
+
+        * Objects are returned in order requested.
+
+        * If an object is not found, a `null` value is returned in its position.
+
+        * Duplicate ids in the query will result in duplicate objects in the response
+
+
+        **Example:** Lookup by Gracenote ID
+
+
+        `https://.../albumEditions/gnid?ids=GN949Y7H6M9XNYP`'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/albumEditionIDType'
+      - $ref: '#/components/parameters/ids'
+      - $ref: '#/components/parameters/categoriesLanguage'
+      - $ref: '#/components/parameters/genreCategories'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/AlbumObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400'
+        '404':
+          $ref: '#/components/responses/ErrorResponse404'
+      operationId: getAlbumEditionsByIdType
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/gmd/v2
+  /albumEditions/lookup:
+    get:
+      tags:
+      - AlbumEditions
+      summary: Lookup AlbumEdition(s) by ID
+      description: 'Get `AlbumEdition` object(s) by ID
+
+
+        **Notes**
+
+        * Objects are returned in order requested.
+
+        * Only one object is returned per ID. *so if the input ID matches multiple objects, only one will be returned.*
+
+        * If an object is not found, a 404 is returned along with a message indicating which ID wasn''t found.
+
+        * Duplicate ids in the query will result in a 400 response.
+
+
+        **Example:** Lookup by Gracenote ID
+
+
+        `https://.../albumEditions/lookup?ids=GN949Y7H6M9XNYP&idType=albumEditionID`'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/idTypeAlbumEditions'
+      - $ref: '#/components/parameters/ids_2'
+      - $ref: '#/components/parameters/displayLanguage'
+      - $ref: '#/components/parameters/genreList'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta_2'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/AlbumEditionObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400_2'
+        '404':
+          $ref: '#/components/responses/ErrorResponse404_2'
+      security:
+      - ApiKeyAuth: []
+      operationId: getAlbumEditionsLookup
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.gmd.music.gracenote.com/v3
+  /albumEditions/explore:
+    get:
+      tags:
+      - AlbumEditions
+      summary: Explore Album Edition(s)
+      description: 'Get `Album Edition` object(s) - optionally filtered and sorted.
+
+
+        Without any query parameters, the `explore` Album Editions endpoint will return a set of recent Album Editions to the end user.
+
+
+        When filtering by `artistID`, we would suggest as a best practice to sort by `releaseYear` and filter on `mainCanon` release types.
+
+
+        ***Note: Filter by genreIDs is not yet supported.***
+
+
+        **Example:** Explore main canon editions by an artist, sorted descending by release year
+
+
+        `https://.../albumEditions/artistIDs=GMGZZX800003Y64&releaseTypes=mainCanon&sort=-releaseYear`'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/artistIDs'
+      - $ref: '#/components/parameters/includeRelatedArtists'
+      - $ref: '#/components/parameters/releaseTypes'
+      - $ref: '#/components/parameters/sortAlbumEditions'
+      - $ref: '#/components/parameters/includeAllEditions'
+      - $ref: '#/components/parameters/genreIDs'
+      - $ref: '#/components/parameters/limit_2'
+      - $ref: '#/components/parameters/offset_2'
+      - $ref: '#/components/parameters/displayLanguage'
+      - $ref: '#/components/parameters/genreList'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta_2'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/AlbumEditionObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400_2'
+      security:
+      - ApiKeyAuth: []
+      operationId: getAlbumEditionsExplore
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.gmd.music.gracenote.com/v3
+components:
+  schemas:
+    ExternalID:
+      type: object
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
+    AlbumObject:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: string
+          description: '[albums]'
+        albumEditionID:
+          description: gracenote ID
+          type: string
+        albumEditionName:
+          type: string
+        artist:
+          $ref: '#/components/schemas/ArtistWithImage'
+        externalIDs:
+          type:
+          - array
+          - 'null'
+          description: Only visible to Customers with Partner IDs add on
+          items:
+            $ref: '#/components/schemas/ExternalID'
+        href:
+          type: string
+        images:
+          type:
+          - array
+          - 'null'
+          description: Only visible to Customers with Cover Art add-on
+          items:
+            $ref: '#/components/schemas/Image'
+        languageContexts:
+          type:
+          - array
+          - 'null'
+          description: Only visible to Customers with GMD:Discovery package and above
+          items:
+            $ref: '#/components/schemas/LanguageContextWeight'
+        selectedAlbumEdition:
+          type: object
+          description: Only visible to Customers Search Package
+          properties:
+            href:
+              type: string
+            selectedAlbumEditionID:
+              type: string
+        releaseType:
+          $ref: '#/components/schemas/ReleaseType'
+        releaseYear:
+          description: Only visible to Customers with GMD:Search package
+          type:
+          - string
+          - 'null'
+        trackCount:
+          type:
+          - integer
+          - 'null'
+        tracks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Track'
+        descriptors:
+          type:
+          - object
+          - 'null'
+          properties:
+            genres:
+              $ref: '#/components/schemas/DescriptorObject'
+    Artist:
+      type: object
+      properties:
+        artistID:
+          type:
+          - string
+          - 'null'
+          description: gracenote ID
+        artistName:
+          type: string
+        href:
+          type:
+          - string
+          - 'null'
+          description: will be of the type /artists/gnid?ids=GNXX
+    ResponseMeta:
+      type: object
+      nullable: false
+      additionalProperties: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+        count:
+          type: integer
+          nullable: false
+        offset:
+          type: integer
+          nullable: false
+        references:
+          type: object
+          properties:
+            genreCategories:
+              type: string
+            categoriesLanguage:
+              type: string
+      required:
+      - total
+      - count
+      - offset
+    Image:
+      type: object
+      properties:
+        size:
+          type: string
+        height:
+          type: integer
+        width:
+          type: integer
+        url:
+          type: string
+          pattern: ^https://
+    LanguageContextWeight:
+      type:
+      - object
+      - 'null'
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+        script:
+          type:
+          - string
+          - 'null'
+        weight:
+          type:
+          - integer
+          - 'null'
+    DescriptorObject:
+      type: array
+      description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          ID:
+            type: string
+          name:
+            type: string
+          weight:
+            type: integer
+          categories:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                level:
+                  type: integer
+          links:
+            type: object
+            properties:
+              descriptorCorrelations:
+                description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
+                type: string
+    ErrorResponse:
+      type: object
+      nullable: false
+      additionalProperties: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    ReleaseType:
+      type:
+      - string
+      - 'null'
+      description: Only visible to Customers with GMD:Discovery package and above
+    Track:
+      type: object
+      properties:
+        artist:
+          $ref: '#/components/schemas/Artist'
+        ord:
+          type: string
+        recording:
+          type: object
+          properties:
+            href:
+              type: string
+              description: will be of the type /recordings/gnid?ids=GNXX
+            recordingID:
+              type: string
+        trackName:
+          type: string
+    ArtistWithImage:
+      type: object
+      properties:
+        artistID:
+          type:
+          - string
+          - 'null'
+          description: gracenote ID
+        artistName:
+          type: string
+        href:
+          type:
+          - string
+          - 'null'
+          description: will be of the type /artists/gnid?ids=GNXX
+        images:
+          type:
+          - array
+          - 'null'
+          description: Only visible to Customers with Artist Images add-on
+          items:
+            $ref: '#/components/schemas/Image'
+    ExternalID_2:
+      type: object
+      additionalProperties: false
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
+      required:
+      - source
+      - ID
+    TrackShort:
+      title: track
+      type: object
+      additionalProperties: false
+      properties:
+        artist:
+          $ref: '#/components/schemas/ArtistShort'
+        recordingID:
+          type:
+          - string
+          - 'null'
+        trackName:
+          type: string
+        trackNumber:
+          type: integer
+        discNumber:
+          type: integer
+      required:
+      - artist
+      - recordingID
+      - trackName
+      - trackNumber
+      - discNumber
+    IndustryCode:
+      title: industry code
+      type: object
+      description: Industry codes like ISRCs and ICPNs.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+        code:
+          type: string
+      required:
+      - type
+      - code
+    ArtistShort:
+      title: artist
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          nullable: false
+          type: string
+          description: Artist Name
+      required:
+      - artistID
+      - artistName
+    ResponseMeta_2:
+      title: meta object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+          description: Total data objects for the query criteria
+        count:
+          type: integer
+          nullable: false
+          description: Count of objects in the returned result set
+        offset:
+          type: integer
+          nullable: false
+          description: Current offset for result set
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            genreList:
+              type: string
+              description: Hierarchical Genre List used for response.
+            displayLanguage:
+              type: string
+              description: Display language used for descriptor strings.
+      required:
+      - total
+      - count
+      - offset
+      examples:
+      - total: 1
+        count: 1
+        offset: 0
+        references:
+          genreList: GENRES-US-DETAILED
+          displayLanguage: en
+    Image_2:
+      title: image
+      type: object
+      additionalProperties: false
+      properties:
+        imageType:
+          type: string
+          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
+          enum:
+          - artistImage-promotional
+          - artistImage-inPerformance
+          - artistImage-redCarpet
+          - artistImage-other
+          - artistImage-headshot
+          - artistImage-iconic
+          - artistImage-backdrop
+          - coverArt
+        imageID:
+          type: string
+          nullable: false
+        preferred:
+          type: string
+          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
+          enum:
+          - 'true'
+          - 'false'
+        assets:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+      - imageType
+      - imageID
+      - assets
+    AlbumEditionObject:
+      title: album edition object
+      nullable: false
+      type: object
+      additionalProperties: false
+      properties:
+        objectType:
+          enum:
+          - albumEdition
+          description: The object type.
+          type: string
+        albumEditionID:
+          nullable: false
+          description: Gracenote album Edition ID
+          type: string
+        albumEditionName:
+          nullable: false
+          type: string
+        artist:
+          $ref: '#/components/schemas/ArtistShortWithImages'
+        descriptors:
+          nullable: false
+          description: Descriptor data is only returned to Customers with GMD Discovery/Advanced Discovery package.
+          type: object
+          additionalProperties: false
+          properties:
+            genres:
+              $ref: '#/components/schemas/DescriptorObject_2'
+        externalIDs:
+          nullable: false
+          type: array
+          description: Only visible to Customers with Partner IDs add-on
+          items:
+            $ref: '#/components/schemas/ExternalID_2'
+        industryCodes:
+          nullable: false
+          type: array
+          description: Album release codes such as ICPN. Only visible to Customers with Partner IDs add-on
+          items:
+            $ref: '#/components/schemas/IndustryCode'
+        images:
+          nullable: false
+          type: array
+          description: An array of the images for the album edition. Returns one image with one size (largest available). The first entry is the preferred image. Only visible to Customers with Cover Art add-on
+          items:
+            $ref: '#/components/schemas/Image_2'
+        languageContext:
+          nullable: false
+          type: object
+          description: The language of the album edition's primary market. Only visible to Customers with GMD Discovery/Advanced Discovery package and above
+          items:
+            $ref: '#/components/schemas/LanguageContext'
+        releaseType:
+          type:
+          - string
+          - 'null'
+          description: Only visible to Customers with GMD Discovery/Advanced Discovery package and above
+          enum:
+          - mainCanon
+          - mainCanonCollection
+          - singleArtistCollection
+          - multiArtistCollection
+          - singleEP
+          - unclassified
+        releaseYear:
+          description: Only visible to Customers with GMD Search package
+          type:
+          - integer
+          - 'null'
+        selectedAlbumEditionID:
+          type: string
+          description: It is the selected Album Edition for this album grouping. Only visible to Customers with GMD Search package
+        trackCount:
+          nullable: false
+          type: integer
+        tracks:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackShort'
+        submittedAlbumEditionID:
+          type:
+          - string
+          - 'null'
+          description: The Gracenote Album Edition ID as submitted in the API request. Populated when a GNID lookup returns this entity. Null for search, non-GNID lookups, and explore endpoints.
+        submittedArtistID:
+          type:
+          - string
+          - 'null'
+          description: The Gracenote Artist ID as submitted in the API request. Populated when an explore endpoint filtered by artistIDs returns this entity. Null for lookup and search endpoints.
+        sourceData:
+          nullable: false
+          type: object
+          additionalProperties: false
+          description: Raw source data fields for the album edition. individual fields may be null when the source does not provide them.
+          properties:
+            releaseDate:
+              type:
+              - string
+              - 'null'
+              description: The raw release date string of the album edition as provided by the source.
+            label:
+              type:
+              - string
+              - 'null'
+              description: The record label associated with the album edition as provided by the source.
+      required:
+      - objectType
+      - artist
+      - albumEditionName
+      - albumEditionID
+      - trackCount
+      - tracks
+      - sourceData
+      examples:
+      - "{\n  \"albumEditionID\": \"GMGZZX400000JVE\",\n  \"albumEditionName\": \"No Strings Attached\",\n  \"artist\": {\n    \"artistID\": \"GMGZZX80000SFYS\",\n    \"artistName\": \"*NSYNC\",\n    \"images\": [\n      {\n        \"imageType\": \"artistImage-promotional\",\n        \"imageID\": \"07A0F7795F8485DB\",\n        \"preferred\": \"true\",\n        \"assets\": [\n          {\n            \"size\": \"XLARGE\",\n            \"width\": 1080,\n            \"height\": 1080,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/07A0/F779/5F84/85DB_xlarge_front.jpg\"\n          },\n          {\n            \"size\": \"LARGE\",\n            \"width\": 720,\n            \"height\": 720,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/07A0/F779/5F84/85DB_large_front.jpg\"\n          },\n          {\n            \"size\": \"MEDIUM\",\n            \"width\": 450,\n            \"height\": 450,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/07A0/F779/5F84/85DB_medium_front.jpg\"\n          },\n          {\n            \"size\": \"SMALL\",\n            \"width\": 170,\n            \"height\": 170,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/07A0/F779/5F84/85DB_small_front.jpg\"\n          },\n          {\n            \"size\": \"THUMBNAIL\",\n            \"width\": 75,\n            \"height\": 75,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/07A0/F779/5F84/85DB_thumbnail_front.jpg\"\n          }\n        ]\n      }\n    ]\n  },\n  \"descriptors\": {\n    \"genres\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"36056\",\n            \"label\": \"Pop\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"36101\",\n            \"label\": \"Teen Pop\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"26463\",\n            \"label\": \"Teen Boy Band\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"2931\",\n            \"label\": \"Boy Bands\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 64\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"36056\",\n            \"label\": \"Pop\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"36101\",\n            \"label\": \"Teen Pop\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"26465\",\n            \"label\": \"General Teen Pop\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"2935\",\n            \"label\": \"Teen Male Pop\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 36\n      }\n    ]\n  },\n  \"externalIDs\": [\n    {\n      \"source\": \"Acme\",\n      \"ID\": \"123456789\"\n    }\n  ],\n  \"images\": [\n    {\n      \"imageType\": \"coverArt\",\n      \"imageID\": \"917E031A124555DC\",\n      \"assets\": [\n        {\n          \"size\": \"XLARGE\",\n          \"width\": 1080,\n          \"height\": 1080,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/917E/031A/1245/55DC_xlarge_front.jpg\"\n        },\n        {\n          \"size\": \"LARGE\",\n          \"width\": 720,\n          \"height\": 720,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/917E/031A/1245/55DC_large_front.jpg\"\n        },\n        {\n          \"size\": \"MEDIUM\",\n          \"width\": 450,\n          \"height\": 450,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/917E/031A/1245/55DC_medium_front.jpg\"\n        },\n        {\n          \"size\": \"SMALL\",\n          \"width\": 170,\n          \"height\": 170,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/917E/031A/1245/55DC_small_front.jpg\"\n        },\n        {\n          \"size\": \"THUMBNAIL\",\n          \"width\": 75,\n          \"height\": 75,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/917E/031A/1245/55DC_thumbnail_front.jpg\"\n        }\n      ]\n    }\n  ],\n  \"industryCodes\": [\n    {\n      \"type\": \"ICPN\",\n      \"code\": \"012414170224\"\n    }\n  ],\n  \"languageContext\":\n  {\n    \"language\": \"English\",\n    \"script\": \"Latin\"\n  },\n  \"objectType\": \"albumEdition\",\n  \"releaseType\": \"mainCanon\",\n  \"releaseYear\": 2000,\n  \"selectedAlbumEditionID\": \"GMGZZX400000JVE\",\n  \"trackCount\": 12,\n  \"tracks\": [\n    {\n      \"trackName\": \"Bye Bye Bye\",\n      \"recordingID\": \"GMGZZX000000YMB\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 1\n    },\n    {\n      \"trackName\": \"It's Gonna Be Me\",\n      \"recordingID\": \"GMGZZX000000M3G\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 2\n    },\n    {\n      \"trackName\": \"Space Cowboy (Yippie-Yi-Yay)\",\n      \"recordingID\": \"GMGZZX000004PNN\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000824D\",\n        \"artistName\": \"*NSYNC Feat. Lisa \\\"Left Eye\\\" Lopes\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 3\n    },\n    {\n      \"trackName\": \"Just Got Paid\",\n      \"recordingID\": \"GMGZZX000004PNS\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 4\n    },\n    {\n      \"trackName\": \"It Makes Me Ill\",\n      \"recordingID\": \"GMGZZX000004PNC\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 5\n    },\n    {\n      \"trackName\": \"This I Promise You\",\n      \"recordingID\": null,\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 6\n    },\n    {\n      \"trackName\": \"No Strings Attached\",\n      \"recordingID\": \"GMGZZX000004PNB\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 7\n    },\n    {\n      \"trackName\": \"Digital Get Down\",\n      \"recordingID\": \"GMGZZX000004S62\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 8\n    },\n    {\n      \"trackName\": \"Bringin' Da Noise\",\n      \"recordingID\": \"GMGZZX000004PNR\",\n      \"artist\": null,\n      \"discNumber\": 1,\n      \"trackNumber\": 9\n    },\n    {\n      \"trackName\": \"That's When I'll Stop Loving You\",\n      \"recordingID\": \"GMGZZX000004PNF\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 10\n    },\n    {\n      \"trackName\": \"I'll Be Good For You\",\n      \"recordingID\": \"GMGZZX000004PNH\",\n      \"artist\": null,\n      \"discNumber\": 1,\n      \"trackNumber\": 11\n    },\n    {\n      \"trackName\": \"I Thought She Knew\",\n      \"recordingID\": \"GMGZZX000004PNP\",\n      \"artist\": {\n        \"artistID\": \"GMGZZX80000SFYS\",\n        \"artistName\": \"*NSYNC\"\n      },\n      \"discNumber\": 1,\n      \"trackNumber\": 12\n    }\n  ]\n}\n"
+    Asset:
+      title: image asset
+      type: object
+      additionalProperties: false
+      properties:
+        size:
+          type: string
+          nullable: false
+        height:
+          type: integer
+          nullable: false
+        width:
+          type: integer
+          nullable: false
+        url:
+          type: string
+          pattern: ^https://
+      required:
+      - size
+      - height
+      - width
+      - url
+    LanguageContext:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+        script:
+          type:
+          - string
+          - 'null'
+      required:
+      - language
+      - script
+    DescriptorObject_2:
+      nullable: false
+      title: descriptor object
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            type: string
+            enum:
+            - artistTypes
+            - eras
+            - genres
+            - languages
+            - moods
+            - origins
+            - styles
+            - tempos
+          weight:
+            type: integer
+          hierarchy:
+            nullable: false
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                label:
+                  nullable: false
+                  type: string
+                descriptorID:
+                  nullable: false
+                  type: string
+                level:
+                  type: integer
+        required:
+        - type
+        - weight
+        - hierarchy
+    ErrorResponse_2:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    ArtistShortWithImages:
+      title: artist
+      type: object
+      additionalProperties: false
+      properties:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          type: string
+          description: Artist Name
+        images:
+          nullable: false
+          type: array
+          description: 'An array of the images for the artist. Returns one classic image with one size (largest available), selected by hierarchy: Preferred > Latest Promotional > Latest In Performance > Latest Red Carpet. Enhanced images (headshot, iconic, backdrop) are included when artist-enhanced-image add-on is present. The first entry is the preferred image. Only visible to Customers with Artist Images add-on'
+          items:
+            $ref: '#/components/schemas/Image_2'
+      required:
+      - artistID
+      - artistName
+  parameters:
+    artistName:
+      name: artistName
+      in: query
+      description: Artist name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Lil Nas X
+    albumName:
+      name: albumName
+      in: query
+      description: Album name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Dark Side of the Moon
+    categoriesLanguage:
+      name: categoriesLanguage
+      in: query
+      required: false
+      description: Result localization language code.
+      schema:
+        type: string
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    limit:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 10,000.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 10000
+        default: 100
+    releaseType:
+      name: releaseType
+      in: query
+      required: false
+      description: 'Select an album release type <br>
+
+        - 1  - Main Canon<br>
+
+        - 2  - Main Canon Collection<br>
+
+        - 3  - Single Artist Collection<br>
+
+        - 4  - Multi Artist Collection<br>
+
+        - 10 - Single<br>'
+      schema:
+        type: integer
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 10
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    ids:
+      name: ids
+      in: query
+      required: true
+      description: Comma seperated list of ids (max 100)
+      schema:
+        type: string
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset.  Used for "paging" through results.
+      schema:
+        type: integer
+        default: 0
+    genreCategories:
+      name: genreCategories
+      in: query
+      required: false
+      description: Select a genre categories according to the desired region and specificity.
+      schema:
+        type: string
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    albumEditionIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - gnid
+        - upc
+        - applealbumid
+        - spotify-album-id
+        - deezer-global-album-id
+    genreIDs:
+      name: genreIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    albumEditionName:
+      name: albumEditionName
+      in: query
+      description: Album Edition name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: MONTERO
+    idTypeAlbumEditions:
+      name: idType
+      in: query
+      required: true
+      description: Type of the IDs specified in the 'ids' parameter. For externalID lookups, use the `source` value of the associated ID for the `type` parameter.
+      schema:
+        type: string
+        enum:
+        - albumEditionID
+        - icpn
+        - - externalID source strings
+    genreList:
+      name: genreList
+      in: query
+      required: false
+      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
+      schema:
+        type: string
+        default: GENRES-GLOBAL-DETAILED
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    sortAlbumEditions:
+      name: sort
+      in: query
+      required: false
+      description: 'Sort criteria for Album Edition results. A prefix of ''-'' means sort descending.
+
+        Sorting by `releaseType` uses this ordering: mainCanon, mainCanonCollection, singleEP, singleArtistCollection, artistCollection
+
+        '
+      schema:
+        type: string
+        enum:
+        - releaseYear
+        - -releaseYear
+        - releaseType
+        - -releaseType
+        - albumEditionName
+        - -albumEditionName
+    limit_2:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 25.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 10
+    albumSearchRecordingName:
+      name: recordingName
+      in: query
+      description: A recording name that appears on the album edition you are trying to match.
+      required: false
+      schema:
+        type: string
+      examples:
+        default:
+          value: INDUSTRY BABY
+    ids_2:
+      name: ids
+      in: query
+      required: true
+      description: Comma separated list of ids (max 100)
+      schema:
+        type: string
+    includeAllEditions:
+      name: includeAllEditions
+      in: query
+      required: false
+      description: If set to true, all editions of the album(s) will be returned. By default, only the selected album edition is returned.
+      schema:
+        type: boolean
+        default: false
+    displayLanguage:
+      name: displayLanguage
+      in: query
+      required: false
+      description: Specify the language for descriptor label localization in the response.
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    artistIDs:
+      name: artistIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      schema:
+        type: string
+    includeRelatedArtists:
+      name: includeRelatedArtists
+      in: query
+      required: false
+      description: "Comma separated list of related artist types to include in the result set. Must be used with an input artistID.\n\nIf you specify `includeRelatedArtists`, in addition to results where the input artistID is the artist, you will get objects that match according to the following rules:\n\n`memberOfKeyArtists` will include will include results matching the artists in the input artistID's memberOfKeyArtists array\n      (i.e. if given Prince, return albums by Prince & The Revolution)\n\n`memberOfGroups` will include results matching the artists in the input artistID's memberOfGroups array\n\n`memberOfCollaborations` will include results matching the artists in the input artistID's memberOfCollaborations array\n\n`similarArtists` will include results matching the artists in the input artistID's similarArtists array\n\n`omitSeedArtists` will omit results matching the input artistID(s)\n"
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - memberOfKeyArtists
+          - memberOfGroups
+          - memberOfCollaborations
+          - similarArtists
+          - keyArtists
+          - groupMembers
+          - collaborationMembers
+          - omitSeedArtists
+        default: none
+    offset_2:
+      name: offset
+      in: query
+      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
+      schema:
+        type: integer
+        default: 0
+        maximum: 25000
+    releaseTypes:
+      name: releaseTypes
+      in: query
+      required: false
+      description: Filter by album release type.
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - mainCanon
+          - mainCanonCollection
+          - singleArtistCollection
+          - multiArtistCollection
+          - singleEP
+          default: none
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
+    ErrorResponse400_2:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+    ErrorResponse404_2:
+      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      description: API key provided during registration
+      name: GN-APIKEY
+x-refined-from:
+- gracenote-gmd-api-v2-openapi.json
+- gracenote-gmd-api-v3-openapi.json

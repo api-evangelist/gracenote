@@ -1,0 +1,425 @@
+openapi: 3.2.0
+info:
+  title: Global Sports Data Lookup API v1 Tier, Conference and……
+  description: This page contains all Lookup API endpoints that are part of our Core Sports Data.
+  version: '1'
+servers:
+- url: /proxy/sports
+tags:
+- name: Tier, Conference and Division Endpoints
+paths:
+  /gsd/lookup/v1/tiers/{tierId}:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Tier Info
+      operationId: TierInfo
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: tierId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNABDRW1MCKJWSR
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/conferences/{conferenceId}:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Conference Info
+      operationId: ConferenceInfo
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: conferenceId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN25HXV0SZ178F5
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/divisions/{divisionId}:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Division Info
+      operationId: DivisionInfo
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: divisionId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN467N412CEJ022
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/tiers:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Tiers by League
+      operationId: TiersbyLeague
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN7R8RE5S9AWDH1
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Tiers by League Season
+      operationId: TiersbyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNARF7S735K52SS
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/schedule-results:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Schedule and Results by League and Tier
+      operationId: ScheduleandResultsbyLeagueandTier
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN7R8RE5S9AWDH1
+      - name: tierId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNABDRW1MCKJWSR
+      - name: timeFrom
+        in: query
+        required: true
+        description: 'Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-06T00:00:00'
+      - name: timeTo
+        in: query
+        required: true
+        description: 'Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-16T00:00:00'
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/schedule-results:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Schedule and Results by League and Conference
+      operationId: ScheduleandResultsbyLeagueandConference
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN7R8RE5S9AWDH1
+      - name: conferenceId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN9YGMMJP9J0VCF
+      - name: timeFrom
+        in: query
+        required: true
+        description: 'Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-06T00:00:00'
+      - name: timeTo
+        in: query
+        required: true
+        description: 'Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-16T00:00:00'
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/schedule-results:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Schedule and Results by League and Division
+      operationId: ScheduleandResultsbyLeagueandDivision
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN7R8RE5S9AWDH1
+      - name: divisionId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNAWRPGNM9P0V1B
+      - name: timeFrom
+        in: query
+        required: true
+        description: 'Here you can define the lower bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-06T00:00:00'
+      - name: timeTo
+        in: query
+        required: true
+        description: 'Here you can define the upper bound of the time range, which follows the ISO time structure: yyyy-MM-ddTHH:mm:ssZ. The max range between timeFrom and timeTo is 10 days and timeFrom should be earlier than timeTo.'
+        schema:
+          type: datetime
+          default: '2024-12-16T00:00:00'
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/tiers/{tierId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League and Tier
+      operationId: StandingsbyLeagueandTier
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN7R8RE5S9AWDH1
+      - name: tierId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNABDRW1MCKJWSR
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/tiers/{tierId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League Season and Tier
+      operationId: StandingsbyLeagueSeasonandTier
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNARF7S735K52SS
+      - name: tierId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNABDRW1MCKJWSR
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/conferences/{conferenceId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League and Conference
+      operationId: StandingsbyLeagueandConference
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNF5NZP7QG532PN
+      - name: conferenceId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN25HXV0SZ178F5
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/conferences/{conferenceId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League Season and Conference
+      operationId: StandingsbyLeagueSeasonandConference
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN4HRF7PQNEVG86
+      - name: conferenceId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN25HXV0SZ178F5
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/leagues/{leagueId}/divisions/{divisionId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League and Division
+      operationId: StandingsbyLeagueandDivision
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNF5NZP7QG532PN
+      - name: divisionId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN467N412CEJ022
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/divisions/{divisionId}/standings:
+    get:
+      tags:
+      - Tier, Conference and Division Endpoints
+      summary: Standings by League Season and Division
+      operationId: StandingsbyLeagueSeasonandDivision
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN4HRF7PQNEVG86
+      - name: divisionId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN467N412CEJ022
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      description: API key for authentication
+      schema:
+        type: string
+    LanguageQuery:
+      name: language
+      in: query
+      description: Language Code which will translate all translatable fields into the requested language.
+      schema:
+        type: string
+        enum:
+        - ''
+        - ar-SA
+        - cs-CZ
+        - da-DK
+        - de-DE
+        - el-GR
+        - en-GB
+        - en-US
+        - es-ES
+        - fi-FI
+        - fr-FR
+        - hu-HU
+        - it-IT
+        - ja-JP
+        - ko-KR
+        - nb-NO
+        - nl-BE
+        - nl-NL
+        - pl-PL
+        - pt-BR
+        - pt-PT
+        - ro-RO
+        - ru-RU
+        - sv-SE
+        - tr-TR
+        - zh-CN
+        - zh-HK
+        default: en-GB

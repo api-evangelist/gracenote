@@ -1,0 +1,547 @@
+openapi: 3.2.0
+info:
+  title: Nexus API v1.1.5 Video API
+  description: This is the OpenAPI spec for Gracenote's Nexus API.
+  contact:
+    email: nexusengineering@nielsen.com
+  version: v1.1.5
+servers:
+- url: /proxy/nexus/v1
+tags:
+- name: Video
+  description: API endpoints related to video program content.
+paths:
+  /programs/{programID}:
+    get:
+      tags:
+      - Video
+      description: Fetch details of a specific program identified by the programID. The content will be filtered based on apiKey's entitled streaming catalogs and optional parameter `omitCatalogIDs`.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: programID
+        in: path
+        description: The unique identifier of the program.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/omitCatalogsParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgramsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get programs by program id
+      x-summary-source: derived
+      operationId: getProgramsByProgramID
+      x-operation-id-source: derived
+components:
+  responses:
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse404:
+      description: The specified object was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Resource not found.
+    errorResponse5XX:
+      description: An unexpected error occurred on the server. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+  parameters:
+    omitCatalogsParam:
+      name: omitCatalogIDs
+      in: query
+      required: false
+      allowEmptyValue: true
+      description: 'Comma separated list of streaming catalogIDs used to exclude content from particular streaming catalogs.
+
+        This is honored for `/collections`, `/programs`, and `/programbundles` when itemTypes includes VIDEOPROGRAMS,
+
+        and for `/search` when itemTypes includes VIDEOMOVIES and/or VIDEOSHOWS.
+
+        '
+      schema:
+        type: string
+        examples:
+        - 111777,81277
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    encodingParam:
+      description: Optional header to specify the encoding type that the client is hoping to receive.
+      name: Accept-Encoding
+      in: header
+      required: false
+      schema:
+        type: string
+        examples:
+        - gzip
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
+  schemas:
+    Image:
+      type: object
+      additionalProperties: false
+      required:
+      - orientation
+      - type
+      - URL
+      - contentType
+      properties:
+        orientation:
+          type: string
+          description: Orientation of the image.
+          enum:
+          - LANDSCAPE
+          - PORTRAIT
+          - SQUARE
+        type:
+          type: string
+          enum:
+          - ARTWORK
+          - LOGO
+          - HEADSHOT
+          - FLAG
+          - ARTIST
+          - JERSEY
+          - POSTER
+          - BANNER
+          - IMAGE_3_4
+          - IMAGE_4_3
+          - IMAGE_16_9
+          - BRAND_LOGO
+        URL:
+          type: string
+          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
+        contentType:
+          type:
+          - string
+          - 'null'
+    StreamingCatalog:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - catalogID
+      - images
+      - catalogType
+      description: Streaming provider.
+      properties:
+        name:
+          type: string
+        catalogID:
+          type: string
+        catalogType:
+          type: string
+          enum:
+          - AUDIO
+          - VIDEO
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    AvailabilityURL:
+      type: object
+      additionalProperties: false
+      description: URLs for streaming the related content.
+      required:
+      - type
+      - URL
+      properties:
+        URL:
+          type: string
+        type:
+          type: string
+          enum:
+          - web
+          - android
+          - aaos
+    Availability:
+      type: object
+      additionalProperties: false
+      description: The information necessary to link media to streaming catalogs. In some cases Nexus provides a direct URL to the media on the streaming services while other times Nexus provides the ID for the media on the service. You will need to work with the streaming services themselves to decide how to best link to their content.
+      required:
+      - externalID
+      - catalog
+      - URLs
+      properties:
+        URLs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailabilityURL'
+        externalID:
+          type: string
+          description: 3rd party ID for the content.
+        catalog:
+          $ref: '#/components/schemas/StreamingCatalog'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - error
+      - description
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
+    Meta:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - version
+      - references
+      properties:
+        total:
+          type: integer
+          description: Total number of data objects available.
+        version:
+          type: string
+          description: The API version
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            preferredLanguage:
+              type: string
+            contentMarket:
+              type: string
+            leagueID:
+              type: string
+            teamID:
+              type: string
+            personID:
+              type: string
+            divisionID:
+              type: string
+            conferenceID:
+              type: string
+            overallID:
+              type: string
+            matchID:
+              type: string
+            omitCatalogIDs:
+              type: string
+            minDuration:
+              type: string
+            maxDuration:
+              type: string
+            bundleID:
+              type: string
+            programID:
+              type: string
+            catalogID:
+              type: string
+            phaseID:
+              type: string
+            artistID:
+              type: string
+            albumEditionID:
+              type: string
+            recordingID:
+              type: string
+            artistName:
+              type: string
+            albumEditionName:
+              type: string
+            recordingName:
+              type: string
+            podcastID:
+              type: string
+            podcastEpisodeID:
+              type: string
+            radioStationID:
+              type: string
+            collectionID:
+              type: string
+            collectionCategory:
+              type: string
+            itemTypes:
+              type: string
+            text:
+              type: string
+            topOnly:
+              type: string
+    ProgramsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Program'
+    CrewMember:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      - name
+      properties:
+        role:
+          type: string
+        name:
+          type: string
+    CastMember:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      - characterName
+      - actorName
+      properties:
+        role:
+          type: string
+        characterName:
+          type: string
+        actorName:
+          type: string
+    Descriptor:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - descriptorID
+      properties:
+        name:
+          type: string
+        descriptorID:
+          type: string
+    Program:
+      type: object
+      additionalProperties: false
+      required:
+      - programID
+      - name
+      - nameShort
+      - description
+      - programType
+      - programSubType
+      - rating
+      - country
+      - releaseYear
+      - cast
+      - crew
+      - durationMilliseconds
+      - descriptors
+      - availableOn
+      - images
+      properties:
+        programID:
+          type: string
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+          description: When available, a shortened version of the name that is 20 characters or less.
+        description:
+          type: string
+        programType:
+          type: string
+          description: The type of the program, examples include "Feature Film", "TV Movie", "Short Film", "Series", "Miniseries" and "Special"
+          examples:
+          - Feature Film
+        programSubType:
+          type: string
+          description: Additional program categorization, denoting how a program was originally produced and/or distributed. Examples include "Compilation", "Episode", "Feature Film", "Highlights", "Miniseries", "Music Video", "Off Air", "Paid Program", "Preview", "Series", "Short Film", "Special", "Sport", "Sport Event", "Sport-Related Episode", "TBA", "Team Event", "Trailer" and "TV Movie"
+          examples:
+          - Miniseries
+        rating:
+          type: string
+          description: The rating in the ratings system associated with the content market.
+        country:
+          type: string
+          description: Country of origin of the program.
+        releaseYear:
+          type:
+          - number
+          - 'null'
+          description: Year of release.
+        cast:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CastMember'
+        crew:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CrewMember'
+        durationMilliseconds:
+          type:
+          - number
+          - 'null'
+          description: Running time of the program.
+        descriptors:
+          type: object
+          additionalProperties: false
+          required:
+          - genres
+          properties:
+            genres:
+              type: array
+              items:
+                $ref: '#/components/schemas/Descriptor'
+        availableOn:
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'

@@ -1,16 +1,243 @@
 openapi: 3.2.0
 info:
-  title: Gracenote OnConnect TMS Celebrities API
-  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  title: Gracenote Celebrities API
   version: '1.1'
+  description: 'Operations tagged Celebrities across 2 of this provider''s published API definitions: gracenote-onconnect-lookup-apis-openapi.json, gracenote-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /proxy/onconnect
 - url: http://data.tmsapi.com/v1.1
   description: Gracenote OnConnect (data_v1_1)
-security:
-- apiKey: []
 tags:
 - name: Celebrities
 paths:
+  /v1.1/celebs/{personId}:
+    get:
+      summary: Celebrity Details
+      description: Returns details for a given celebrity.
+      tags:
+      - Celebrities
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: personId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '13461'
+        description: Person ID
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11CelebsByPersonId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/celebs/{personId}/airings:
+    get:
+      summary: Airings of Celebrities
+      description: Returns all airings of a given celebrity and given time period over the next 14 days.
+      tags:
+      - Celebrities
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: personId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '87269'
+        description: Person ID
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11CelebsByPersonIdAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/celebs/talkShowAirings:
+    get:
+      summary: Celebrities Appearing on Talk Shows by Day
+      description: Returns a list of celebrities and associated metadata that are appearing on a talk show on a lineup for a given time period up to 24 hours in length and up to 14 days in advance. *Available with R&D/Commercial plans only.
+      tags:
+      - Celebrities
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11CelebsTalkShowAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/celebs/{personId}/images:
+    get:
+      summary: All Celebrity Images
+      description: Returns all available images associated with a celebrity. *Available with R&D/Commercial plans only.
+      tags:
+      - Celebrities
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: personId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '87269'
+        description: Person ID
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: If specified, only images in selected size will be included. Default will return all available image sizes.
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: If specified, only images in selected aspect ratio will be included. Only applies to TV content. Default will return images in all available aspect ratios.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11CelebsByPersonIdImages
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
   /celebs:
     get:
       tags:
@@ -25,6 +252,11 @@ paths:
       responses:
         '200':
           description: Celebrities
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /celebs/{celebId}:
     get:
       tags:
@@ -40,9 +272,25 @@ paths:
       responses:
         '200':
           description: Celebrity
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
 components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
   securitySchemes:
     apiKey:
       type: apiKey
       in: query
       name: api_key
+x-refined-from:
+- gracenote-onconnect-lookup-apis-openapi.json
+- gracenote-openapi.yml

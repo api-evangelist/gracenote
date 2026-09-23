@@ -1,0 +1,246 @@
+openapi: 3.2.0
+info:
+  version: '2.0'
+  title: GMD API v2.0 Tracks API
+  description: 'Gracenote Music API Specification
+
+    GMD API V2.0'
+servers:
+- url: /proxy/gmd/v2
+tags:
+- name: Tracks
+paths:
+  /tracks/{idType}:
+    get:
+      tags:
+      - Tracks
+      description: licate objects in the response
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/trackIDType'
+      - $ref: '#/components/parameters/isrcId'
+      - $ref: '#/components/parameters/epc'
+      - $ref: '#/components/parameters/limit50'
+      - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    $ref: '#/components/schemas/ResponseMetaForTracks'
+                  data:
+                    type: array
+                    nullable: false
+                    items:
+                      $ref: '#/components/schemas/TrackObject'
+                required:
+                - meta
+                - data
+        '400':
+          $ref: '#/components/responses/ErrorResponse400'
+        '404':
+          $ref: '#/components/responses/ErrorResponse404'
+      summary: Get tracks by id type
+      x-summary-source: derived
+      operationId: getTracksByIdType
+      x-operation-id-source: derived
+components:
+  schemas:
+    TrackArtist:
+      type: object
+      properties:
+        artistID:
+          description: artistID
+          type: string
+        artistName:
+          description: artistName
+          type: string
+    SonicDescriptors:
+      type:
+      - object
+      - 'null'
+      description: Only visible to Customers with GMD Discovery/Advanced Discovery package
+      properties:
+        moods:
+          $ref: '#/components/schemas/DescriptorObject'
+        styles:
+          $ref: '#/components/schemas/DescriptorObject'
+        tempos:
+          $ref: '#/components/schemas/DescriptorObject'
+    TrackAlbum:
+      type: object
+      properties:
+        albumID:
+          description: albumID
+          type: string
+        albumName:
+          description: albumName
+          type: string
+    DescriptorObject:
+      type: array
+      description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+          ID:
+            type: string
+          name:
+            type: string
+          weight:
+            type: integer
+          categories:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                level:
+                  type: integer
+          links:
+            type: object
+            properties:
+              descriptorCorrelations:
+                description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
+                type: string
+    ResponseMetaForTracks:
+      type: object
+      nullable: false
+      additionalProperties: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+        count:
+          type: integer
+          nullable: false
+        offset:
+          type: integer
+          nullable: false
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            categoriesLanguage:
+              type: string
+      required:
+      - total
+      - count
+      - offset
+    TrackObject:
+      type: object
+      properties:
+        type:
+          description: 'type of the object: [tracks]'
+          type: string
+        trackID:
+          description: trackID
+          type: string
+        isrc:
+          description: track ISRC
+          type: string
+        trackName:
+          description: trackName
+          type: string
+        album:
+          $ref: '#/components/schemas/TrackAlbum'
+        artist:
+          $ref: '#/components/schemas/TrackArtist'
+        descriptors:
+          $ref: '#/components/schemas/SonicDescriptors'
+    ErrorResponse:
+      type: object
+      nullable: false
+      additionalProperties: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+  parameters:
+    isrcId:
+      name: id
+      in: query
+      description: ISRC code to lookup
+      schema:
+        type: string
+    trackIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - isrc
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset.  Used for "paging" through results.
+      schema:
+        type: integer
+        default: 0
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    epc:
+      name: albumReleaseCode
+      in: query
+      description: UPC/EAN code to lookup
+      schema:
+        type: string
+    limit50:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 50.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.

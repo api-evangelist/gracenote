@@ -1,0 +1,264 @@
+openapi: 3.2.0
+info:
+  title: On API v3.28 Sports APIs API
+  description: On API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information.
+  version: '3.28'
+servers:
+- url: /proxy/on-api
+tags:
+- name: Sports APIs
+paths:
+  /v3/Organizations:
+    get:
+      summary: Organizations
+      description: Get organization data, including conferences and associated teams.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns teams beginning with updateId, which is sequential numeric offset received in response
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of organizations to be returned by API. Use with updateId.
+      - name: organizationId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of organizationIds. If not specified, all organizations are included in response. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Organizations
+      x-operation-id-source: derived
+  /v3/Teams:
+    get:
+      summary: Teams
+      description: Get team updates starting from specified updateId, or lookup metadata for specified teams.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns teams beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of teams to be returned by API. Use with updateId.
+      - name: teamId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of teamIDs. Overrides updateId. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Teams
+      x-operation-id-source: derived
+  /v3/Universities:
+    get:
+      summary: Universities
+      description: Get university data, for all universities or specified IDs.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns teams beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of universities to be returned by API. Use with updateId.
+      - name: universityId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of universityIDs. If not specified, all universities are included in response. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Universities
+      x-operation-id-source: derived
+  /v3/Venues:
+    get:
+      summary: Venues
+      description: Get venue updates starting from specified updateId, or lookup metadata for specified venues.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns venues beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of venues to be returned by API. Use with updateId.
+      - name: venueId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of venue IDs. Overrides updateId. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Venues
+      x-operation-id-source: derived
+  /v3/Sports:
+    get:
+      summary: Sports
+      description: Get sport updates starting from specified updateId, or lookup metadata for specified sports. The Sports endpoint provides the names for the sport as referenced in the Programs endpoint.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns sports beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of sports to be returned by API. Use with updateId.
+      - name: sportId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of sportIds. If not specified, all sports are included in the response. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3Sports
+      x-operation-id-source: derived
+  /v3/SportsEvents:
+    get:
+      summary: SportsEvents
+      description: Get sports event updates starting from specified updateId, or lookup metadata for specified sports events. The SportsEvents endpoint provides information on SportsEvent of type League, League_Season, Phase and Match in the Programs endpoint.
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns sports events beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of sportsEvents to be returned by API. Use with updateId.
+      - name: sportsEventGId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: For non-batch lookups. Comma-separated list of sportsEventGIds. If not specified, all sportsEvents are included in the response. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3SportsEvents
+      x-operation-id-source: derived
+  /v3/SportsSchedules:
+    get:
+      summary: SportsSchedules
+      description: Get sports schedule updates starting from specified updateId. The SportsSchedules endpoint is a convenience endpoint designed to retrieve Gracenote On Sports event schedules, organized by LEAGUE/TOUR and date (event local date).
+      tags:
+      - Sports APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Update token. Defaults to 0. Returns sports schedules beginning with updateId, which is sequential numeric offset received in response.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of sports schedules to be returned by API. Use with updateId.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3SportsSchedules
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

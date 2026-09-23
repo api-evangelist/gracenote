@@ -1,0 +1,440 @@
+openapi: 3.2.0
+info:
+  title: OnConnect Lookup APIs v1.1 Movies in Theatres API
+  description: '**Note:** The OnConnect API returns JSON responses. For additional response examples, see the OnConnect documentation.'
+  version: '1.1'
+servers:
+- url: /proxy/onconnect
+tags:
+- name: Movies in Theatres
+paths:
+  /v1.1/movies/showings:
+    get:
+      summary: Movies Playing in Local Theatres
+      description: Returns a list of all movies currently playing in local theatres, with showtimes.
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Start date (yyyy-mm-dd). Schedules available starting with current day.
+      - name: numDays
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Number of schedule days. Defaults to 1.
+      - name: zip
+        in: query
+        required: false
+        schema:
+          type: string
+          default: '78701'
+        description: US zip code or Canadian postal code. Must supply either zip or coordinates.
+      - name: lat
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Latitude coordinate. Valid values are between -90 and 90. Must supply either zip or coordinates.
+      - name: lng
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Longitude coordinate. Valid values are between -180 and 180. Must supply either zip or coordinates.
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
+      - name: units
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - mi
+          - km
+        description: Unit of measurement for the radius parameter as well as the distance value in response.  Defaults to miles.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11MoviesShowings
+      x-operation-id-source: derived
+  /v1.1/theatres:
+    get:
+      summary: Find Theatres
+      description: Returns a list of theatres for a given zip/postal code or coordinates.
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: zip
+        in: query
+        required: false
+        schema:
+          type: string
+          default: '78701'
+        description: US zip code or Canadian postal code. Must supply either zip or coordinates.
+      - name: lat
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Latitude coordinate. Valid values are between -90 and 90. Must supply either zip or coordinates.
+      - name: lng
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Longitude coordinate. Valid values are between -180 and 180. Must supply either zip or coordinates.
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
+      - name: units
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - mi
+          - km
+        description: Unit of measurement for the radius parameter as well as the distance value in response.  Defaults to miles.
+      - name: numTheatres
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Maximum number of theatres to return. If not specified, response will include max 100 theatres within specified radius.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11Theatres
+      x-operation-id-source: derived
+  /v1.1/theatres/{theatreId}:
+    get:
+      summary: Theatre Details
+      description: Returns details for a specified theatre. *Available with R&D/Commercial plans only.
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: theatreId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '8749'
+        description: Theatre ID.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11TheatresByTheatreId
+      x-operation-id-source: derived
+  /v1.1/theatres/{theatreId}/showings:
+    get:
+      summary: Theatre Showtimes
+      description: Returns a list of all movies and showtimes at a theatre for a given day(s).
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: theatreId
+        in: path
+        required: true
+        schema:
+          type: date
+          default: '8749'
+        description: Theatre ID.
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Start date (yyyy-mm-dd). Schedules available starting with current day.
+      - name: numDays
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Number of schedule days. Defaults to 1.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11TheatresByTheatreIdShowings
+      x-operation-id-source: derived
+  /v1.1/movies/{movieId}/showings:
+    get:
+      summary: Movie Showtimes (single movie)
+      description: Returns movie metadata and theatre/showtimes information for a specified movie.
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: movieId
+        in: path
+        required: true
+        schema:
+          type: date
+          default: MV005298400000
+        description: tmsId or rootId.
+      - name: startDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Start date (yyyy-mm-dd). Schedules available starting with current day.
+      - name: numDays
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Number of schedule days. Defaults to 1.
+      - name: zip
+        in: query
+        required: false
+        schema:
+          type: string
+          default: '78701'
+        description: US zip code or Canadian postal code. Must supply either zip or coordinates.
+      - name: lat
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Latitude coordinate. Valid values are between -90 and 90. Must supply either zip or coordinates.
+      - name: lng
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Longitude coordinate. Valid values are between -180 and 180. Must supply either zip or coordinates.
+      - name: radius
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
+      - name: units
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - mi
+          - km
+        description: Unit of measurement for the radius parameter as well as the distance value in response.  Defaults to miles.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11MoviesByMovieIdShowings
+      x-operation-id-source: derived
+  /v1.1/movies/futureReleases:
+    get:
+      summary: Future Releases
+      description: Returns a list of movies and associated metadata being released on a given date provided and up to 6 months into the future. *Available with R&D/Commercial plans only.
+      tags:
+      - Movies in Theatres
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: releaseDate
+        in: query
+        required: true
+        schema:
+          type: date
+          default: ''
+        description: Start date (yyyy-mm-dd). Can be up to 7 days prior to current date.
+      - name: numDays
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Number of days to search. Defaults to 60. Maximum 180.
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - USA
+          - CAN
+        description: Returns releases for specified country (USA or CAN). Defaults to USA.
+      - name: titleLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Filter results based on the specified title language (e.g., en=English). If not specified, defaults to en.
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Filter results based on the specified description language (e.g., es=Spanish). If not specified, defaults to en.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11MoviesFutureReleases
+      x-operation-id-source: derived
+components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

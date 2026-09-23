@@ -1,16 +1,396 @@
 openapi: 3.2.0
 info:
-  title: Gracenote OnConnect TMS Celebrities Series API
-  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
+  title: Gracenote Series API
   version: '1.1'
+  description: 'Operations tagged Series across 2 of this provider''s published API definitions: gracenote-onconnect-lookup-apis-openapi.json, gracenote-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /proxy/onconnect
 - url: http://data.tmsapi.com/v1.1
   description: Gracenote OnConnect (data_v1_1)
-security:
-- apiKey: []
 tags:
 - name: Series
 paths:
+  /v1.1/series/{seriesId}:
+    get:
+      summary: Series Details
+      description: Returns detailed metadata for a given series.
+      tags:
+      - Series
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: seriesId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '185044'
+        description: Series ID
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      - name: titleLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Filter results based on the specified title language (e.g., en=English, es=Spanish, en-GB=British English, pt-BR=Brazilian Portugese)
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Preference for description language to be returned. If specified descriptionLang not found for series, reverts to primary TMS ID for series.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SeriesBySeriesId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/series/{seriesId}/airings:
+    get:
+      summary: Series Airings
+      description: Returns all airings of a series for a given lineup and time period up to 14 days in advance.
+      tags:
+      - Series
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: seriesId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '185044'
+        description: Series ID
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: includeDetail
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include detailed program metadata with each airing. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Optional filter based on specified description language. If not specified, all series airings returned.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SeriesBySeriesIdAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/series/{seriesId}/episodes:
+    get:
+      summary: Series Episodes
+      description: Returns episodes of a series, sorted by season and episode numbers. If limit/offset parameters not provided, will return up to maximum of 100 episodes. If limit/offset parameters provided, response will be wrapped in object with hitCount (total number of episodes) for paging.
+      tags:
+      - Series
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: seriesId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '185044'
+        description: Series ID
+      - name: season
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Season number. If not specified, will return episodes from all seasons.
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: enumerated
+          default: ''
+          enum:
+          - ''
+          - Basic
+          - Detailed
+        description: Amount of program metadata to be returned for episodes. The default value is Detailed. For smaller response size, use Basic.
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: string
+          default: '50'
+        description: The maximum number of results to be returned from the query. Default is 100.
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: string
+          default: '0'
+        description: Zero-based offset index on the result set. Used in conjunction with limit to page through results. For example, offset=10 will set response data to begin with 11th hit.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      - name: titleLang
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Filter results based on the specified title language (e.g., en=English, es=Spanish, en-GB=British English, pt-BR=Brazilian Portugese)
+      - name: descriptionLang
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ''
+          - da
+          - de
+          - en
+          - en-GB
+          - en-AU
+          - es
+          - fi
+          - fr
+          - fr-CA
+          - it
+          - nl
+          - 'no'
+          - pt
+          - pt-BR
+          - sv
+        description: Set preference for description language to be returned. If specified descriptionLang not found for episode, reverts to primary TMS ID for episode.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SeriesBySeriesIdEpisodes
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
   /series/{seriesId}:
     get:
       tags:
@@ -30,6 +410,11 @@ paths:
             application/json:
               schema:
                 type: object
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /series/{seriesId}/episodes:
     get:
       tags:
@@ -45,9 +430,25 @@ paths:
       responses:
         '200':
           description: Episodes
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
 components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
   securitySchemes:
     apiKey:
       type: apiKey
       in: query
       name: api_key
+x-refined-from:
+- gracenote-onconnect-lookup-apis-openapi.json
+- gracenote-openapi.yml

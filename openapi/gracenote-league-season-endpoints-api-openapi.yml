@@ -1,0 +1,252 @@
+openapi: 3.2.0
+info:
+  title: Global Sports Data Lookup API v1 League Season Endpoints API
+  description: This page contains all Lookup API endpoints that are part of our Core Sports Data.
+  version: '1'
+servers:
+- url: /proxy/sports
+tags:
+- name: League Season Endpoints
+paths:
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: League Season Info
+      operationId: LeagueSeasonInfo
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/structure:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Structure by League Season
+      operationId: StructurebyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/standings:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Standings by League Season
+      operationId: StandingsbyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/league-season-overall-classifications:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: League Season and Overall Classifications by League Season
+      operationId: LeagueSeasonandOverallClassificationsbyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Teams by League Season
+      operationId: TeamsbyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/roster:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Team Roster by League Season and Team
+      operationId: TeamRosterbyLeagueSeasonandTeam
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - name: teamId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNDDXMAJZPWET9S
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/teams/{teamId}/stats:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Stats by League Season and Team
+      operationId: StatsbyLeagueSeasonandTeam
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - name: teamId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNDDXMAJZPWET9S
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/persons/{personId}/stats:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Stats by League Season and Person
+      operationId: StatsbyLeagueSeasonandPerson
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN5Q5FQEN3B2H0H
+      - name: personId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GNE2661MZM6Z8W5
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+  /gsd/lookup/v1/league-seasons/{leagueSeasonId}/brackets:
+    get:
+      tags:
+      - League Season Endpoints
+      summary: Brackets by League Season
+      operationId: BracketsbyLeagueSeason
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: leagueSeasonId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: GN1HX6DXNM8Q39W
+      - $ref: '#/components/parameters/LanguageQuery'
+      responses:
+        '200':
+          description: Successful response
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      description: API key for authentication
+      schema:
+        type: string
+    LanguageQuery:
+      name: language
+      in: query
+      description: Language Code which will translate all translatable fields into the requested language.
+      schema:
+        type: string
+        enum:
+        - ''
+        - ar-SA
+        - cs-CZ
+        - da-DK
+        - de-DE
+        - el-GR
+        - en-GB
+        - en-US
+        - es-ES
+        - fi-FI
+        - fr-FR
+        - hu-HU
+        - it-IT
+        - ja-JP
+        - ko-KR
+        - nb-NO
+        - nl-BE
+        - nl-NL
+        - pl-PL
+        - pt-BR
+        - pt-PT
+        - ro-RO
+        - ru-RU
+        - sv-SE
+        - tr-TR
+        - zh-CN
+        - zh-HK
+        default: en-GB

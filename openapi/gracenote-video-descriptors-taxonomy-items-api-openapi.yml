@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: GVD API v3.06 Video Descriptors Taxonomy Items API
+  description: GVD API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information.
+  version: '3.06'
+servers:
+- url: /proxy/gvd
+tags:
+- name: Video Descriptors Taxonomy Items
+paths:
+  /v1/videodescriptortaxonomyitems:
+    get:
+      summary: Video Descriptor Taxonomy Items
+      description: Returns the hierarchical taxonomy for Video Descriptors, grouped by Taxonomy Items (aka Video Descriptor Type). Each Video Descriptor Type is considered one object and is available as a Video Descriptor Taxonomy Item. Sold separately, contact your Gracenote representative.
+      tags:
+      - Video Descriptors Taxonomy Items
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Returns full snapshot of Video Descriptors that belong to a Taxonomy Item (aka Video Descriptor Type) modified at or after updateId. Individual Video descriptors updates are not published independently.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Maximum number a Video Descriptor Taxonomy Items to be returned by the API.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: To lookup of all Video descriptors that belong to a single Taxonomy Item (aka Video Descriptor Type). Example all descriptors under Scenario (id = GN0FYAPK8TW10ZF). Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV1Videodescriptortaxonomyitems
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

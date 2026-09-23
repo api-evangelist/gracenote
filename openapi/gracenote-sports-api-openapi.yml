@@ -1,16 +1,540 @@
 openapi: 3.2.0
 info:
-  title: Gracenote OnConnect TMS Celebrities Sports API
-  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
-  version: '1.1'
+  title: Gracenote Sports API
+  version: '1.0'
+  description: 'Operations tagged Sports across 3 of this provider''s published API definitions: gracenote-onconnect-lookup-apis-openapi.json, gracenote-openapi.yml, gracenote-sports-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /proxy/onconnect
 - url: http://data.tmsapi.com/v1.1
   description: Gracenote OnConnect (data_v1_1)
-security:
-- apiKey: []
+- url: /proxy/nexus/v1
 tags:
 - name: Sports
 paths:
+  /v1.1/sports/{sportsId}/events/airings:
+    get:
+      summary: Airings of Sports Events
+      description: Returns live sports events and associated metadata for a list of sports that are airing on a lineup for a given time period up to 24 hours in length and up to 14 days in advance.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: sportsId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: 58,59
+        description: A comma-separated list of sports genre ids (e.g., 58 for baseball, 59 for basketball) or 'all' to return airings for all sports.
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: liveOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to only include live events. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsBySportsIdEventsAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/{sportsId}:
+    get:
+      summary: Sports with Optional Organizations
+      description: Returns all (or specified) sports with associated organizations.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: sportsId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: all
+        description: A comma-separated list of sports genre ids (e.g., "59" for Basketball) or 'all' for all sports.
+      - name: includeOrg
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include organization metadata. Defaults to false.
+      - name: officialOrg
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: 'false'
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: If true, results are filtered to include only official organizations.  Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsBySportsId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/{sportsId}/non-events/airings:
+    get:
+      summary: Airings of Sports Non-Events
+      description: Returns sports non-events (talk shows) and taped events (classic games, early morning replays, etc.) for a list of sports that are airing on a lineup for a given time period up to 24 hours in length and up to 14 days in advance.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: sportsId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: 58,59
+        description: A comma-separated list of sports genre ids (e.g., 58 for baseball, 59 for basketball) or 'all' to return airings for all sports.
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsBySportsIdNonEventsAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/universities:
+    get:
+      summary: All Universities
+      description: Returns a list of all universities.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsUniversities
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/organizations/{organizationId}:
+    get:
+      summary: Teams in an Organization
+      description: Returns a list of all teams associated with specified organizations. *Available with R&D/Commercial plans only.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: 17,19
+        description: A comma-separated list of organization IDs (e.g., 17 for MLB, 19 for NBA)
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsOrganizationsByOrganizationId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/universities/{universityId}:
+    get:
+      summary: Teams at a University
+      description: Returns a list of all teams associated with specified universities. *Available with R&D/Commercial plans only.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: universityId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '1'
+        description: A comma-separated list of university IDs, or 'all' for entire list of universities and teams.
+      - name: includeTeam
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: 'true'
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include organization metadata. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsUniversitiesByUniversityId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/teams/{teamBrandId}:
+    get:
+      summary: Team Details
+      description: Returns details for a specified team. *Available with R&D/Commercial plans only.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: teamBrandId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: '1'
+        description: A comma-separated list of team IDs.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsTeamsByTeamBrandId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/teams/{teamBrandId}/airings:
+    get:
+      summary: Team Airings
+      description: Returns airings for specified teams. *Available with R&D/Commercial plans only.
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: teamBrandId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: 28,425
+        description: A comma-separated list of teamBrandIds to return airings.
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: includeDetail
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: 'true'
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include detailed program metadata with each airing. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsTeamsByTeamBrandIdAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/sports/organizations/{organizationId}/airings:
+    get:
+      summary: Organization Airings
+      description: Returns airings for specified organizations (e.g., MLB, NBA, NFL).
+      tags:
+      - Sports
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: 17,19
+        description: A comma-separated list of organizationIds to return airings (e.g., 17 for MLB, 19 for NBA)
+      - name: lineupId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601).
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: includeDetail
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: 'true'
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether to include detailed program metadata with each airing. Defaults to false.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11SportsOrganizationsByOrganizationIdAirings
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
   /sports:
     get:
       tags:
@@ -29,6 +553,11 @@ paths:
       responses:
         '200':
           description: Sports
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /sports/{sportId}:
     get:
       tags:
@@ -44,9 +573,2128 @@ paths:
       responses:
         '200':
           description: Sport
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
+  /leagues:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of leagues for the specified contentMarket. The list will be filtered based on apiKey's entitlement and optional parameter `topOnly`.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/topParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaguesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues
+      x-summary-source: derived
+      operationId: getLeagues
+      x-operation-id-source: derived
+  /leagues/{leagueID}:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch details of a specific league identified by the leagueID. The league object indicates whether it includes standings, rankings, phases and matches.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaguesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueID
+      x-operation-id-source: derived
+  /leagues/{leagueID}/standings:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of standings identified by the leagueID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandingsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id standings
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDStandings
+      x-operation-id-source: derived
+  /leagues/{leagueID}/rankings:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of rankings identified by the leagueID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RankingsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id rankings
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDRankings
+      x-operation-id-source: derived
+  /leagues/{leagueID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches identified by the leagueID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id matches
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDMatches
+      x-operation-id-source: derived
+  /leagues/{leagueID}/conferences/{conferenceID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches for the given league conference, for example, if you want to only get back matches for the NCAA Atlantic 10 Conference.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: conferenceID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id conferences by conference id matches
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDConferencesByConferenceIDMatches
+      x-operation-id-source: derived
+  /leagues/{leagueID}/divisions/{divisionID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches for the given division, for example, if you want to only get back matches for the MLB AL East Division.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: divisionID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id divisions by division id matches
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDDivisionsByDivisionIDMatches
+      x-operation-id-source: derived
+  /leagues/{leagueID}/overalls/{overallID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches for the given overall. Many rankings and some standings have overallIDs and this allows the developer to fetch only matches featuring top ranked participants. For example, if you want to only get back matches for the top 25 WNCAAB teams, use the overallID that comes back with the WNCAAB rankings response.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: overallID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id overalls by overall id matches
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDOverallsByOverallIDMatches
+      x-operation-id-source: derived
+  /leagues/{leagueID}/phases:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of phases identified by the leagueID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: leagueID
+        in: path
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhasesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get leagues by league id phases
+      x-summary-source: derived
+      operationId: getLeaguesByLeagueIDPhases
+      x-operation-id-source: derived
+  /phases/{phaseID}:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch details of a specific phase identified by the phaseID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: phaseID
+        in: path
+        description: The unique identifier of the phase.
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhasesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get phases by phase id
+      x-summary-source: derived
+      operationId: getPhasesByPhaseID
+      x-operation-id-source: derived
+  /matches/{matchID}:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch the details of a specific match identified by the matchID. Please note that fetching match with status CURRENT up to every 5 seconds for updated information is recommended.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: matchID
+        in: path
+        required: true
+        description: The unique identifier of the match.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get matches by match id
+      x-summary-source: derived
+      operationId: getMatchesByMatchID
+      x-operation-id-source: derived
+  /teams/{teamID}:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch the details of a specific team identified by the teamID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: teamID
+        in: path
+        required: true
+        description: The unique identifier of the team.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get teams by team id
+      x-summary-source: derived
+      operationId: getTeamsByTeamID
+      x-operation-id-source: derived
+  /teams/{teamID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches identified by the teamID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: teamID
+        in: path
+        required: true
+        description: The unique identifier of the team.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get teams by team id matches
+      x-summary-source: derived
+      operationId: getTeamsByTeamIDMatches
+      x-operation-id-source: derived
+  /teams/{teamID}/phases:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of phases identified by the teamID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: teamID
+        in: path
+        required: true
+        description: The unique identifier of the team.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhasesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get teams by team id phases
+      x-summary-source: derived
+      operationId: getTeamsByTeamIDPhases
+      x-operation-id-source: derived
+  /persons/{personID}:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch the details of a specific person identified by the personID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: personID
+        in: path
+        required: true
+        description: The unique identifier of the person.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get persons by person id
+      x-summary-source: derived
+      operationId: getPersonsByPersonID
+      x-operation-id-source: derived
+  /persons/{personID}/matches:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of matches identified by the personID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: personID
+        in: path
+        required: true
+        description: The unique identifier of the person.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get persons by person id matches
+      x-summary-source: derived
+      operationId: getPersonsByPersonIDMatches
+      x-operation-id-source: derived
+  /persons/{personID}/phases:
+    servers:
+    - url: /proxy/nexus/v1
+    get:
+      tags:
+      - Sports
+      description: Fetch a list of phases identified by the personID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: personID
+        in: path
+        required: true
+        description: The unique identifier of the person.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/statusParam'
+      - $ref: '#/components/parameters/encodingParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhasesResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get persons by person id phases
+      x-summary-source: derived
+      operationId: getPersonsByPersonIDPhases
+      x-operation-id-source: derived
 components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+    topParam:
+      name: topOnly
+      in: query
+      required: false
+      description: A boolean parameter to filter leagues. When set to `true`, only the most popular leagues for the specified content market are returned. The content is subject to the entitlements associated with the provided apiKey.
+      schema:
+        type: boolean
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    encodingParam:
+      description: Optional header to specify the encoding type that the client is hoping to receive.
+      name: Accept-Encoding
+      in: header
+      required: false
+      schema:
+        type: string
+        examples:
+        - gzip
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    statusParam:
+      in: query
+      name: status
+      description: A filter that indicates the status of a match or phase, specifying whether they have not started, are in progress or have been completed.
+      required: true
+      schema:
+        type: string
+        enum:
+        - CURRENT
+        - RECENT
+        - UPCOMING
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
+  schemas:
+    PeriodNumber:
+      type:
+      - string
+      - 'null'
+      description: For the current period type, this is the ordinal number of the period. For example, the 3rd quarter of a match will have a `periodNumber` of 3 and `periodType` of `REGULATION_TIME` while the 1st overtime will have a `periodNumber` of `1` and `periodType` of `OVERTIME`.
+    Match:
+      type: object
+      additionalProperties: false
+      required:
+      - matchID
+      - sportType
+      - status
+      - scheduledStartTimeUTC
+      - parentEvent
+      - matchState
+      - participants
+      - statusDetail
+      properties:
+        matchID:
+          type: string
+        sportType:
+          $ref: '#/components/schemas/SportType'
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+        status:
+          $ref: '#/components/schemas/Status'
+        scheduledStartTimeUTC:
+          type: string
+          format: date-time
+          examples:
+          - '2024-09-13T22:40:00.000Z'
+        statusDetail:
+          $ref: '#/components/schemas/StatusDetail'
+        parentEvent:
+          $ref: '#/components/schemas/ParentEvent'
+        matchState:
+          $ref: '#/components/schemas/MatchState'
+    Phase:
+      type: object
+      additionalProperties: false
+      required:
+      - phaseID
+      - name
+      - nameShort
+      - sportType
+      - participants
+      - status
+      - statusDetail
+      - parentEvent
+      - scheduledStartTimeUTC
+      - phaseState
+      properties:
+        phaseID:
+          type: string
+        name:
+          type:
+          - string
+          - 'null'
+        nameShort:
+          type:
+          - string
+          - 'null'
+        sportType:
+          $ref: '#/components/schemas/SportType'
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+        status:
+          $ref: '#/components/schemas/Status'
+        statusDetail:
+          $ref: '#/components/schemas/StatusDetail'
+        parentEvent:
+          $ref: '#/components/schemas/ParentEvent'
+        scheduledStartTimeUTC:
+          type: string
+          format: date-time
+          examples:
+          - '2026-01-04T22:30:00.000Z'
+        phaseState:
+          $ref: '#/components/schemas/PhaseState'
+    ParticipantTypeDetail:
+      type:
+      - string
+      - 'null'
+      description: TEAM_DEFINED teams are a combination of 2 persons that compete together in national and international leagues. An example would be tennis doubles.
+      enum:
+      - TEAM_CONSTRUCTOR
+      - TEAM_CLUB
+      - TEAM_NATIONAL
+      - TEAM_ALL_STAR
+      - TEAM_DEFINED
+      - TEAM_PLACEHOLDER
+      - null
+    PersonsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+    PeriodType:
+      type:
+      - string
+      - 'null'
+      description: See `periodNumber` for usage examples. `END_PERIOD`, `END_REGULATION_TIME`, `END_OVERTIME_PERIOD` and `END_OVERTIME` are the breaks between one period type and another.
+      enum:
+      - REGULATION_TIME
+      - END_PERIOD
+      - END_REGULATION_TIME
+      - OVERTIME
+      - END_OVERTIME_PERIOD
+      - END_OVERTIME
+      - SHOOTOUT
+      - null
+    Organization:
+      type: object
+      additionalProperties: false
+      required:
+      - organizationID
+      - organizationType
+      - organizationTypeDetail
+      - name
+      - nameShort
+      - nameAbbreviation
+      - images
+      properties:
+        organizationID:
+          type: string
+        organizationType:
+          type: string
+          enum:
+          - TEAM
+          - CONSTRUCTOR
+          - TIER
+          - CONFERENCE
+          - DIVISION
+        organizationTypeDetail:
+          $ref: '#/components/schemas/ParticipantTypeDetail'
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        nameAbbreviation:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    LeaguesResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/League'
+    Status:
+      type: string
+      enum:
+      - UPCOMING
+      - CURRENT
+      - RECENT
+      - UNKNOWN
+    Period:
+      type: object
+      additionalProperties: false
+      required:
+      - periodNumber
+      - periodType
+      - homeScore
+      - awayScore
+      - homeTieBreak
+      - awayTieBreak
+      - homeShots
+      - awayShots
+      - homePossessionSeconds
+      - awayPossessionSeconds
+      properties:
+        periodNumber:
+          $ref: '#/components/schemas/PeriodNumber'
+        periodType:
+          $ref: '#/components/schemas/PeriodType'
+        homeScore:
+          type:
+          - string
+          - 'null'
+        awayScore:
+          type:
+          - string
+          - 'null'
+        homeTieBreak:
+          type:
+          - string
+          - 'null'
+          description: Tennis.
+        awayTieBreak:
+          type:
+          - string
+          - 'null'
+          description: Tennis.
+        homeShots:
+          type:
+          - string
+          - 'null'
+          description: Shots on goal for this period. Ice hockey.
+        awayShots:
+          type:
+          - string
+          - 'null'
+          description: Shots on goal for this period. Ice hockey.
+        homePossessionSeconds:
+          type:
+          - string
+          - 'null'
+          description: Time of possession in seconds for this period. American football.
+        awayPossessionSeconds:
+          type:
+          - string
+          - 'null'
+          description: Time of possession in seconds for this period. American football.
+    Image:
+      type: object
+      additionalProperties: false
+      required:
+      - orientation
+      - type
+      - URL
+      - contentType
+      properties:
+        orientation:
+          type: string
+          description: Orientation of the image.
+          enum:
+          - LANDSCAPE
+          - PORTRAIT
+          - SQUARE
+        type:
+          type: string
+          enum:
+          - ARTWORK
+          - LOGO
+          - HEADSHOT
+          - FLAG
+          - ARTIST
+          - JERSEY
+          - POSTER
+          - BANNER
+          - IMAGE_3_4
+          - IMAGE_4_3
+          - IMAGE_16_9
+          - BRAND_LOGO
+        URL:
+          type: string
+          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
+        contentType:
+          type:
+          - string
+          - 'null'
+    PeriodDetails:
+      type: object
+      description: Information about the current period and an array of completed and in-progress periods.
+      additionalProperties: false
+      required:
+      - periodNumber
+      - periodType
+      - periodState
+      - periods
+      properties:
+        periodState:
+          type:
+          - string
+          - 'null'
+          description: For sports like baseball, this will indicate the state of the current period. 'Top' if it is the top of the inning.
+        periodNumber:
+          $ref: '#/components/schemas/PeriodNumber'
+        periodType:
+          $ref: '#/components/schemas/PeriodType'
+        servingParticipantGroup:
+          type:
+          - string
+          - 'null'
+          deprecated: true
+          description: Use matchState's possessionParticipantGroup instead.
+        periods:
+          type: array
+          description: This array has the period details for the match that have been completed or are in progress. For tennis, this will be the details of each set. For NBA games, the details of each quarter, etc.
+          items:
+            $ref: '#/components/schemas/Period'
+    Team:
+      type: object
+      additionalProperties: false
+      required:
+      - teamID
+      - name
+      - nameAbbreviation
+      - nameShort
+      - participantTypeDetail
+      - images
+      - color
+      - nationality
+      - hasPhases
+      - hasMatches
+      - currentRanking
+      properties:
+        teamID:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        nameAbbreviation:
+          type:
+          - string
+          - 'null'
+        participantTypeDetail:
+          $ref: '#/components/schemas/ParticipantTypeDetail'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        color:
+          type:
+          - string
+          - 'null'
+          description: Hex representation of the team color.
+        nationality:
+          $ref: '#/components/schemas/Nationality'
+        hasPhases:
+          type: boolean
+        hasMatches:
+          type: boolean
+        currentRanking:
+          $ref: '#/components/schemas/ShortRanking'
+    MatchesResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+    TeamsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+    Participant:
+      type: object
+      additionalProperties: false
+      required:
+      - participantID
+      - name
+      - nameShort
+      - nameAbbreviation
+      - participantType
+      - participantTypeDetail
+      - participantGroup
+      - images
+      - nationality
+      - relatedOrganizations
+      - seedNumber
+      - color
+      - stats
+      - hasPhases
+      - hasMatches
+      properties:
+        participantID:
+          type: string
+          description: ParticipantID will either be a teamID or a personID, depending on participantType.
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        nameAbbreviation:
+          type:
+          - string
+          - 'null'
+        participantType:
+          $ref: '#/components/schemas/ParticipantType'
+        participantTypeDetail:
+          $ref: '#/components/schemas/ParticipantTypeDetail'
+        participantGroup:
+          $ref: '#/components/schemas/ParticipantGroup'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        nationality:
+          $ref: '#/components/schemas/Nationality'
+        relatedOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        seedNumber:
+          type:
+          - string
+          - 'null'
+        color:
+          type:
+          - string
+          - 'null'
+          description: Hex representation of the participant color.
+        stats:
+          $ref: '#/components/schemas/Stats'
+        hasPhases:
+          type: boolean
+        hasMatches:
+          type: boolean
+    Nationality:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        nameAbbreviation:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - error
+      - description
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
+    ParticipantType:
+      type: string
+      description: Indicates whether this participant is an indivual or a team. 'UNKNOWN' is in indication of a data problem upstream or standings/rankings with no participants.
+      enum:
+      - TEAM
+      - PERSON
+      - UNKNOWN
+    Table:
+      type: object
+      description: Rankings and Standings come pre-sorted by the participant's ranking. Nexus will organize league standings and into the most common display hierarchy - including the participants at the most important grouping level. For example, NBA standings typically group teams into their conferences, not their divisions. While MLB's divisional rankings are more important, so their teams are at the divisional level. Note that the NBA divisional info is still present as a `relatedOrganization` for each team. In conjunction with this, the participant's rank attribute will be their ranking in that grouping. e.g. in the NBA, the `rank` will be the conference ranking while in the MLB, the `rank` will be the divisional ranking. The explicit per-grouping rankings will be available in the `leagueRanking`, `conferenceRanking` and `divisionRanking` fields, should you want display a more or less granular ranking.
+      additionalProperties: false
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        nameShort:
+          type:
+          - string
+          - 'null'
+        participantType:
+          $ref: '#/components/schemas/ParticipantType'
+        participantTypeDetail:
+          $ref: '#/components/schemas/ParticipantTypeDetail'
+        groupingID:
+          type: string
+        groupingType:
+          $ref: '#/components/schemas/GroupingType'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Participant'
+        groupings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Table'
+    Meta:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - version
+      - references
+      properties:
+        total:
+          type: integer
+          description: Total number of data objects available.
+        version:
+          type: string
+          description: The API version
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            preferredLanguage:
+              type: string
+            contentMarket:
+              type: string
+            leagueID:
+              type: string
+            teamID:
+              type: string
+            personID:
+              type: string
+            divisionID:
+              type: string
+            conferenceID:
+              type: string
+            overallID:
+              type: string
+            matchID:
+              type: string
+            omitCatalogIDs:
+              type: string
+            minDuration:
+              type: string
+            maxDuration:
+              type: string
+            bundleID:
+              type: string
+            programID:
+              type: string
+            catalogID:
+              type: string
+            phaseID:
+              type: string
+            artistID:
+              type: string
+            albumEditionID:
+              type: string
+            recordingID:
+              type: string
+            artistName:
+              type: string
+            albumEditionName:
+              type: string
+            recordingName:
+              type: string
+            podcastID:
+              type: string
+            podcastEpisodeID:
+              type: string
+            radioStationID:
+              type: string
+            collectionID:
+              type: string
+            collectionCategory:
+              type: string
+            itemTypes:
+              type: string
+            text:
+              type: string
+            topOnly:
+              type: string
+    StandingsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Table'
+    RankingsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Table'
+    ParticipantGroup:
+      type:
+      - string
+      - 'null'
+      enum:
+      - HOME
+      - AWAY
+      - null
+    League:
+      type: object
+      additionalProperties: false
+      required:
+      - leagueID
+      - name
+      - nameShort
+      - images
+      - sportType
+      - hasStandings
+      - hasRankings
+      - hasPhases
+      - hasMatches
+      properties:
+        leagueID:
+          type: string
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        sportType:
+          $ref: '#/components/schemas/SportType'
+        hasStandings:
+          type: boolean
+        hasRankings:
+          type: boolean
+        hasPhases:
+          type: boolean
+        hasMatches:
+          type: boolean
+    PhasesResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
+    ShortRanking:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        rank:
+          type:
+          - string
+          - 'null'
+        points:
+          type:
+          - string
+          - 'null'
+    SportType:
+      type: string
+      enum:
+      - FOOTBALL
+      - AMERICAN_FOOTBALL
+      - BASKETBALL
+      - BASEBALL
+      - ICE_HOCKEY
+      - TENNIS
+      - GOLF
+      - AUTO_RACING
+      - RUGBY_UNION
+      - UNKNOWN
+    MatchState:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      required:
+      - homeScore
+      - awayScore
+      - period
+      - periodShort
+      - periodDetails
+      - possessionParticipantGroup
+      - winnerParticipantGroup
+      - incompleteIndicator
+      - clockTime
+      - homeShots
+      - awayShots
+      - homeHits
+      - awayHits
+      - homeErrors
+      - awayErrors
+      - balls
+      - strikes
+      - outs
+      - runnerOnFirst
+      - runnerOnSecond
+      - runnerOnThird
+      - homePossessionSeconds
+      - awayPossessionSeconds
+      - homeFoulsPersonal
+      - awayFoulsPersonal
+      - homeFoulsTechnical
+      - awayFoulsTechnical
+      - homeShotsOvertime
+      - awayShotsOvertime
+      - down
+      - yardsToGo
+      - yardLineYards
+      - yardLineFieldSide
+      properties:
+        homeScore:
+          type:
+          - string
+          - 'null'
+        awayScore:
+          type:
+          - string
+          - 'null'
+        period:
+          type:
+          - string
+          - 'null'
+        periodShort:
+          type:
+          - string
+          - 'null'
+        clockTime:
+          type:
+          - string
+          - 'null'
+        periodDetails:
+          $ref: '#/components/schemas/PeriodDetails'
+        possessionParticipantGroup:
+          type:
+          - string
+          - 'null'
+          description: For American football matches, which team currently has the ball and for tennis matches, who is serving.
+        winnerParticipantGroup:
+          type:
+          - string
+          - 'null'
+        incompleteIndicator:
+          type:
+          - string
+          - 'null'
+          description: Optional string describing why a match was not completed. Examples include 'Bye', 'Walk over' or 'Retired.'
+        homeShots:
+          type:
+          - string
+          - 'null'
+          description: Total shots on goal. Ice hockey.
+        awayShots:
+          type:
+          - string
+          - 'null'
+          description: Total shots on goal. Ice hockey.
+        homeShotsOvertime:
+          type:
+          - string
+          - 'null'
+          description: Overtime shots on goal. Ice hockey.
+        awayShotsOvertime:
+          type:
+          - string
+          - 'null'
+          description: Overtime shots on goal. Ice hockey.
+        homeHits:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        awayHits:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        homeErrors:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        awayErrors:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        balls:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        strikes:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        outs:
+          type:
+          - string
+          - 'null'
+          description: Baseball.
+        runnerOnFirst:
+          type:
+          - string
+          - 'null'
+          description: Baseball. "true" or "false".
+        runnerOnSecond:
+          type:
+          - string
+          - 'null'
+          description: Baseball. "true" or "false".
+        runnerOnThird:
+          type:
+          - string
+          - 'null'
+          description: Baseball. "true" or "false".
+        homePossessionSeconds:
+          type:
+          - string
+          - 'null'
+          description: Time of possession in seconds. American football.
+        awayPossessionSeconds:
+          type:
+          - string
+          - 'null'
+          description: Time of possession in seconds. American football.
+        homeFoulsPersonal:
+          type:
+          - string
+          - 'null'
+          description: Basketball.
+        awayFoulsPersonal:
+          type:
+          - string
+          - 'null'
+          description: Basketball.
+        homeFoulsTechnical:
+          type:
+          - string
+          - 'null'
+          description: Basketball.
+        awayFoulsTechnical:
+          type:
+          - string
+          - 'null'
+          description: Basketball.
+        down:
+          type:
+          - string
+          - 'null'
+          description: Current down. American football.
+        yardsToGo:
+          type:
+          - string
+          - 'null'
+          description: Yards remaining for a first down. American football.
+        yardLineYards:
+          type:
+          - string
+          - 'null'
+          description: Current yard line position. American football.
+        yardLineFieldSide:
+          type:
+          - string
+          - 'null'
+          description: Which side of the field the ball is on. American football.
+    StatusDetail:
+      type: string
+      enum:
+      - IN_PROGRESS
+      - SUSPENDED
+      - DELAYED
+      - SCHEDULED_BREAK
+      - COMPLETED
+      - POSTPONED
+      - ABANDONED
+      - CANCELED
+      - SHORTENED
+      - SCHEDULED
+      - RESCHEDULED
+      - UNKNOWN
+    PhaseState:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      required:
+      - lapsDriven
+      - lapsScheduled
+      - distanceDriven
+      - distanceScheduled
+      properties:
+        lapsDriven:
+          type:
+          - string
+          - 'null'
+        lapsScheduled:
+          type:
+          - string
+          - 'null'
+        distanceDriven:
+          type:
+          - string
+          - 'null'
+        distanceScheduled:
+          type:
+          - string
+          - 'null'
+    ParentEvent:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      description: The parent event is the related league, tournament, race, etc for matches and phases.
+      required:
+      - name
+      - images
+      - leagueID
+      - nameShort
+      - nationality
+      properties:
+        leagueID:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        nationality:
+          $ref: '#/components/schemas/Nationality'
+    Person:
+      type: object
+      additionalProperties: false
+      required:
+      - personID
+      - name
+      - nameAbbreviation
+      - nameShort
+      - nameFirst
+      - nameLast
+      - images
+      - dateOfBirth
+      - heightMillimeters
+      - weightGrams
+      - nationality
+      - relatedOrganizations
+      - hasPhases
+      - hasMatches
+      - currentRanking
+      properties:
+        personID:
+          type: string
+        name:
+          type: string
+        nameShort:
+          type:
+          - string
+          - 'null'
+        nameFirst:
+          type:
+          - string
+          - 'null'
+        nameLast:
+          type:
+          - string
+          - 'null'
+        heightMillimeters:
+          type:
+          - integer
+          - 'null'
+        dateOfBirth:
+          type: string
+        weightGrams:
+          type:
+          - integer
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        nameAbbreviation:
+          type:
+          - string
+          - 'null'
+        nationality:
+          $ref: '#/components/schemas/Nationality'
+        relatedOrganizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+        hasPhases:
+          type: boolean
+        hasMatches:
+          type: boolean
+        currentRanking:
+          $ref: '#/components/schemas/ShortRanking'
+    Stats:
+      type:
+      - object
+      - 'null'
+      description: Statistics for the parent participant.
+      additionalProperties: false
+      required:
+      - rank
+      - divisionRanking
+      - conferenceRanking
+      - leagueRanking
+      - winPercentage
+      - points
+      - matches
+      - matchesDrawn
+      - matchesWon
+      - matchesLost
+      - matchesLostOvertime
+      - goalsDifference
+      - goalsAgainst
+      - goalsFor
+      - result
+      - resultAbsolute
+      - resultRelative
+      - pitstops
+      - laps
+      - fastestLaps
+      - qualificationMark
+      - strokes
+      - holesPlayed
+      - cumulativeRank
+      - cumulativeRankSort
+      properties:
+        rank:
+          type:
+          - string
+          - 'null'
+          description: For standings, this is the rank of the participant within the current grouping. i.e. if the participants are found in a Conference grouping, this will be the participant's ranking within that conference. For phase results (like F1 races), this is the ranking of the participant within that phase. This is a display value and may be non-numerical. For example, for F1 races, it might be 'NC' (for 'Not Classified').
+        rankSort:
+          type:
+          - string
+          - 'null'
+          deprecated: true
+        conferenceRanking:
+          type:
+          - string
+          - 'null'
+          description: In standings objects, for leagues that are grouped by conferences, this is the participant's ranking within their conference.
+        divisionRanking:
+          type:
+          - string
+          - 'null'
+          description: In standings objects, for leagues that are grouped by conferences and divisions, this is the participant's ranking within their division.
+        leagueRanking:
+          type:
+          - string
+          - 'null'
+          description: In standings objects, participant's ranking within the top level league grouping. For leagues that only support conference or divisional ranking, this will be null.
+        winPercentage:
+          type:
+          - string
+          - 'null'
+        points:
+          type:
+          - string
+          - 'null'
+        matchesDrawn:
+          type:
+          - string
+          - 'null'
+        matchesWon:
+          type:
+          - string
+          - 'null'
+        matches:
+          type:
+          - string
+          - 'null'
+        matchesLost:
+          type:
+          - string
+          - 'null'
+        matchesLostOvertime:
+          type:
+          - string
+          - 'null'
+        goalsDifference:
+          type:
+          - string
+          - 'null'
+        goalsAgainst:
+          type:
+          - string
+          - 'null'
+        goalsFor:
+          type:
+          - string
+          - 'null'
+        result:
+          type:
+          - string
+          - 'null'
+        resultAbsolute:
+          type:
+          - string
+          - 'null'
+          description: For F1 phases, this is the non-relative result for the given driver (e.g. "1:19:57.566"). Note that `result` will always contain the most relevant format of the result, so most implementations won't need to understand this distinction.
+        resultRelative:
+          type:
+          - string
+          - 'null'
+          description: For F1 phases, this is the result for the given driver relative to the leader (e.g. "+ 0.647"). Note that `result` will always contain the most relevant format of the result, so most implementations won't need to understand this distinction.
+        pitstops:
+          type:
+          - string
+          - 'null'
+        laps:
+          type:
+          - string
+          - 'null'
+        fastestLaps:
+          type:
+          - string
+          - 'null'
+        qualificationMark:
+          type:
+          - string
+          - 'null'
+          description: An indication whether this participant has qualified.
+        strokes:
+          type:
+          - string
+          - 'null'
+          description: The participant's stroke count for the current golf round.
+        holesPlayed:
+          type:
+          - string
+          - 'null'
+          description: How many holes the participant has played in the current golf round.
+        cumulativeRank:
+          type:
+          - string
+          - 'null'
+          description: For golf tournaments, the participant's tournament-level ranking, as opposed to the ranking in the current round.
+        cumulativeRankSort:
+          type:
+          - string
+          - 'null'
+          description: For golf tournaments, the tournament-level rank sorting, necessary for when two participants share the same cumulativeRank.
+    GroupingType:
+      type: string
+      enum:
+      - OVERALL
+      - LEAGUE
+      - CONFERENCE
+      - DIVISION
+      - GROUP
+  responses:
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+    errorResponse404:
+      description: The specified object was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Resource not found.
+    errorResponse5XX:
+      description: An unexpected error occurred on the server. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
   securitySchemes:
     apiKey:
       type: apiKey
       in: query
       name: api_key
+x-refined-from:
+- gracenote-onconnect-lookup-apis-openapi.json
+- gracenote-openapi.yml
+- gracenote-sports-api-openapi.yml

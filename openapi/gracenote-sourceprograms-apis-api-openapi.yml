@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: On API v3.28 SourcePrograms APIs API
+  description: On API is designed for database ingestion, providing ability to retrieve updates on-demand for television schedule data and related information.
+  version: '3.28'
+servers:
+- url: /proxy/on-api
+tags:
+- name: SourcePrograms APIs
+paths:
+  /v3/Source/Programs:
+    get:
+      summary: SourcePrograms
+      description: Get source program metadata updates starting from specified updateId.
+      tags:
+      - SourcePrograms APIs
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: 'Source Programs modified at or after updateId. '
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Batch size. Maximum number of source programs to be returned. Use with updateId.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Source Program ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV3SourcePrograms
+      x-operation-id-source: derived
+components:
+  parameters:
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication

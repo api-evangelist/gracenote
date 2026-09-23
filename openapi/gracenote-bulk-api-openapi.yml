@@ -1,0 +1,3404 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Bulk API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: Bulk
+paths:
+  /bulk/movies/batches:
+    get:
+      tags:
+      - Bulk
+      summary: Retrieve bulk movie batches
+      description: 'Retrieves a paginated array of movie batch resources. Supports query parameters for `limit`, `page`, `sortField` (created, updated),
+
+        and `sortDirection` (ASC, DESC) to control result set.'
+      operationId: queryMovieBatches
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: sortField
+        in: query
+        description: Field by which to sort batches by.
+        schema:
+          type: string
+          default: updated
+          enum:
+          - created
+          - updated
+      - name: sortDirection
+        in: query
+        description: Direction by which to sort the search results.
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - asc
+          - DESC
+          - desc
+      responses:
+        '200':
+          description: BatchesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchesResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    post:
+      tags:
+      - Bulk
+      summary: Create a new bulk movies batch
+      description: Creates a new movie batch. Accepts a JSON payload adhering to the `MoviePayload` schema for batch creation.
+      operationId: createMovieBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoviePayload'
+        required: false
+      responses:
+        '200':
+          description: MovieBatchResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieBatchResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '422':
+          description: UnprocessableEntityErrorBulkMovies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - validation errors
+                  descriptionDetails:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - fields:
+                          title.value:
+                            error: title value string exceeds the maximum length of 120
+                        index: roots[0].versions[0].presentations[0]
+                        message: title exceeds max length
+                        type: required_field
+                      - index: roots[2].versions[1]
+                        message: user is not entitled to language "fr"
+                        type: entitlement_error
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 81fcfc04-2182-4567-963f-5g0a9a629a15
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: payload
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /bulk/movies/batches/{gnID}:
+    get:
+      tags:
+      - Bulk
+      summary: Search for movie batch using its GnID
+      description: Retrieves a specific movie batch resource identified by its `gnID` path parameter.
+      operationId: queryMovieBatch
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the movie batch to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MovieBatchResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieBatchResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+  /bulk/shows/batches:
+    get:
+      tags:
+      - Bulk
+      summary: Retrieve bulk show batches
+      description: 'Retrieves a paginated array of show batch resources. Supports query parameters for `limit`, `page`,
+
+        `sortField` (created, updated), and `sortDirection` (ASC, DESC) to control result set.'
+      operationId: queryShowBatches
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: sortField
+        in: query
+        description: Field by which to sort batches by.
+        schema:
+          type: string
+          default: updated
+          enum:
+          - created
+          - updated
+      - name: sortDirection
+        in: query
+        description: Direction by which to sort the search results.
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - asc
+          - DESC
+          - desc
+      responses:
+        '200':
+          description: BatchesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchesResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    post:
+      tags:
+      - Bulk
+      summary: Create a new bulk shows batch
+      description: 'Creates a new show batch. Accepts a JSON payload conforming to the `ShowPayload` schema for batch creation.
+
+        Payload size must be less than or equal to 25MB.'
+      operationId: createShowBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShowPayload'
+        required: false
+      responses:
+        '200':
+          description: ShowBatchResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowBatchResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '422':
+          description: UnprocessableEntityErrorBulkShows
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - validation errors
+                  descriptionDetails:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - fields:
+                          title.value:
+                            error: title value string exceeds the maximum length of 150
+                        index: roots[0].versions[0].presentations[0]
+                        message: title exceeds max length
+                        type: required_field
+                      - index: roots[2].versions[1]
+                        message: user is not entitled to language "fr"
+                        type: entitlement_error
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/shows/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 73fdfc07-2182-4567-963f-5f0f9a621d15
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: payload
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /bulk/shows/batches/{gnID}:
+    get:
+      tags:
+      - Bulk
+      summary: Search for show batch using its GnID
+      description: Retrieves a specific show batch resource identified by its `gnID` path parameter.
+      operationId: queryShowBatch
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the show batch to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ShowBatchResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowBatchResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    NewShowPresentation:
+      description: NewPresentation represents the fields required for creating a presentation of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        finaleDate:
+          type: string
+          description: The date at which the series ends with a series finale.
+          format: date
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the series was released.
+
+
+            ReleaseDate is optional for creating a presentation, but is required for publishing.
+
+            ReleaseDate is required for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+    ExternalID:
+      required:
+      - id
+      - isPrimary
+      type: object
+      properties:
+        id:
+          type: string
+          description: id is the external identifier.
+        isPrimary:
+          type: boolean
+          description: 'indicates that the external ID is the primary ID
+
+            used to identify the program external to Gracenote.
+
+            Exactly one primary external ID is allowed (and required) per program.'
+        isProvider:
+          type: boolean
+          description: 'indicates that the source provider uses this ID as
+
+            their internal ID for the program. Exactly one provider
+
+            external ID is allowed per program.'
+        label:
+          type: string
+          description: label is a tag to describe the identifier.
+      description: ExternalID is an external (to Gracenote) identifier of the program
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
+    BatchShowPresentationResponse:
+      type: object
+      properties:
+        presentation:
+          $ref: '#/components/schemas/ShowPresentation'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchSeasonResponse'
+      description: ShowPresentationResponse is the response after creating a show presentation as part of a batch
+    BatchShowRootResponse:
+      type: object
+      properties:
+        root:
+          $ref: '#/components/schemas/ShowRoot'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchShowVersionResponse'
+      description: ShowRootResponse is the response after creating a show root as part of a batch
+    ShowPresentationPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentation:
+          $ref: '#/components/schemas/NewShowPresentation'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/SeasonPayload'
+      description: ShowPresentationPayload is the show presentation request payload provided by the user
+    errorType:
+      type: string
+    MovieBatchResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MovieBatch'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ExternalIDs:
+      type: array
+      description: ExternalIDs is a convenience alias on a slice of ExternalID types
+      items:
+        $ref: '#/components/schemas/ExternalID'
+    ShowBatchResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ShowBatch'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    Crew:
+      description: 'Crew is a member who was part of
+
+        a program''s production crew.'
+      required:
+      - name
+      - order
+      - type
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        type:
+          type: string
+          description: 'Type describes the role or "crew type" of the crew member.
+
+            Defined by the Gracenote Vocabulary.'
+    MoviePayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieParentPresentationPayload'
+        roots:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieRootPayload'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieParentVersionPayload'
+      description: MoviePayload is the movie request payload provided by the user
+    BatchesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Batch'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ParentEpisodePayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        episode:
+          $ref: '#/components/schemas/NewEpisode'
+        seasonGnID:
+          type: string
+          description: The Gracenote ID of the season that the episode belongs to
+    BatchEpisodeResponse:
+      type: object
+      properties:
+        episode:
+          $ref: '#/components/schemas/Episode'
+      description: EpisodeResponse is the response after creating an episode as part of a batch
+    MovieBatch:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        created:
+          type: string
+          description: When the batch was first created
+          readOnly: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        gnID:
+          type: string
+          description: The Gracenote ID of the batch
+          readOnly: true
+        payload:
+          $ref: '#/components/schemas/MoviePayload'
+        response:
+          $ref: '#/components/schemas/BatchMovieResponse'
+        status:
+          type: string
+          description: The current status of the batch - inProgress, succeeded, or failed
+          readOnly: true
+        updated:
+          type: string
+          description: When the batch was last updated
+          readOnly: true
+      description: MovieBatch contains the toplevel information about the particular movie batch, as well as the payload, response, and any errors
+    ShowRootPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        root:
+          $ref: '#/components/schemas/NewShowRoot'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowVersionPayload'
+      description: ShowRootPayload is the show root request payload provided by the user
+    MoviePresentationPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentation:
+          $ref: '#/components/schemas/NewMoviePresentation'
+      description: MoviePresentationPayload is the movie presentation request payload provided by the user
+    ShowBatch:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        created:
+          type: string
+          description: When the batch was first created
+          readOnly: true
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        gnID:
+          type: string
+          description: The Gracenote ID of the batch
+          readOnly: true
+        payload:
+          $ref: '#/components/schemas/ShowPayload'
+        response:
+          $ref: '#/components/schemas/BatchShowResponse'
+        status:
+          type: string
+          description: The current status of the batch - inProgress, succeeded, or failed
+          readOnly: true
+        updated:
+          type: string
+          description: When the batch was last updated
+          readOnly: true
+      description: ShowBatch contains the toplevel information about the particular show batch, as well as the payload, response, and any errors
+    MovieVersionPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoviePresentationPayload'
+        version:
+          $ref: '#/components/schemas/NewMovieVersion'
+      description: MovieVersionPayload is the movie version request payload provided by the user
+    NewMovieVersion:
+      description: 'NewVersion defines what information may be provided to create a
+
+        new movie version record.'
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+    BatchMovieResponse:
+      type: object
+      properties:
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchMoviePresentationResponse'
+        roots:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchMovieRootResponse'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchMovieVersionResponse'
+      description: MovieResponse is the response after creating movie roots, versions, and presentations as part of a batch
+    NewMovieRoot:
+      title: NewRoot represents the fields required for creating a root of a movie.
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+    EpisodePayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        episode:
+          $ref: '#/components/schemas/NewEpisode'
+      description: EpisodePayload is the episode request payload provided by the user
+    BatchShowResponse:
+      type: object
+      properties:
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchEpisodeResponse'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchShowPresentationResponse'
+        roots:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchShowRootResponse'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchSeasonResponse'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchShowVersionResponse'
+      description: ShowResponse is the response after creating show roots, versions, presentations, seasons, and episodes as part of a batch
+    MovieVersion:
+      description: Version represents the version of a movie
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        presentationGnIDs:
+          type: array
+          description: A list of the version's children presentation GnIDs.
+          readOnly: true
+          items:
+            type: string
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+    NewEpisode:
+      description: NewEpisode represents the fields required for creating an episode of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
+          type: string
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
+          examples:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
+          type: string
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - episode
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - episode
+    MovieRoot:
+      title: Root represents the root of a movie.
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+        versionGnIDs:
+          type: array
+          description: The set of child version GnIDs of the root
+          readOnly: true
+          items:
+            type: string
+    NewShowRoot:
+      description: NewRoot represents the fields required for creating a root of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+    ParentSeasonPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodePayload'
+        presentationGnID:
+          type: string
+          description: The Gracenote ID of the show presentation that the season belongs to
+        season:
+          $ref: '#/components/schemas/NewSeason'
+    ShowRoot:
+      description: Root represents the root of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+        versionGnIDs:
+          type: array
+          description: the ids of any children versions.
+          readOnly: true
+          items:
+            type: string
+    Descriptions:
+      title: Descriptions is an array of Description types
+      type: array
+      description: A maximum of 10 descriptions can be assigned to a program
+      items:
+        $ref: '#/components/schemas/Description'
+    ShowPresentation:
+      description: Presentation represents the Show specific presentation metadata
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        finaleDate:
+          type: string
+          description: The date at which the series ends with a series finale.
+          format: date
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the series was released.
+
+
+            ReleaseDate is optional for creating a presentation, but is required for publishing.
+
+            ReleaseDate is required for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+        catalogGnIDs:
+          type: array
+          description: The Gracenote IDs of the catalogs that the presentation is a part of.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZWT00000001
+            - GNLZZWT00000002
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+          examples:
+          - GNLZZZ200000001
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishPrereqs:
+          $ref: '#/components/schemas/FieldErrors'
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        rootGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ700000001
+        seasonGnIDs:
+          type: array
+          description: The Gracenote IDs of children seasons of the show presentation.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZXV00000001
+            - GNLZZXV00000002
+        sourceId:
+          type: string
+          description: The internal Source Gracenote ID associated with the program.
+          readOnly: true
+          examples:
+          - GNLZZZ400000001
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent version.
+          readOnly: true
+          examples:
+          - GNLZZZ300000001
+    ShowVersionPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowPresentationPayload'
+        version:
+          $ref: '#/components/schemas/NewShowVersion'
+      description: ShowVersionPayload is the show version request payload provided by the user
+    BatchMovieRootResponse:
+      type: object
+      properties:
+        root:
+          $ref: '#/components/schemas/MovieRoot'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchMovieVersionResponse'
+      description: MovieRootResponse is the response after creating a movie root as part of a batch
+    Cast:
+      description: Cast is an individual who performed in a production
+      required:
+      - name
+      - order
+      - role
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        character:
+          type: string
+          description: Character is the name of the cast member's portrayed character.
+        role:
+          type: string
+          description: 'Role defines the cast member''s credited contribution.
+
+            Defined by the Gracenote Vocabulary.'
+    Context:
+      title: Context contains the user defined context to store/return alongside the export.
+      type: object
+      additionalProperties:
+        type: string
+    MovieParentPresentationPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentation:
+          $ref: '#/components/schemas/NewMoviePresentation'
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the version that the presentation belongs to
+    BatchShowVersionResponse:
+      type: object
+      properties:
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchShowPresentationResponse'
+        version:
+          $ref: '#/components/schemas/ShowVersion'
+      description: ShowVersionResponse is the response after creating a show version as part of a batch
+    ShowParentPresentationPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentation:
+          $ref: '#/components/schemas/NewShowPresentation'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/SeasonPayload'
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the version that the presentation belongs to
+    BatchSeasonResponse:
+      type: object
+      properties:
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchEpisodeResponse'
+        season:
+          $ref: '#/components/schemas/Season'
+      description: SeasonResponse is the response after creating a season as part of a batch
+    FieldErrors:
+      type: array
+      description: FieldErrors represents a collection of field errors
+      items:
+        $ref: '#/components/schemas/FieldError'
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    Name:
+      required:
+      - first
+      type: object
+      properties:
+        first:
+          type: string
+          description: The first name of the member.
+        last:
+          type: string
+          description: The last name of the member.
+        middle:
+          type: string
+          description: The middle name of the member.
+        prefix:
+          type: string
+          description: The prefix of the member's name.
+        suffix:
+          type: string
+          description: The suffix of the member's name.
+      description: 'Name contains the components of the full name
+
+        of a crew or cast member.'
+    Batch:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        created:
+          type: string
+          description: When the batch was first created
+          readOnly: true
+        gnID:
+          type: string
+          description: The Gracenote ID of the batch
+          readOnly: true
+        status:
+          type: string
+          description: The current status of the batch - inProgress, succeeded, or failed
+          readOnly: true
+        updated:
+          type: string
+          description: When the batch was last updated
+          readOnly: true
+      description: Batch contains the toplevel information about the particular batch
+    Rating:
+      required:
+      - ratingBody
+      type: object
+      properties:
+        advisories:
+          type: array
+          description: 'Content advisories that should be attached to the presentation.
+
+            Free form entry. Reference the GN Vocabulary for suggested advisories.'
+          items:
+            type: string
+          examples:
+          - - contains strong language
+        notYetRated:
+          type: boolean
+          description: When true, indicates that the presentation is yet to be rated.
+        rating:
+          type: string
+          description: 'The assigned rating value as determined by the rating body.
+
+            Required if ratingBody & notYetRated are false.'
+          examples:
+          - PG-13
+        ratingBody:
+          type: string
+          description: The rating body responsible for assigning ratings.
+          examples:
+          - MPAA
+        ratingExempt:
+          type: boolean
+          description: 'When set to true, indicates that the presentation is exempt from and
+
+            will not receive ratings.'
+      description: Rating represents a rating of a program as assigned by a rating body
+    BatchMoviePresentationResponse:
+      type: object
+      properties:
+        presentation:
+          $ref: '#/components/schemas/MoviePresentation'
+      description: MoviePresentationResponse is the response after creating a movie presentation as part of a batch
+    Season:
+      description: 'Season represents a grouping of
+
+        Show episodes'
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the season.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the season.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          type: array
+          description: A list of descriptions for the season.
+          items:
+            $ref: '#/components/schemas/Description'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        finaleDate:
+          type: string
+          description: The date on which the season ends with the season's finale.
+          format: date
+        nonSeason:
+          type: boolean
+          description: Indicates that the season is a one-off occurrence and is non-repetitive. Mutually exclusive with SeasonNumber.
+        ordinal:
+          type: integer
+          description: The order of which the season appears
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the season (or network if
+
+            the season originated on a network).'
+          examples:
+          - Lifetime
+        releaseDate:
+          type: string
+          description: The date the season was release
+          format: date
+        seasonNumber:
+          type: string
+          description: Indicates which season of a show the season is.
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+        episodeGnIDs:
+          type: array
+          description: The episode gnIDs which are children of the season.
+          readOnly: true
+          items:
+            type: string
+        gnID:
+          type: string
+          description: The Gracenote ID of the season.
+          readOnly: true
+        showPresentationGnID:
+          type: string
+          description: The show presentation GnID that is a parent of the Season.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated.
+          readOnly: true
+      required:
+      - subType
+    BatchMovieVersionResponse:
+      type: object
+      properties:
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchMoviePresentationResponse'
+        version:
+          $ref: '#/components/schemas/MovieVersion'
+      description: MovieVersionResponse is the response after creating a movie version as part of a batch
+    NewShowVersion:
+      description: NewVersion represents the fields required for creating a version of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the show.
+
+            Color is required for publishing the show.'
+          examples:
+          - bw
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The releaseDate of the show.
+
+            ReleaseDate is optional for creating a show version, but is required
+
+            for publishing a show presentation. ReleaseDate is required
+
+            for update when the presentation is in publishing/published state.'
+          format: date
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+    Error:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID that caused the error
+        path:
+          type: string
+          description: The path to where in the payload it occurred
+        type:
+          $ref: '#/components/schemas/errorType'
+      description: Error contains the error type, the path to where in the payload it occurred, and the GnID that caused it
+    MovieParentVersionPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoviePresentationPayload'
+        rootGnID:
+          type: string
+          description: The Gracenote ID of the root that the version belongs to
+        version:
+          $ref: '#/components/schemas/NewMovieVersion'
+    ShowVersion:
+      description: Version represents the version of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the show.
+
+            Color is required for publishing the show.'
+          examples:
+          - bw
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The releaseDate of the show.
+
+            ReleaseDate is optional for creating a show version, but is required
+
+            for publishing a show presentation. ReleaseDate is required
+
+            for update when the presentation is in publishing/published state.'
+          format: date
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        presentationGnIDs:
+          type: array
+          description: A list of the version's children presentation GnIDs.
+          readOnly: true
+          items:
+            type: string
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+    SeasonPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpisodePayload'
+        season:
+          $ref: '#/components/schemas/NewSeason'
+      description: SeasonPayload is the season request payload provided by the user
+    MoviePresentation:
+      description: Presentation represents the presentation of a movie
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        productionStatus:
+          type: string
+          description: Describes the production status of the movie.
+          examples:
+          - completed
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the movie was released.
+
+
+            ReleaseDate is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The year in which the movie was released.
+
+
+            ReleaseYear is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: int64
+          examples:
+          - 2000
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        catalogGnIDs:
+          type: array
+          description: The IDs of the catalogs that the presentation is a part of.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZWT00000001
+            - GNLZZWT00000002
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+          examples:
+          - GNLZZXW00000001
+        publishPrereqs:
+          $ref: '#/components/schemas/FieldErrors'
+        rootGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ600000001
+        sourceId:
+          type: string
+          description: The internal Source Gracenote ID associated with the program.
+          readOnly: true
+          examples:
+          - GNLZZZ400000001
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent version.
+          readOnly: true
+          examples:
+          - GNLZZXX00000001
+    MovieRootPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        root:
+          $ref: '#/components/schemas/NewMovieRoot'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieVersionPayload'
+      description: MovieRootPayload is the movie root request payload provided by the user
+    Episode:
+      description: Episode represents an episode of a season
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
+          type: string
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
+          examples:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
+          type: string
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - episode
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - episode
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        catalogGnIDs:
+          type: array
+          description: The IDs of the catalogs that the presentation is a part of.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZWT00000001
+            - GNLZZWT00000002
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000001
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          readOnly: true
+          items:
+            type: string
+        publishPrereqs:
+          $ref: '#/components/schemas/FieldErrors'
+        seasonGnID:
+          type: string
+          description: The gnID of the episode's parent season.
+          readOnly: true
+          examples:
+          - GNLZZXV00000001
+        showPresentationGnID:
+          type: string
+          description: The gnID of the episode's parent show presentation.
+          readOnly: true
+          examples:
+          - GNLZZZ200000001
+        showRootGnID:
+          type: string
+          description: The gnID of the episode's parent show root.
+          readOnly: true
+          examples:
+          - GNLZZZ700000001
+        showVersionGnID:
+          type: string
+          description: The gnID of the episode's parent show version.
+          readOnly: true
+          examples:
+          - GNLZZZ300000001
+        sourceId:
+          type: string
+          description: The internal Source Gracenote ID associated with the program.
+          readOnly: true
+          examples:
+          - GNLZZZ400000001
+        updated:
+          type: string
+          description: The time the episode was last updated
+          readOnly: true
+        versionLabels:
+          type: array
+          description: 'The types associated with this version.
+
+            See the Gracenote Vocabulary for suggested version types.'
+          readOnly: true
+          items:
+            type: string
+    FieldError:
+      type: object
+      properties:
+        error:
+          type: string
+        field:
+          type: string
+        level:
+          type: string
+      description: FieldError is used to indicate an error with a specific request field
+    ShowPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParentEpisodePayload'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowParentPresentationPayload'
+        roots:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowRootPayload'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParentSeasonPayload'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowParentVersionPayload'
+      description: ShowPayload is the show request payload provided by the user
+    NewMoviePresentation:
+      description: 'NewPresentation defines what information may be provided to create a
+
+        new movie presentation record.'
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating a presentation,
+
+            but at least one is required for publishing.
+
+            Genres is required for update when the presentation is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          items:
+            type: string
+          examples:
+          - - UK EN
+            - US EN
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        productionStatus:
+          type: string
+          description: Describes the production status of the movie.
+          examples:
+          - completed
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The date on which the movie was released.
+
+
+            ReleaseDate is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The year in which the movie was released.
+
+
+            ReleaseYear is optional for creating a presentation, but
+
+            either ReleaseYear or ReleaseDate is required for publishing.
+
+            Either ReleaseYear or ReleaseDate must be specified for update when the presentation is
+
+            in publishing/published state.'
+          format: int64
+          examples:
+          - 2000
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+    NewSeason:
+      description: NewSeason represents the fields required for creating a season of a show
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the season.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        crew:
+          type: array
+          description: 'The crew of the season.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          type: array
+          description: A list of descriptions for the season.
+          items:
+            $ref: '#/components/schemas/Description'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        finaleDate:
+          type: string
+          description: The date on which the season ends with the season's finale.
+          format: date
+        nonSeason:
+          type: boolean
+          description: Indicates that the season is a one-off occurrence and is non-repetitive. Mutually exclusive with SeasonNumber.
+        ordinal:
+          type: integer
+          description: The order of which the season appears
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the season (or network if
+
+            the season originated on a network).'
+          examples:
+          - Lifetime
+        releaseDate:
+          type: string
+          description: The date the season was release
+          format: date
+        seasonNumber:
+          type: string
+          description: Indicates which season of a show the season is.
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+      required:
+      - subType
+    ShowParentVersionPayload:
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        presentations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowPresentationPayload'
+        rootGnID:
+          type: string
+          description: The Gracenote ID of the root that the version belongs to
+        version:
+          $ref: '#/components/schemas/NewShowVersion'
+    MappingInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

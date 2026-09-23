@@ -1,0 +1,394 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: ''
+paths:
+  /publications:
+    get:
+      tags:
+      - ''
+      summary: Retrieve presentations' publish status
+      description: 'Retrieves a paginated collection of presentation resources for a given source.
+
+        Supports query parameters for filtering and sorting.
+
+
+        A Publication is a simplified version of a presentation which contains only the minimal
+
+        information needed to track the publishing status.
+
+
+        This endpoint does not contain details about presentations which have publishStatus as "registered".'
+      operationId: getPublications
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        required: true
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      - name: sortField
+        in: query
+        description: Field by which to sort batches by.
+        schema:
+          type: string
+          default: updated
+          enum:
+          - updated
+      - name: sortDirection
+        in: query
+        description: Direction by which to sort the search results.
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - asc
+          - DESC
+          - desc
+      - name: updatedFrom
+        in: query
+        description: Updated timestamp to filter from, records updated after this will be shown (inclusive).
+        schema:
+          type: string
+      - name: updatedTo
+        in: query
+        description: Updated timestamp to filter to, records updated after this will not be shown (exclusive).
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Program types to filter summaries by.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: publishStatus
+        in: query
+        description: 'PublishingStatuses to filter publications  by. Valid values may be
+
+          found in the Gracenote Vocabulary.'
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: titleValue
+        in: query
+        description: The raw string value of a title to filter publications by.
+        schema:
+          type: string
+      - name: titleLanguage
+        in: query
+        description: 'TitleLanguage to filter publications  by. Valid values may be
+
+          found in the Gracenote Vocabulary.'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: PublicationsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicationsResponse'
+        '400':
+          description: BadRequestError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body must not be empty
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    Publication:
+      description: Publication represents a view of all Presentations with their publishing statuses
+      type: object
+      properties:
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        gnID:
+          type: string
+        mappingUpdated:
+          type: string
+          description: The timestamp when the TMS ID mapping was last updated.
+          examples:
+          - '2023-10-23T00:00:00.000Z'
+        title:
+          $ref: '#/components/schemas/Title'
+        type:
+          $ref: '#/components/schemas/ProgramType'
+        updated:
+          type: string
+          description: The latest update to the presentation.
+          examples:
+          - '2023-10-23T00:00:00.000Z'
+    PublicationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Publication'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ProgramType:
+      type: string
+      description: 'ProgramType aliases string to provide
+
+        "enums" for available program types.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    MappingInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

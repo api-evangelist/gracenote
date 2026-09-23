@@ -1,16 +1,295 @@
 openapi: 3.2.0
 info:
-  title: Gracenote OnConnect TMS Celebrities Lineups API
-  description: 'Best-effort OpenAPI 3.1 for the Gracenote (TMS) OnConnect data_v1_1 API. Read-only entertainment data: lineups, stations, schedules, programs, series, movies, sports, and celebrities. Authentication is via API key as the `api_key` query parameter.'
-  version: '1.1'
+  title: Gracenote Lineups API
+  version: '1.0'
+  description: 'Operations tagged Lineups across 3 of this provider''s published API definitions: gracenote-onconnect-lookup-apis-openapi.json, gracenote-openapi.yml, gracenote-lineups-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: /proxy/onconnect
 - url: http://data.tmsapi.com/v1.1
   description: Gracenote OnConnect (data_v1_1)
-security:
-- apiKey: []
+- url: /proxy/gvd
 tags:
 - name: Lineups
 paths:
+  /v1.1/lineups:
+    get:
+      summary: Find Lineups
+      description: Returns a list of lineups for a country and postal code.
+      tags:
+      - Lineups
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: USA
+          enum:
+          - ''
+          - '-'
+          - USA
+          - CAN
+          - '-'
+          - '-'
+          - AUS
+          - '-'
+          - '-'
+          - AUT
+          - BEL
+          - CHE
+          - DEU
+          - DNK
+          - ESP
+          - FIN
+          - FRA
+          - GBR
+          - IRL
+          - ITA
+          - NLD
+          - NOR
+          - POL
+          - SWE
+          - '-'
+          - '-'
+          - ARG
+          - BLZ
+          - BRA
+          - CHL
+          - COL
+          - CRI
+          - ECU
+          - GTM
+          - GUY
+          - HND
+          - MEX
+          - PAN
+          - PER
+          - URY
+          - VEN
+          - '-'
+          - '-'
+          - AIA
+          - ATG
+          - ABW
+          - BHS
+          - BRB
+          - BMU
+          - BES
+          - VGB
+          - CYM
+          - CUW
+          - DMA
+          - DOM
+          - GRD
+          - JAM
+          - PRI
+          - MAF
+          - VCT
+          - KNA
+          - LCA
+          - TTO
+          - TCA
+        description: Country code. See [here](http://developer.tmsapi.com/docs/read/data_v1_1/lineups/Lineups_by_postal_code#validCountryValues) for list of countries currently available.  If not specified, defaults to USA.
+      - name: postalCode
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '78701'
+        description: Postal Code. See [International Lineups](http://developer.tmsapi.com/docs/read/data_v1_1/International_Lineups) for more information.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11Lineups
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/lineups/{lineupId}:
+    get:
+      summary: Lineup Details
+      description: Returns details for a given lineup.
+      tags:
+      - Lineups
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: lineupId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11LineupsByLineupId
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/lineups/{lineupId}/channels:
+    get:
+      summary: Lineup Channel List
+      description: Returns a list of stations and channel positions associated with the lineup provided.
+      tags:
+      - Lineups
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: lineupId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: enumerated
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: enhancedCallSign
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether or not to include display-friendly call signs in the results. Defaults to false.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11LineupsByLineupIdChannels
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
+  /v1.1/lineups/{lineupId}/grid:
+    get:
+      summary: Lineup Airings (TV Grid)
+      description: Returns schedule airing and associated program metadata for a lineup to be contained within a TV grid. Allows for up to 6 hours of schedule metadata for a given date up to 14 days in advance.
+      tags:
+      - Lineups
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - name: lineupId
+        in: path
+        required: true
+        schema:
+          type: string
+          default: USA-TX42500-X
+        description: Lineup ID
+      - name: stationId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Station ID. Multiple stations accepted, comma-separated.
+      - name: startDateTime
+        in: query
+        required: true
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to start from (ISO 8601)
+      - name: endDateTime
+        in: query
+        required: false
+        schema:
+          type: dateTime
+          default: ''
+        description: Date/Time to end on (ISO 8601). Defaults to startDateTime plus three hours.
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: enumerated
+          default: ''
+          enum:
+          - ''
+          - Basic
+          - Detailed
+          - DetailedNoImage
+        description: Amount of program metadata to be returned in TV grid. The default value is Detailed. For smaller response size, use Basic or DetailedNoImage.
+      - name: imageSize
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - Sm
+          - Md
+          - Lg
+          - Ms
+        description: Size of the image referenced by the preferred image URI returned. The default value is Md (medium)
+      - name: imageAspectTV
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          enum:
+          - ''
+          - 2x3
+          - 3x4
+          - 4x3
+          - 16x9
+        description: Aspect ratio of the image referenced by the preferred image URI returned. Only applies to TV content. The default value is 2x3.
+      - name: imageText
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating preference for image with or without text. If no image is found matching text preference, next available image will be returned. Defaults to true (prefer images with text).
+      - name: market
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: Outputs source provided imagery that is specific to a certain country, if available.
+      - name: excludeChannels
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: 'Optional comma-delimited list of channel types to exclude from grid. Valid values are: nonhd, music, ppv, adult, premium.'
+      - name: enhancedCallSign
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: ''
+          enum:
+          - ''
+          - 'true'
+          - 'false'
+        description: Boolean indicating whether or not to include display-friendly call signs in the results. Defaults to false.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV11LineupsByLineupIdGrid
+      x-operation-id-source: derived
+    servers:
+    - url: /proxy/onconnect
   /lineups:
     get:
       tags:
@@ -49,6 +328,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Lineup'
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /lineups/{lineupId}:
     get:
       tags:
@@ -68,6 +352,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Lineup'
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /lineups/{lineupId}/channels:
     get:
       tags:
@@ -89,6 +378,11 @@ paths:
                 type: array
                 items:
                   type: object
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
   /lineups/{lineupId}/grid:
     get:
       tags:
@@ -120,7 +414,64 @@ paths:
                 type: array
                 items:
                   type: object
+      security:
+      - apiKey: []
+    servers:
+    - url: http://data.tmsapi.com/v1.1
+      description: Gracenote OnConnect (data_v1_1)
+  /v1/lineup:
+    servers:
+    - url: /proxy/gvd
+    get:
+      summary: Lineups
+      description: Returns Lineup_provider objects that are delivered by the entitlement.
+      tags:
+      - Lineups
+      parameters:
+      - $ref: '#/components/parameters/ApiKeyQuery'
+      - $ref: '#/components/parameters/AcceptHeader'
+      - name: updateId
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '0'
+        description: Returns Lineup_provider objects modified at or after updateId. Can be used with limit parameter for handling batches of updates.
+      - name: limit
+        in: query
+        required: true
+        schema:
+          type: string
+          default: '10'
+        description: Approximate maximum number of Lineup_provider objects to be returned by API. To be used in conjunction with updateId for handling batches of updates. Maximum limit is 10.
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+        description: To lookup a Lineup_provider object by its Gracenote ID. Use Lookup calls for QA and troubleshooting purposes only. Gracenote does not support lookup APIs for Client production environments.
+      responses:
+        '200':
+          description: Successful response
+      operationId: getV1Lineup
+      x-operation-id-source: derived
 components:
+  parameters:
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      schema:
+        type: string
+      description: API key for authentication
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+        default: application/json
   schemas:
     Lineup:
       type: object
@@ -147,3 +498,7 @@ components:
       type: apiKey
       in: query
       name: api_key
+x-refined-from:
+- gracenote-onconnect-lookup-apis-openapi.json
+- gracenote-openapi.yml
+- gracenote-lineups-api-openapi.yml

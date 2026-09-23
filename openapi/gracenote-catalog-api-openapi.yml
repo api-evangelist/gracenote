@@ -1,0 +1,1592 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Catalog API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: Catalog
+paths:
+  /catalogPrograms:
+    post:
+      tags:
+      - Catalog
+      summary: Adds presentations to a catalog
+      description: 'Adds one or more presentation resources to a catalog. Expects a JSON array of
+
+        `CatalogProgram` objects, each specifying `catalogGnID` and `presentationGnID`.'
+      operationId: addProgramsToCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CatalogProgram'
+        required: false
+      responses:
+        '200':
+          description: AddProgramsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddProgramsResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '422':
+          description: UnprocessableEntityErrorCatalogPrograms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - mapping not found
+                  descriptionDetails:
+                    type: array
+                    description: 'Possible type values: duplicate_mapping, presentation_not_found, catalog_not_found, duplicate_mapping_request'
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - catalogGnID: GNLZZXZ00000000
+                        presentationGnID: GN1234567890123
+                        type: presentation_not_found
+                      - catalogGnID: GNLZZXZ00000000
+                        presentationGnID: GN1234567890123
+                        type: catalog_not_found
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/catalogPrograms
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: catalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+    patch:
+      tags:
+      - Catalog
+      summary: Remove presentation(s) from a Catalog
+      description: 'Removes one or more presentation resources from a catalog. Requires a JSON array of `CatalogProgram` objects,
+
+        each defining the `catalogGnID` and `presentationGnID` to be removed.'
+      operationId: removePresFromCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CatalogProgram'
+        required: false
+      responses:
+        '200':
+          description: DeletedCatalogProgramMappingsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedCatalogProgramMappingsResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '422':
+          description: UnprocessableEntityErrorCatalogPrograms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - mapping not found
+                  descriptionDetails:
+                    type: array
+                    description: 'Possible type values: mapping_not_found'
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: object
+                    examples:
+                    - - catalogGnID: GNLZZXZ00000000
+                        presentationGnID: GN1234567890123
+                        type: mapping_not_found
+                  error:
+                    type: string
+                    examples:
+                    - unprocessable_entity
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/catalogPrograms
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 422
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: catalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /catalogs:
+    get:
+      tags:
+      - Catalog
+      summary: Query Catalogs
+      description: 'Retrieves an array of catalog resources. Supports query parameters for pagination and filtering.
+
+
+        If provided limit and page parameters returns a paginated response for given limit and page number.
+
+        If not provided limit and page parameters returns a non paginated response containing all catalogs.'
+      operationId: queryCatalogs
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: CatalogsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogsResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    put:
+      tags:
+      - Catalog
+      summary: Update a Catalog
+      description: Updates an existing catalog resource. Requires the catalog's `gnID` and accepts a JSON payload with the catalog's updated attributes.
+      operationId: updateCatalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the catalog that is being updated
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCatalog'
+        required: false
+      responses:
+        '200':
+          description: CatalogResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '409':
+          description: ConflictError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: catalog
+    post:
+      tags:
+      - Catalog
+      summary: Create a new Catalog
+      description: Creates a new catalog resource. Accepts a JSON payload defining the attributes of the new catalog.
+      operationId: createCatalog
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCatalog'
+        required: false
+      responses:
+        '200':
+          description: CatalogResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '409':
+          description: ConflictError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '413':
+          description: RequestEntityTooLargeError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request size exceeds 25MB limit
+                  error:
+                    type: string
+                    examples:
+                    - request_entity_too_large
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 413
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+        '598':
+          description: RequestReadTimeout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request read timed out
+                  error:
+                    type: string
+                    examples:
+                    - request_read_timeout
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/bulk/movies/batches
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 598
+      security:
+      - api_key: []
+      x-codegen-request-body-name: catalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+  /catalogs/{gnID}:
+    get:
+      tags:
+      - Catalog
+      summary: Query Catalog using gnID
+      description: Retrieves a specific catalog resource identified by its `gnID` path parameter.
+      operationId: getCatalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the Catalog to retrieve.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: CatalogsResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogsResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    delete:
+      tags:
+      - Catalog
+      summary: Delete Catalog
+      description: Deletes a catalog resource identified by its `gnID` path parameter.
+      operationId: deleteCatalog
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the Catalog to be deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeletedCatalogResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedCatalogResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    Catalog:
+      title: Catalog represents a conceptual container of programs to be distributed to particular consumers.
+      required:
+      - name
+      type: object
+      properties:
+        languages:
+          type: array
+          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
+          items:
+            type: string
+        markets:
+          type: array
+          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
+          items:
+            type: string
+        name:
+          minLength: 1
+          type: string
+          description: 'The name of this Catalog. Must be unique to other Catalog''s
+
+            which the Source manages.'
+        tags:
+          type: array
+          description: Optional keyword tags to describe the contents of the Catalog.
+          items:
+            type: string
+        gnID:
+          type: string
+          description: The Gracenote ID of the Catalog.
+          readOnly: true
+        presentationCount:
+          type: integer
+          description: 'Deprecated: The total number of presentations associated with this catalog.
+
+            This field is deprecated and always returns 0.'
+          format: int64
+          readOnly: true
+        updated:
+          type: string
+          description: When the Catalog was last updated.
+          readOnly: true
+      description: 'NewCatalog contains information required for creating (POST)
+
+        or updating (PUT) a Catalog.'
+    DeletedCatalog:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted catalog.
+          examples:
+          - GNLZZXZ00000000
+      description: DeletedCatalog represents a deleted Catalog
+    CatalogsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    CatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalogProgramMappingsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProgram'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    NewCatalog:
+      required:
+      - name
+      type: object
+      properties:
+        languages:
+          type: array
+          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
+          items:
+            type: string
+        markets:
+          type: array
+          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
+          items:
+            type: string
+        name:
+          minLength: 1
+          type: string
+          description: 'The name of this Catalog. Must be unique to other Catalog''s
+
+            which the Source manages.'
+        tags:
+          type: array
+          description: Optional keyword tags to describe the contents of the Catalog.
+          items:
+            type: string
+      description: 'NewCatalog contains information required for creating (POST)
+
+        or updating (PUT) a Catalog.'
+    DeletedCatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedCatalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    AddProgramsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProgram'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    CatalogProgram:
+      required:
+      - catalogGnID
+      - presentationGnID
+      type: object
+      properties:
+        catalogGnID:
+          type: string
+          description: The gnID of the Catalog.
+        presentationGnID:
+          type: string
+          description: The gnID of the presentation being added.
+        updated:
+          type: string
+          description: When the Catalog program mapping was last updated.
+          readOnly: true
+      description: 'CatalogProgram contains information required for adding (POST)
+
+        programs to a Catalog.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

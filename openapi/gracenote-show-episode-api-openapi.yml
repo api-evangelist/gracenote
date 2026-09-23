@@ -1,0 +1,1705 @@
+openapi: 3.2.0
+info:
+  title: GN IDS API v1.9.3 Show Episode API
+  description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
+
+    and publish client programs.'
+  version: 1.9.3
+servers:
+- url: /proxy/gnids/api/v1
+tags:
+- name: show-episode
+paths:
+  /shows/versions/presentations/seasons/{gnID}/episodes:
+    post:
+      tags:
+      - show-episode
+      summary: Create an episode of a show with the provided show season gnID
+      operationId: createShowEpisode
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the show season that the episode will belong to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewEpisode'
+        required: false
+      responses:
+        '200':
+          description: EpisodeResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodeResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: ShowEpisode
+  /shows/versions/presentations/seasons/episodes:
+    get:
+      tags:
+      - show-episode
+      summary: Query for episodes of a show with the provided show presentation and/or season…
+      description: If no pagination is specified, a default pagination will be provided.
+      operationId: searchShowEpisodes
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: limit
+        in: query
+        schema:
+          maximum: 1000
+          minimum: 1
+          type: integer
+          format: int64
+          default: 1000
+      - name: page
+        in: query
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+          default: 1
+      - name: showPresentationGnID
+        in: query
+        description: The Gracenote ID of the show presentation.
+        schema:
+          type: string
+      - name: seasonGnID
+        in: query
+        description: The Gracenote ID of the show season.
+        schema:
+          type: string
+      - name: catalogGnIDs
+        in: query
+        description: The Gracenote ID of Catalogs to filter episodes.
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: showPresentationGnIDs
+        in: query
+        description: Filter episodes by the provided show presentation gnID values
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: EpisodesResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodesResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+  /shows/versions/presentations/seasons/episodes/{gnID}:
+    get:
+      tags:
+      - show-episode
+      summary: Query for an episode of a show with the provided gnID
+      operationId: getShowEpisode
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the episode being queried for.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: EpisodeResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodeResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+    put:
+      tags:
+      - show-episode
+      summary: Update season identified by the provided season gnID
+      operationId: updateShowEpisode
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the episode.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEpisode'
+        required: false
+      responses:
+        '200':
+          description: EpisodeResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodeResponse'
+        '400':
+          description: BadRequestValidationError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - see fields for details.
+                  error:
+                    type: string
+                    examples:
+                    - bad_request
+                  fields:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                    examples:
+                    - subType:
+                        error: subType is a required field
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 400
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '403':
+          description: ForbiddenError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - 'cannot use title language "cs": not entitled'
+                  error:
+                    type: string
+                    examples:
+                    - forbidden
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 403
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '415':
+          description: UnsupportedMediaError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - request body contains badly-formed JSON
+                  error:
+                    type: string
+                    examples:
+                    - unsupported_media_type
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 415
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+      x-codegen-request-body-name: UpdatedShowEpisode
+    delete:
+      tags:
+      - show-episode
+      summary: Delete a show's episode with the provided gnID
+      operationId: deleteShowEpisode
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: gnID
+        in: path
+        description: The Gracenote ID of the episode being deleted.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: DeletedEpisodeResponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedEpisodeResponse'
+        '401':
+          description: UnauthorizedError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - authentication failed
+                  error:
+                    type: string
+                    examples:
+                    - unauthorized
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 401
+        '404':
+          description: NotFoundError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - '"foo-bar"'
+                  code:
+                    type: integer
+                    format: int64
+                  description:
+                    type: string
+                  error:
+                    type: string
+        '500':
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  description:
+                    type: string
+                    examples:
+                    - internal server error
+                  error:
+                    type: string
+                    examples:
+                    - internal_server_error
+                  instance:
+                    type: string
+                    examples:
+                    - /api/v1/shows
+                  meta:
+                    type: object
+                    properties:
+                      rayID:
+                        type: string
+                        examples:
+                        - 52fdfc07-2182-454f-963f-5f0f9a621d72
+                  status:
+                    type: integer
+                    format: int64
+                    examples:
+                    - 500
+      security:
+      - api_key: []
+components:
+  schemas:
+    ExternalID:
+      required:
+      - id
+      - isPrimary
+      type: object
+      properties:
+        id:
+          type: string
+          description: id is the external identifier.
+        isPrimary:
+          type: boolean
+          description: 'indicates that the external ID is the primary ID
+
+            used to identify the program external to Gracenote.
+
+            Exactly one primary external ID is allowed (and required) per program.'
+        isProvider:
+          type: boolean
+          description: 'indicates that the source provider uses this ID as
+
+            their internal ID for the program. Exactly one provider
+
+            external ID is allowed per program.'
+        label:
+          type: string
+          description: label is a tag to describe the identifier.
+      description: ExternalID is an external (to Gracenote) identifier of the program
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
+    ExternalIDs:
+      type: array
+      description: ExternalIDs is a convenience alias on a slice of ExternalID types
+      items:
+        $ref: '#/components/schemas/ExternalID'
+    Crew:
+      description: 'Crew is a member who was part of
+
+        a program''s production crew.'
+      required:
+      - name
+      - order
+      - type
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        type:
+          type: string
+          description: 'Type describes the role or "crew type" of the crew member.
+
+            Defined by the Gracenote Vocabulary.'
+    NewEpisode:
+      description: NewEpisode represents the fields required for creating an episode of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
+          type: string
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
+          examples:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
+          type: string
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - episode
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - episode
+    Descriptions:
+      title: Descriptions is an array of Description types
+      type: array
+      description: A maximum of 10 descriptions can be assigned to a program
+      items:
+        $ref: '#/components/schemas/Description'
+    Cast:
+      description: Cast is an individual who performed in a production
+      required:
+      - name
+      - order
+      - role
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        character:
+          type: string
+          description: Character is the name of the cast member's portrayed character.
+        role:
+          type: string
+          description: 'Role defines the cast member''s credited contribution.
+
+            Defined by the Gracenote Vocabulary.'
+    FieldErrors:
+      type: array
+      description: FieldErrors represents a collection of field errors
+      items:
+        $ref: '#/components/schemas/FieldError'
+    DeletedEpisodeResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedEpisode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    Name:
+      required:
+      - first
+      type: object
+      properties:
+        first:
+          type: string
+          description: The first name of the member.
+        last:
+          type: string
+          description: The last name of the member.
+        middle:
+          type: string
+          description: The middle name of the member.
+        prefix:
+          type: string
+          description: The prefix of the member's name.
+        suffix:
+          type: string
+          description: The suffix of the member's name.
+      description: 'Name contains the components of the full name
+
+        of a crew or cast member.'
+    Rating:
+      required:
+      - ratingBody
+      type: object
+      properties:
+        advisories:
+          type: array
+          description: 'Content advisories that should be attached to the presentation.
+
+            Free form entry. Reference the GN Vocabulary for suggested advisories.'
+          items:
+            type: string
+          examples:
+          - - contains strong language
+        notYetRated:
+          type: boolean
+          description: When true, indicates that the presentation is yet to be rated.
+        rating:
+          type: string
+          description: 'The assigned rating value as determined by the rating body.
+
+            Required if ratingBody & notYetRated are false.'
+          examples:
+          - PG-13
+        ratingBody:
+          type: string
+          description: The rating body responsible for assigning ratings.
+          examples:
+          - MPAA
+        ratingExempt:
+          type: boolean
+          description: 'When set to true, indicates that the presentation is exempt from and
+
+            will not receive ratings.'
+      description: Rating represents a rating of a program as assigned by a rating body
+    DeletedEpisode:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000001
+        seasonGnID:
+          type: string
+          description: The Gracenote ID of the episode's parent season.
+      description: DeletedEpisode reports the gnID of an episode and its parent Season
+    EpisodeResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Episode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    Episode:
+      description: Episode represents an episode of a season
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
+          type: string
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
+          examples:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
+          type: string
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - episode
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - episode
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        catalogGnIDs:
+          type: array
+          description: The IDs of the catalogs that the presentation is a part of.
+          readOnly: true
+          items:
+            type: string
+          examples:
+          - - GNLZZWT00000001
+            - GNLZZWT00000002
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000001
+        presentationLabels:
+          type: array
+          description: 'Describes content information and/or contextual business tags to describe
+
+            the intent of the presentation.'
+          readOnly: true
+          items:
+            type: string
+        publishPrereqs:
+          $ref: '#/components/schemas/FieldErrors'
+        seasonGnID:
+          type: string
+          description: The gnID of the episode's parent season.
+          readOnly: true
+          examples:
+          - GNLZZXV00000001
+        showPresentationGnID:
+          type: string
+          description: The gnID of the episode's parent show presentation.
+          readOnly: true
+          examples:
+          - GNLZZZ200000001
+        showRootGnID:
+          type: string
+          description: The gnID of the episode's parent show root.
+          readOnly: true
+          examples:
+          - GNLZZZ700000001
+        showVersionGnID:
+          type: string
+          description: The gnID of the episode's parent show version.
+          readOnly: true
+          examples:
+          - GNLZZZ300000001
+        sourceId:
+          type: string
+          description: The internal Source Gracenote ID associated with the program.
+          readOnly: true
+          examples:
+          - GNLZZZ400000001
+        updated:
+          type: string
+          description: The time the episode was last updated
+          readOnly: true
+        versionLabels:
+          type: array
+          description: 'The types associated with this version.
+
+            See the Gracenote Vocabulary for suggested version types.'
+          readOnly: true
+          items:
+            type: string
+    FieldError:
+      type: object
+      properties:
+        error:
+          type: string
+        field:
+          type: string
+        level:
+          type: string
+      description: FieldError is used to indicate an error with a specific request field
+    EpisodesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    UpdateEpisode:
+      required:
+      - title
+      type: object
+      properties:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
+          type: string
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
+          examples:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
+          type: string
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+      description: UpdateEpisode specifies the updatable fields of an Episode
+    MappingInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: GN-APIKEY
+      description: API key to authorize the request. Click Authorize and paste the key created for your application.
+x-original-swagger-version: '2.0'

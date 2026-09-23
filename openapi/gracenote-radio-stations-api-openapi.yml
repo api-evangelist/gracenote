@@ -1,0 +1,747 @@
+openapi: 3.2.0
+info:
+  title: Nexus API v1.1.5 Radio Stations API
+  description: This is the OpenAPI spec for Gracenote's Nexus API.
+  contact:
+    email: nexusengineering@nielsen.com
+  version: v1.1.5
+servers:
+- url: /proxy/nexus/v1
+tags:
+- name: Radio Stations
+  description: API endpoints related to radio station metadata.
+paths:
+  /radiostations:
+    get:
+      tags:
+      - Radio Stations
+      description: 'Find radio stations near a given location, optionally filtered by category,
+
+        station name, sports team ID, or streaming availability. Returns a list of
+
+        tunable local stations, including streamable stations where available.
+
+
+        ## Required Parameters
+
+        - `geolocation` — latitude and longitude of the device location
+
+        - `band` — broadcast band (FM, AM, or DAB)
+
+        - `contentMarket` — content market code (e.g. USA, GBR, DEU)
+
+        - `preferredLanguage` — preferred language code (e.g. en-US, de-DE)
+
+
+        ## Optional Filters
+
+        - `radioCategory` — filter by category name (e.g. Sports, News & Talk)
+
+        - `stationName` — filter by station name (e.g. KQED)
+
+        - `teamID` — filter by Gracenote sports team ID
+
+        - `streamingURL` — Y returns only stations with streaming URLs; N returns only stations without; omit to return all'
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: geolocation
+        in: query
+        required: true
+        description: 'Latitude and longitude of the device location in `<latitude>,<longitude>`
+
+          format (e.g. `37.7879,-122.4074`).
+
+          '
+        schema:
+          type: string
+          examples:
+          - 37.7879,-122.4074
+      - name: band
+        in: query
+        required: true
+        description: Broadcast band to filter by.
+        schema:
+          type: string
+          enum:
+          - FM
+          - AM
+          - DAB
+      - $ref: '#/components/parameters/contentMarketParam'
+      - $ref: '#/components/parameters/languageParam'
+      - name: radioCategory
+        in: query
+        required: false
+        description: 'Filter stations by case-sensitive, URL-encoded English category names, using a comma separator to return stations matching any of the specified categories, such as `News+%26+Talk,Sports` for `News & Talk,Sports`. Unrecognized values will return an empty list.
+
+
+          Available in both NA and EU:
+
+          - Sports
+
+          - News & Talk
+
+          - Today''s Hits
+
+          - Adult Pop
+
+          - Classic Hits
+
+          - Country
+
+          - Rock
+
+          - Rap/Hip-Hop
+
+          - R&B
+
+          - Dance & Electronic
+
+          - Jazz & Blues
+
+          - Classical
+
+          - Religious
+
+          - Local & Community
+
+          - World
+
+          - Variety & Other
+
+
+          Available in NA only:
+
+          - Mexican Regional
+
+          - Latin
+
+          - Québécois
+
+          - First Nations
+
+
+          Available in EU only:
+
+          - Reggae & Caribbean
+
+          - Variété Française
+
+          - Schlager & Volksmusik
+
+          - Latin Pop & Trad
+
+          - EU Trad & Folk
+
+          - South Asian
+
+
+          The region is determined from the `contentMarket` parameter.
+
+          '
+        schema:
+          type: string
+          examples:
+          - News+%26+Talk
+      - name: stationName
+        in: query
+        required: false
+        description: Filter by exact station display name (case-sensitive, e.g. `KQED`).
+        schema:
+          type: string
+          examples:
+          - KQED
+      - name: teamID
+        in: query
+        required: false
+        description: 'Filter by Gracenote sports team ID to find stations associated with that team.
+
+          Multiple team IDs can be provided as a comma-separated list (e.g. `GNE37ZV4C2J2ETB,GNBBJCYBP82W4R7`).
+
+          Returns stations associated with ANY of the provided team IDs.
+
+          '
+        schema:
+          type: string
+          examples:
+          - GNE37ZV4C2J2ETB
+      - name: streamingURL
+        in: query
+        required: false
+        description: 'Filter stations by streaming availability. `Y` returns only stations
+
+          that have streaming URLs available. `N` returns only stations without
+
+          streaming URLs. If not specified, all stations are returned regardless
+
+          of streaming availability.
+
+          '
+        schema:
+          type: string
+          enum:
+          - Y
+          - N
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RadioStationsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get radiostations
+      x-summary-source: derived
+      operationId: getRadiostations
+      x-operation-id-source: derived
+  /radiostations/{radioStationID}:
+    get:
+      tags:
+      - Radio Stations
+      description: Fetch RadioStation identified by the radioStationID.
+      parameters:
+      - $ref: '#/components/parameters/apiKeyParam'
+      - name: radioStationID
+        in: path
+        required: true
+        description: The unique identifier of the RadioStation.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/languageParam'
+      - $ref: '#/components/parameters/contentMarketParam'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RadioStationsResponse'
+        '400':
+          $ref: '#/components/responses/errorResponse400'
+        '401':
+          $ref: '#/components/responses/errorResponse401'
+        '403':
+          $ref: '#/components/responses/errorResponse403'
+        '404':
+          $ref: '#/components/responses/errorResponse404'
+        '429':
+          $ref: '#/components/responses/errorResponse429'
+        4XX:
+          $ref: '#/components/responses/errorResponse4XX'
+        5XX:
+          $ref: '#/components/responses/errorResponse5XX'
+      summary: Get radiostations by radio station id
+      x-summary-source: derived
+      operationId: getRadiostationsByRadioStationID
+      x-operation-id-source: derived
+components:
+  responses:
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse404:
+      description: The specified object was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Resource not found.
+    errorResponse5XX:
+      description: An unexpected error occurred on the server. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+  schemas:
+    DabData:
+      type:
+      - object
+      - 'null'
+      properties:
+        eid:
+          type:
+          - string
+          - 'null'
+        sid:
+          type:
+          - string
+          - 'null'
+        scids:
+          type:
+          - string
+          - 'null'
+        serviceLabel:
+          type:
+          - string
+          - 'null'
+        serviceLabelShort:
+          type:
+          - string
+          - 'null'
+    RadioStationTeam:
+      type: object
+      additionalProperties: false
+      required:
+      - teamID
+      - teamName
+      - language
+      - flagship
+      properties:
+        teamID:
+          type: string
+          description: Gracenote sports team ID.
+        teamName:
+          type: string
+          description: Name of the sports team.
+        language:
+          type: string
+          description: Language of the broadcast affiliation.
+        flagship:
+          type: boolean
+          description: Indicates if this station is a flagship station for the team.
+    Image:
+      type: object
+      additionalProperties: false
+      required:
+      - orientation
+      - type
+      - URL
+      - contentType
+      properties:
+        orientation:
+          type: string
+          description: Orientation of the image.
+          enum:
+          - LANDSCAPE
+          - PORTRAIT
+          - SQUARE
+        type:
+          type: string
+          enum:
+          - ARTWORK
+          - LOGO
+          - HEADSHOT
+          - FLAG
+          - ARTIST
+          - JERSEY
+          - POSTER
+          - BANNER
+          - IMAGE_3_4
+          - IMAGE_4_3
+          - IMAGE_16_9
+          - BRAND_LOGO
+        URL:
+          type: string
+          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
+        contentType:
+          type:
+          - string
+          - 'null'
+    StreamObject:
+      type: object
+      additionalProperties: false
+      required:
+      - URL
+      - contentType
+      properties:
+        URL:
+          type: string
+        contentType:
+          type:
+          - string
+          - 'null'
+          examples:
+          - audio/mpeg
+        bitRate:
+          type:
+          - integer
+          - 'null'
+        channels:
+          type:
+          - integer
+          - 'null'
+        sampleRate:
+          type:
+          - integer
+          - 'null'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - error
+      - description
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
+    RadioStation:
+      type: object
+      additionalProperties: false
+      required:
+      - radioStationID
+      - name
+      - nameShort
+      - flagship
+      - slogans
+      - publicValues
+      - broadcasts
+      - descriptors
+      - images
+      - streams
+      properties:
+        radioStationID:
+          type: string
+        name:
+          type: string
+        nameShort:
+          type: string
+        flagship:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates if this station is a flagship station for the team.
+        slogans:
+          type: array
+          items:
+            $ref: '#/components/schemas/RadioStationSlogan'
+        publicValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/RadioStationPublicValue'
+        broadcasts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Broadcast'
+        descriptors:
+          type: object
+          properties:
+            categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/Descriptor'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        streams:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamObject'
+        teams:
+          type: array
+          description: Sports team affiliations for this station. Present when the station is associated with one or more sports teams via the teamID filter.
+          items:
+            $ref: '#/components/schemas/RadioStationTeam'
+    Meta:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - version
+      - references
+      properties:
+        total:
+          type: integer
+          description: Total number of data objects available.
+        version:
+          type: string
+          description: The API version
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            preferredLanguage:
+              type: string
+            contentMarket:
+              type: string
+            leagueID:
+              type: string
+            teamID:
+              type: string
+            personID:
+              type: string
+            divisionID:
+              type: string
+            conferenceID:
+              type: string
+            overallID:
+              type: string
+            matchID:
+              type: string
+            omitCatalogIDs:
+              type: string
+            minDuration:
+              type: string
+            maxDuration:
+              type: string
+            bundleID:
+              type: string
+            programID:
+              type: string
+            catalogID:
+              type: string
+            phaseID:
+              type: string
+            artistID:
+              type: string
+            albumEditionID:
+              type: string
+            recordingID:
+              type: string
+            artistName:
+              type: string
+            albumEditionName:
+              type: string
+            recordingName:
+              type: string
+            podcastID:
+              type: string
+            podcastEpisodeID:
+              type: string
+            radioStationID:
+              type: string
+            collectionID:
+              type: string
+            collectionCategory:
+              type: string
+            itemTypes:
+              type: string
+            text:
+              type: string
+            topOnly:
+              type: string
+    RadioStationSlogan:
+      type: object
+      additionalProperties: false
+      required:
+      - display
+      properties:
+        display:
+          type: string
+          description: The station slogan text.
+    Descriptor:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - descriptorID
+      properties:
+        name:
+          type: string
+        descriptorID:
+          type: string
+    Broadcast:
+      type:
+      - object
+      - 'null'
+      required:
+      - frequency
+      - band
+      - callSign
+      - signalType
+      properties:
+        frequency:
+          type:
+          - string
+          - 'null'
+        band:
+          type: string
+          enum:
+          - FM
+          - AM
+          - DAB
+        callSign:
+          type:
+          - string
+          - 'null'
+        signalType:
+          type:
+          - string
+          - 'null'
+        hdMulticast:
+          type:
+          - string
+          - 'null'
+        piCodes:
+          type: array
+          items:
+            type: string
+        ecc:
+          type:
+          - string
+          - 'null'
+        dabData:
+          $ref: '#/components/schemas/DabData'
+    RadioStationsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RadioStation'
+    RadioStationPublicValue:
+      type: object
+      additionalProperties: false
+      required:
+      - container
+      - region
+      - state
+      properties:
+        container:
+          type: string
+          description: Public-value container identifier.
+        region:
+          type:
+          - string
+          - 'null'
+          description: Region associated with the public value, or null when not available.
+        state:
+          type: string
+          description: State or province associated with the public value.
+  parameters:
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
