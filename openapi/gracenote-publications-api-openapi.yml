@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: GN IDS API v1.9.3 API
+  title: GN IDS API v1.9.3 Publications API
   description: 'The purpose of this application is to provide an API to create, retrieve, update, delete,
 
     and publish client programs.'
@@ -8,12 +8,12 @@ info:
 servers:
 - url: /proxy/gnids/api/v1
 tags:
-- name: ''
+- name: Publications
 paths:
   /publications:
     get:
       tags:
-      - ''
+      - Publications
       summary: Retrieve presentations' publish status
       description: 'Retrieves a paginated collection of presentation resources for a given source.
 
@@ -240,89 +240,6 @@ paths:
       - api_key: []
 components:
   schemas:
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
-    Publication:
-      description: Publication represents a view of all Presentations with their publishing statuses
-      type: object
-      properties:
-        mappingInfo:
-          $ref: '#/components/schemas/MappingInfo'
-        publishExceptions:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-          description: 'A map of reason and details that describe why a program failed the publishing process.
-
-            This field is only available for presentations/episodes with publishStatus = publishException,
-
-            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
-          readOnly: true
-        publishingStatus:
-          type: string
-          description: Describes the state of publishing in the Gracenote ID Distribution System.
-          readOnly: true
-          examples:
-          - registered
-        tmsID:
-          type: string
-          description: 'TMSID is the industry gold standard identifier for
-
-            recognizing and synchronizing entertainment assets.
-
-            This is unique across programs.
-
-            It will be assigned after successfully publishing a presentation.'
-          readOnly: true
-          examples:
-          - EP12345678000000
-        gnID:
-          type: string
-        mappingUpdated:
-          type: string
-          description: The timestamp when the TMS ID mapping was last updated.
-          examples:
-          - '2023-10-23T00:00:00.000Z'
-        title:
-          $ref: '#/components/schemas/Title'
-        type:
-          $ref: '#/components/schemas/ProgramType'
-        updated:
-          type: string
-          description: The latest update to the presentation.
-          examples:
-          - '2023-10-23T00:00:00.000Z'
-    PublicationsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Publication'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    ProgramType:
-      type: string
-      description: 'ProgramType aliases string to provide
-
-        "enums" for available program types.'
     MetaResponse:
       required:
       - rayID
@@ -375,6 +292,89 @@ components:
       description: 'MappingInfo contains information about how the
 
         TmsID was determined for the presentation.'
+    PublicationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Publication'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    Publication:
+      description: Publication represents a view of all Presentations with their publishing statuses
+      type: object
+      properties:
+        mappingInfo:
+          $ref: '#/components/schemas/MappingInfo'
+        publishExceptions:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: 'A map of reason and details that describe why a program failed the publishing process.
+
+            This field is only available for presentations/episodes with publishStatus = publishException,
+
+            and for presentations/episodes which are self-mapped and have an issue in the mapping.'
+          readOnly: true
+        publishingStatus:
+          type: string
+          description: Describes the state of publishing in the Gracenote ID Distribution System.
+          readOnly: true
+          examples:
+          - registered
+        tmsID:
+          type: string
+          description: 'TMSID is the industry gold standard identifier for
+
+            recognizing and synchronizing entertainment assets.
+
+            This is unique across programs.
+
+            It will be assigned after successfully publishing a presentation.'
+          readOnly: true
+          examples:
+          - EP12345678000000
+        gnID:
+          type: string
+        mappingUpdated:
+          type: string
+          description: The timestamp when the TMS ID mapping was last updated.
+          examples:
+          - '2023-10-23T00:00:00.000Z'
+        title:
+          $ref: '#/components/schemas/Title'
+        type:
+          $ref: '#/components/schemas/ProgramType'
+        updated:
+          type: string
+          description: The latest update to the presentation.
+          examples:
+          - '2023-10-23T00:00:00.000Z'
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    ProgramType:
+      type: string
+      description: 'ProgramType aliases string to provide
+
+        "enums" for available program types.'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

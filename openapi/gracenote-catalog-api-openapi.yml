@@ -1403,121 +1403,6 @@ paths:
       - api_key: []
 components:
   schemas:
-    Catalog:
-      title: Catalog represents a conceptual container of programs to be distributed to particular consumers.
-      required:
-      - name
-      type: object
-      properties:
-        languages:
-          type: array
-          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
-          items:
-            type: string
-        markets:
-          type: array
-          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
-          items:
-            type: string
-        name:
-          minLength: 1
-          type: string
-          description: 'The name of this Catalog. Must be unique to other Catalog''s
-
-            which the Source manages.'
-        tags:
-          type: array
-          description: Optional keyword tags to describe the contents of the Catalog.
-          items:
-            type: string
-        gnID:
-          type: string
-          description: The Gracenote ID of the Catalog.
-          readOnly: true
-        presentationCount:
-          type: integer
-          description: 'Deprecated: The total number of presentations associated with this catalog.
-
-            This field is deprecated and always returns 0.'
-          format: int64
-          readOnly: true
-        updated:
-          type: string
-          description: When the Catalog was last updated.
-          readOnly: true
-      description: 'NewCatalog contains information required for creating (POST)
-
-        or updating (PUT) a Catalog.'
-    DeletedCatalog:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted catalog.
-          examples:
-          - GNLZZXZ00000000
-      description: DeletedCatalog represents a deleted Catalog
-    CatalogsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Catalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    CatalogResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Catalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    DeletedCatalogProgramMappingsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogProgram'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    NewCatalog:
-      required:
-      - name
-      type: object
-      properties:
-        languages:
-          type: array
-          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
-          items:
-            type: string
-        markets:
-          type: array
-          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
-          items:
-            type: string
-        name:
-          minLength: 1
-          type: string
-          description: 'The name of this Catalog. Must be unique to other Catalog''s
-
-            which the Source manages.'
-        tags:
-          type: array
-          description: Optional keyword tags to describe the contents of the Catalog.
-          items:
-            type: string
-      description: 'NewCatalog contains information required for creating (POST)
-
-        or updating (PUT) a Catalog.'
-    DeletedCatalogResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedCatalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     AddProgramsResponse:
       type: object
       properties:
@@ -1573,6 +1458,121 @@ components:
       description: 'CatalogProgram contains information required for adding (POST)
 
         programs to a Catalog.'
+    CatalogsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalogProgramMappingsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProgram'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    Catalog:
+      title: Catalog represents a conceptual container of programs to be distributed to particular consumers.
+      required:
+      - name
+      type: object
+      properties:
+        languages:
+          type: array
+          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
+          items:
+            type: string
+        markets:
+          type: array
+          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
+          items:
+            type: string
+        name:
+          minLength: 1
+          type: string
+          description: 'The name of this Catalog. Must be unique to other Catalog''s
+
+            which the Source manages.'
+        tags:
+          type: array
+          description: Optional keyword tags to describe the contents of the Catalog.
+          items:
+            type: string
+        gnID:
+          type: string
+          description: The Gracenote ID of the Catalog.
+          readOnly: true
+        presentationCount:
+          type: integer
+          description: 'Deprecated: The total number of presentations associated with this catalog.
+
+            This field is deprecated and always returns 0.'
+          format: int64
+          readOnly: true
+        updated:
+          type: string
+          description: When the Catalog was last updated.
+          readOnly: true
+      description: 'NewCatalog contains information required for creating (POST)
+
+        or updating (PUT) a Catalog.'
+    DeletedCatalog:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted catalog.
+          examples:
+          - GNLZZXZ00000000
+      description: DeletedCatalog represents a deleted Catalog
+    NewCatalog:
+      required:
+      - name
+      type: object
+      properties:
+        languages:
+          type: array
+          description: Languages of Presentations which this Catalog holds. Must conform to GNVocab languages.
+          items:
+            type: string
+        markets:
+          type: array
+          description: Applicable Markets that this Catalog represents. Must conform to GNVocab countries.
+          items:
+            type: string
+        name:
+          minLength: 1
+          type: string
+          description: 'The name of this Catalog. Must be unique to other Catalog''s
+
+            which the Source manages.'
+        tags:
+          type: array
+          description: Optional keyword tags to describe the contents of the Catalog.
+          items:
+            type: string
+      description: 'NewCatalog contains information required for creating (POST)
+
+        or updating (PUT) a Catalog.'
+    DeletedCatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedCatalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    CatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

@@ -1478,87 +1478,13 @@ paths:
       - $ref: '#/components/parameters/apiKeyParam'
 components:
   schemas:
-    DeletedImageResponse:
+    ImageResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DeletedImage'
+          $ref: '#/components/schemas/Image'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    ImagesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    ProgramImage:
-      title: ProgramImage represents the relationship between an Image and a Presentation.
-      required:
-      - imageGnID
-      - presentationGnID
-      type: object
-      properties:
-        imageGnID:
-          type: string
-          description: ImageID is the GnID of an image.
-          examples:
-          - GNLZZZ200000004
-        isConforming:
-          type: boolean
-          description: 'IsConforming indicates if the Image conforms to Gracenote Rich Media
-
-            categorical image standards with respect to the mapped Presentation.'
-          readOnly: true
-        presentationGnID:
-          type: string
-          description: PresentationGnID is the GnID of a Presentation.
-          examples:
-          - GNLZZXT00000004
-    DeletedImage:
-      title: DeletedImage represents a a deleted image.
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted image.
-    Description:
-      required:
-      - language
-      - length
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'Language of the description''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        length:
-          type: integer
-          description: 'Length defines the maximum number of characters that can be used in a description.
-
-            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
-          format: int64
-        value:
-          type: string
-          description: Value is the raw text description of a program.
-      description: Description is a set of fields that describe a program
-    ProgramImagesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProgramImage'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    AspectRatio:
-      title: AspectRatio defines aspect ratio values which are known to conform.
-      type: string
-      description: Custom aspect ratios may be used, but they will never conform.
     NewImage:
       required:
       - category
@@ -1655,30 +1581,64 @@ components:
           description: The URL at which the image file may be accessed. Cannot exceed 8000 character length limit.
           format: uri
       description: NewImage represents the metadata for creating a new image
+    DeletedImageResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedImage'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
     Category:
       title: Category defines known categorical image types may conform.
       type: string
       description: Custom categories may be used, but they will not be conforming.
-    Dimensions:
-      required:
-      - aspectRatio
-      - height
-      - width
+    DeletedImage:
+      title: DeletedImage represents a a deleted image.
       type: object
       properties:
-        aspectRatio:
-          $ref: '#/components/schemas/AspectRatio'
-        height:
-          maximum: 32767
-          type: integer
-          description: The pixel height of the image.
-          format: int16
-        width:
-          maximum: 32767
-          type: integer
-          description: The pixel width of the image.
-          format: int16
-      description: Dimensions represents the dimensions of an Image
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted image.
+    ProgramImagesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramImage'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    AspectRatio:
+      title: AspectRatio defines aspect ratio values which are known to conform.
+      type: string
+      description: Custom aspect ratios may be used, but they will never conform.
     Image:
       description: Image represents the metadata describing a source provided image
       required:
@@ -1787,40 +1747,80 @@ components:
           type: string
           description: The time at which the image was last updated in system.
           readOnly: true
-    MetaResponse:
+    Dimensions:
       required:
-      - rayID
+      - aspectRatio
+      - height
+      - width
       type: object
       properties:
-        count:
+        aspectRatio:
+          $ref: '#/components/schemas/AspectRatio'
+        height:
+          maximum: 32767
           type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
+          description: The pixel height of the image.
+          format: int16
+        width:
+          maximum: 32767
           type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
-    ImageResponse:
+          description: The pixel width of the image.
+          format: int16
+      description: Dimensions represents the dimensions of an Image
+    ImagesResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Image'
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
         meta:
           $ref: '#/components/schemas/MetaResponse'
+    ProgramImage:
+      title: ProgramImage represents the relationship between an Image and a Presentation.
+      required:
+      - imageGnID
+      - presentationGnID
+      type: object
+      properties:
+        imageGnID:
+          type: string
+          description: ImageID is the GnID of an image.
+          examples:
+          - GNLZZZ200000004
+        isConforming:
+          type: boolean
+          description: 'IsConforming indicates if the Image conforms to Gracenote Rich Media
+
+            categorical image standards with respect to the mapped Presentation.'
+          readOnly: true
+        presentationGnID:
+          type: string
+          description: PresentationGnID is the GnID of a Presentation.
+          examples:
+          - GNLZZXT00000004
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
   parameters:
     apiKeyParam:
       name: GN-APIKEY

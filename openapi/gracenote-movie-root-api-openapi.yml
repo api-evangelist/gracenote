@@ -750,6 +750,41 @@ paths:
       - api_key: []
 components:
   schemas:
+    UpdateMovieRoot:
+      title: UpdateRoot represents the fields required for updating a root of a movie.
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
     NewMovieRoot:
       title: NewRoot represents the fields required for creating a root of a movie.
       required:
@@ -770,13 +805,21 @@ components:
           readOnly: true
           examples:
           - movie
-    MovieRootResponse:
+    DeletedVersion:
+      description: DeletedVersion represents the version of a deleted entity
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/MovieRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          examples:
+          - GNLZZZ300000000
     Title:
       required:
       - language
@@ -794,14 +837,37 @@ components:
       description: 'Title holds information about
 
         a program''s title.'
-    UpdateMovieRoot:
-      title: UpdateRoot represents the fields required for updating a root of a movie.
-      required:
-      - title
+    DeletedMovieRoot:
+      description: DeletedRoot represents the root of a deleted movie
       type: object
       properties:
-        title:
-          $ref: '#/components/schemas/Title'
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        versions:
+          type: array
+          description: The Gracenote ID of the deleted program versions.
+          items:
+            $ref: '#/components/schemas/DeletedVersion'
+          examples:
+          - - GNLZZXZ00000000
+    DeletedMovieRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedMovieRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MovieRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MovieRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     MovieRoot:
       title: Root represents the root of a movie.
       required:
@@ -840,72 +906,6 @@ components:
           readOnly: true
           items:
             type: string
-    DeletedMovieRoot:
-      description: DeletedRoot represents the root of a deleted movie
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        versions:
-          type: array
-          description: The Gracenote ID of the deleted program versions.
-          items:
-            $ref: '#/components/schemas/DeletedVersion'
-          examples:
-          - - GNLZZXZ00000000
-    DeletedMovieRootResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedMovieRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
-    DeletedVersion:
-      description: DeletedVersion represents the version of a deleted entity
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        rootGnID:
-          type: string
-          description: The GnID of the version's parent root.
-          examples:
-          - GNLZZZ300000000
   parameters:
     apiKeyParam:
       name: GN-APIKEY

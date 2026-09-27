@@ -922,87 +922,6 @@ paths:
       - api_key: []
 components:
   schemas:
-    UpdateShowVersion:
-      required:
-      - title
-      type: object
-      properties:
-        color:
-          type: string
-          description: 'The color of the show.
-
-            Color is required for publishing the show.'
-          examples:
-          - bw
-        duration:
-          type: integer
-          description: 'The runtime (milliseconds) of the program.
-
-            Not required for registration, but it is required for publishing
-
-            when the subType is neither a series nor a miniseries.'
-          format: int64
-          examples:
-          - 30800000
-        genres:
-          type: array
-          description: Version level genres of a program.
-          items:
-            type: string
-          examples:
-          - - Adventure
-        releaseDate:
-          type: string
-          description: 'The releaseDate of the show.
-
-            ReleaseDate is optional for creating a show version, but is required
-
-            for publishing a show presentation. ReleaseDate is required
-
-            for update when the presentation is in publishing/published state.'
-          format: date
-        title:
-          $ref: '#/components/schemas/Title'
-        versionLabels:
-          type: array
-          description: 'A free-form list of version types.
-
-            Refer to the Gracenote Vocabulary for suggested values.'
-          items:
-            type: string
-          examples:
-          - - Director's Cut
-      description: 'UpdateVersion defines what information may be provided to modify an
-
-        existing Version record. All field are required, pointers are used
-
-        to indicate that a field was not provided. Normally we do not encourage
-
-        pointer usage for basic operations, but here an exception is being made.'
-    DeletedShowVersion:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        presentations:
-          type: array
-          description: The deleted show presentations that belong to the deleted show version.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/DeletedShowPresentation'
-        rootGnID:
-          type: string
-          description: The GnID of the version's parent root.
-          readOnly: true
-          examples:
-          - GNLZZZ300000000
-      description: 'DeletedVersion contains the ID of the deleted Version as well as
-
-        the parent and child IDs of the Version.'
     DeletedEpisode:
       type: object
       properties:
@@ -1016,33 +935,6 @@ components:
           type: string
           description: The Gracenote ID of the episode's parent season.
       description: DeletedEpisode reports the gnID of an episode and its parent Season
-    ShowVersionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ShowVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    DeletedShowSeason:
-      type: object
-      properties:
-        episodes:
-          type: array
-          description: The deleted episodes that belong to the deleted show season.
-          items:
-            $ref: '#/components/schemas/DeletedEpisode'
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted season.
-          readOnly: true
-          examples:
-          - GNLZZXV00000001
-        showPresentationGnID:
-          type: string
-          description: The ID of the season's parent presentation.
-      description: 'DeletedSeason contains the ID of the deleted Season as well as
-
-        the parent and child IDs of the Season.'
     NewShowVersion:
       description: NewVersion represents the fields required for creating a version of a show
       required:
@@ -1106,39 +998,117 @@ components:
           readOnly: true
           examples:
           - show
-    DeletedShowPresentation:
+    MetaResponse:
+      required:
+      - rayID
       type: object
       properties:
-        gnID:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
           type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZZ200000001
-        seasons:
-          type: array
-          description: The deleted show seasons that belong to the deleted show presentation.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/DeletedShowSeason'
-        versionGnID:
-          type: string
-          description: The Gracenote ID of the presentation's parent version.
-          readOnly: true
-          examples:
-          - GNLZZZ300000001
-      description: 'DeletedPresentation contains the ID of the deleted Presentation as well as
+          description: 'RayID is the backend id of the request, generated at invocation time.
 
-        the parent and child IDs of the Presentation.'
-    ShowVersionsResponse:
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    DeletedShowVersionResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShowVersion'
+          $ref: '#/components/schemas/DeletedShowVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
+    UpdateShowVersion:
+      required:
+      - title
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the show.
+
+            Color is required for publishing the show.'
+          examples:
+          - bw
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The releaseDate of the show.
+
+            ReleaseDate is optional for creating a show version, but is required
+
+            for publishing a show presentation. ReleaseDate is required
+
+            for update when the presentation is in publishing/published state.'
+          format: date
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+      description: 'UpdateVersion defines what information may be provided to modify an
+
+        existing Version record. All field are required, pointers are used
+
+        to indicate that a field was not provided. Normally we do not encourage
+
+        pointer usage for basic operations, but here an exception is being made.'
+    DeletedShowSeason:
+      type: object
+      properties:
+        episodes:
+          type: array
+          description: The deleted episodes that belong to the deleted show season.
+          items:
+            $ref: '#/components/schemas/DeletedEpisode'
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted season.
+          readOnly: true
+          examples:
+          - GNLZZXV00000001
+        showPresentationGnID:
+          type: string
+          description: The ID of the season's parent presentation.
+      description: 'DeletedSeason contains the ID of the deleted Season as well as
+
+        the parent and child IDs of the Season.'
     ShowVersion:
       description: Version represents the version of a show
       required:
@@ -1224,6 +1194,30 @@ components:
           type: string
           description: The time the program was last updated
           readOnly: true
+    DeletedShowPresentation:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZZ200000001
+        seasons:
+          type: array
+          description: The deleted show seasons that belong to the deleted show presentation.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/DeletedShowSeason'
+        versionGnID:
+          type: string
+          description: The Gracenote ID of the presentation's parent version.
+          readOnly: true
+          examples:
+          - GNLZZZ300000001
+      description: 'DeletedPresentation contains the ID of the deleted Presentation as well as
+
+        the parent and child IDs of the Presentation.'
     Title:
       required:
       - language
@@ -1241,40 +1235,46 @@ components:
       description: 'Title holds information about
 
         a program''s title.'
-    DeletedShowVersionResponse:
+    DeletedShowVersion:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        presentations:
+          type: array
+          description: The deleted show presentations that belong to the deleted show version.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/DeletedShowPresentation'
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ300000000
+      description: 'DeletedVersion contains the ID of the deleted Version as well as
+
+        the parent and child IDs of the Version.'
+    ShowVersionsResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DeletedShowVersion'
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    MetaResponse:
-      required:
-      - rayID
+    ShowVersionResponse:
       type: object
       properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
+        data:
+          $ref: '#/components/schemas/ShowVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

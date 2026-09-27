@@ -258,20 +258,33 @@ paths:
       - api_key: []
 components:
   schemas:
-    ProgramSummariesResponse:
+    MetaResponse:
+      required:
+      - rayID
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProgramSummary'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    ProgramType:
-      type: string
-      description: 'ProgramType aliases string to provide
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
 
-        "enums" for available program types.'
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
     ProgramSummary:
       type: object
       properties:
@@ -415,33 +428,20 @@ components:
           examples:
           - - original
       description: Summary represents an aggregate view of Roots, Version, Presentations, Seasons, and Episodes
-    MetaResponse:
-      required:
-      - rayID
+    ProgramSummariesResponse:
       type: object
       properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramSummary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ProgramType:
+      type: string
+      description: 'ProgramType aliases string to provide
 
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
+        "enums" for available program types.'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

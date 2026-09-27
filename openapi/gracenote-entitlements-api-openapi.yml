@@ -49,54 +49,7 @@ paths:
       operationId: getEntitlementsLookup
       x-operation-id-source: derived
 components:
-  responses:
-    ErrorResponse401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 401
-                error: unauthorized_missing_apikey
-                description: API key is required.
-    ErrorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: rate_limit_exceeded
-                description: Number of queries per minute exceeds limit.
   schemas:
-    EntitlementsObject:
-      title: entitlements object
-      nullable: false
-      type: object
-      additionalProperties: false
-      properties:
-        addOns:
-          type: array
-          description: Add Ons licensed to the user's API Key.
-          items:
-            type: string
-        packages:
-          nullable: false
-          type: array
-          description: Packages licensed to the user's API Key.
-          items:
-            type: string
-      required:
-      - addOns
-      - packages
-      examples:
-      - "{\n  \"addOns\": [\n    \"coverArt\",\n    \"apple-track-id\",\n    \"spotify-track-id\",\n    \"apple-album-id\",\n    \"spotify-album-id\",\n    \"tms-id\",\n    \"ISRC\",\n    \"UPC\",\n    \"styles\",\n    \"artist-image\",\n    \"cover-art\"\n],\n  \"packages\": [\n    \"base\",\n    \"search\",\n    \"advancedDiscovery\"\n]\n}\n"
     ResponseMeta:
       title: meta object
       type: object
@@ -168,6 +121,53 @@ components:
       - status
       - error
       - description
+    EntitlementsObject:
+      title: entitlements object
+      nullable: false
+      type: object
+      additionalProperties: false
+      properties:
+        addOns:
+          type: array
+          description: Add Ons licensed to the user's API Key.
+          items:
+            type: string
+        packages:
+          nullable: false
+          type: array
+          description: Packages licensed to the user's API Key.
+          items:
+            type: string
+      required:
+      - addOns
+      - packages
+      examples:
+      - "{\n  \"addOns\": [\n    \"coverArt\",\n    \"apple-track-id\",\n    \"spotify-track-id\",\n    \"apple-album-id\",\n    \"spotify-album-id\",\n    \"tms-id\",\n    \"ISRC\",\n    \"UPC\",\n    \"styles\",\n    \"artist-image\",\n    \"cover-art\"\n],\n  \"packages\": [\n    \"base\",\n    \"search\",\n    \"advancedDiscovery\"\n]\n}\n"
+  responses:
+    ErrorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_apikey
+                description: API key is required.
+    ErrorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: rate_limit_exceeded
+                description: Number of queries per minute exceeds limit.
   parameters:
     apiKeyParam:
       name: GN-APIKEY

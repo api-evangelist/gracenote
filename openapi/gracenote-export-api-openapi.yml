@@ -545,7 +545,7 @@ paths:
       - Export
       summary: Fetches the results for an export by its GNID
       description: Page and limit are required parameters to fetch the results
-      operationId: getExportByGnID
+      operationId: getBulkProgramsExportsByGnIDResults
       responses:
         '200':
           description: ExportResponse
@@ -702,48 +702,37 @@ paths:
       - api_key: []
       parameters:
       - $ref: '#/components/parameters/apiKeyParam'
+      x-operation-id-source: normalized
+      x-operation-id-original: getExportByGnID
 components:
   schemas:
-    Export:
-      title: Export represents an export request.
+    MetaResponse:
+      required:
+      - rayID
       type: object
       properties:
-        context:
-          $ref: '#/components/schemas/Context'
-        filter:
-          $ref: '#/components/schemas/Filter'
-        created:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
           type: string
-          description: Export creation timestamp.
-          readOnly: true
-        gnID:
-          type: string
-          description: The Gracenote ID of the export.
-          readOnly: true
-        status:
-          type: string
-          description: 'The status for the export. Possible values: waiting, inProgress, succeeded, failed.
+          description: 'RayID is the backend id of the request, generated at invocation time.
 
-            Note: If an export fails but has not reached the maximum retry limit (3 attempts),
-
-            the status will be returned as ''inProgress'' to indicate it will be retried automatically.
-
-            Only when retry_count >= 3 will the status be returned as ''failed''.'
-          readOnly: true
-          enum:
-          - waiting
-          - inProgress
-          - succeeded
-          - failed
-        updated:
-          type: string
-          description: The timestamp when Export was last updated.
-          readOnly: true
-    Context:
-      title: Context contains the user defined context to store/return alongside the export.
-      type: object
-      additionalProperties:
-        type: string
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
     Filter:
       title: Filter contains the fields which can be used to filter programs,
       type: object
@@ -836,6 +825,41 @@ components:
           examples:
           - - episode
       description: while generating the export results.
+    Export:
+      title: Export represents an export request.
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        filter:
+          $ref: '#/components/schemas/Filter'
+        created:
+          type: string
+          description: Export creation timestamp.
+          readOnly: true
+        gnID:
+          type: string
+          description: The Gracenote ID of the export.
+          readOnly: true
+        status:
+          type: string
+          description: 'The status for the export. Possible values: waiting, inProgress, succeeded, failed.
+
+            Note: If an export fails but has not reached the maximum retry limit (3 attempts),
+
+            the status will be returned as ''inProgress'' to indicate it will be retried automatically.
+
+            Only when retry_count >= 3 will the status be returned as ''failed''.'
+          readOnly: true
+          enum:
+          - waiting
+          - inProgress
+          - succeeded
+          - failed
+        updated:
+          type: string
+          description: The timestamp when Export was last updated.
+          readOnly: true
     NewExport:
       title: NewExport contains the required fields for creating a new export.
       type: object
@@ -860,33 +884,11 @@ components:
             $ref: '#/components/schemas/Export'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    MetaResponse:
-      required:
-      - rayID
+    Context:
+      title: Context contains the user defined context to store/return alongside the export.
       type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
+      additionalProperties:
+        type: string
   parameters:
     apiKeyParam:
       name: GN-APIKEY

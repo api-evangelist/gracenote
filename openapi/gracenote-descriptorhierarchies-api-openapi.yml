@@ -79,6 +79,18 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
+    ErrorResponse500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Unexpected server error.
     ErrorResponse401:
       description: Unauthorized
       content:
@@ -116,30 +128,6 @@ components:
                 status: 400
                 error: invalid_query_parameter_value
                 description: Invalid displayLanguage value.
-    ErrorResponse500:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 500
-                error: internal_server_error
-                description: Unexpected server error.
-    ErrorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: rate_limit_exceeded
-                description: Number of queries per minute exceeds limit.
     ErrorResponse403Entitlements:
       description: Forbidden - Access Denied
       content:
@@ -152,47 +140,32 @@ components:
                 status: 403
                 error: missing_entitlements
                 description: Access denied. Please check your API key entitlements.
+    ErrorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: rate_limit_exceeded
+                description: Number of queries per minute exceeds limit.
   parameters:
-    displayLanguage:
-      name: displayLanguage
+    level:
+      name: level
       in: query
       required: false
-      description: Specify the language for descriptor label localization in the response.
+      description: "Filter hierarchy data by specific level. \n\nWhen provided, only nodes at the specified level will be returned.\nIf not provided, the complete hierarchy tree is returned.\n\n**Note:** Only descriptor types with data at the requested level will return results.\n"
       schema:
-        type: string
-        default: en
+        type: integer
         enum:
-        - ar
-        - bg
-        - zh-Hans
-        - zh-Hant
-        - hr
-        - cs
-        - da
-        - nl
-        - en
-        - fi
-        - fr
-        - de
-        - el
-        - hu
-        - id
-        - it
-        - ja
-        - ko
-        - nb
-        - fa
-        - pl
-        - pt
-        - ro
-        - ru
-        - sr
-        - sk
-        - es
-        - sv
-        - th
-        - tr
-        - vi
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
     descriptorList:
       name: descriptorList
       in: query
@@ -234,19 +207,46 @@ components:
         type: string
         examples:
         - your-api-key
-    level:
-      name: level
+    displayLanguage:
+      name: displayLanguage
       in: query
       required: false
-      description: "Filter hierarchy data by specific level. \n\nWhen provided, only nodes at the specified level will be returned.\nIf not provided, the complete hierarchy tree is returned.\n\n**Note:** Only descriptor types with data at the requested level will return results.\n"
+      description: Specify the language for descriptor label localization in the response.
       schema:
-        type: integer
+        type: string
+        default: en
         enum:
-        - 1
-        - 2
-        - 3
-        - 4
-        - 5
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
   schemas:
     DescriptorHierarchyResponseMeta:
       title: descriptor hierarchy response meta object

@@ -891,6 +891,49 @@ paths:
       - api_key: []
 components:
   schemas:
+    MovieVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    MovieVersionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     DeletedMovieVersion:
       description: 'DeletedVersion represents the version of a deleted movie
 
@@ -913,79 +956,21 @@ components:
           description: The GracenoteID of the deleted presentations.
           items:
             $ref: '#/components/schemas/DeletedPresentation'
-    NewMovieVersion:
-      description: 'NewVersion defines what information may be provided to create a
-
-        new movie version record.'
-      required:
-      - title
-      - subType
+    DeletedPresentation:
+      description: DeletedPresentation represents a deleted presentation
       type: object
       properties:
-        color:
+        gnID:
           type: string
-          description: 'The color of the program.
-
-            See the Gracenote Vocabulary for valid color values.'
-        duration:
-          type: integer
-          description: 'The runtime (milliseconds) of the program.
-
-            Not required for registration, but it is required for publishing
-
-            when the subType is neither a series nor a miniseries.'
-          format: int64
-          examples:
-          - 30800000
-        genres:
-          type: array
-          description: Version level genres of a program.
-          items:
-            type: string
-          examples:
-          - - Adventure
-        releaseDate:
-          type: string
-          description: 'The first ever release date of the program represented by the version.
-
-            Either releaseDate or releaseYear is required for publishing a movie presentation.
-
-            Either releaseDate or releaseYear must be specified for update when the version has a
-
-            publishing/published presentation attached to it.'
-          format: date
-        releaseYear:
-          type: integer
-          description: 'The first ever release year of the program represented by the version.
-
-            Either releaseDate or releaseYear is required for publishing a movie presentation.
-
-            Either releaseDate or releaseYear must be specified for update when the version has a
-
-            publishing/published presentation attached to it.'
-          format: int64
-        title:
-          $ref: '#/components/schemas/Title'
-        versionLabels:
-          type: array
-          description: 'A free-form list of version types.
-
-            Refer to the Gracenote Vocabulary for suggested values.'
-          items:
-            type: string
-          examples:
-          - - Director's Cut
-        subType:
-          type: string
-          description: The high-level type of the program.
-          examples:
-          - featureFilm
-        type:
-          type: string
-          description: The high-level type of the program.
+          description: The Gracenote ID of the deleted program.
           readOnly: true
           examples:
-          - movie
+          - GNLZZXZ00000000
+        versionGnID:
+          type: string
+          description: The ID of the presentation's parent version.
+          examples:
+          - GNLZZZ300000000
     MovieVersion:
       description: Version represents the version of a movie
       required:
@@ -1079,15 +1064,23 @@ components:
           type: string
           description: The time the program was last updated
           readOnly: true
-    MovieVersionsResponse:
+    Title:
+      required:
+      - language
+      - value
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MovieVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
     DeletedMovieVersionResponse:
       type: object
       properties:
@@ -1095,13 +1088,79 @@ components:
           $ref: '#/components/schemas/DeletedMovieVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    MovieVersionResponse:
+    NewMovieVersion:
+      description: 'NewVersion defines what information may be provided to create a
+
+        new movie version record.'
+      required:
+      - title
+      - subType
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/MovieVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
     UpdateMovieVersion:
       required:
       - title
@@ -1167,65 +1226,6 @@ components:
         to indicate that a field was not provided. Normally we do not encourage
 
         pointer usage for basic operations, but here an exception is being made.'
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
-    DeletedPresentation:
-      description: DeletedPresentation represents a deleted presentation
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        versionGnID:
-          type: string
-          description: The ID of the presentation's parent version.
-          examples:
-          - GNLZZZ300000000
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

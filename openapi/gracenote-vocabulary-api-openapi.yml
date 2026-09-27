@@ -186,6 +186,44 @@ components:
           examples:
           - - tmsID
       description: Entitlement represents what data actions and languages a user is entitled to use
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
+    VocabResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GNVocabulary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     GNVocabulary:
       type: object
       properties:
@@ -265,31 +303,6 @@ components:
           items:
             $ref: '#/components/schemas/LabelledValue'
       description: GNVocabulary contains multiple lists of GN Vocabulary
-    Category:
-      title: Category defines known categorical image types may conform.
-      type: string
-      description: Custom categories may be used, but they will not be conforming.
-    LabelledValue:
-      type: object
-      properties:
-        label:
-          type: string
-          description: A human-readable string of the value.
-          examples:
-          - Special Edition
-        value:
-          type: string
-          description: a camelCase string to be used in the API.
-          examples:
-          - specialEdition
-      description: LabelValuePair represents objects containing a label and a value
-    VocabResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/GNVocabulary'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     GnVocabProgramType:
       type: object
       properties:
@@ -308,33 +321,20 @@ components:
           examples:
           - specialEdition
       description: ProgramType represents the program type in GN Vocab
-    MetaResponse:
-      required:
-      - rayID
+    LabelledValue:
       type: object
       properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
+        label:
           type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: LabelValuePair represents objects containing a label and a value
     RatingBody:
       type: object
       properties:

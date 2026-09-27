@@ -49,37 +49,79 @@ paths:
       operationId: getTracksByIdType
       x-operation-id-source: derived
 components:
+  parameters:
+    limit50:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 50.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 50
+        default: 10
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset.  Used for "paging" through results.
+      schema:
+        type: integer
+        default: 0
+    isrcId:
+      name: id
+      in: query
+      description: ISRC code to lookup
+      schema:
+        type: string
+    epc:
+      name: albumReleaseCode
+      in: query
+      description: UPC/EAN code to lookup
+      schema:
+        type: string
+    trackIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - isrc
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
   schemas:
-    TrackArtist:
-      type: object
-      properties:
-        artistID:
-          description: artistID
-          type: string
-        artistName:
-          description: artistName
-          type: string
-    SonicDescriptors:
-      type:
-      - object
-      - 'null'
-      description: Only visible to Customers with GMD Discovery/Advanced Discovery package
-      properties:
-        moods:
-          $ref: '#/components/schemas/DescriptorObject'
-        styles:
-          $ref: '#/components/schemas/DescriptorObject'
-        tempos:
-          $ref: '#/components/schemas/DescriptorObject'
-    TrackAlbum:
-      type: object
-      properties:
-        albumID:
-          description: albumID
-          type: string
-        albumName:
-          description: albumName
-          type: string
     DescriptorObject:
       type: array
       description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
@@ -109,6 +151,45 @@ components:
               descriptorCorrelations:
                 description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
                 type: string
+    TrackObject:
+      type: object
+      properties:
+        type:
+          description: 'type of the object: [tracks]'
+          type: string
+        trackID:
+          description: trackID
+          type: string
+        isrc:
+          description: track ISRC
+          type: string
+        trackName:
+          description: trackName
+          type: string
+        album:
+          $ref: '#/components/schemas/TrackAlbum'
+        artist:
+          $ref: '#/components/schemas/TrackArtist'
+        descriptors:
+          $ref: '#/components/schemas/SonicDescriptors'
+    TrackArtist:
+      type: object
+      properties:
+        artistID:
+          description: artistID
+          type: string
+        artistName:
+          description: artistName
+          type: string
+    TrackAlbum:
+      type: object
+      properties:
+        albumID:
+          description: albumID
+          type: string
+        albumName:
+          description: albumName
+          type: string
     ResponseMetaForTracks:
       type: object
       nullable: false
@@ -133,27 +214,18 @@ components:
       - total
       - count
       - offset
-    TrackObject:
-      type: object
+    SonicDescriptors:
+      type:
+      - object
+      - 'null'
+      description: Only visible to Customers with GMD Discovery/Advanced Discovery package
       properties:
-        type:
-          description: 'type of the object: [tracks]'
-          type: string
-        trackID:
-          description: trackID
-          type: string
-        isrc:
-          description: track ISRC
-          type: string
-        trackName:
-          description: trackName
-          type: string
-        album:
-          $ref: '#/components/schemas/TrackAlbum'
-        artist:
-          $ref: '#/components/schemas/TrackArtist'
-        descriptors:
-          $ref: '#/components/schemas/SonicDescriptors'
+        moods:
+          $ref: '#/components/schemas/DescriptorObject'
+        styles:
+          $ref: '#/components/schemas/DescriptorObject'
+        tempos:
+          $ref: '#/components/schemas/DescriptorObject'
     ErrorResponse:
       type: object
       nullable: false
@@ -172,75 +244,3 @@ components:
       - status
       - error
       - description
-  parameters:
-    isrcId:
-      name: id
-      in: query
-      description: ISRC code to lookup
-      schema:
-        type: string
-    trackIDType:
-      name: idType
-      in: path
-      required: true
-      description: ID Type
-      schema:
-        type: string
-        enum:
-        - isrc
-    offset:
-      name: offset
-      in: query
-      description: Return results starting at the given offset.  Used for "paging" through results.
-      schema:
-        type: integer
-        default: 0
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-    epc:
-      name: albumReleaseCode
-      in: query
-      description: UPC/EAN code to lookup
-      schema:
-        type: string
-    limit50:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 50.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 50
-        default: 10
-  responses:
-    ErrorResponse400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: explicitLanguage must be of type boolean.'
-    ErrorResponse404:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
