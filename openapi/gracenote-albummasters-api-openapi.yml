@@ -89,7 +89,255 @@ paths:
       operationId: getAlbumMastersExplore
       x-operation-id-source: derived
 components:
+  responses:
+    ErrorResponse400:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+  parameters:
+    genreIDs:
+      name: genreIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    artistIDs:
+      name: artistIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      schema:
+        type: string
+    tmsIDs:
+      name: tmsIDs
+      in: query
+      required: false
+      description: 'Comma-separated TMS IDs (max 100). TMS stands for Tribune Media Services —
+
+        these IDs tie an album to a specific film or TV program. You''ll need the
+
+        `tms-id` add-on enabled on your API key.
+
+        '
+      schema:
+        type: string
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
+      schema:
+        type: integer
+        default: 0
+        maximum: 25000
+    sortAlbumMasters:
+      name: sort
+      in: query
+      required: false
+      description: 'How to order the results. Prefix with `-` for descending.
+
+
+        Leave this out and you''ll get newest albums first (descending release year).
+
+
+        When sorting by `releaseType`, the order is:
+
+        mainCanon → mainCanonCollection → singleEP → singleArtistCollection →
+
+        multiArtistCollection → unclassified.
+
+
+        Albums without a `releaseYear` end up at the bottom when you sort by year.
+
+        '
+      schema:
+        type: string
+        enum:
+        - releaseYear
+        - -releaseYear
+        - releaseType
+        - -releaseType
+        - albumMasterName
+        - -albumMasterName
+    limit:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 25.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 10
+    displayLanguage:
+      name: displayLanguage
+      in: query
+      required: false
+      description: Specify the language for descriptor label localization in the response.
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    releaseTypes:
+      name: releaseTypes
+      in: query
+      required: false
+      description: Filter by album release type.
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - mainCanon
+          - mainCanonCollection
+          - singleArtistCollection
+          - multiArtistCollection
+          - singleEP
+          default: none
+    videoMusicReleaseType:
+      name: videoMusicReleaseType
+      in: query
+      required: false
+      description: 'Filter by one or more video music release types. Pass a single value or a comma-separated list (e.g. `score,soundtrack`).
+
+        When omitted, no filtering is applied and rows with any value (including null/empty) are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          enum:
+          - soundtrack
+          - score
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    genreList:
+      name: genreList
+      in: query
+      required: false
+      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
+      schema:
+        type: string
+        default: GENRES-GLOBAL-DETAILED
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
   schemas:
+    ErrorResponse:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    LanguageContext:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+        script:
+          type:
+          - string
+          - 'null'
+      required:
+      - language
+      - script
     DescriptorObject:
       nullable: false
       title: descriptor object
@@ -148,67 +396,6 @@ components:
       required:
       - artistID
       - artistName
-    Asset:
-      title: image asset
-      type: object
-      additionalProperties: false
-      properties:
-        size:
-          type: string
-          nullable: false
-        height:
-          type: integer
-          nullable: false
-        width:
-          type: integer
-          nullable: false
-        url:
-          type: string
-          pattern: ^https://
-      required:
-      - size
-      - height
-      - width
-      - url
-    ResponseMeta:
-      title: meta object
-      type: object
-      additionalProperties: false
-      nullable: false
-      properties:
-        total:
-          type: integer
-          nullable: false
-          description: Total data objects for the query criteria
-        count:
-          type: integer
-          nullable: false
-          description: Count of objects in the returned result set
-        offset:
-          type: integer
-          nullable: false
-          description: Current offset for result set
-        references:
-          type: object
-          additionalProperties: false
-          properties:
-            genreList:
-              type: string
-              description: Hierarchical Genre List used for response.
-            displayLanguage:
-              type: string
-              description: Display language used for descriptor strings.
-      required:
-      - total
-      - count
-      - offset
-      examples:
-      - total: 1
-        count: 1
-        offset: 0
-        references:
-          genreList: GENRES-US-DETAILED
-          displayLanguage: en
     AlbumMasterEditionItem:
       title: album master edition item
       nullable: false
@@ -236,55 +423,63 @@ components:
       - albumEditionID
       - albumEditionName
       - isSelectedAlbumEdition
-    ErrorResponse:
-      title: error response
+    Asset:
+      title: image asset
       type: object
       additionalProperties: false
-      nullable: false
       properties:
-        status:
+        size:
+          type: string
+          nullable: false
+        height:
           type: integer
           nullable: false
-        error:
-          type: string
+        width:
+          type: integer
           nullable: false
-          enum:
-          - page_not_found
-          - resource_not_found
-          - invalid_query_parameter_key
-          - invalid_query_parameter_value
-          - missing_query_parameter_key
-          - resource_type_error
-          - internal_server_error
-          - unauthorized_invalid_api_key
-          - unauthorized_missing_api_key
-          - missing_api_key
-          - rate_limit_exceeded
-          - missing_entitlement
-        description:
+        url:
           type: string
-          nullable: false
+          pattern: ^https://
       required:
-      - status
-      - error
-      - description
-    LanguageContext:
-      type:
-      - object
-      - 'null'
+      - size
+      - height
+      - width
+      - url
+    Image:
+      title: image
+      type: object
       additionalProperties: false
       properties:
-        language:
-          type:
-          - string
-          - 'null'
-        script:
-          type:
-          - string
-          - 'null'
+        imageType:
+          type: string
+          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
+          enum:
+          - artistImage-promotional
+          - artistImage-inPerformance
+          - artistImage-redCarpet
+          - artistImage-other
+          - artistImage-headshot
+          - artistImage-iconic
+          - artistImage-backdrop
+          - coverArt
+        imageID:
+          type: string
+          nullable: false
+        preferred:
+          type: string
+          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
+          enum:
+          - 'true'
+          - 'false'
+        assets:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
       required:
-      - language
-      - script
+      - imageType
+      - imageID
+      - assets
     AlbumMasterObject:
       title: album master object
       nullable: false
@@ -460,6 +655,45 @@ components:
             url: https://akamai-b.cdn.cddbp.net/cds/2.0/cover/97D8/4DCF/10F1/1D1B_xlarge_front.jpg
         videoMusicReleaseType: null
         submittedArtistID: GMGZZX80000006S
+    ResponseMeta:
+      title: meta object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+          description: Total data objects for the query criteria
+        count:
+          type: integer
+          nullable: false
+          description: Count of objects in the returned result set
+        offset:
+          type: integer
+          nullable: false
+          description: Current offset for result set
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            genreList:
+              type: string
+              description: Hierarchical Genre List used for response.
+            displayLanguage:
+              type: string
+              description: Display language used for descriptor strings.
+      required:
+      - total
+      - count
+      - offset
+      examples:
+      - total: 1
+        count: 1
+        offset: 0
+        references:
+          genreList: GENRES-US-DETAILED
+          displayLanguage: en
     ExternalID:
       type: object
       additionalProperties: false
@@ -471,240 +705,6 @@ components:
       required:
       - source
       - ID
-    Image:
-      title: image
-      type: object
-      additionalProperties: false
-      properties:
-        imageType:
-          type: string
-          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
-          enum:
-          - artistImage-promotional
-          - artistImage-inPerformance
-          - artistImage-redCarpet
-          - artistImage-other
-          - artistImage-headshot
-          - artistImage-iconic
-          - artistImage-backdrop
-          - coverArt
-        imageID:
-          type: string
-          nullable: false
-        preferred:
-          type: string
-          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
-          enum:
-          - 'true'
-          - 'false'
-        assets:
-          type: array
-          nullable: false
-          items:
-            $ref: '#/components/schemas/Asset'
-      required:
-      - imageType
-      - imageID
-      - assets
-  parameters:
-    offset:
-      name: offset
-      in: query
-      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
-      schema:
-        type: integer
-        default: 0
-        maximum: 25000
-    tmsIDs:
-      name: tmsIDs
-      in: query
-      required: false
-      description: 'Comma-separated TMS IDs (max 100). TMS stands for Tribune Media Services —
-
-        these IDs tie an album to a specific film or TV program. You''ll need the
-
-        `tms-id` add-on enabled on your API key.
-
-        '
-      schema:
-        type: string
-    genreList:
-      name: genreList
-      in: query
-      required: false
-      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
-      schema:
-        type: string
-        default: GENRES-GLOBAL-DETAILED
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-    limit:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 25.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 25
-        default: 10
-    displayLanguage:
-      name: displayLanguage
-      in: query
-      required: false
-      description: Specify the language for descriptor label localization in the response.
-      schema:
-        type: string
-        default: en
-        enum:
-        - ar
-        - bg
-        - zh-Hans
-        - zh-Hant
-        - hr
-        - cs
-        - da
-        - nl
-        - en
-        - fi
-        - fr
-        - de
-        - el
-        - hu
-        - id
-        - it
-        - ja
-        - ko
-        - nb
-        - fa
-        - pl
-        - pt
-        - ro
-        - ru
-        - sr
-        - sk
-        - es
-        - sv
-        - th
-        - tr
-        - vi
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-    videoMusicReleaseType:
-      name: videoMusicReleaseType
-      in: query
-      required: false
-      description: 'Filter by one or more video music release types. Pass a single value or a comma-separated list (e.g. `score,soundtrack`).
-
-        When omitted, no filtering is applied and rows with any value (including null/empty) are returned.
-
-        '
-      style: form
-      explode: false
-      schema:
-        type: array
-        minItems: 1
-        items:
-          type: string
-          enum:
-          - soundtrack
-          - score
-    releaseTypes:
-      name: releaseTypes
-      in: query
-      required: false
-      description: Filter by album release type.
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          type: string
-          enum:
-          - mainCanon
-          - mainCanonCollection
-          - singleArtistCollection
-          - multiArtistCollection
-          - singleEP
-          default: none
-    artistIDs:
-      name: artistIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
-      schema:
-        type: string
-    sortAlbumMasters:
-      name: sort
-      in: query
-      required: false
-      description: 'How to order the results. Prefix with `-` for descending.
-
-
-        Leave this out and you''ll get newest albums first (descending release year).
-
-
-        When sorting by `releaseType`, the order is:
-
-        mainCanon → mainCanonCollection → singleEP → singleArtistCollection →
-
-        multiArtistCollection → unclassified.
-
-
-        Albums without a `releaseYear` end up at the bottom when you sort by year.
-
-        '
-      schema:
-        type: string
-        enum:
-        - releaseYear
-        - -releaseYear
-        - releaseType
-        - -releaseType
-        - albumMasterName
-        - -albumMasterName
-    genreIDs:
-      name: genreIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-  responses:
-    ErrorResponse400:
-      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: includeAllEditions must be of type boolean.'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

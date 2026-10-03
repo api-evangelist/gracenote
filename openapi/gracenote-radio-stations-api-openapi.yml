@@ -247,20 +247,163 @@ paths:
       operationId: getRadiostationsByRadioStationID
       x-operation-id-source: derived
 components:
+  parameters:
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+  responses:
+    errorResponse5XX:
+      description: An unexpected error occurred on the server. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
+    errorResponse404:
+      description: The specified object was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Resource not found.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values
   schemas:
-    RadioStationsResponse:
+    ErrorResponse:
       type: object
       additionalProperties: false
       required:
-      - meta
-      - data
+      - status
+      - error
+      - description
       properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/RadioStation'
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
     RadioStation:
       type: object
       additionalProperties: false
@@ -319,6 +462,25 @@ components:
           description: Sports team affiliations for this station. Present when the station is associated with one or more sports teams via the teamID filter.
           items:
             $ref: '#/components/schemas/RadioStationTeam'
+    RadioStationPublicValue:
+      type: object
+      additionalProperties: false
+      required:
+      - container
+      - region
+      - state
+      properties:
+        container:
+          type: string
+          description: Public-value container identifier.
+        region:
+          type:
+          - string
+          - 'null'
+          description: Region associated with the public value, or null when not available.
+        state:
+          type: string
+          description: State or province associated with the public value.
     DabData:
       type:
       - object
@@ -353,129 +515,19 @@ components:
         display:
           type: string
           description: The station slogan text.
-    Descriptor:
+    RadioStationsResponse:
       type: object
       additionalProperties: false
       required:
-      - name
-      - descriptorID
+      - meta
+      - data
       properties:
-        name:
-          type: string
-        descriptorID:
-          type: string
-    ErrorResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - status
-      - error
-      - description
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-        error:
-          type: string
-          enum:
-          - internal_server_error
-          - invalid_query_method
-          - missing_query_parameter
-          - invalid_query_parameter_value
-          - resource_not_found
-          - invalid_request
-          - resource_type_error
-          - forbidden
-          - unauthorized_missing_api_key
-          - unauthorized_invalid_api_key
-          - quota_limit_exceeded
-          - content_too_large
-          - unexpected_eof_at_target
-          - service_unavailable
-        description:
-          type: string
-    RadioStationPublicValue:
-      type: object
-      additionalProperties: false
-      required:
-      - container
-      - region
-      - state
-      properties:
-        container:
-          type: string
-          description: Public-value container identifier.
-        region:
-          type:
-          - string
-          - 'null'
-          description: Region associated with the public value, or null when not available.
-        state:
-          type: string
-          description: State or province associated with the public value.
-    RadioStationTeam:
-      type: object
-      additionalProperties: false
-      required:
-      - teamID
-      - teamName
-      - language
-      - flagship
-      properties:
-        teamID:
-          type: string
-          description: Gracenote sports team ID.
-        teamName:
-          type: string
-          description: Name of the sports team.
-        language:
-          type: string
-          description: Language of the broadcast affiliation.
-        flagship:
-          type: boolean
-          description: Indicates if this station is a flagship station for the team.
-    Broadcast:
-      type:
-      - object
-      - 'null'
-      required:
-      - frequency
-      - band
-      - callSign
-      - signalType
-      properties:
-        frequency:
-          type:
-          - string
-          - 'null'
-        band:
-          type: string
-          enum:
-          - FM
-          - AM
-          - DAB
-        callSign:
-          type:
-          - string
-          - 'null'
-        signalType:
-          type:
-          - string
-          - 'null'
-        hdMulticast:
-          type:
-          - string
-          - 'null'
-        piCodes:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
           type: array
           items:
-            type: string
-        ecc:
-          type:
-          - string
-          - 'null'
-        dabData:
-          $ref: '#/components/schemas/DabData'
+            $ref: '#/components/schemas/RadioStation'
     Meta:
       type: object
       additionalProperties: false
@@ -581,6 +633,27 @@ components:
           type:
           - integer
           - 'null'
+    RadioStationTeam:
+      type: object
+      additionalProperties: false
+      required:
+      - teamID
+      - teamName
+      - language
+      - flagship
+      properties:
+        teamID:
+          type: string
+          description: Gracenote sports team ID.
+        teamName:
+          type: string
+          description: Name of the sports team.
+        language:
+          type: string
+          description: Language of the broadcast affiliation.
+        flagship:
+          type: boolean
+          description: Indicates if this station is a flagship station for the team.
     Image:
       type: object
       additionalProperties: false
@@ -619,129 +692,56 @@ components:
           type:
           - string
           - 'null'
-  parameters:
-    languageParam:
-      name: preferredLanguage
-      in: query
-      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
-      required: true
-      schema:
-        pattern: ^[a-z]{2}-[A-Z]{2}$
-        examples:
-        - en-GB
-    contentMarketParam:
-      in: query
-      name: contentMarket
-      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
-      required: true
-      schema:
-        type: string
-        enum:
-        - AUS
-        - CAN
-        - DEU
-        - ESP
-        - FRA
-        - GBR
-        - IND
-        - ITA
-        - JPN
-        - KOR
-        - USA
-      examples:
-        default:
-          value: USA
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-  responses:
-    errorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: quota_limit_exceeded
-                description: Too many requests. Client exceeded their allocated rate limit.
-    errorResponse4XX:
-      description: Other 4XX may occur. Please read the error description for more information.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 405
-                error: invalid_query_method
-                description: Only GET is supported for this endpoint.
-    errorResponse401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 401
-                error: unauthorized_missing_api_key
-                description: GN-APIKEY header must be provided.
-    errorResponse403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 403
-                error: forbidden
-                description: GN-APIKEY is not entitled for this request.
-    errorResponse5XX:
-      description: An unexpected error occurred on the server. Please see the error description for more details.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 500
-                error: internal_server_error
-                description: Server encountered an unexpected condition that prevented it from fulfilling the request.
-    errorResponse400:
-      description: Bad Request. Please see the error description for more details.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: Unsupported contentMarket values
-    errorResponse404:
-      description: The specified object was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Resource not found.
+    Descriptor:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - descriptorID
+      properties:
+        name:
+          type: string
+        descriptorID:
+          type: string
+    Broadcast:
+      type:
+      - object
+      - 'null'
+      required:
+      - frequency
+      - band
+      - callSign
+      - signalType
+      properties:
+        frequency:
+          type:
+          - string
+          - 'null'
+        band:
+          type: string
+          enum:
+          - FM
+          - AM
+          - DAB
+        callSign:
+          type:
+          - string
+          - 'null'
+        signalType:
+          type:
+          - string
+          - 'null'
+        hdMulticast:
+          type:
+          - string
+          - 'null'
+        piCodes:
+          type: array
+          items:
+            type: string
+        ecc:
+          type:
+          - string
+          - 'null'
+        dabData:
+          $ref: '#/components/schemas/DabData'

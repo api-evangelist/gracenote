@@ -154,6 +154,46 @@ paths:
       - api_key: []
 components:
   schemas:
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
+    RatingBody:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        rating:
+          type: array
+          items:
+            type: string
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: RatingBody represents the rating body in GN Vocab
+    GnVocabProgramType:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        programSubType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: ProgramType represents the program type in GN Vocab
     Entitlement:
       type: object
       properties:
@@ -213,10 +253,6 @@ components:
           description: Total is the total number of hits on a query before pagination.
           format: int64
       description: MetaResponse describes response data
-    Category:
-      title: Category defines known categorical image types may conform.
-      type: string
-      description: Custom categories may be used, but they will not be conforming.
     VocabResponse:
       type: object
       properties:
@@ -303,24 +339,6 @@ components:
           items:
             $ref: '#/components/schemas/LabelledValue'
       description: GNVocabulary contains multiple lists of GN Vocabulary
-    GnVocabProgramType:
-      type: object
-      properties:
-        label:
-          type: string
-          description: A human-readable string of the value.
-          examples:
-          - Special Edition
-        programSubType:
-          type: array
-          items:
-            $ref: '#/components/schemas/LabelledValue'
-        value:
-          type: string
-          description: a camelCase string to be used in the API.
-          examples:
-          - specialEdition
-      description: ProgramType represents the program type in GN Vocab
     LabelledValue:
       type: object
       properties:
@@ -335,24 +353,6 @@ components:
           examples:
           - specialEdition
       description: LabelValuePair represents objects containing a label and a value
-    RatingBody:
-      type: object
-      properties:
-        label:
-          type: string
-          description: A human-readable string of the value.
-          examples:
-          - Special Edition
-        rating:
-          type: array
-          items:
-            type: string
-        value:
-          type: string
-          description: a camelCase string to be used in the API.
-          examples:
-          - specialEdition
-      description: RatingBody represents the rating body in GN Vocab
   parameters:
     apiKeyParam:
       name: GN-APIKEY

@@ -78,80 +78,6 @@ paths:
       operationId: getDescriptorHierarchyLookup
       x-operation-id-source: derived
 components:
-  responses:
-    ErrorResponse500:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 500
-                error: internal_server_error
-                description: Unexpected server error.
-    ErrorResponse401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 401
-                error: unauthorized_missing_apikey
-                description: API key is required.
-    ErrorResponseDescriptorHierarchy400:
-      description: Bad Request - Invalid descriptor hierarchy parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            invalidDescriptorList:
-              summary: Invalid descriptorList value
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Invalid descriptorList value. Must be one of: GENRES-* hierarchies, LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES, or TEMPOS.'
-            invalidLevel:
-              summary: Invalid level value
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: Invalid level value. Must be an integer between 1 and 5.
-            invalidDisplayLanguage:
-              summary: Invalid displayLanguage value
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: Invalid displayLanguage value.
-    ErrorResponse403Entitlements:
-      description: Forbidden - Access Denied
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 403
-                error: missing_entitlements
-                description: Access denied. Please check your API key entitlements.
-    ErrorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: rate_limit_exceeded
-                description: Number of queries per minute exceeds limit.
   parameters:
     level:
       name: level
@@ -166,38 +92,6 @@ components:
         - 3
         - 4
         - 5
-    descriptorList:
-      name: descriptorList
-      in: query
-      required: true
-      description: "Specify the descriptor hierarchy to retrieve. \n\n**For genres:** Must use exact hierarchy labels (e.g., GENRES-US-SIMPLIFIED, GENRES-US-DETAILED)\n\n**For other types:** Can use simple descriptor type name:\n- LANGUAGES\n- ORIGINS\n- ERAS\n- ARTISTTYPES\n- MOODS\n- STYLES\n- TEMPOS\n"
-      schema:
-        type: string
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-        - LANGUAGES
-        - ORIGINS
-        - ERAS
-        - ARTISTTYPES
-        - MOODS
-        - STYLES
-        - TEMPOS
     apiKeyParam:
       name: GN-APIKEY
       in: header
@@ -247,6 +141,38 @@ components:
         - th
         - tr
         - vi
+    descriptorList:
+      name: descriptorList
+      in: query
+      required: true
+      description: "Specify the descriptor hierarchy to retrieve. \n\n**For genres:** Must use exact hierarchy labels (e.g., GENRES-US-SIMPLIFIED, GENRES-US-DETAILED)\n\n**For other types:** Can use simple descriptor type name:\n- LANGUAGES\n- ORIGINS\n- ERAS\n- ARTISTTYPES\n- MOODS\n- STYLES\n- TEMPOS\n"
+      schema:
+        type: string
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+        - LANGUAGES
+        - ORIGINS
+        - ERAS
+        - ARTISTTYPES
+        - MOODS
+        - STYLES
+        - TEMPOS
   schemas:
     DescriptorHierarchyResponseMeta:
       title: descriptor hierarchy response meta object
@@ -360,6 +286,80 @@ components:
       - status
       - error
       - description
+  responses:
+    ErrorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_apikey
+                description: API key is required.
+    ErrorResponse500:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 500
+                error: internal_server_error
+                description: Unexpected server error.
+    ErrorResponseDescriptorHierarchy400:
+      description: Bad Request - Invalid descriptor hierarchy parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            invalidDescriptorList:
+              summary: Invalid descriptorList value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Invalid descriptorList value. Must be one of: GENRES-* hierarchies, LANGUAGES, ORIGINS, ERAS, ARTISTTYPES, MOODS, STYLES, or TEMPOS.'
+            invalidLevel:
+              summary: Invalid level value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Invalid level value. Must be an integer between 1 and 5.
+            invalidDisplayLanguage:
+              summary: Invalid displayLanguage value
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Invalid displayLanguage value.
+    ErrorResponse403Entitlements:
+      description: Forbidden - Access Denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: missing_entitlements
+                description: Access denied. Please check your API key entitlements.
+    ErrorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: rate_limit_exceeded
+                description: Number of queries per minute exceeds limit.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

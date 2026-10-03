@@ -252,79 +252,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    SportType:
-      type: string
-      enum:
-      - FOOTBALL
-      - AMERICAN_FOOTBALL
-      - BASKETBALL
-      - BASEBALL
-      - ICE_HOCKEY
-      - TENNIS
-      - GOLF
-      - AUTO_RACING
-      - RUGBY_UNION
-      - UNKNOWN
-    EntityResolutionResponse:
-      type: array
-      items:
-        $ref: '#/components/schemas/ResolvedEntity'
-    ArtistShort:
-      type: object
-      additionalProperties: false
-      description: There is a known issue where sometimes artistID will be null.
-      required:
-      - name
-      - artistID
-      - images
-      properties:
-        name:
-          type: string
-        artistID:
-          type:
-          - string
-          - 'null'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-    RecordingsResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Recording'
-    AlbumEditionShort:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - albumEditionID
-      - images
-      properties:
-        albumEditionID:
-          type: string
-        name:
-          type: string
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-    SportGender:
-      type: string
-      enum:
-      - MALE
-      - FEMALE
-      - MIXED
-      - OPEN
-      - UNKNOWN
     ArtistShortNoImage:
       type: object
       additionalProperties: false
@@ -339,76 +266,57 @@ components:
           type:
           - string
           - 'null'
-    ResolvedEntity:
+    RecordingsResponse:
       type: object
       additionalProperties: false
       required:
-      - ID
-      - type
-      - name
-      - confidence
+      - meta
+      - data
       properties:
-        ID:
-          type: string
-          description: The Nexus ID for use in other API calls (teamID, leagueID, conferenceID, divisionID)
-        name:
-          type: string
-          description: Canonical name in Nexus
-        type:
-          $ref: '#/components/schemas/EntityType'
-        confidence:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Confidence score for the match (0.0 to 1.0)
-        sportType:
-          $ref: '#/components/schemas/SportType'
-        gender:
-          $ref: '#/components/schemas/SportGender'
-        nationality:
-          type: string
-        typeDetail:
-          type: string
-          description: Additional detail about the entity type. For example, an F1 team could have a typeDetail of TEAM_CONSTRUCTOR.
-        contexts:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
           type: array
           items:
-            type: object
-            description: Context information for the match to save on follow-up queries. For example, conference responses will include the ID for their parent league. Unlike other Nexus objects, context will be omitted when there isn't one for the response.
-            additionalProperties: false
-            required:
-            - ID
-            - type
-            - name
-            properties:
-              ID:
-                type:
-                - string
-                - 'null'
-              name:
-                type:
-                - string
-                - 'null'
-              type:
-                $ref: '#/components/schemas/EntityType'
-    Descriptor:
+            $ref: '#/components/schemas/Recording'
+    ErrorResponse:
       type: object
       additionalProperties: false
       required:
-      - name
-      - descriptorID
+      - status
+      - error
+      - description
       properties:
-        name:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
           type: string
-        descriptorID:
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
           type: string
-    EntityType:
+    SportGender:
       type: string
       enum:
-      - TEAM
-      - LEAGUE
-      - CONFERENCE
-      - DIVISION
+      - MALE
+      - FEMALE
+      - MIXED
+      - OPEN
+      - UNKNOWN
     Recording:
       type: object
       additionalProperties: false
@@ -451,117 +359,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Availability'
-    AlbumEdition:
+    SportType:
+      type: string
+      enum:
+      - FOOTBALL
+      - AMERICAN_FOOTBALL
+      - BASKETBALL
+      - BASEBALL
+      - ICE_HOCKEY
+      - TENNIS
+      - GOLF
+      - AUTO_RACING
+      - RUGBY_UNION
+      - UNKNOWN
+    AlbumEditionShort:
       type: object
       additionalProperties: false
       required:
       - name
       - albumEditionID
       - images
-      - artist
-      - descriptors
-      - tracks
       properties:
         albumEditionID:
           type: string
         name:
           type: string
-        artist:
-          $ref: '#/components/schemas/ArtistShort'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        descriptors:
-          type: object
-          additionalProperties: false
-          properties:
-            genres:
-              type: array
-              items:
-                $ref: '#/components/schemas/Descriptor'
-        tracks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Track'
-    ErrorResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - status
-      - error
-      - description
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-        error:
-          type: string
-          enum:
-          - internal_server_error
-          - invalid_query_method
-          - missing_query_parameter
-          - invalid_query_parameter_value
-          - resource_not_found
-          - invalid_request
-          - resource_type_error
-          - forbidden
-          - unauthorized_missing_api_key
-          - unauthorized_invalid_api_key
-          - quota_limit_exceeded
-          - content_too_large
-          - unexpected_eof_at_target
-          - service_unavailable
-        description:
-          type: string
-    AlbumEditionsResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AlbumEdition'
-    AvailabilityURL:
-      type: object
-      additionalProperties: false
-      description: URLs for streaming the related content.
-      required:
-      - type
-      - URL
-      properties:
-        URL:
-          type: string
-        type:
-          type: string
-          enum:
-          - web
-          - android
-          - aaos
-    StreamingCatalog:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - catalogID
-      - images
-      - catalogType
-      description: Streaming provider.
-      properties:
-        name:
-          type: string
-        catalogID:
-          type: string
-        catalogType:
-          type: string
-          enum:
-          - AUDIO
-          - VIDEO
         images:
           type: array
           items:
@@ -644,6 +466,100 @@ components:
               type: string
             topOnly:
               type: string
+    EntityType:
+      type: string
+      enum:
+      - TEAM
+      - LEAGUE
+      - CONFERENCE
+      - DIVISION
+    ArtistShort:
+      type: object
+      additionalProperties: false
+      description: There is a known issue where sometimes artistID will be null.
+      required:
+      - name
+      - artistID
+      - images
+      properties:
+        name:
+          type: string
+        artistID:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    ResolvedEntity:
+      type: object
+      additionalProperties: false
+      required:
+      - ID
+      - type
+      - name
+      - confidence
+      properties:
+        ID:
+          type: string
+          description: The Nexus ID for use in other API calls (teamID, leagueID, conferenceID, divisionID)
+        name:
+          type: string
+          description: Canonical name in Nexus
+        type:
+          $ref: '#/components/schemas/EntityType'
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence score for the match (0.0 to 1.0)
+        sportType:
+          $ref: '#/components/schemas/SportType'
+        gender:
+          $ref: '#/components/schemas/SportGender'
+        nationality:
+          type: string
+        typeDetail:
+          type: string
+          description: Additional detail about the entity type. For example, an F1 team could have a typeDetail of TEAM_CONSTRUCTOR.
+        contexts:
+          type: array
+          items:
+            type: object
+            description: Context information for the match to save on follow-up queries. For example, conference responses will include the ID for their parent league. Unlike other Nexus objects, context will be omitted when there isn't one for the response.
+            additionalProperties: false
+            required:
+            - ID
+            - type
+            - name
+            properties:
+              ID:
+                type:
+                - string
+                - 'null'
+              name:
+                type:
+                - string
+                - 'null'
+              type:
+                $ref: '#/components/schemas/EntityType'
+    AvailabilityURL:
+      type: object
+      additionalProperties: false
+      description: URLs for streaming the related content.
+      required:
+      - type
+      - URL
+      properties:
+        URL:
+          type: string
+        type:
+          type: string
+          enum:
+          - web
+          - android
+          - aaos
     Track:
       type: object
       additionalProperties: false
@@ -661,6 +577,52 @@ components:
           - 'null'
         artist:
           $ref: '#/components/schemas/ArtistShortNoImage'
+    AlbumEdition:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - albumEditionID
+      - images
+      - artist
+      - descriptors
+      - tracks
+      properties:
+        albumEditionID:
+          type: string
+        name:
+          type: string
+        artist:
+          $ref: '#/components/schemas/ArtistShort'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        descriptors:
+          type: object
+          additionalProperties: false
+          properties:
+            genres:
+              type: array
+              items:
+                $ref: '#/components/schemas/Descriptor'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
+    AlbumEditionsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumEdition'
     Availability:
       type: object
       additionalProperties: false
@@ -679,6 +641,29 @@ components:
           description: 3rd party ID for the content.
         catalog:
           $ref: '#/components/schemas/StreamingCatalog'
+    StreamingCatalog:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - catalogID
+      - images
+      - catalogType
+      description: Streaming provider.
+      properties:
+        name:
+          type: string
+        catalogID:
+          type: string
+        catalogType:
+          type: string
+          enum:
+          - AUDIO
+          - VIDEO
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
     Image:
       type: object
       additionalProperties: false
@@ -717,7 +702,71 @@ components:
           type:
           - string
           - 'null'
+    Descriptor:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - descriptorID
+      properties:
+        name:
+          type: string
+        descriptorID:
+          type: string
+    EntityResolutionResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ResolvedEntity'
   parameters:
+    encodingParam:
+      description: Optional header to specify the encoding type that the client is hoping to receive.
+      name: Accept-Encoding
+      in: header
+      required: false
+      schema:
+        type: string
+        examples:
+        - gzip
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
+    albumEditionNameOptional:
+      name: albumEditionName
+      in: query
+      description: Album Edition name
+      required: false
+      schema:
+        type: string
+      examples:
+        default:
+          value: Love
+    nationalityParam:
+      name: nationality
+      in: query
+      required: false
+      description: Optional nationality to improve accuracy. (e.g., "England", "USA", "World"). This currently works as a hard filter, not a hint.
+      schema:
+        type: string
+    sportTypeParam:
+      name: sportType
+      in: query
+      required: false
+      description: Optional sport type context to improve accuracy
+      schema:
+        $ref: '#/components/schemas/SportType'
+    nameParam:
+      name: name
+      in: query
+      required: true
+      description: Natural language name for the entity needing resolving to a Gracenote ID (e.g., "Los Angeles Lakers", "English Premier League")
+      schema:
+        type: string
     recordingName:
       name: recordingName
       in: query
@@ -735,75 +784,6 @@ components:
       description: Optional gender to improve accuracy. This currently works as a hard filter, not a hint.
       schema:
         $ref: '#/components/schemas/SportGender'
-    languageParam:
-      name: preferredLanguage
-      in: query
-      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
-      required: true
-      schema:
-        pattern: ^[a-z]{2}-[A-Z]{2}$
-        examples:
-        - en-GB
-    nationalityParam:
-      name: nationality
-      in: query
-      required: false
-      description: Optional nationality to improve accuracy. (e.g., "England", "USA", "World"). This currently works as a hard filter, not a hint.
-      schema:
-        type: string
-    encodingParam:
-      description: Optional header to specify the encoding type that the client is hoping to receive.
-      name: Accept-Encoding
-      in: header
-      required: false
-      schema:
-        type: string
-        examples:
-        - gzip
-    albumEditionNameOptional:
-      name: albumEditionName
-      in: query
-      description: Album Edition name
-      required: false
-      schema:
-        type: string
-      examples:
-        default:
-          value: Love
-    nameParam:
-      name: name
-      in: query
-      required: true
-      description: Natural language name for the entity needing resolving to a Gracenote ID (e.g., "Los Angeles Lakers", "English Premier League")
-      schema:
-        type: string
-    leagueNameParam:
-      name: leagueName
-      in: query
-      required: false
-      description: Optional league context to improve accuracy (e.g., "NBA", "Premier League"). This currently works as a hard filter, not a hint.
-      schema:
-        type: string
-    albumEditionName:
-      name: albumEditionName
-      in: query
-      description: Album Edition name
-      required: true
-      schema:
-        type: string
-      examples:
-        default:
-          value: Love
-    limitParam:
-      name: limit
-      in: query
-      required: false
-      description: Maximum number of results to return (default 10, max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
     contentMarketParam:
       in: query
       name: contentMarket
@@ -836,22 +816,6 @@ components:
       examples:
         default:
           value: Help!
-    sportTypeParam:
-      name: sportType
-      in: query
-      required: false
-      description: Optional sport type context to improve accuracy
-      schema:
-        $ref: '#/components/schemas/SportType'
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
     artistName:
       name: artistName
       in: query
@@ -862,55 +826,43 @@ components:
       examples:
         default:
           value: The Beatles
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return (default 10, max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    albumEditionName:
+      name: albumEditionName
+      in: query
+      description: Album Edition name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Love
+    leagueNameParam:
+      name: leagueName
+      in: query
+      required: false
+      description: Optional league context to improve accuracy (e.g., "NBA", "Premier League"). This currently works as a hard filter, not a hint.
+      schema:
+        type: string
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   responses:
-    errorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: quota_limit_exceeded
-                description: Too many requests. Client exceeded their allocated rate limit.
-    errorResponse4XX:
-      description: Other 4XX may occur. Please read the error description for more information.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 405
-                error: invalid_query_method
-                description: Only GET is supported for this endpoint.
-    errorResponse401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 401
-                error: unauthorized_missing_api_key
-                description: GN-APIKEY header must be provided.
-    errorResponse403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 403
-                error: forbidden
-                description: GN-APIKEY is not entitled for this request.
     errorResponse5XX:
       description: An unexpected error occurred on the server. Please see the error description for more details.
       content:
@@ -923,18 +875,6 @@ components:
                 status: 500
                 error: internal_server_error
                 description: Server encountered an unexpected condition that prevented it from fulfilling the request.
-    errorResponse400:
-      description: Bad Request. Please see the error description for more details.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: Unsupported contentMarket values
     errorResponse404:
       description: The specified object was not found.
       content:
@@ -947,3 +887,63 @@ components:
                 status: 404
                 error: resource_not_found
                 description: Resource not found.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values

@@ -706,33 +706,6 @@ paths:
       x-operation-id-original: getExportByGnID
 components:
   schemas:
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
     Filter:
       title: Filter contains the fields which can be used to filter programs,
       type: object
@@ -825,6 +798,33 @@ components:
           examples:
           - - episode
       description: while generating the export results.
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
     Export:
       title: Export represents an export request.
       type: object
@@ -860,21 +860,6 @@ components:
           type: string
           description: The timestamp when Export was last updated.
           readOnly: true
-    NewExport:
-      title: NewExport contains the required fields for creating a new export.
-      type: object
-      properties:
-        context:
-          $ref: '#/components/schemas/Context'
-        filter:
-          $ref: '#/components/schemas/Filter'
-    ExportResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Export'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     ExportsResponse:
       type: object
       properties:
@@ -889,6 +874,21 @@ components:
       type: object
       additionalProperties:
         type: string
+    ExportResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Export'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    NewExport:
+      title: NewExport contains the required fields for creating a new export.
+      type: object
+      properties:
+        context:
+          $ref: '#/components/schemas/Context'
+        filter:
+          $ref: '#/components/schemas/Filter'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

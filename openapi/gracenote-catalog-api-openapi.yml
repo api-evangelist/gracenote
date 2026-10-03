@@ -1402,14 +1402,24 @@ paths:
       security:
       - api_key: []
 components:
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   schemas:
-    AddProgramsResponse:
+    CatalogsResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/CatalogProgram'
+            $ref: '#/components/schemas/Catalog'
         meta:
           $ref: '#/components/schemas/MetaResponse'
     MetaResponse:
@@ -1439,41 +1449,20 @@ components:
           description: Total is the total number of hits on a query before pagination.
           format: int64
       description: MetaResponse describes response data
-    CatalogProgram:
-      required:
-      - catalogGnID
-      - presentationGnID
-      type: object
-      properties:
-        catalogGnID:
-          type: string
-          description: The gnID of the Catalog.
-        presentationGnID:
-          type: string
-          description: The gnID of the presentation being added.
-        updated:
-          type: string
-          description: When the Catalog program mapping was last updated.
-          readOnly: true
-      description: 'CatalogProgram contains information required for adding (POST)
-
-        programs to a Catalog.'
-    CatalogsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Catalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    DeletedCatalogProgramMappingsResponse:
+    AddProgramsResponse:
       type: object
       properties:
         data:
           type: array
           items:
             $ref: '#/components/schemas/CatalogProgram'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedCatalog'
         meta:
           $ref: '#/components/schemas/MetaResponse'
     Catalog:
@@ -1521,15 +1510,25 @@ components:
       description: 'NewCatalog contains information required for creating (POST)
 
         or updating (PUT) a Catalog.'
-    DeletedCatalog:
+    CatalogProgram:
+      required:
+      - catalogGnID
+      - presentationGnID
       type: object
       properties:
-        gnID:
+        catalogGnID:
           type: string
-          description: The Gracenote ID of the deleted catalog.
-          examples:
-          - GNLZZXZ00000000
-      description: DeletedCatalog represents a deleted Catalog
+          description: The gnID of the Catalog.
+        presentationGnID:
+          type: string
+          description: The gnID of the presentation being added.
+        updated:
+          type: string
+          description: When the Catalog program mapping was last updated.
+          readOnly: true
+      description: 'CatalogProgram contains information required for adding (POST)
+
+        programs to a Catalog.'
     NewCatalog:
       required:
       - name
@@ -1559,13 +1558,24 @@ components:
       description: 'NewCatalog contains information required for creating (POST)
 
         or updating (PUT) a Catalog.'
-    DeletedCatalogResponse:
+    DeletedCatalogProgramMappingsResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/DeletedCatalog'
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProgram'
         meta:
           $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalog:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted catalog.
+          examples:
+          - GNLZZXZ00000000
+      description: DeletedCatalog represents a deleted Catalog
     CatalogResponse:
       type: object
       properties:
@@ -1573,16 +1583,6 @@ components:
           $ref: '#/components/schemas/Catalog'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
   securitySchemes:
     api_key:
       type: apiKey

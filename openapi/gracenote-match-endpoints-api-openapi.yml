@@ -173,6 +173,13 @@ components:
         enum:
         - application/json
         default: application/json
+    ApiKeyQuery:
+      name: api_key
+      in: query
+      required: true
+      description: API key for authentication
+      schema:
+        type: string
     LanguageQuery:
       name: language
       in: query
@@ -208,10 +215,3 @@ components:
         - zh-CN
         - zh-HK
         default: en-GB
-    ApiKeyQuery:
-      name: api_key
-      in: query
-      required: true
-      description: API key for authentication
-      schema:
-        type: string

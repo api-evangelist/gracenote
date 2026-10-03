@@ -890,12 +890,22 @@ paths:
       security:
       - api_key: []
 components:
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   schemas:
-    MovieVersionResponse:
+    DeletedMovieVersionResponse:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/MovieVersion'
+          $ref: '#/components/schemas/DeletedMovieVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
     MetaResponse:
@@ -925,13 +935,26 @@ components:
           description: Total is the total number of hits on a query before pagination.
           format: int64
       description: MetaResponse describes response data
-    MovieVersionsResponse:
+    DeletedPresentation:
+      description: DeletedPresentation represents a deleted presentation
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        versionGnID:
+          type: string
+          description: The ID of the presentation's parent version.
+          examples:
+          - GNLZZZ300000000
+    MovieVersionResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MovieVersion'
+          $ref: '#/components/schemas/MovieVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
     DeletedMovieVersion:
@@ -956,114 +979,6 @@ components:
           description: The GracenoteID of the deleted presentations.
           items:
             $ref: '#/components/schemas/DeletedPresentation'
-    DeletedPresentation:
-      description: DeletedPresentation represents a deleted presentation
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        versionGnID:
-          type: string
-          description: The ID of the presentation's parent version.
-          examples:
-          - GNLZZZ300000000
-    MovieVersion:
-      description: Version represents the version of a movie
-      required:
-      - title
-      - subType
-      type: object
-      properties:
-        color:
-          type: string
-          description: 'The color of the program.
-
-            See the Gracenote Vocabulary for valid color values.'
-        duration:
-          type: integer
-          description: 'The runtime (milliseconds) of the program.
-
-            Not required for registration, but it is required for publishing
-
-            when the subType is neither a series nor a miniseries.'
-          format: int64
-          examples:
-          - 30800000
-        genres:
-          type: array
-          description: Version level genres of a program.
-          items:
-            type: string
-          examples:
-          - - Adventure
-        releaseDate:
-          type: string
-          description: 'The first ever release date of the program represented by the version.
-
-            Either releaseDate or releaseYear is required for publishing a movie presentation.
-
-            Either releaseDate or releaseYear must be specified for update when the version has a
-
-            publishing/published presentation attached to it.'
-          format: date
-        releaseYear:
-          type: integer
-          description: 'The first ever release year of the program represented by the version.
-
-            Either releaseDate or releaseYear is required for publishing a movie presentation.
-
-            Either releaseDate or releaseYear must be specified for update when the version has a
-
-            publishing/published presentation attached to it.'
-          format: int64
-        title:
-          $ref: '#/components/schemas/Title'
-        versionLabels:
-          type: array
-          description: 'A free-form list of version types.
-
-            Refer to the Gracenote Vocabulary for suggested values.'
-          items:
-            type: string
-          examples:
-          - - Director's Cut
-        subType:
-          type: string
-          description: The high-level type of the program.
-          examples:
-          - featureFilm
-        type:
-          type: string
-          description: The high-level type of the program.
-          readOnly: true
-          examples:
-          - movie
-        gnID:
-          type: string
-          description: The Gracenote ID of the program.
-          readOnly: true
-        presentationGnIDs:
-          type: array
-          description: A list of the version's children presentation GnIDs.
-          readOnly: true
-          items:
-            type: string
-        rootGnID:
-          type: string
-          description: The GnID of the version's parent root.
-          readOnly: true
-        sourceId:
-          type: string
-          description: The internal Source ID associated with the program.
-          readOnly: true
-        updated:
-          type: string
-          description: The time the program was last updated
-          readOnly: true
     Title:
       required:
       - language
@@ -1081,13 +996,6 @@ components:
       description: 'Title holds information about
 
         a program''s title.'
-    DeletedMovieVersionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedMovieVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     NewMovieVersion:
       description: 'NewVersion defines what information may be provided to create a
 
@@ -1226,16 +1134,108 @@ components:
         to indicate that a field was not provided. Normally we do not encourage
 
         pointer usage for basic operations, but here an exception is being made.'
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
+    MovieVersionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MovieVersion:
+      description: Version represents the version of a movie
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the program.
+
+            See the Gracenote Vocabulary for valid color values.'
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The first ever release date of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: date
+        releaseYear:
+          type: integer
+          description: 'The first ever release year of the program represented by the version.
+
+            Either releaseDate or releaseYear is required for publishing a movie presentation.
+
+            Either releaseDate or releaseYear must be specified for update when the version has a
+
+            publishing/published presentation attached to it.'
+          format: int64
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
+        gnID:
+          type: string
+          description: The Gracenote ID of the program.
+          readOnly: true
+        presentationGnIDs:
+          type: array
+          description: A list of the version's children presentation GnIDs.
+          readOnly: true
+          items:
+            type: string
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+        sourceId:
+          type: string
+          description: The internal Source ID associated with the program.
+          readOnly: true
+        updated:
+          type: string
+          description: The time the program was last updated
+          readOnly: true
   securitySchemes:
     api_key:
       type: apiKey

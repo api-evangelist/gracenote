@@ -164,66 +164,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ProgramBundlesResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProgramBundle'
-    ArtistShort:
-      type: object
-      additionalProperties: false
-      description: There is a known issue where sometimes artistID will be null.
-      required:
-      - name
-      - artistID
-      - images
-      properties:
-        name:
-          type: string
-        artistID:
-          type:
-          - string
-          - 'null'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-    ProgramBundle:
-      type: object
-      additionalProperties: false
-      required:
-      - bundleID
-      - name
-      - lastUpdatedUTC
-      - programs
-      - bundleType
-      properties:
-        bundleID:
-          type: string
-          examples:
-          - DEU-Comedy-Movies
-        name:
-          type: string
-          description: Display name.
-        lastUpdatedUTC:
-          type: string
-        bundleType:
-          type: string
-          enum:
-          - MOVIES
-          - SERIES
-        programs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProgramShort'
     ArtistShortNoImage:
       type: object
       additionalProperties: false
@@ -270,50 +210,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-    Descriptor:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - descriptorID
-      properties:
-        name:
-          type: string
-        descriptorID:
-          type: string
-    AlbumEdition:
-      type: object
-      additionalProperties: false
-      required:
-      - name
-      - albumEditionID
-      - images
-      - artist
-      - descriptors
-      - tracks
-      properties:
-        albumEditionID:
-          type: string
-        name:
-          type: string
-        artist:
-          $ref: '#/components/schemas/ArtistShort'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        descriptors:
-          type: object
-          additionalProperties: false
-          properties:
-            genres:
-              type: array
-              items:
-                $ref: '#/components/schemas/Descriptor'
-        tracks:
-          type: array
-          items:
-            $ref: '#/components/schemas/Track'
     ErrorResponse:
       type: object
       additionalProperties: false
@@ -344,58 +240,34 @@ components:
           - service_unavailable
         description:
           type: string
-    AlbumEditionsResponse:
+    ProgramBundle:
       type: object
       additionalProperties: false
       required:
-      - meta
-      - data
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AlbumEdition'
-    AvailabilityURL:
-      type: object
-      additionalProperties: false
-      description: URLs for streaming the related content.
-      required:
-      - type
-      - URL
-      properties:
-        URL:
-          type: string
-        type:
-          type: string
-          enum:
-          - web
-          - android
-          - aaos
-    StreamingCatalog:
-      type: object
-      additionalProperties: false
-      required:
+      - bundleID
       - name
-      - catalogID
-      - images
-      - catalogType
-      description: Streaming provider.
+      - lastUpdatedUTC
+      - programs
+      - bundleType
       properties:
+        bundleID:
+          type: string
+          examples:
+          - DEU-Comedy-Movies
         name:
           type: string
-        catalogID:
+          description: Display name.
+        lastUpdatedUTC:
           type: string
-        catalogType:
+        bundleType:
           type: string
           enum:
-          - AUDIO
-          - VIDEO
-        images:
+          - MOVIES
+          - SERIES
+        programs:
           type: array
           items:
-            $ref: '#/components/schemas/Image'
+            $ref: '#/components/schemas/ProgramShort'
     Meta:
       type: object
       additionalProperties: false
@@ -474,6 +346,54 @@ components:
               type: string
             topOnly:
               type: string
+    ProgramBundlesResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramBundle'
+    ArtistShort:
+      type: object
+      additionalProperties: false
+      description: There is a known issue where sometimes artistID will be null.
+      required:
+      - name
+      - artistID
+      - images
+      properties:
+        name:
+          type: string
+        artistID:
+          type:
+          - string
+          - 'null'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    AvailabilityURL:
+      type: object
+      additionalProperties: false
+      description: URLs for streaming the related content.
+      required:
+      - type
+      - URL
+      properties:
+        URL:
+          type: string
+        type:
+          type: string
+          enum:
+          - web
+          - android
+          - aaos
     Track:
       type: object
       additionalProperties: false
@@ -491,6 +411,52 @@ components:
           - 'null'
         artist:
           $ref: '#/components/schemas/ArtistShortNoImage'
+    AlbumEdition:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - albumEditionID
+      - images
+      - artist
+      - descriptors
+      - tracks
+      properties:
+        albumEditionID:
+          type: string
+        name:
+          type: string
+        artist:
+          $ref: '#/components/schemas/ArtistShort'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+        descriptors:
+          type: object
+          additionalProperties: false
+          properties:
+            genres:
+              type: array
+              items:
+                $ref: '#/components/schemas/Descriptor'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
+    AlbumEditionsResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlbumEdition'
     Availability:
       type: object
       additionalProperties: false
@@ -509,6 +475,29 @@ components:
           description: 3rd party ID for the content.
         catalog:
           $ref: '#/components/schemas/StreamingCatalog'
+    StreamingCatalog:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - catalogID
+      - images
+      - catalogType
+      description: Streaming provider.
+      properties:
+        name:
+          type: string
+        catalogID:
+          type: string
+        catalogType:
+          type: string
+          enum:
+          - AUDIO
+          - VIDEO
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
     Image:
       type: object
       additionalProperties: false
@@ -547,16 +536,18 @@ components:
           type:
           - string
           - 'null'
+    Descriptor:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - descriptorID
+      properties:
+        name:
+          type: string
+        descriptorID:
+          type: string
   parameters:
-    languageParam:
-      name: preferredLanguage
-      in: query
-      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
-      required: true
-      schema:
-        pattern: ^[a-z]{2}-[A-Z]{2}$
-        examples:
-        - en-GB
     encodingParam:
       description: Optional header to specify the encoding type that the client is hoping to receive.
       name: Accept-Encoding
@@ -566,16 +557,15 @@ components:
         type: string
         examples:
         - gzip
-    albumEditionName:
-      name: albumEditionName
+    languageParam:
+      name: preferredLanguage
       in: query
-      description: Album Edition name
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
       required: true
       schema:
-        type: string
-      examples:
-        default:
-          value: Love
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
     contentMarketParam:
       in: query
       name: contentMarket
@@ -608,15 +598,26 @@ components:
       examples:
         default:
           value: Help!
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
+    artistName:
+      name: artistName
+      in: query
+      description: Artist name
       required: true
       schema:
         type: string
-        examples:
-        - your-api-key
+      examples:
+        default:
+          value: The Beatles
+    albumEditionName:
+      name: albumEditionName
+      in: query
+      description: Album Edition name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Love
     omitCatalogsParam:
       name: omitCatalogIDs
       in: query
@@ -633,65 +634,16 @@ components:
         type: string
         examples:
         - 111777,81277
-    artistName:
-      name: artistName
-      in: query
-      description: Artist name
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
       required: true
       schema:
         type: string
-      examples:
-        default:
-          value: The Beatles
+        examples:
+        - your-api-key
   responses:
-    errorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: quota_limit_exceeded
-                description: Too many requests. Client exceeded their allocated rate limit.
-    errorResponse4XX:
-      description: Other 4XX may occur. Please read the error description for more information.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 405
-                error: invalid_query_method
-                description: Only GET is supported for this endpoint.
-    errorResponse401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 401
-                error: unauthorized_missing_api_key
-                description: GN-APIKEY header must be provided.
-    errorResponse403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 403
-                error: forbidden
-                description: GN-APIKEY is not entitled for this request.
     errorResponse5XX:
       description: An unexpected error occurred on the server. Please see the error description for more details.
       content:
@@ -704,18 +656,6 @@ components:
                 status: 500
                 error: internal_server_error
                 description: Server encountered an unexpected condition that prevented it from fulfilling the request.
-    errorResponse400:
-      description: Bad Request. Please see the error description for more details.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: Unsupported contentMarket values
     errorResponse404:
       description: The specified object was not found.
       content:
@@ -728,3 +668,63 @@ components:
                 status: 404
                 error: resource_not_found
                 description: Resource not found.
+    errorResponse401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 401
+                error: unauthorized_missing_api_key
+                description: GN-APIKEY header must be provided.
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse400:
+      description: Bad Request. Please see the error description for more details.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: Unsupported contentMarket values

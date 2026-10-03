@@ -244,10 +244,59 @@ paths:
     servers:
     - url: https://api.gmd.music.gracenote.com/v3
 components:
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
+    ErrorResponse400_2:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+    ErrorResponse404_2:
+      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
   schemas:
-    DescriptorObject:
+    Languages:
       type: array
-      description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
+      description: Only visible to Customers with GMD:Discovery package and above
       items:
         type: object
         properties:
@@ -259,31 +308,26 @@ components:
             type: string
           weight:
             type: integer
-          categories:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                level:
-                  type: integer
-          links:
-            type: object
-            properties:
-              descriptorCorrelations:
-                description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
-                type: string
-    Popularity:
+            description: Only visible to Customers with GMD:Advanced Discovery package and above
+    ErrorResponse:
       type: object
+      nullable: false
+      additionalProperties: false
       properties:
-        region:
+        status:
+          type: integer
+          nullable: false
+        error:
           type: string
-        score:
-          type: number
-        type:
+          nullable: false
+        description:
           type: string
-    ArtistMember:
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    Artist:
       type: object
       properties:
         artistID:
@@ -298,9 +342,19 @@ components:
           - string
           - 'null'
           description: will be of the type /artists/gnid?ids=GNXX
-        ord:
-          type: integer
-          description: order number for sorting
+    LanguageContext:
+      type:
+      - object
+      - 'null'
+      properties:
+        language:
+          type:
+          - string
+          - 'null'
+        script:
+          type:
+          - string
+          - 'null'
     ArtistObject:
       type:
       - object
@@ -430,16 +484,9 @@ components:
           description: Only visible to Customers with GMD:Advanced Discovery Package
           items:
             $ref: '#/components/schemas/Artist'
-    ArtistName:
-      type: object
-      properties:
-        artistName:
-          type: string
-        languageContext:
-          $ref: '#/components/schemas/LanguageContext'
-    Languages:
+    DescriptorObject:
       type: array
-      description: Only visible to Customers with GMD:Discovery package and above
+      description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
       items:
         type: object
         properties:
@@ -451,7 +498,67 @@ components:
             type: string
           weight:
             type: integer
-            description: Only visible to Customers with GMD:Advanced Discovery package and above
+          categories:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                level:
+                  type: integer
+          links:
+            type: object
+            properties:
+              descriptorCorrelations:
+                description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
+                type: string
+    ArtistMember:
+      type: object
+      properties:
+        artistID:
+          type:
+          - string
+          - 'null'
+          description: gracenote ID
+        artistName:
+          type: string
+        href:
+          type:
+          - string
+          - 'null'
+          description: will be of the type /artists/gnid?ids=GNXX
+        ord:
+          type: integer
+          description: order number for sorting
+    Popularity:
+      type: object
+      properties:
+        region:
+          type: string
+        score:
+          type: number
+        type:
+          type: string
+    ArtistName:
+      type: object
+      properties:
+        artistName:
+          type: string
+        languageContext:
+          $ref: '#/components/schemas/LanguageContext'
+    Image:
+      type: object
+      properties:
+        size:
+          type: string
+        height:
+          type: integer
+        width:
+          type: integer
+        url:
+          type: string
+          pattern: ^https://
     ResponseMeta:
       type: object
       nullable: false
@@ -477,10 +584,50 @@ components:
       - total
       - count
       - offset
-    ErrorResponse:
+    ExternalID:
       type: object
-      nullable: false
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
+    AlternateNameObject:
+      title: alternate name object
+      type: object
       additionalProperties: false
+      properties:
+        artistName:
+          type: string
+          nullable: false
+        languageContext:
+          nullable: false
+          type: object
+          description: The language contexts of the name. Only visible to Customers with GMD Discovery/Advanced Discovery package and above
+          items:
+            $ref: '#/components/schemas/LanguageContext_2'
+      required:
+      - artistName
+    NameObject:
+      title: name object
+      type: object
+      additionalProperties: false
+      properties:
+        name:
+          type: string
+          nullable: false
+        languageContext:
+          nullable: false
+          type: object
+          description: The language contexts of the name. Only visible to Customers with GMD Discovery/Advanced Discovery package and above
+          items:
+            $ref: '#/components/schemas/LanguageContext_2'
+      required:
+      - name
+    ErrorResponse_2:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
       properties:
         status:
           type: integer
@@ -488,6 +635,19 @@ components:
         error:
           type: string
           nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
         description:
           type: string
           nullable: false
@@ -495,10 +655,11 @@ components:
       - status
       - error
       - description
-    LanguageContext:
+    LanguageContext_2:
       type:
       - object
       - 'null'
+      additionalProperties: false
       properties:
         language:
           type:
@@ -508,174 +669,9 @@ components:
           type:
           - string
           - 'null'
-    ExternalID:
-      type: object
-      properties:
-        source:
-          type: string
-        ID:
-          type: string
-    Artist:
-      type: object
-      properties:
-        artistID:
-          type:
-          - string
-          - 'null'
-          description: gracenote ID
-        artistName:
-          type: string
-        href:
-          type:
-          - string
-          - 'null'
-          description: will be of the type /artists/gnid?ids=GNXX
-    Image:
-      type: object
-      properties:
-        size:
-          type: string
-        height:
-          type: integer
-        width:
-          type: integer
-        url:
-          type: string
-          pattern: ^https://
-    DescriptorObject_2:
-      nullable: false
-      title: descriptor object
-      type: array
-      items:
-        type: object
-        additionalProperties: false
-        properties:
-          type:
-            type: string
-            enum:
-            - artistTypes
-            - eras
-            - genres
-            - languages
-            - moods
-            - origins
-            - styles
-            - tempos
-          weight:
-            type: integer
-          hierarchy:
-            nullable: false
-            type: array
-            items:
-              type: object
-              additionalProperties: false
-              properties:
-                label:
-                  nullable: false
-                  type: string
-                descriptorID:
-                  nullable: false
-                  type: string
-                level:
-                  type: integer
-        required:
-        - type
-        - weight
-        - hierarchy
-    PopularityData:
-      title: popularity data
-      description: 'Popularity score is on a scale of 0 to 1, with a resolution out to 5 decimal places, which is derived
-
-        from a proprietary blend of signals and indicates the relative All-Time, or Recent popularity of Artists
-
-        and Recordings.
-
-        Only visible to Customers with Popularity Add On
-
-        '
-      type:
-      - object
-      - 'null'
-      additionalProperties: false
-      properties:
-        overall:
-          nullable: false
-          type: array
-          items:
-            $ref: '#/components/schemas/PopularityObject'
-        audio:
-          nullable: false
-          type: array
-          items:
-            $ref: '#/components/schemas/PopularityObject'
-        video:
-          nullable: false
-          type: array
-          items:
-            $ref: '#/components/schemas/PopularityObject'
       required:
-      - overall
-      - audio
-      - video
-    ArtistShort:
-      title: artist
-      type:
-      - object
-      - 'null'
-      additionalProperties: false
-      properties:
-        artistID:
-          nullable: false
-          type: string
-          description: Gracenote Artist ID
-        artistName:
-          nullable: false
-          type: string
-          description: Artist Name
-      required:
-      - artistID
-      - artistName
-    ArtistShortWithOrd:
-      title: artist
-      type: object
-      additionalProperties: false
-      properties:
-        artistID:
-          nullable: false
-          type: string
-          description: Gracenote Artist ID
-        artistName:
-          nullable: false
-          type: string
-          description: Artist Name
-        ord:
-          type: integer
-          description: Group members are ordered according to their relevance.
-      required:
-      - artistID
-      - artistName
-      - ord
-    PopularityObject:
-      title: regional popularity
-      nullable: false
-      type: object
-      additionalProperties: false
-      properties:
-        region:
-          nullable: false
-          type: string
-        oneYear:
-          type:
-          - number
-          - 'null'
-        oneMonth:
-          type:
-          - number
-          - 'null'
-      required:
-      - region
-      - oneYear
-      - oneMonth
+      - language
+      - script
     ArtistObject_2:
       title: artist object
       nullable: false
@@ -814,22 +810,133 @@ components:
       - sortName
       examples:
       - "{\n  \"alternateNames\": [\n    {\n      \"artistName\": \"ビートルズ\",\n      \"languageContext\": {\n        \"language\": \"Japanese\",\n        \"script\": \"Katakana\"\n      }\n    },\n    {\n      \"artistName\": \"ザビートルズ\",\n      \"languageContext\": {\n        \"language\": \"Japanese\",\n        \"script\": \"Katakana\"\n      }\n    },\n    {\n      \"artistName\": \"비틀즈\",\n      \"languageContext\": {\n        \"language\": \"Korean\",\n        \"script\": \"Hangul\"\n      }\n    }\n  ],\n  \"artistID\": \"GMGZZX80000006S\",\n  \"artistName\": {\n    \"name\": \"The Beatles\",\n    \"languageContext\": {\n      \"language\": \"English\",\n      \"script\": \"Latin\"\n    }\n  },\n  \"artistObjectType\": \"group\",\n  \"collaborationMembers\": [],\n  \"descriptors\": {\n    \"artistTypes\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"Male\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"\",\n            \"label\": \"Male Group\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"2660\",\n            \"label\": \"Male Group - Duo/Group Vocal\"\n          }\n        ],\n        \"type\": \"artistTypes\",\n        \"weight\": 100\n      }\n    ],\n    \"eras\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"1960s\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"2633\",\n            \"label\": \"1960s\"\n          }\n        ],\n        \"type\": \"eras\",\n        \"weight\": 100\n      }\n    ],\n    \"genres\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"Oldies\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"\",\n            \"label\": \"British Invasion\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"\",\n            \"label\": \"British Invasion Rock\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"2834\",\n            \"label\": \"British Invasion Rock\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 43\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"Rock\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"\",\n            \"label\": \"Psychedelic\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"\",\n            \"label\": \"Psychedelic Rock\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"2844\",\n            \"label\": \"Psychedelic Rock\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 33\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"Rock\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"\",\n            \"label\": \"AOR Classic Rock\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"\",\n            \"label\": \"AOR Classic Rock\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"2804\",\n            \"label\": \"Classic Rock\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 24\n      }\n    ],\n    \"languages\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"74506\",\n            \"label\": \"English\"\n          }\n        ],\n        \"type\": \"languages\",\n        \"weight\": 100\n      }\n    ],\n    \"origins\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"\",\n            \"label\": \"Western Europe\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"\",\n            \"label\": \"United Kingdom\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"\",\n            \"label\": \"England\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"\",\n            \"label\": \"Liverpool\"\n          },\n          {\n            \"level\": 5,\n            \"descriptorID\": \"4583\",\n            \"label\": \"Liverpool\"\n          }\n        ],\n        \"type\": \"origins\",\n        \"weight\": 100\n      }\n    ]\n  },\n  \"disambiguation\": \"Liverpool British Invasion Rock\",\n  \"groupMembers\": [\n    {\n      \"artistID\": \"GMGZZX80000002K\",\n      \"artistName\": \"George Harrison\",\n      \"ord\": 1\n    },\n    {\n      \"artistID\": \"GMGZZX8000006WN\",\n      \"artistName\": \"John Lennon\",\n      \"ord\": 2\n    },\n    {\n      \"artistID\": \"GMGZZX800001RNL\",\n      \"artistName\": \"Paul McCartney\",\n      \"ord\": 3\n    },\n    {\n      \"artistID\": \"GMGZZX8000007H6\",\n      \"artistName\": \"Ringo Starr\",\n      \"ord\": 4\n    },\n    {\n      \"artistID\": \"GMGZZX8000051M9\",\n      \"artistName\": \"Pete Best\",\n      \"ord\": 5\n    },\n    {\n      \"artistID\": \"GMGZZX8000051M6\",\n      \"artistName\": \"Stuart Sutcliffe\",\n      \"ord\": 6\n    }\n  ],\n  \"images\": [\n    {\n      \"imageType\": \"artistImage-promotional\",\n      \"imageID\": \"8575958B7F5AEBA6\",\n      \"preferred\": \"true\",\n      \"assets\": [\n        {\n          \"size\": \"XLARGE\",\n          \"width\": 1080,\n          \"height\": 1080,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/8575/958B/7F5A/EBA6_xlarge_front.jpg\"\n        }\n      ]\n    }\n  ],\n  \"keyArtists\": [],\n  \"memberOfCollaborations\": [\n    {\n      \"artistID\": \"GMGZZX800000NCG\",\n      \"artistName\": \"Tony Sheridan & The Beatles\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000X2R\",\n      \"artistName\": \"The Beatles & Gene Vincent\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000ZTG\",\n      \"artistName\": \"The Beatles & Rolf Harris\"\n    },\n    {\n      \"artistID\": \"GMGZZX800002GRJ\",\n      \"artistName\": \"The Beatles Feat. Billy Preston\"\n    }\n  ],\n  \"memberOfGroups\": [],\n  \"memberOfKeyArtists\": [],\n  \"nameVariants\": [\n    \"Beatles\",\n    \"Die Beatles\",\n    \"Les Beatles\",\n    \"The Fab Four\",\n    \"The Fabs\",\n    \"The Moptops\",\n    \"ファブフォー\"\n  ],\n  \"objectType\": \"artist\",\n  \"personIDs\": [\n    \"117630\"\n  ],\n  \"popularity\": {\n    \"audio\": [\n      {\n        \"region\": \"US\",\n        \"oneMonth\": 0.14708090116057276,\n        \"oneYear\": 0.20020825742109769\n      },\n      {\n        \"region\": \"Global\",\n        \"oneMonth\": 0.16527145387503833,\n        \"oneYear\": 0.2129055444214704\n      },\n      {\n        \"region\": \"CA\",\n        \"oneMonth\": 0.16969852946511135,\n        \"oneYear\": 0.20874447014090586\n      }\n    ],\n    \"overall\": [\n      {\n        \"region\": \"ZA\",\n        \"oneMonth\": 0.036444607311494896,\n        \"oneYear\": 0.03467589176934003\n      },\n      {\n        \"region\": \"DE\",\n        \"oneMonth\": 0.0804357838799736,\n        \"oneYear\": 0.07892777051667588\n      },\n      {\n        \"region\": \"IS\",\n        \"oneMonth\": 0.08131473029252849,\n        \"oneYear\": 0.06488434227609793\n      },\n      {\n        \"region\": \"FR\",\n        \"oneMonth\": 0.10896444451612758,\n        \"oneYear\": 0.07540325912739228\n      },\n      {\n        \"region\": \"ES\",\n        \"oneMonth\": 0.09653100281990673,\n        \"oneYear\": 0.10145274895627113\n      },\n      {\n        \"region\": \"AU\",\n        \"oneMonth\": 0.1423597224691473,\n        \"oneYear\": 0.174691961714709\n      },\n      {\n        \"region\": \"TW\",\n        \"oneMonth\": 0.009116833978967766,\n        \"oneYear\": 0.008565600197683624\n      },\n      {\n        \"region\": \"EC\",\n        \"oneMonth\": 0.02390931669918293,\n        \"oneYear\": 0.02397025520877815\n      },\n      {\n        \"region\": \"US\",\n        \"oneMonth\": 0.14281587459693632,\n        \"oneYear\": 0.19425186696804386\n      },\n      {\n        \"region\": \"DK\",\n        \"oneMonth\": 0.13805404572341923,\n        \"oneYear\": 0.08684050651381088\n      },\n      {\n        \"region\": \"SE\",\n        \"oneMonth\": 0.19091069255095064,\n        \"oneYear\": 0.223034232596154\n      },\n      {\n        \"region\": \"LU\",\n        \"oneMonth\": 0.04192322677013892,\n        \"oneYear\": 0.05712915280383345\n      },\n      {\n        \"region\": \"GB\",\n        \"oneMonth\": 0.20739966402700308,\n        \"oneYear\": 0.2649056279009801\n      },\n      {\n        \"region\": \"NO\",\n        \"oneMonth\": 0.13655716293735817,\n        \"oneYear\": 0.20396443593368713\n      },\n      {\n        \"region\": \"FI\",\n        \"oneMonth\": 0.047708683930231886,\n        \"oneYear\": 0.11357402340301749\n      },\n      {\n        \"region\": \"PE\",\n        \"oneMonth\": 0.05406523196449164,\n        \"oneYear\": 0.050304490577871834\n      },\n      {\n        \"region\": \"TH\",\n        \"oneMonth\": 0.01369378559783782,\n        \"oneYear\": 0.009480361981451524\n      },\n      {\n        \"region\": \"MX\",\n        \"oneMonth\": 0.09425764148092364,\n        \"oneYear\": 0.09759680783232916\n      },\n      {\n        \"region\": \"IN\",\n        \"oneMonth\": 0.0024307152320423996,\n        \"oneYear\": 0.003935732035489831\n      },\n      {\n        \"region\": \"Global\",\n        \"oneMonth\": 0.15218288134888563,\n        \"oneYear\": 0.19229400818646827\n      },\n      {\n        \"region\": \"NZ\",\n        \"oneMonth\": 0.1448878397198693,\n        \"oneYear\": 0.17273211919153703\n      },\n      {\n        \"region\": \"AR\",\n        \"oneMonth\": 0.09145251553043975,\n        \"oneYear\": 0.097225399171294\n      },\n      {\n        \"region\": \"IE\",\n        \"oneMonth\": 0.15025233431076698,\n        \"oneYear\": 0.17596906750985844\n      },\n      {\n        \"region\": \"CL\",\n        \"oneMonth\": 0.14112172932388656,\n        \"oneYear\": 0.11784473715548799\n      },\n      {\n        \"region\": \"MY\",\n        \"oneMonth\": 0.012738811230032475,\n        \"oneYear\": 0.013257298859057746\n      },\n      {\n        \"region\": \"JP\",\n        \"oneMonth\": 0.06650693559626468,\n        \"oneYear\": 0.05598534556451576\n      },\n      {\n        \"region\": \"BO\",\n        \"oneMonth\": 0.036477118101760145,\n        \"oneYear\": 0.02814783390980798\n      },\n      {\n        \"region\": \"VN\",\n        \"oneMonth\": 0.0027172519484824137,\n        \"oneYear\": 0.003709562012372081\n      },\n      {\n        \"region\": \"SG\",\n        \"oneMonth\": 0.0269936635526065,\n        \"oneYear\": 0.0316999417278942\n      },\n      {\n        \"region\": \"IT\",\n        \"oneMonth\": 0.07891476356963237,\n        \"oneYear\": 0.08423570853762201\n      },\n      {\n        \"region\": \"HK\",\n        \"oneMonth\": 0.029477625146320276,\n        \"oneYear\": 0.023627557494416862\n      },\n      {\n        \"region\": \"CA\",\n        \"oneMonth\": 0.16413411510773668,\n        \"oneYear\": 0.20286355706577375\n      },\n      {\n        \"region\": \"CO\",\n        \"oneMonth\": 0.021414346345993554,\n        \"oneYear\": 0.021593708883097015\n      },\n      {\n        \"region\": \"PT\",\n        \"oneMonth\": 0.07026067889105235,\n        \"oneYear\": 0.06251322527305456\n      },\n      {\n        \"region\": \"BE\",\n        \"oneMonth\": 0.14273988779293528,\n        \"oneYear\": 0.2186669236068592\n      },\n      {\n        \"region\": \"PH\",\n        \"oneMonth\": 0.023551760288715043,\n        \"oneYear\": 0.028109918288076012\n      },\n      {\n        \"region\": \"AT\",\n        \"oneMonth\": 0.14532042074891421,\n        \"oneYear\": 0.16073996986422742\n      },\n      {\n        \"region\": \"CH\",\n        \"oneMonth\": 0.148752731969398,\n        \"oneYear\": 0.21991740070563873\n      },\n      {\n        \"region\": \"KR\",\n        \"oneMonth\": 0.007478458342264445,\n        \"oneYear\": 0.007146846425214802\n      },\n      {\n        \"region\": \"TR\",\n        \"oneMonth\": 0.02276677955017222,\n        \"oneYear\": 0.02999377904051905\n      },\n      {\n        \"region\": \"NL\",\n        \"oneMonth\": 0.23492664566818888,\n        \"oneYear\": 0.27432560695515523\n      },\n      {\n        \"region\": \"BR\",\n        \"oneMonth\": 0.05522702787472528,\n        \"oneYear\": 0.053699779780900216\n      }\n    ],\n    \"video\": [\n      {\n        \"region\": \"US\",\n        \"oneMonth\": 0.0445505033940551,\n        \"oneYear\": 0.07781046771481677\n      },\n      {\n        \"region\": \"Global\",\n        \"oneMonth\": 0.015315689628891268,\n        \"oneYear\": 0.018953534511310058\n      },\n      {\n        \"region\": \"CA\",\n        \"oneMonth\": 0.04570200126093586,\n        \"oneYear\": 0.08448579644172637\n      }\n    ]\n  },\n  \"popularAlbumEdition\": {\n    \"albumEditionID\": \"GMGZZX400000GF2\",\n    \"albumEditionName\": \"Abbey Road [Remastered]\",\n    \"images\": {\n      \"albumImages\": [\n        {\n          \"size\": \"XLARGE\",\n          \"width\": 1080,\n          \"height\": 1080,\n          \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/97D8/4DCF/10F1/1D1B_xlarge_front.jpg\"\n        }\n      ]\n    }\n  },\n  \"similarArtists\": [\n    {\n      \"artistID\": \"GMGZZX8000001SJ\",\n      \"artistName\": \"The Turtles\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000009CT\",\n      \"artistName\": \"Peter & Gordon\"\n    },\n    {\n      \"artistID\": \"GMGZZX800001GGQ\",\n      \"artistName\": \"The Easybeats\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000RC0\",\n      \"artistName\": \"The Searchers\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000CNB\",\n      \"artistName\": \"Herman's Hermits\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000MFG\",\n      \"artistName\": \"Gary Lewis & The Playboys\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000002HT\",\n      \"artistName\": \"The Beach Boys\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000RCG\",\n      \"artistName\": \"Freddie & The Dreamers\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000019YL\",\n      \"artistName\": \"Traffic\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000007KN\",\n      \"artistName\": \"The Hollies\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000071\",\n      \"artistName\": \"The Rolling Stones\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000W9Z\",\n      \"artistName\": \"The Kinks\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000R09\",\n      \"artistName\": \"Gerry & The Pacemakers\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000QFE\",\n      \"artistName\": \"Chad & Jeremy\"\n    },\n    {\n      \"artistID\": \"GMGZZX800001B0B\",\n      \"artistName\": \"Dave Dee, Dozy, Beaky, Mick & Tich\"\n    },\n    {\n      \"artistID\": \"GMGZZX800001BZJ\",\n      \"artistName\": \"The Left Banke\"\n    },\n    {\n      \"artistID\": \"GMGZZX800001B99\",\n      \"artistName\": \"The Association\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000000XR\",\n      \"artistName\": \"The Who\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000001N1\",\n      \"artistName\": \"The Rascals\"\n    },\n    {\n      \"artistID\": \"GMGZZX80000009J\",\n      \"artistName\": \"The Animals\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000NCG\",\n      \"artistName\": \"Tony Sheridan & The Beatles\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000VQ9\",\n      \"artistName\": \"Cilla Black\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000001XE\",\n      \"artistName\": \"Small Faces\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000N8W\",\n      \"artistName\": \"The Beau Brummels\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000J3R\",\n      \"artistName\": \"The Monkees\"\n    },\n    {\n      \"artistID\": \"GMGZZX8000000T7\",\n      \"artistName\": \"The Byrds\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000MH4\",\n      \"artistName\": \"The Swinging Blue Jeans\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000YJE\",\n      \"artistName\": \"Badfinger\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000PL6\",\n      \"artistName\": \"The Dave Clark Five\"\n    },\n    {\n      \"artistID\": \"GMGZZX80000022E\",\n      \"artistName\": \"Manfred Mann\"\n    },\n    {\n      \"artistID\": \"GMGZZX800000QL1\",\n      \"artistName\": \"The Knickerbockers\"\n    }\n  ],\n  \"sortName\": \"Beatles\"\n}\n"
-    NameObject:
-      title: name object
-      type: object
+    ArtistShort:
+      title: artist
+      type:
+      - object
+      - 'null'
       additionalProperties: false
       properties:
-        name:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          nullable: false
+          type: string
+          description: Artist Name
+      required:
+      - artistID
+      - artistName
+    DescriptorObject_2:
+      nullable: false
+      title: descriptor object
+      type: array
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            type: string
+            enum:
+            - artistTypes
+            - eras
+            - genres
+            - languages
+            - moods
+            - origins
+            - styles
+            - tempos
+          weight:
+            type: integer
+          hierarchy:
+            nullable: false
+            type: array
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                label:
+                  nullable: false
+                  type: string
+                descriptorID:
+                  nullable: false
+                  type: string
+                level:
+                  type: integer
+        required:
+        - type
+        - weight
+        - hierarchy
+    PopularityData:
+      title: popularity data
+      description: 'Popularity score is on a scale of 0 to 1, with a resolution out to 5 decimal places, which is derived
+
+        from a proprietary blend of signals and indicates the relative All-Time, or Recent popularity of Artists
+
+        and Recordings.
+
+        Only visible to Customers with Popularity Add On
+
+        '
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        overall:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/PopularityObject'
+        audio:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/PopularityObject'
+        video:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/PopularityObject'
+      required:
+      - overall
+      - audio
+      - video
+    PopularAlbumEditionImagesObject:
+      title: popular album edition image data
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        albumImages:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+      - albumImages
+    PopularAlbumEditionObject:
+      title: popular album edition data
+      description: 'The popular album edition of an artist. Only visible to Customers with GMD artist-enhanced-image add on.
+
+        '
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      properties:
+        albumEditionID:
           type: string
           nullable: false
-        languageContext:
+        albumEditionName:
+          type: string
           nullable: false
-          type: object
-          description: The language contexts of the name. Only visible to Customers with GMD Discovery/Advanced Discovery package and above
-          items:
-            $ref: '#/components/schemas/LanguageContext_2'
+        images:
+          $ref: '#/components/schemas/PopularAlbumEditionImagesObject'
       required:
-      - name
+      - albumEditionID
+      - albumEditionName
     Asset:
       title: image asset
       type: object
@@ -852,27 +959,82 @@ components:
       - height
       - width
       - url
-    PopularAlbumEditionObject:
-      title: popular album edition data
-      description: 'The popular album edition of an artist. Only visible to Customers with GMD artist-enhanced-image add on.
-
-        '
-      type:
-      - object
-      - 'null'
+    PopularityObject:
+      title: regional popularity
+      nullable: false
+      type: object
       additionalProperties: false
       properties:
-        albumEditionID:
-          type: string
+        region:
           nullable: false
-        albumEditionName:
           type: string
-          nullable: false
-        images:
-          $ref: '#/components/schemas/PopularAlbumEditionImagesObject'
+        oneYear:
+          type:
+          - number
+          - 'null'
+        oneMonth:
+          type:
+          - number
+          - 'null'
       required:
-      - albumEditionID
-      - albumEditionName
+      - region
+      - oneYear
+      - oneMonth
+    ArtistShortWithOrd:
+      title: artist
+      type: object
+      additionalProperties: false
+      properties:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          nullable: false
+          type: string
+          description: Artist Name
+        ord:
+          type: integer
+          description: Group members are ordered according to their relevance.
+      required:
+      - artistID
+      - artistName
+      - ord
+    Image_2:
+      title: image
+      type: object
+      additionalProperties: false
+      properties:
+        imageType:
+          type: string
+          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
+          enum:
+          - artistImage-promotional
+          - artistImage-inPerformance
+          - artistImage-redCarpet
+          - artistImage-other
+          - artistImage-headshot
+          - artistImage-iconic
+          - artistImage-backdrop
+          - coverArt
+        imageID:
+          type: string
+          nullable: false
+        preferred:
+          type: string
+          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
+          enum:
+          - 'true'
+          - 'false'
+        assets:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+      - imageType
+      - imageID
+      - assets
     ResponseMeta_2:
       title: meta object
       type: object
@@ -912,119 +1074,6 @@ components:
         references:
           genreList: GENRES-US-DETAILED
           displayLanguage: en
-    ErrorResponse_2:
-      title: error response
-      type: object
-      additionalProperties: false
-      nullable: false
-      properties:
-        status:
-          type: integer
-          nullable: false
-        error:
-          type: string
-          nullable: false
-          enum:
-          - page_not_found
-          - resource_not_found
-          - invalid_query_parameter_key
-          - invalid_query_parameter_value
-          - missing_query_parameter_key
-          - resource_type_error
-          - internal_server_error
-          - unauthorized_invalid_api_key
-          - unauthorized_missing_api_key
-          - missing_api_key
-          - rate_limit_exceeded
-          - missing_entitlement
-        description:
-          type: string
-          nullable: false
-      required:
-      - status
-      - error
-      - description
-    AlternateNameObject:
-      title: alternate name object
-      type: object
-      additionalProperties: false
-      properties:
-        artistName:
-          type: string
-          nullable: false
-        languageContext:
-          nullable: false
-          type: object
-          description: The language contexts of the name. Only visible to Customers with GMD Discovery/Advanced Discovery package and above
-          items:
-            $ref: '#/components/schemas/LanguageContext_2'
-      required:
-      - artistName
-    LanguageContext_2:
-      type:
-      - object
-      - 'null'
-      additionalProperties: false
-      properties:
-        language:
-          type:
-          - string
-          - 'null'
-        script:
-          type:
-          - string
-          - 'null'
-      required:
-      - language
-      - script
-    PopularAlbumEditionImagesObject:
-      title: popular album edition image data
-      type: object
-      additionalProperties: false
-      nullable: false
-      properties:
-        albumImages:
-          type: array
-          nullable: false
-          items:
-            $ref: '#/components/schemas/Asset'
-      required:
-      - albumImages
-    Image_2:
-      title: image
-      type: object
-      additionalProperties: false
-      properties:
-        imageType:
-          type: string
-          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
-          enum:
-          - artistImage-promotional
-          - artistImage-inPerformance
-          - artistImage-redCarpet
-          - artistImage-other
-          - artistImage-headshot
-          - artistImage-iconic
-          - artistImage-backdrop
-          - coverArt
-        imageID:
-          type: string
-          nullable: false
-        preferred:
-          type: string
-          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
-          enum:
-          - 'true'
-          - 'false'
-        assets:
-          type: array
-          nullable: false
-          items:
-            $ref: '#/components/schemas/Asset'
-      required:
-      - imageType
-      - imageID
-      - assets
   parameters:
     offset:
       name: offset
@@ -1033,77 +1082,6 @@ components:
       schema:
         type: integer
         default: 0
-    limit:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 10,000.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 10000
-        default: 100
-    genreCategories:
-      name: genreCategories
-      in: query
-      required: false
-      description: Select a genre categories according to the desired region and specificity.
-      schema:
-        type: string
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-    ids:
-      name: ids
-      in: query
-      required: true
-      description: Comma seperated list of ids (max 100)
-      schema:
-        type: string
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-    artistIDType:
-      name: idType
-      in: path
-      required: true
-      description: ID Type
-      schema:
-        type: string
-        enum:
-        - gnid
-        - tms-music-party-id
-        - spotify-artist-id
-    artistName:
-      name: artistName
-      in: query
-      description: Artist name
-      required: true
-      schema:
-        type: string
-      examples:
-        default:
-          value: Lil Nas X
     categoriesLanguage:
       name: categoriesLanguage
       in: query
@@ -1143,6 +1121,77 @@ components:
         - th
         - tr
         - vi
+    limit:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 10,000.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 10000
+        default: 100
+    artistIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - gnid
+        - tms-music-party-id
+        - spotify-artist-id
+    artistName:
+      name: artistName
+      in: query
+      description: Artist name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Lil Nas X
+    genreCategories:
+      name: genreCategories
+      in: query
+      required: false
+      description: Select a genre categories according to the desired region and specificity.
+      schema:
+        type: string
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    ids:
+      name: ids
+      in: query
+      required: true
+      description: Comma seperated list of ids (max 100)
+      schema:
+        type: string
     popularityRegion:
       name: popularityRegion
       in: query
@@ -1203,6 +1252,34 @@ components:
         - US
         - VN
         - ZA
+    genreIDs:
+      name: genreIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    artistIDs:
+      name: artistIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      schema:
+        type: string
+    originIDs:
+      name: originIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote origin descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    ids_2:
+      name: ids
+      in: query
+      required: true
+      description: Comma separated list of ids (max 100)
+      schema:
+        type: string
     languageIDs:
       name: languageIDs
       in: query
@@ -1221,17 +1298,15 @@ components:
         type: integer
         default: 0
         maximum: 25000
-    idTypeArtists:
-      name: idType
+    limit_2:
+      name: limit
       in: query
-      required: true
-      description: Type of the IDs specified in the 'ids' parameter. For externalID lookups, use the `source` value of the associated ID for the `type` parameter.
+      description: Limit the number of results between 1 and 25.
       schema:
-        type: string
-        enum:
-        - artistID
-        - personID
-        - - externalID source strings
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 10
     sortArtists:
       name: sort
       in: query
@@ -1243,55 +1318,6 @@ components:
         - -popularityOneMonth
         - -popularityOneYear
         - -weight
-    genreList:
-      name: genreList
-      in: query
-      required: false
-      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
-      schema:
-        type: string
-        default: GENRES-GLOBAL-DETAILED
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-    originIDs:
-      name: originIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote origin descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    limit_2:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 25.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 25
-        default: 10
-    eraIDs:
-      name: eraIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote era descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
     displayLanguage:
       name: displayLanguage
       in: query
@@ -1332,18 +1358,11 @@ components:
         - th
         - tr
         - vi
-    artistTypeIDs:
-      name: artistTypeIDs
+    eraIDs:
+      name: eraIDs
       in: query
       required: false
-      description: Comma separated list of Gracenote artist type descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    ids_2:
-      name: ids
-      in: query
-      required: true
-      description: Comma separated list of ids (max 100)
+      description: Comma separated list of Gracenote era descriptorIDs for filtering results (max 5)
       schema:
         type: string
     includeRelatedArtists:
@@ -1367,69 +1386,50 @@ components:
           - collaborationMembers
           - omitSeedArtists
         default: none
-    artistIDs:
-      name: artistIDs
+    idTypeArtists:
+      name: idType
       in: query
-      required: false
-      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      required: true
+      description: Type of the IDs specified in the 'ids' parameter. For externalID lookups, use the `source` value of the associated ID for the `type` parameter.
       schema:
         type: string
-    genreIDs:
-      name: genreIDs
+        enum:
+        - artistID
+        - personID
+        - - externalID source strings
+    genreList:
+      name: genreList
       in: query
       required: false
-      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
       schema:
         type: string
-  responses:
-    ErrorResponse400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: explicitLanguage must be of type boolean.'
-    ErrorResponse404:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
-    ErrorResponse400_2:
-      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: includeAllEditions must be of type boolean.'
-    ErrorResponse404_2:
-      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
+        default: GENRES-GLOBAL-DETAILED
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    artistTypeIDs:
+      name: artistTypeIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist type descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

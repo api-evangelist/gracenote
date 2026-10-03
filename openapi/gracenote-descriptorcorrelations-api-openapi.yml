@@ -98,21 +98,63 @@ paths:
       operationId: getDescriptorCorrelationsLookup
       x-operation-id-source: derived
 components:
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    idTypeCorrelations:
+      name: idType
+      in: query
+      required: true
+      description: Descriptor type
+      schema:
+        type: string
+        enum:
+        - genreID
+        - artistTypeID
+        - eraID
+        - originID
+        - moodID
+        - styleID
+    ids:
+      name: ids
+      in: query
+      required: true
+      description: Comma separated list of ids (max 100)
+      schema:
+        type: string
+  responses:
+    ErrorResponse400:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
   schemas:
-    CorrelationObject:
-      type: object
-      additionalProperties: false
-      properties:
-        descriptorID:
-          type: string
-        label:
-          type: string
-        correlationValue:
-          type: integer
-      required:
-      - descriptorID
-      - label
-      - correlationValue
     ErrorResponse:
       title: error response
       type: object
@@ -145,25 +187,6 @@ components:
       - status
       - error
       - description
-    DescriptorCorrelationsObject:
-      title: correlations object
-      type: object
-      additionalProperties: false
-      nullable: false
-      properties:
-        descriptorID:
-          type: string
-        descriptorType:
-          type: string
-        correlations:
-          nullable: false
-          type: array
-          items:
-            $ref: '#/components/schemas/CorrelationObject'
-      required:
-      - descriptorID
-      - descriptorType
-      - correlations
     ResponseMeta:
       title: meta object
       type: object
@@ -203,62 +226,39 @@ components:
         references:
           genreList: GENRES-US-DETAILED
           displayLanguage: en
-  responses:
-    ErrorResponse404:
-      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
-    ErrorResponse400:
-      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: includeAllEditions must be of type boolean.'
-  parameters:
-    idTypeCorrelations:
-      name: idType
-      in: query
-      required: true
-      description: Descriptor type
-      schema:
-        type: string
-        enum:
-        - genreID
-        - artistTypeID
-        - eraID
-        - originID
-        - moodID
-        - styleID
-    ids:
-      name: ids
-      in: query
-      required: true
-      description: Comma separated list of ids (max 100)
-      schema:
-        type: string
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
+    CorrelationObject:
+      type: object
+      additionalProperties: false
+      properties:
+        descriptorID:
+          type: string
+        label:
+          type: string
+        correlationValue:
+          type: integer
+      required:
+      - descriptorID
+      - label
+      - correlationValue
+    DescriptorCorrelationsObject:
+      title: correlations object
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        descriptorID:
+          type: string
+        descriptorType:
+          type: string
+        correlations:
+          nullable: false
+          type: array
+          items:
+            $ref: '#/components/schemas/CorrelationObject'
+      required:
+      - descriptorID
+      - descriptorType
+      - correlations
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

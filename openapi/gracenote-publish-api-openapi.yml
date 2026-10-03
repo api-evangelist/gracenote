@@ -677,41 +677,10 @@ paths:
       - $ref: '#/components/parameters/apiKeyParam'
 components:
   schemas:
-    MappingInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID contains the tmsID that the presentation is mapped to.
-
-            This can be either user-provided ID or a gracenote mapped ID.'
-        origin:
-          type: string
-          description: 'The possible values fr origin are sourceProvided and gracenote.
-
-            If the user-provided TmsID is used, the origin is sourceProvided.
-
-            If a gracenote provided TmsID is used, or if gracenote replaces the
-
-            user-provided TmsID, gracenote is used.'
-        type:
-          type: string
-          description: 'Type describes the type of ID that was used for mapping the presentation.
-
-            Currently, only tmsID is supported.'
-      description: 'MappingInfo contains information about how the
-
-        TmsID was determined for the presentation.'
-    FieldError:
-      type: object
-      properties:
-        error:
-          type: string
-        field:
-          type: string
-        level:
-          type: string
-      description: FieldError is used to indicate an error with a specific request field
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
     PublishResponse:
       type: object
       properties:
@@ -721,233 +690,6 @@ components:
             $ref: '#/components/schemas/PublishedProgram'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
-    AspectRatio:
-      title: AspectRatio defines aspect ratio values which are known to conform.
-      type: string
-      description: Custom aspect ratios may be used, but they will never conform.
-    Name:
-      required:
-      - first
-      type: object
-      properties:
-        first:
-          type: string
-          description: The first name of the member.
-        last:
-          type: string
-          description: The last name of the member.
-        middle:
-          type: string
-          description: The middle name of the member.
-        prefix:
-          type: string
-          description: The prefix of the member's name.
-        suffix:
-          type: string
-          description: The suffix of the member's name.
-      description: 'Name contains the components of the full name
-
-        of a crew or cast member.'
-    PublishInput:
-      type: object
-      properties:
-        forceCreate:
-          type: boolean
-          description: 'A flag to force create a new TMS ID for the program,
-
-            only applicable if the program is being published for the first time.'
-        gnID:
-          type: string
-          description: The GracenoteID of the program to publish
-        mapping:
-          $ref: '#/components/schemas/Mapping'
-      description: PublishInput represents the input required for publishing a presentation
-    FieldErrors:
-      type: array
-      description: FieldErrors represents a collection of field errors
-      items:
-        $ref: '#/components/schemas/FieldError'
-    Cast:
-      description: Cast is an individual who performed in a production
-      required:
-      - name
-      - order
-      - role
-      type: object
-      properties:
-        aka:
-          $ref: '#/components/schemas/Name'
-        name:
-          $ref: '#/components/schemas/Name'
-        order:
-          minimum: 1
-          type: integer
-          description: 'Order in which the cast member appears on the billing. Must be unique
-
-            per program and cannot be negative or zero.'
-          format: int64
-          examples:
-          - 1
-        character:
-          type: string
-          description: Character is the name of the cast member's portrayed character.
-        role:
-          type: string
-          description: 'Role defines the cast member''s credited contribution.
-
-            Defined by the Gracenote Vocabulary.'
-    Category:
-      title: Category defines known categorical image types may conform.
-      type: string
-      description: Custom categories may be used, but they will not be conforming.
-    ExternalIDs:
-      type: array
-      description: ExternalIDs is a convenience alias on a slice of ExternalID types
-      items:
-        $ref: '#/components/schemas/ExternalID'
-    Dimensions:
-      required:
-      - aspectRatio
-      - height
-      - width
-      type: object
-      properties:
-        aspectRatio:
-          $ref: '#/components/schemas/AspectRatio'
-        height:
-          maximum: 32767
-          type: integer
-          description: The pixel height of the image.
-          format: int16
-        width:
-          maximum: 32767
-          type: integer
-          description: The pixel width of the image.
-          format: int16
-      description: Dimensions represents the dimensions of an Image
-    Rating:
-      required:
-      - ratingBody
-      type: object
-      properties:
-        advisories:
-          type: array
-          description: 'Content advisories that should be attached to the presentation.
-
-            Free form entry. Reference the GN Vocabulary for suggested advisories.'
-          items:
-            type: string
-          examples:
-          - - contains strong language
-        notYetRated:
-          type: boolean
-          description: When true, indicates that the presentation is yet to be rated.
-        rating:
-          type: string
-          description: 'The assigned rating value as determined by the rating body.
-
-            Required if ratingBody & notYetRated are false.'
-          examples:
-          - PG-13
-        ratingBody:
-          type: string
-          description: The rating body responsible for assigning ratings.
-          examples:
-          - MPAA
-        ratingExempt:
-          type: boolean
-          description: 'When set to true, indicates that the presentation is exempt from and
-
-            will not receive ratings.'
-      description: Rating represents a rating of a program as assigned by a rating body
-    Descriptions:
-      title: Descriptions is an array of Description types
-      type: array
-      description: A maximum of 10 descriptions can be assigned to a program
-      items:
-        $ref: '#/components/schemas/Description'
-    Crew:
-      description: 'Crew is a member who was part of
-
-        a program''s production crew.'
-      required:
-      - name
-      - order
-      - type
-      type: object
-      properties:
-        aka:
-          $ref: '#/components/schemas/Name'
-        name:
-          $ref: '#/components/schemas/Name'
-        order:
-          minimum: 1
-          type: integer
-          description: 'Order in which the cast member appears on the billing. Must be unique
-
-            per program and cannot be negative or zero.'
-          format: int64
-          examples:
-          - 1
-        type:
-          type: string
-          description: 'Type describes the role or "crew type" of the crew member.
-
-            Defined by the Gracenote Vocabulary.'
-    Mapping:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID represents user provided tmsID
-        type:
-          type: string
-          description: Type of the ID. It must be one of the types available in userMappingIDTypes in GN Vocab.
-      description: UserMapping Mapping represents the input required for issuing a self mapped publish for a Presentation
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
     PublishedProgram:
       type: object
       properties:
@@ -1680,41 +1422,251 @@ components:
             type: string
           examples:
           - - GNLZZZ300000000
-    BulkPublishInput:
-      type: object
-      properties:
-        publishables:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublishInput'
-      description: BulkPublishInput represents a list of publishables(presentations) required for publishing together
-    ExternalID:
+    Crew:
+      description: 'Crew is a member who was part of
+
+        a program''s production crew.'
       required:
-      - id
-      - isPrimary
+      - name
+      - order
+      - type
       type: object
       properties:
-        id:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        type:
           type: string
-          description: id is the external identifier.
-        isPrimary:
-          type: boolean
-          description: 'indicates that the external ID is the primary ID
+          description: 'Type describes the role or "crew type" of the crew member.
 
-            used to identify the program external to Gracenote.
-
-            Exactly one primary external ID is allowed (and required) per program.'
-        isProvider:
-          type: boolean
-          description: 'indicates that the source provider uses this ID as
-
-            their internal ID for the program. Exactly one provider
-
-            external ID is allowed per program.'
-        label:
+            Defined by the Gracenote Vocabulary.'
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
           type: string
-          description: label is a tag to describe the identifier.
-      description: ExternalID is an external (to Gracenote) identifier of the program
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    FieldError:
+      type: object
+      properties:
+        error:
+          type: string
+        field:
+          type: string
+        level:
+          type: string
+      description: FieldError is used to indicate an error with a specific request field
+    ExternalIDs:
+      type: array
+      description: ExternalIDs is a convenience alias on a slice of ExternalID types
+      items:
+        $ref: '#/components/schemas/ExternalID'
+    FieldErrors:
+      type: array
+      description: FieldErrors represents a collection of field errors
+      items:
+        $ref: '#/components/schemas/FieldError'
+    Cast:
+      description: Cast is an individual who performed in a production
+      required:
+      - name
+      - order
+      - role
+      type: object
+      properties:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
+          type: integer
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
+          format: int64
+          examples:
+          - 1
+        character:
+          type: string
+          description: Character is the name of the cast member's portrayed character.
+        role:
+          type: string
+          description: 'Role defines the cast member''s credited contribution.
+
+            Defined by the Gracenote Vocabulary.'
+    Dimensions:
+      required:
+      - aspectRatio
+      - height
+      - width
+      type: object
+      properties:
+        aspectRatio:
+          $ref: '#/components/schemas/AspectRatio'
+        height:
+          maximum: 32767
+          type: integer
+          description: The pixel height of the image.
+          format: int16
+        width:
+          maximum: 32767
+          type: integer
+          description: The pixel width of the image.
+          format: int16
+      description: Dimensions represents the dimensions of an Image
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    PublishInput:
+      type: object
+      properties:
+        forceCreate:
+          type: boolean
+          description: 'A flag to force create a new TMS ID for the program,
+
+            only applicable if the program is being published for the first time.'
+        gnID:
+          type: string
+          description: The GracenoteID of the program to publish
+        mapping:
+          $ref: '#/components/schemas/Mapping'
+      description: PublishInput represents the input required for publishing a presentation
+    Descriptions:
+      title: Descriptions is an array of Description types
+      type: array
+      description: A maximum of 10 descriptions can be assigned to a program
+      items:
+        $ref: '#/components/schemas/Description'
+    Name:
+      required:
+      - first
+      type: object
+      properties:
+        first:
+          type: string
+          description: The first name of the member.
+        last:
+          type: string
+          description: The last name of the member.
+        middle:
+          type: string
+          description: The middle name of the member.
+        prefix:
+          type: string
+          description: The prefix of the member's name.
+        suffix:
+          type: string
+          description: The suffix of the member's name.
+      description: 'Name contains the components of the full name
+
+        of a crew or cast member.'
+    AspectRatio:
+      title: AspectRatio defines aspect ratio values which are known to conform.
+      type: string
+      description: Custom aspect ratios may be used, but they will never conform.
+    Rating:
+      required:
+      - ratingBody
+      type: object
+      properties:
+        advisories:
+          type: array
+          description: 'Content advisories that should be attached to the presentation.
+
+            Free form entry. Reference the GN Vocabulary for suggested advisories.'
+          items:
+            type: string
+          examples:
+          - - contains strong language
+        notYetRated:
+          type: boolean
+          description: When true, indicates that the presentation is yet to be rated.
+        rating:
+          type: string
+          description: 'The assigned rating value as determined by the rating body.
+
+            Required if ratingBody & notYetRated are false.'
+          examples:
+          - PG-13
+        ratingBody:
+          type: string
+          description: The rating body responsible for assigning ratings.
+          examples:
+          - MPAA
+        ratingExempt:
+          type: boolean
+          description: 'When set to true, indicates that the presentation is exempt from and
+
+            will not receive ratings.'
+      description: Rating represents a rating of a program as assigned by a rating body
+    Description:
+      required:
+      - language
+      - length
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'Language of the description''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
+
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
+          type: string
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
     Image:
       description: Image represents the metadata describing a source provided image
       required:
@@ -1823,28 +1775,76 @@ components:
           type: string
           description: The time at which the image was last updated in system.
           readOnly: true
-    Description:
-      required:
-      - language
-      - length
-      - value
+    Mapping:
       type: object
       properties:
-        language:
+        id:
           type: string
-          description: 'Language of the description''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        length:
-          type: integer
-          description: 'Length defines the maximum number of characters that can be used in a description.
-
-            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
-          format: int64
-        value:
+          description: ID represents user provided tmsID
+        type:
           type: string
-          description: Value is the raw text description of a program.
-      description: Description is a set of fields that describe a program
+          description: Type of the ID. It must be one of the types available in userMappingIDTypes in GN Vocab.
+      description: UserMapping Mapping represents the input required for issuing a self mapped publish for a Presentation
+    MappingInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+    BulkPublishInput:
+      type: object
+      properties:
+        publishables:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishInput'
+      description: BulkPublishInput represents a list of publishables(presentations) required for publishing together
+    ExternalID:
+      required:
+      - id
+      - isPrimary
+      type: object
+      properties:
+        id:
+          type: string
+          description: id is the external identifier.
+        isPrimary:
+          type: boolean
+          description: 'indicates that the external ID is the primary ID
+
+            used to identify the program external to Gracenote.
+
+            Exactly one primary external ID is allowed (and required) per program.'
+        isProvider:
+          type: boolean
+          description: 'indicates that the source provider uses this ID as
+
+            their internal ID for the program. Exactly one provider
+
+            external ID is allowed per program.'
+        label:
+          type: string
+          description: label is a tag to describe the identifier.
+      description: ExternalID is an external (to Gracenote) identifier of the program
   parameters:
     apiKeyParam:
       name: GN-APIKEY
