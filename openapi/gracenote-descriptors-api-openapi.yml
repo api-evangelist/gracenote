@@ -116,51 +116,7 @@ paths:
       operationId: getDescriptorCorrelationsByDescriptorType
       x-operation-id-source: derived
 components:
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-    condensedDescriptorType:
-      name: descriptorType
-      in: path
-      required: true
-      description: Gracenote descriptor type.
-      schema:
-        type: string
-        enum:
-        - eras
-        - moods
-        - styles
-        - tempos
-        - artistTypes
-        - genres
-        - origins
-    categoryIds:
-      name: ids
-      in: query
-      required: true
-      description: Comma seperated list of category ids (max 100)
-      schema:
-        type: string
   responses:
-    ErrorResponse400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: explicitLanguage must be of type boolean.'
     ErrorResponse404:
       description: Not Found
       content:
@@ -173,7 +129,59 @@ components:
                 status: 404
                 error: resource_not_found
                 description: Parameter given is not found.
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
   schemas:
+    CorrelationObject:
+      type: object
+      properties:
+        ID:
+          type: string
+        name:
+          type: string
+        correlationValue:
+          type: integer
+        links:
+          type: object
+          properties:
+            descriptorCorrelations:
+              description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
+              type: string
+    ResponseMeta:
+      type: object
+      nullable: false
+      additionalProperties: false
+      properties:
+        total:
+          type: integer
+          nullable: false
+        count:
+          type: integer
+          nullable: false
+        offset:
+          type: integer
+          nullable: false
+        references:
+          type: object
+          properties:
+            genreCategories:
+              type: string
+            categoriesLanguage:
+              type: string
+      required:
+      - total
+      - count
+      - offset
     DescriptorCorrelationObject:
       type: object
       properties:
@@ -203,43 +211,35 @@ components:
       - status
       - error
       - description
-    ResponseMeta:
-      type: object
-      nullable: false
-      additionalProperties: false
-      properties:
-        total:
-          type: integer
-          nullable: false
-        count:
-          type: integer
-          nullable: false
-        offset:
-          type: integer
-          nullable: false
-        references:
-          type: object
-          properties:
-            genreCategories:
-              type: string
-            categoriesLanguage:
-              type: string
-      required:
-      - total
-      - count
-      - offset
-    CorrelationObject:
-      type: object
-      properties:
-        ID:
-          type: string
-        name:
-          type: string
-        correlationValue:
-          type: integer
-        links:
-          type: object
-          properties:
-            descriptorCorrelations:
-              description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
-              type: string
+  parameters:
+    categoryIds:
+      name: ids
+      in: query
+      required: true
+      description: Comma seperated list of category ids (max 100)
+      schema:
+        type: string
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    condensedDescriptorType:
+      name: descriptorType
+      in: path
+      required: true
+      description: Gracenote descriptor type.
+      schema:
+        type: string
+        enum:
+        - eras
+        - moods
+        - styles
+        - tempos
+        - artistTypes
+        - genres
+        - origins

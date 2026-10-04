@@ -860,6 +860,13 @@ components:
           type: string
           description: The timestamp when Export was last updated.
           readOnly: true
+    ExportResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Export'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     ExportsResponse:
       type: object
       properties:
@@ -874,13 +881,6 @@ components:
       type: object
       additionalProperties:
         type: string
-    ExportResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Export'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     NewExport:
       title: NewExport contains the required fields for creating a new export.
       type: object

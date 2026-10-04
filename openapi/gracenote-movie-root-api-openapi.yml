@@ -749,16 +749,6 @@ paths:
       security:
       - api_key: []
 components:
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
   schemas:
     MetaResponse:
       required:
@@ -787,6 +777,67 @@ components:
           description: Total is the total number of hits on a query before pagination.
           format: int64
       description: MetaResponse describes response data
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    MovieRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MovieRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedMovieRoot:
+      description: DeletedRoot represents the root of a deleted movie
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        versions:
+          type: array
+          description: The Gracenote ID of the deleted program versions.
+          items:
+            $ref: '#/components/schemas/DeletedVersion'
+          examples:
+          - - GNLZZXZ00000000
+    NewMovieRoot:
+      title: NewRoot represents the fields required for creating a root of a movie.
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - featureFilm
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - movie
     MovieRoot:
       title: Root represents the root of a movie.
       required:
@@ -825,6 +876,21 @@ components:
           readOnly: true
           items:
             type: string
+    UpdateMovieRoot:
+      title: UpdateRoot represents the fields required for updating a root of a movie.
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+    DeletedMovieRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedMovieRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     DeletedVersion:
       description: DeletedVersion represents the version of a deleted entity
       type: object
@@ -840,82 +906,16 @@ components:
           description: The GnID of the version's parent root.
           examples:
           - GNLZZZ300000000
-    DeletedMovieRoot:
-      description: DeletedRoot represents the root of a deleted movie
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        versions:
-          type: array
-          description: The Gracenote ID of the deleted program versions.
-          items:
-            $ref: '#/components/schemas/DeletedVersion'
-          examples:
-          - - GNLZZXZ00000000
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
-    UpdateMovieRoot:
-      title: UpdateRoot represents the fields required for updating a root of a movie.
-      required:
-      - title
-      type: object
-      properties:
-        title:
-          $ref: '#/components/schemas/Title'
-    NewMovieRoot:
-      title: NewRoot represents the fields required for creating a root of a movie.
-      required:
-      - title
-      - subType
-      type: object
-      properties:
-        title:
-          $ref: '#/components/schemas/Title'
-        subType:
-          type: string
-          description: The high-level type of the program.
-          examples:
-          - featureFilm
-        type:
-          type: string
-          description: The high-level type of the program.
-          readOnly: true
-          examples:
-          - movie
-    DeletedMovieRootResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedMovieRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    MovieRootResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/MovieRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   securitySchemes:
     api_key:
       type: apiKey

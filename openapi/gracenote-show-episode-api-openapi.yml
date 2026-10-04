@@ -899,50 +899,19 @@ paths:
       - api_key: []
 components:
   schemas:
-    EpisodeResponse:
+    DeletedEpisode:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/Episode'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    EpisodesResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Episode'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    Crew:
-      description: 'Crew is a member who was part of
-
-        a program''s production crew.'
-      required:
-      - name
-      - order
-      - type
-      type: object
-      properties:
-        aka:
-          $ref: '#/components/schemas/Name'
-        name:
-          $ref: '#/components/schemas/Name'
-        order:
-          minimum: 1
-          type: integer
-          description: 'Order in which the cast member appears on the billing. Must be unique
-
-            per program and cannot be negative or zero.'
-          format: int64
-          examples:
-          - 1
-        type:
+        gnID:
           type: string
-          description: 'Type describes the role or "crew type" of the crew member.
-
-            Defined by the Gracenote Vocabulary.'
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000001
+        seasonGnID:
+          type: string
+          description: The Gracenote ID of the episode's parent season.
+      description: DeletedEpisode reports the gnID of an episode and its parent Season
     Title:
       required:
       - language
@@ -960,26 +929,131 @@ components:
       description: 'Title holds information about
 
         a program''s title.'
-    FieldError:
+    EpisodeResponse:
       type: object
       properties:
-        error:
+        data:
+          $ref: '#/components/schemas/Episode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    ExternalID:
+      required:
+      - id
+      - isPrimary
+      type: object
+      properties:
+        id:
           type: string
-        field:
+          description: id is the external identifier.
+        isPrimary:
+          type: boolean
+          description: 'indicates that the external ID is the primary ID
+
+            used to identify the program external to Gracenote.
+
+            Exactly one primary external ID is allowed (and required) per program.'
+        isProvider:
+          type: boolean
+          description: 'indicates that the source provider uses this ID as
+
+            their internal ID for the program. Exactly one provider
+
+            external ID is allowed per program.'
+        label:
           type: string
-        level:
+          description: label is a tag to describe the identifier.
+      description: ExternalID is an external (to Gracenote) identifier of the program
+    MappingInfo:
+      type: object
+      properties:
+        id:
           type: string
-      description: FieldError is used to indicate an error with a specific request field
-    ExternalIDs:
-      type: array
-      description: ExternalIDs is a convenience alias on a slice of ExternalID types
-      items:
-        $ref: '#/components/schemas/ExternalID'
-    FieldErrors:
-      type: array
-      description: FieldErrors represents a collection of field errors
-      items:
-        $ref: '#/components/schemas/FieldError'
+          description: 'ID contains the tmsID that the presentation is mapped to.
+
+            This can be either user-provided ID or a gracenote mapped ID.'
+        origin:
+          type: string
+          description: 'The possible values fr origin are sourceProvided and gracenote.
+
+            If the user-provided TmsID is used, the origin is sourceProvided.
+
+            If a gracenote provided TmsID is used, or if gracenote replaces the
+
+            user-provided TmsID, gracenote is used.'
+        type:
+          type: string
+          description: 'Type describes the type of ID that was used for mapping the presentation.
+
+            Currently, only tmsID is supported.'
+      description: 'MappingInfo contains information about how the
+
+        TmsID was determined for the presentation.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    Name:
+      required:
+      - first
+      type: object
+      properties:
+        first:
+          type: string
+          description: The first name of the member.
+        last:
+          type: string
+          description: The last name of the member.
+        middle:
+          type: string
+          description: The middle name of the member.
+        prefix:
+          type: string
+          description: The prefix of the member's name.
+        suffix:
+          type: string
+          description: The suffix of the member's name.
+      description: 'Name contains the components of the full name
+
+        of a crew or cast member.'
+    DeletedEpisodeResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedEpisode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    EpisodesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     Cast:
       description: Cast is an individual who performed in a production
       required:
@@ -1009,33 +1083,41 @@ components:
           description: 'Role defines the cast member''s credited contribution.
 
             Defined by the Gracenote Vocabulary.'
-    MetaResponse:
+    Rating:
       required:
-      - rayID
+      - ratingBody
       type: object
       properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
+        advisories:
+          type: array
+          description: 'Content advisories that should be attached to the presentation.
 
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
+            Free form entry. Reference the GN Vocabulary for suggested advisories.'
+          items:
+            type: string
+          examples:
+          - - contains strong language
+        notYetRated:
+          type: boolean
+          description: When true, indicates that the presentation is yet to be rated.
+        rating:
+          type: string
+          description: 'The assigned rating value as determined by the rating body.
+
+            Required if ratingBody & notYetRated are false.'
+          examples:
+          - PG-13
+        ratingBody:
+          type: string
+          description: The rating body responsible for assigning ratings.
+          examples:
+          - MPAA
+        ratingExempt:
+          type: boolean
+          description: 'When set to true, indicates that the presentation is exempt from and
+
+            will not receive ratings.'
+      description: Rating represents a rating of a program as assigned by a rating body
     Episode:
       description: Episode represents an episode of a season
       required:
@@ -1270,222 +1352,49 @@ components:
           readOnly: true
           items:
             type: string
-    Descriptions:
-      title: Descriptions is an array of Description types
+    ExternalIDs:
       type: array
-      description: A maximum of 10 descriptions can be assigned to a program
+      description: ExternalIDs is a convenience alias on a slice of ExternalID types
       items:
-        $ref: '#/components/schemas/Description'
-    Name:
+        $ref: '#/components/schemas/ExternalID'
+    Crew:
+      description: 'Crew is a member who was part of
+
+        a program''s production crew.'
       required:
-      - first
+      - name
+      - order
+      - type
       type: object
       properties:
-        first:
-          type: string
-          description: The first name of the member.
-        last:
-          type: string
-          description: The last name of the member.
-        middle:
-          type: string
-          description: The middle name of the member.
-        prefix:
-          type: string
-          description: The prefix of the member's name.
-        suffix:
-          type: string
-          description: The suffix of the member's name.
-      description: 'Name contains the components of the full name
-
-        of a crew or cast member.'
-    UpdateEpisode:
-      required:
-      - title
-      type: object
-      properties:
-        cast:
-          type: array
-          description: 'The cast of the presentation.
-
-
-            Each cast''s order field must be unique.'
-          items:
-            $ref: '#/components/schemas/Cast'
-        color:
-          type: string
-          description: 'The color of an episode.
-
-            See the Gracenote Vocabulary for valid color values.'
-        crew:
-          type: array
-          description: 'The crew of the presentation.
-
-
-            Each crew''s order field must be unique.'
-          items:
-            $ref: '#/components/schemas/Crew'
-        descriptions:
-          $ref: '#/components/schemas/Descriptions'
-        duration:
+        aka:
+          $ref: '#/components/schemas/Name'
+        name:
+          $ref: '#/components/schemas/Name'
+        order:
+          minimum: 1
           type: integer
-          description: The runtime duration (in milliseconds) of the episode.
+          description: 'Order in which the cast member appears on the billing. Must be unique
+
+            per program and cannot be negative or zero.'
           format: int64
-        episodeNumber:
+          examples:
+          - 1
+        type:
           type: string
-          description: The episode's number.
-          examples:
-          - '1'
-        externalIDs:
-          $ref: '#/components/schemas/ExternalIDs'
-        genres:
-          type: array
-          description: 'The applicable genres to the presentation.
+          description: 'Type describes the role or "crew type" of the crew member.
 
-
-            Genres are not required for creating an episode, but at least one is required
-
-            for publishing. Genres is a required for update when the episode is
-
-            in publishing/published state.'
-          items:
-            type: string
-          examples:
-          - - Fantasy
-            - Adventure
-        industryNetworkNumber:
-          type: string
-          description: The episode number provided by the original network.
-        industryNetworkSyndicated:
-          type: string
-          description: The official, original episode number as provided by the syndicator.
-        ordinal:
-          type: integer
-          description: The ordering of the episode
-          format: int64
-        originalSource:
-          type: string
-          description: 'The original source of the program (or network if
-
-            the program originated on a network).'
-          examples:
-          - Lifetime
-        partNumbers:
-          type: string
-          description: Textual part numbers.
-          examples:
-          - Part One
-        productionCompanies:
-          type: array
-          description: Any companies that have contributed in the production of the program.
-          items:
-            type: string
-          examples:
-          - - Newline
-        productionCountries:
-          type: array
-          description: 'Any countries that the program was produced in.
-
-            See the Gracenote Vocabulary for valid country codes.'
-          items:
-            type: string
-          examples:
-          - - CA
-        ratings:
-          type: array
-          description: The ratings for this presentation.
-          items:
-            $ref: '#/components/schemas/Rating'
-          examples:
-          - - advisories:
-              - contains strong language
-              rating: PG-13
-              ratingBody: MPAA
-        releaseDate:
-          type: string
-          description: 'The release date of the episode.
-
-
-            ReleaseDate is not required for creating an episode,
-
-            but it is required for publishing.
-
-            ReleaseDate is required for update when the episode is
-
-            in publishing/published state.'
-          format: date
-        targetAudience:
-          type: string
-          description: The primary demographic that the program is targeted towards.
-          examples:
-          - children
-        title:
-          $ref: '#/components/schemas/Title'
-      description: UpdateEpisode specifies the updatable fields of an Episode
-    DeletedEpisodeResponse:
+            Defined by the Gracenote Vocabulary.'
+    FieldError:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/DeletedEpisode'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    Rating:
-      required:
-      - ratingBody
-      type: object
-      properties:
-        advisories:
-          type: array
-          description: 'Content advisories that should be attached to the presentation.
-
-            Free form entry. Reference the GN Vocabulary for suggested advisories.'
-          items:
-            type: string
-          examples:
-          - - contains strong language
-        notYetRated:
-          type: boolean
-          description: When true, indicates that the presentation is yet to be rated.
-        rating:
+        error:
           type: string
-          description: 'The assigned rating value as determined by the rating body.
-
-            Required if ratingBody & notYetRated are false.'
-          examples:
-          - PG-13
-        ratingBody:
+        field:
           type: string
-          description: The rating body responsible for assigning ratings.
-          examples:
-          - MPAA
-        ratingExempt:
-          type: boolean
-          description: 'When set to true, indicates that the presentation is exempt from and
-
-            will not receive ratings.'
-      description: Rating represents a rating of a program as assigned by a rating body
-    Description:
-      required:
-      - language
-      - length
-      - value
-      type: object
-      properties:
-        language:
+        level:
           type: string
-          description: 'Language of the description''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        length:
-          type: integer
-          description: 'Length defines the maximum number of characters that can be used in a description.
-
-            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
-          format: int64
-        value:
-          type: string
-          description: Value is the raw text description of a program.
-      description: Description is a set of fields that describe a program
+      description: FieldError is used to indicate an error with a specific request field
     NewEpisode:
       description: NewEpisode represents the fields required for creating an episode of a show
       required:
@@ -1621,71 +1530,162 @@ components:
           readOnly: true
           examples:
           - episode
-    MappingInfo:
-      type: object
-      properties:
-        id:
-          type: string
-          description: 'ID contains the tmsID that the presentation is mapped to.
-
-            This can be either user-provided ID or a gracenote mapped ID.'
-        origin:
-          type: string
-          description: 'The possible values fr origin are sourceProvided and gracenote.
-
-            If the user-provided TmsID is used, the origin is sourceProvided.
-
-            If a gracenote provided TmsID is used, or if gracenote replaces the
-
-            user-provided TmsID, gracenote is used.'
-        type:
-          type: string
-          description: 'Type describes the type of ID that was used for mapping the presentation.
-
-            Currently, only tmsID is supported.'
-      description: 'MappingInfo contains information about how the
-
-        TmsID was determined for the presentation.'
-    ExternalID:
+    Descriptions:
+      title: Descriptions is an array of Description types
+      type: array
+      description: A maximum of 10 descriptions can be assigned to a program
+      items:
+        $ref: '#/components/schemas/Description'
+    FieldErrors:
+      type: array
+      description: FieldErrors represents a collection of field errors
+      items:
+        $ref: '#/components/schemas/FieldError'
+    Description:
       required:
-      - id
-      - isPrimary
+      - language
+      - length
+      - value
       type: object
       properties:
-        id:
+        language:
           type: string
-          description: id is the external identifier.
-        isPrimary:
-          type: boolean
-          description: 'indicates that the external ID is the primary ID
+          description: 'Language of the description''s text. User must be entitled to use the language.
 
-            used to identify the program external to Gracenote.
+            See the Gracenote Vocabulary for valid languages.'
+        length:
+          type: integer
+          description: 'Length defines the maximum number of characters that can be used in a description.
 
-            Exactly one primary external ID is allowed (and required) per program.'
-        isProvider:
-          type: boolean
-          description: 'indicates that the source provider uses this ID as
-
-            their internal ID for the program. Exactly one provider
-
-            external ID is allowed per program.'
-        label:
+            The value of the description must be less than or equal to the specified length from values 1 to 1000.'
+          format: int64
+        value:
           type: string
-          description: label is a tag to describe the identifier.
-      description: ExternalID is an external (to Gracenote) identifier of the program
-    DeletedEpisode:
+          description: Value is the raw text description of a program.
+      description: Description is a set of fields that describe a program
+    UpdateEpisode:
+      required:
+      - title
       type: object
       properties:
-        gnID:
+        cast:
+          type: array
+          description: 'The cast of the presentation.
+
+
+            Each cast''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Cast'
+        color:
           type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
+          description: 'The color of an episode.
+
+            See the Gracenote Vocabulary for valid color values.'
+        crew:
+          type: array
+          description: 'The crew of the presentation.
+
+
+            Each crew''s order field must be unique.'
+          items:
+            $ref: '#/components/schemas/Crew'
+        descriptions:
+          $ref: '#/components/schemas/Descriptions'
+        duration:
+          type: integer
+          description: The runtime duration (in milliseconds) of the episode.
+          format: int64
+        episodeNumber:
+          type: string
+          description: The episode's number.
           examples:
-          - GNLZZXZ00000001
-        seasonGnID:
+          - '1'
+        externalIDs:
+          $ref: '#/components/schemas/ExternalIDs'
+        genres:
+          type: array
+          description: 'The applicable genres to the presentation.
+
+
+            Genres are not required for creating an episode, but at least one is required
+
+            for publishing. Genres is a required for update when the episode is
+
+            in publishing/published state.'
+          items:
+            type: string
+          examples:
+          - - Fantasy
+            - Adventure
+        industryNetworkNumber:
           type: string
-          description: The Gracenote ID of the episode's parent season.
-      description: DeletedEpisode reports the gnID of an episode and its parent Season
+          description: The episode number provided by the original network.
+        industryNetworkSyndicated:
+          type: string
+          description: The official, original episode number as provided by the syndicator.
+        ordinal:
+          type: integer
+          description: The ordering of the episode
+          format: int64
+        originalSource:
+          type: string
+          description: 'The original source of the program (or network if
+
+            the program originated on a network).'
+          examples:
+          - Lifetime
+        partNumbers:
+          type: string
+          description: Textual part numbers.
+          examples:
+          - Part One
+        productionCompanies:
+          type: array
+          description: Any companies that have contributed in the production of the program.
+          items:
+            type: string
+          examples:
+          - - Newline
+        productionCountries:
+          type: array
+          description: 'Any countries that the program was produced in.
+
+            See the Gracenote Vocabulary for valid country codes.'
+          items:
+            type: string
+          examples:
+          - - CA
+        ratings:
+          type: array
+          description: The ratings for this presentation.
+          items:
+            $ref: '#/components/schemas/Rating'
+          examples:
+          - - advisories:
+              - contains strong language
+              rating: PG-13
+              ratingBody: MPAA
+        releaseDate:
+          type: string
+          description: 'The release date of the episode.
+
+
+            ReleaseDate is not required for creating an episode,
+
+            but it is required for publishing.
+
+            ReleaseDate is required for update when the episode is
+
+            in publishing/published state.'
+          format: date
+        targetAudience:
+          type: string
+          description: The primary demographic that the program is targeted towards.
+          examples:
+          - children
+        title:
+          $ref: '#/components/schemas/Title'
+      description: UpdateEpisode specifies the updatable fields of an Episode
   parameters:
     apiKeyParam:
       name: GN-APIKEY

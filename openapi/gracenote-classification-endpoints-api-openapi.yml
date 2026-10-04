@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Global Sports Data Lookup API v1 … … Classification……
+  title: Global Sports Data Lookup API v1 … … Classification………
   description: This page contains all Lookup API endpoints that are part of our Core Sports Data.
   version: '1'
 servers:
@@ -62,15 +62,6 @@ paths:
           description: Successful response
 components:
   parameters:
-    AcceptHeader:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        enum:
-        - application/json
-        default: application/json
     ApiKeyQuery:
       name: api_key
       in: query
@@ -113,3 +104,12 @@ components:
         - zh-CN
         - zh-HK
         default: en-GB
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+        default: application/json

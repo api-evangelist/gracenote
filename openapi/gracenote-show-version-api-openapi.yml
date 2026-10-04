@@ -921,16 +921,6 @@ paths:
       security:
       - api_key: []
 components:
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
   schemas:
     MetaResponse:
       required:
@@ -966,96 +956,19 @@ components:
           $ref: '#/components/schemas/DeletedShowVersion'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    ShowVersionResponse:
+    DeletedEpisode:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/ShowVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    ShowVersionsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShowVersion'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    UpdateShowVersion:
-      required:
-      - title
-      type: object
-      properties:
-        color:
+        gnID:
           type: string
-          description: 'The color of the show.
-
-            Color is required for publishing the show.'
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
           examples:
-          - bw
-        duration:
-          type: integer
-          description: 'The runtime (milliseconds) of the program.
-
-            Not required for registration, but it is required for publishing
-
-            when the subType is neither a series nor a miniseries.'
-          format: int64
-          examples:
-          - 30800000
-        genres:
-          type: array
-          description: Version level genres of a program.
-          items:
-            type: string
-          examples:
-          - - Adventure
-        releaseDate:
+          - GNLZZXZ00000001
+        seasonGnID:
           type: string
-          description: 'The releaseDate of the show.
-
-            ReleaseDate is optional for creating a show version, but is required
-
-            for publishing a show presentation. ReleaseDate is required
-
-            for update when the presentation is in publishing/published state.'
-          format: date
-        title:
-          $ref: '#/components/schemas/Title'
-        versionLabels:
-          type: array
-          description: 'A free-form list of version types.
-
-            Refer to the Gracenote Vocabulary for suggested values.'
-          items:
-            type: string
-          examples:
-          - - Director's Cut
-      description: 'UpdateVersion defines what information may be provided to modify an
-
-        existing Version record. All field are required, pointers are used
-
-        to indicate that a field was not provided. Normally we do not encourage
-
-        pointer usage for basic operations, but here an exception is being made.'
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
+          description: The Gracenote ID of the episode's parent season.
+      description: DeletedEpisode reports the gnID of an episode and its parent Season
     ShowVersion:
       description: Version represents the version of a show
       required:
@@ -1141,26 +1054,87 @@ components:
           type: string
           description: The time the program was last updated
           readOnly: true
-    DeletedShowSeason:
+    Title:
+      required:
+      - language
+      - value
       type: object
       properties:
-        episodes:
-          type: array
-          description: The deleted episodes that belong to the deleted show season.
-          items:
-            $ref: '#/components/schemas/DeletedEpisode'
-        gnID:
+        language:
           type: string
-          description: The Gracenote ID of the deleted season.
-          readOnly: true
-          examples:
-          - GNLZZXV00000001
-        showPresentationGnID:
-          type: string
-          description: The ID of the season's parent presentation.
-      description: 'DeletedSeason contains the ID of the deleted Season as well as
+          description: 'The language of the title''s text. User must be entitled to use the language.
 
-        the parent and child IDs of the Season.'
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    ShowVersionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ShowVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    UpdateShowVersion:
+      required:
+      - title
+      type: object
+      properties:
+        color:
+          type: string
+          description: 'The color of the show.
+
+            Color is required for publishing the show.'
+          examples:
+          - bw
+        duration:
+          type: integer
+          description: 'The runtime (milliseconds) of the program.
+
+            Not required for registration, but it is required for publishing
+
+            when the subType is neither a series nor a miniseries.'
+          format: int64
+          examples:
+          - 30800000
+        genres:
+          type: array
+          description: Version level genres of a program.
+          items:
+            type: string
+          examples:
+          - - Adventure
+        releaseDate:
+          type: string
+          description: 'The releaseDate of the show.
+
+            ReleaseDate is optional for creating a show version, but is required
+
+            for publishing a show presentation. ReleaseDate is required
+
+            for update when the presentation is in publishing/published state.'
+          format: date
+        title:
+          $ref: '#/components/schemas/Title'
+        versionLabels:
+          type: array
+          description: 'A free-form list of version types.
+
+            Refer to the Gracenote Vocabulary for suggested values.'
+          items:
+            type: string
+          examples:
+          - - Director's Cut
+      description: 'UpdateVersion defines what information may be provided to modify an
+
+        existing Version record. All field are required, pointers are used
+
+        to indicate that a field was not provided. Normally we do not encourage
+
+        pointer usage for basic operations, but here an exception is being made.'
     NewShowVersion:
       description: NewVersion represents the fields required for creating a version of a show
       required:
@@ -1224,30 +1198,26 @@ components:
           readOnly: true
           examples:
           - show
-    DeletedShowVersion:
+    DeletedShowSeason:
       type: object
       properties:
+        episodes:
+          type: array
+          description: The deleted episodes that belong to the deleted show season.
+          items:
+            $ref: '#/components/schemas/DeletedEpisode'
         gnID:
           type: string
-          description: The Gracenote ID of the deleted program.
+          description: The Gracenote ID of the deleted season.
           readOnly: true
           examples:
-          - GNLZZXZ00000000
-        presentations:
-          type: array
-          description: The deleted show presentations that belong to the deleted show version.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/DeletedShowPresentation'
-        rootGnID:
+          - GNLZZXV00000001
+        showPresentationGnID:
           type: string
-          description: The GnID of the version's parent root.
-          readOnly: true
-          examples:
-          - GNLZZZ300000000
-      description: 'DeletedVersion contains the ID of the deleted Version as well as
+          description: The ID of the season's parent presentation.
+      description: 'DeletedSeason contains the ID of the deleted Season as well as
 
-        the parent and child IDs of the Version.'
+        the parent and child IDs of the Season.'
     DeletedShowPresentation:
       type: object
       properties:
@@ -1272,7 +1242,7 @@ components:
       description: 'DeletedPresentation contains the ID of the deleted Presentation as well as
 
         the parent and child IDs of the Presentation.'
-    DeletedEpisode:
+    DeletedShowVersion:
       type: object
       properties:
         gnID:
@@ -1280,11 +1250,41 @@ components:
           description: The Gracenote ID of the deleted program.
           readOnly: true
           examples:
-          - GNLZZXZ00000001
-        seasonGnID:
+          - GNLZZXZ00000000
+        presentations:
+          type: array
+          description: The deleted show presentations that belong to the deleted show version.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/DeletedShowPresentation'
+        rootGnID:
           type: string
-          description: The Gracenote ID of the episode's parent season.
-      description: DeletedEpisode reports the gnID of an episode and its parent Season
+          description: The GnID of the version's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ300000000
+      description: 'DeletedVersion contains the ID of the deleted Version as well as
+
+        the parent and child IDs of the Version.'
+    ShowVersionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShowVersion'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   securitySchemes:
     api_key:
       type: apiKey

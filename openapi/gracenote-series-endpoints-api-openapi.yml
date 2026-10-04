@@ -67,15 +67,6 @@ paths:
           description: Successful response
 components:
   parameters:
-    AcceptHeader:
-      name: Accept
-      in: header
-      required: true
-      schema:
-        type: string
-        enum:
-        - application/json
-        default: application/json
     ApiKeyQuery:
       name: api_key
       in: query
@@ -118,3 +109,12 @@ components:
         - zh-CN
         - zh-HK
         default: en-GB
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+        enum:
+        - application/json
+        default: application/json

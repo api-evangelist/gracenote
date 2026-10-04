@@ -781,6 +781,122 @@ paths:
       - api_key: []
 components:
   schemas:
+    DeletedShowRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedShowRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    DeletedShowRoot:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the show root.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        versions:
+          type: array
+          description: The Gracenote ID of the deleted show versions.
+          items:
+            $ref: '#/components/schemas/DeletedShowVersion'
+      description: 'DeletedRoot represents the deleted root of a Show
+
+        The model only has enough fields to empower the delete use case of show roots.'
+    UpdateShowRoot:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+      description: UpdateRoot represents the fields required for updating a root of a show
+    NewShowRoot:
+      description: NewRoot represents the fields required for creating a root of a show
+      required:
+      - title
+      - subType
+      type: object
+      properties:
+        title:
+          $ref: '#/components/schemas/Title'
+        subType:
+          type: string
+          description: The high-level type of the program.
+          examples:
+          - series
+        type:
+          type: string
+          description: The high-level type of the program.
+          readOnly: true
+          examples:
+          - show
+    DeletedEpisode:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000001
+        seasonGnID:
+          type: string
+          description: The Gracenote ID of the episode's parent season.
+      description: DeletedEpisode reports the gnID of an episode and its parent Season
+    Title:
+      required:
+      - language
+      - value
+      type: object
+      properties:
+        language:
+          type: string
+          description: 'The language of the title''s text. User must be entitled to use the language.
+
+            See the Gracenote Vocabulary for valid languages.'
+        value:
+          type: string
+          description: The text of the title.
+      description: 'Title holds information about
+
+        a program''s title.'
+    ShowRootResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ShowRoot'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     ShowRoot:
       description: Root represents the root of a show
       required:
@@ -819,115 +935,6 @@ components:
           readOnly: true
           items:
             type: string
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
-    NewShowRoot:
-      description: NewRoot represents the fields required for creating a root of a show
-      required:
-      - title
-      - subType
-      type: object
-      properties:
-        title:
-          $ref: '#/components/schemas/Title'
-        subType:
-          type: string
-          description: The high-level type of the program.
-          examples:
-          - series
-        type:
-          type: string
-          description: The high-level type of the program.
-          readOnly: true
-          examples:
-          - show
-    DeletedShowRoot:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the show root.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        versions:
-          type: array
-          description: The Gracenote ID of the deleted show versions.
-          items:
-            $ref: '#/components/schemas/DeletedShowVersion'
-      description: 'DeletedRoot represents the deleted root of a Show
-
-        The model only has enough fields to empower the delete use case of show roots.'
-    ShowRootResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ShowRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    DeletedEpisode:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000001
-        seasonGnID:
-          type: string
-          description: The Gracenote ID of the episode's parent season.
-      description: DeletedEpisode reports the gnID of an episode and its parent Season
-    UpdateShowRoot:
-      required:
-      - title
-      type: object
-      properties:
-        title:
-          $ref: '#/components/schemas/Title'
-      description: UpdateRoot represents the fields required for updating a root of a show
-    Title:
-      required:
-      - language
-      - value
-      type: object
-      properties:
-        language:
-          type: string
-          description: 'The language of the title''s text. User must be entitled to use the language.
-
-            See the Gracenote Vocabulary for valid languages.'
-        value:
-          type: string
-          description: The text of the title.
-      description: 'Title holds information about
-
-        a program''s title.'
     DeletedShowSeason:
       type: object
       properties:
@@ -948,30 +955,6 @@ components:
       description: 'DeletedSeason contains the ID of the deleted Season as well as
 
         the parent and child IDs of the Season.'
-    DeletedShowVersion:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted program.
-          readOnly: true
-          examples:
-          - GNLZZXZ00000000
-        presentations:
-          type: array
-          description: The deleted show presentations that belong to the deleted show version.
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/DeletedShowPresentation'
-        rootGnID:
-          type: string
-          description: The GnID of the version's parent root.
-          readOnly: true
-          examples:
-          - GNLZZZ300000000
-      description: 'DeletedVersion contains the ID of the deleted Version as well as
-
-        the parent and child IDs of the Version.'
     DeletedShowPresentation:
       type: object
       properties:
@@ -996,13 +979,30 @@ components:
       description: 'DeletedPresentation contains the ID of the deleted Presentation as well as
 
         the parent and child IDs of the Presentation.'
-    DeletedShowRootResponse:
+    DeletedShowVersion:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/DeletedShowRoot'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted program.
+          readOnly: true
+          examples:
+          - GNLZZXZ00000000
+        presentations:
+          type: array
+          description: The deleted show presentations that belong to the deleted show version.
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/DeletedShowPresentation'
+        rootGnID:
+          type: string
+          description: The GnID of the version's parent root.
+          readOnly: true
+          examples:
+          - GNLZZZ300000000
+      description: 'DeletedVersion contains the ID of the deleted Version as well as
+
+        the parent and child IDs of the Version.'
   parameters:
     apiKeyParam:
       name: GN-APIKEY

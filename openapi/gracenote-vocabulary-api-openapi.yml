@@ -154,78 +154,13 @@ paths:
       - api_key: []
 components:
   schemas:
-    Category:
-      title: Category defines known categorical image types may conform.
-      type: string
-      description: Custom categories may be used, but they will not be conforming.
-    RatingBody:
+    VocabResponse:
       type: object
       properties:
-        label:
-          type: string
-          description: A human-readable string of the value.
-          examples:
-          - Special Edition
-        rating:
-          type: array
-          items:
-            type: string
-        value:
-          type: string
-          description: a camelCase string to be used in the API.
-          examples:
-          - specialEdition
-      description: RatingBody represents the rating body in GN Vocab
-    GnVocabProgramType:
-      type: object
-      properties:
-        label:
-          type: string
-          description: A human-readable string of the value.
-          examples:
-          - Special Edition
-        programSubType:
-          type: array
-          items:
-            $ref: '#/components/schemas/LabelledValue'
-        value:
-          type: string
-          description: a camelCase string to be used in the API.
-          examples:
-          - specialEdition
-      description: ProgramType represents the program type in GN Vocab
-    Entitlement:
-      type: object
-      properties:
-        imageActions:
-          type: array
-          description: Which image actions a user is entitled to use.
-          items:
-            type: string
-          examples:
-          - - register
-            - certify
-            - deliver
-        languages:
-          type: array
-          description: 'Which languages a user is entitled to use. Corresponds to languages
-
-            represented by a LabelValuePair.Value.'
-          items:
-            type: string
-          examples:
-          - - en
-            - es
-            - fr
-            - fr-CA
-        mappings:
-          type: array
-          description: Which mapping data a user is entitled to see
-          items:
-            type: string
-          examples:
-          - - tmsID
-      description: Entitlement represents what data actions and languages a user is entitled to use
+        data:
+          $ref: '#/components/schemas/GNVocabulary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     MetaResponse:
       required:
       - rayID
@@ -253,13 +188,24 @@ components:
           description: Total is the total number of hits on a query before pagination.
           format: int64
       description: MetaResponse describes response data
-    VocabResponse:
+    RatingBody:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/GNVocabulary'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        rating:
+          type: array
+          items:
+            type: string
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: RatingBody represents the rating body in GN Vocab
     GNVocabulary:
       type: object
       properties:
@@ -339,6 +285,10 @@ components:
           items:
             $ref: '#/components/schemas/LabelledValue'
       description: GNVocabulary contains multiple lists of GN Vocabulary
+    Category:
+      title: Category defines known categorical image types may conform.
+      type: string
+      description: Custom categories may be used, but they will not be conforming.
     LabelledValue:
       type: object
       properties:
@@ -353,6 +303,56 @@ components:
           examples:
           - specialEdition
       description: LabelValuePair represents objects containing a label and a value
+    Entitlement:
+      type: object
+      properties:
+        imageActions:
+          type: array
+          description: Which image actions a user is entitled to use.
+          items:
+            type: string
+          examples:
+          - - register
+            - certify
+            - deliver
+        languages:
+          type: array
+          description: 'Which languages a user is entitled to use. Corresponds to languages
+
+            represented by a LabelValuePair.Value.'
+          items:
+            type: string
+          examples:
+          - - en
+            - es
+            - fr
+            - fr-CA
+        mappings:
+          type: array
+          description: Which mapping data a user is entitled to see
+          items:
+            type: string
+          examples:
+          - - tmsID
+      description: Entitlement represents what data actions and languages a user is entitled to use
+    GnVocabProgramType:
+      type: object
+      properties:
+        label:
+          type: string
+          description: A human-readable string of the value.
+          examples:
+          - Special Edition
+        programSubType:
+          type: array
+          items:
+            $ref: '#/components/schemas/LabelledValue'
+        value:
+          type: string
+          description: a camelCase string to be used in the API.
+          examples:
+          - specialEdition
+      description: ProgramType represents the program type in GN Vocab
   parameters:
     apiKeyParam:
       name: GN-APIKEY

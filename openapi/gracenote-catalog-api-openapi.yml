@@ -1402,69 +1402,7 @@ paths:
       security:
       - api_key: []
 components:
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
   schemas:
-    CatalogsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Catalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    MetaResponse:
-      required:
-      - rayID
-      type: object
-      properties:
-        count:
-          type: integer
-          description: Count is the number of records included a Data field.
-          format: int64
-        limit:
-          type: integer
-          description: Limit is the maximum requested number of objects returned by the request.
-          format: int64
-        page:
-          type: integer
-          description: Page is the page number containing the objects in the response.
-          format: int64
-        rayID:
-          type: string
-          description: 'RayID is the backend id of the request, generated at invocation time.
-
-            Any questions or bug reports about a particular invocation should include the returned RequestID.'
-        total:
-          type: integer
-          description: Total is the total number of hits on a query before pagination.
-          format: int64
-      description: MetaResponse describes response data
-    AddProgramsResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogProgram'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
-    DeletedCatalogResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedCatalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
     Catalog:
       title: Catalog represents a conceptual container of programs to be distributed to particular consumers.
       required:
@@ -1510,6 +1448,47 @@ components:
       description: 'NewCatalog contains information required for creating (POST)
 
         or updating (PUT) a Catalog.'
+    MetaResponse:
+      required:
+      - rayID
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Count is the number of records included a Data field.
+          format: int64
+        limit:
+          type: integer
+          description: Limit is the maximum requested number of objects returned by the request.
+          format: int64
+        page:
+          type: integer
+          description: Page is the page number containing the objects in the response.
+          format: int64
+        rayID:
+          type: string
+          description: 'RayID is the backend id of the request, generated at invocation time.
+
+            Any questions or bug reports about a particular invocation should include the returned RequestID.'
+        total:
+          type: integer
+          description: Total is the total number of hits on a query before pagination.
+          format: int64
+      description: MetaResponse describes response data
+    CatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalogResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedCatalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     CatalogProgram:
       required:
       - catalogGnID
@@ -1529,6 +1508,33 @@ components:
       description: 'CatalogProgram contains information required for adding (POST)
 
         programs to a Catalog.'
+    AddProgramsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogProgram'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+    DeletedCatalog:
+      type: object
+      properties:
+        gnID:
+          type: string
+          description: The Gracenote ID of the deleted catalog.
+          examples:
+          - GNLZZXZ00000000
+      description: DeletedCatalog represents a deleted Catalog
+    CatalogsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
     NewCatalog:
       required:
       - name
@@ -1567,22 +1573,16 @@ components:
             $ref: '#/components/schemas/CatalogProgram'
         meta:
           $ref: '#/components/schemas/MetaResponse'
-    DeletedCatalog:
-      type: object
-      properties:
-        gnID:
-          type: string
-          description: The Gracenote ID of the deleted catalog.
-          examples:
-          - GNLZZXZ00000000
-      description: DeletedCatalog represents a deleted Catalog
-    CatalogResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Catalog'
-        meta:
-          $ref: '#/components/schemas/MetaResponse'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   securitySchemes:
     api_key:
       type: apiKey

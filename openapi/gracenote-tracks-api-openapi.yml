@@ -49,61 +49,32 @@ paths:
       operationId: getTracksByIdType
       x-operation-id-source: derived
 components:
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
   schemas:
-    TrackAlbum:
-      type: object
-      properties:
-        albumID:
-          description: albumID
-          type: string
-        albumName:
-          description: albumName
-          type: string
-    ResponseMetaForTracks:
-      type: object
-      nullable: false
-      additionalProperties: false
-      properties:
-        total:
-          type: integer
-          nullable: false
-        count:
-          type: integer
-          nullable: false
-        offset:
-          type: integer
-          nullable: false
-        references:
-          type: object
-          additionalProperties: false
-          properties:
-            categoriesLanguage:
-              type: string
-      required:
-      - total
-      - count
-      - offset
-    TrackObject:
-      type: object
-      properties:
-        type:
-          description: 'type of the object: [tracks]'
-          type: string
-        trackID:
-          description: trackID
-          type: string
-        isrc:
-          description: track ISRC
-          type: string
-        trackName:
-          description: trackName
-          type: string
-        album:
-          $ref: '#/components/schemas/TrackAlbum'
-        artist:
-          $ref: '#/components/schemas/TrackArtist'
-        descriptors:
-          $ref: '#/components/schemas/SonicDescriptors'
     DescriptorObject:
       type: array
       description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
@@ -151,6 +122,45 @@ components:
       - status
       - error
       - description
+    TrackAlbum:
+      type: object
+      properties:
+        albumID:
+          description: albumID
+          type: string
+        albumName:
+          description: albumName
+          type: string
+    TrackObject:
+      type: object
+      properties:
+        type:
+          description: 'type of the object: [tracks]'
+          type: string
+        trackID:
+          description: trackID
+          type: string
+        isrc:
+          description: track ISRC
+          type: string
+        trackName:
+          description: trackName
+          type: string
+        album:
+          $ref: '#/components/schemas/TrackAlbum'
+        artist:
+          $ref: '#/components/schemas/TrackArtist'
+        descriptors:
+          $ref: '#/components/schemas/SonicDescriptors'
+    TrackArtist:
+      type: object
+      properties:
+        artistID:
+          description: artistID
+          type: string
+        artistName:
+          description: artistName
+          type: string
     SonicDescriptors:
       type:
       - object
@@ -163,50 +173,38 @@ components:
           $ref: '#/components/schemas/DescriptorObject'
         tempos:
           $ref: '#/components/schemas/DescriptorObject'
-    TrackArtist:
+    ResponseMetaForTracks:
       type: object
+      nullable: false
+      additionalProperties: false
       properties:
-        artistID:
-          description: artistID
-          type: string
-        artistName:
-          description: artistName
-          type: string
-  responses:
-    ErrorResponse400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: explicitLanguage must be of type boolean.'
-    ErrorResponse404:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
+        total:
+          type: integer
+          nullable: false
+        count:
+          type: integer
+          nullable: false
+        offset:
+          type: integer
+          nullable: false
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            categoriesLanguage:
+              type: string
+      required:
+      - total
+      - count
+      - offset
   parameters:
-    trackIDType:
-      name: idType
-      in: path
-      required: true
-      description: ID Type
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset.  Used for "paging" through results.
       schema:
-        type: string
-        enum:
-        - isrc
+        type: integer
+        default: 0
     apiKeyParam:
       name: GN-APIKEY
       in: header
@@ -231,16 +229,18 @@ components:
         minimum: 1
         maximum: 50
         default: 10
-    offset:
-      name: offset
-      in: query
-      description: Return results starting at the given offset.  Used for "paging" through results.
-      schema:
-        type: integer
-        default: 0
     epc:
       name: albumReleaseCode
       in: query
       description: UPC/EAN code to lookup
       schema:
         type: string
+    trackIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - isrc

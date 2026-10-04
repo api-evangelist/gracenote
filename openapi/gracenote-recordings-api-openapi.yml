@@ -243,74 +243,413 @@ paths:
     servers:
     - url: https://api.gmd.music.gracenote.com/v3
 components:
-  responses:
-    ErrorResponse400:
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: explicitLanguage must be of type boolean.'
-    ErrorResponse404:
-      description: Not Found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
-    ErrorResponse400_2:
-      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-          examples:
-            default:
-              value:
-                status: 400
-                error: invalid_query_parameter_value
-                description: 'Data Type Error: includeAllEditions must be of type boolean.'
-    ErrorResponse404_2:
-      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-          examples:
-            default:
-              value:
-                status: 404
-                error: resource_not_found
-                description: Parameter given is not found.
+  parameters:
+    categoriesLanguage:
+      name: categoriesLanguage
+      in: query
+      required: false
+      description: Result localization language code.
+      schema:
+        type: string
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
+    offset:
+      name: offset
+      in: query
+      description: Return results starting at the given offset.  Used for "paging" through results.
+      schema:
+        type: integer
+        default: 0
+    artistName:
+      name: artistName
+      in: query
+      description: Artist name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Lil Nas X
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    recordingIDType:
+      name: idType
+      in: path
+      required: true
+      description: ID Type
+      schema:
+        type: string
+        enum:
+        - gnid
+        - isrc
+        - appletrackid
+        - spotify-track-id
+        - deezer-global-track-id
+    ids:
+      name: ids
+      in: query
+      required: true
+      description: Comma seperated list of ids (max 100)
+      schema:
+        type: string
+    limit:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 10,000.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 10000
+        default: 100
+    isrc:
+      name: isrc
+      in: query
+      description: Include ISRC in search criteria.  Note that due to ISRC consistency issues (e.g., duplicate or incorrect ISRC), ISRC field matching is a lower priority than text field matching (e.g., artist name).
+      schema:
+        type: string
+    recordingName:
+      name: recordingName
+      in: query
+      description: Recording name
+      required: true
+      schema:
+        type: string
+      examples:
+        default:
+          value: Old Town Road
+    genreCategories:
+      name: genreCategories
+      in: query
+      required: false
+      description: Select a genre categories according to the desired region and specificity.
+      schema:
+        type: string
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    offset_2:
+      name: offset
+      in: query
+      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
+      schema:
+        type: integer
+        default: 0
+        maximum: 25000
+    sortRecordings:
+      name: sort
+      in: query
+      required: false
+      description: Sort criteria for Recording results. A prefix of '-' means sort descending. Sorting by ascending popularity score is not supported.
+      schema:
+        type: string
+        enum:
+        - -popularityOneMonth
+        - -popularityOneYear
+        - releaseYear
+        - -releaseYear
+    genreList:
+      name: genreList
+      in: query
+      required: false
+      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
+      schema:
+        type: string
+        default: GENRES-GLOBAL-DETAILED
+        enum:
+        - GENRES-US-DETAILED
+        - GENRES-US-SIMPLIFIED
+        - GENRES-CHINA-DETAILED
+        - GENRES-CHINA-SIMPLIFIED
+        - GENRES-EUROPE-DETAILED
+        - GENRES-EUROPE-SIMPLIFIED
+        - GENRES-GLOBAL-DETAILED
+        - GENRES-GLOBAL-SIMPLIFIED
+        - GENRES-INDIA-SIMPLIFIED
+        - GENRES-JAPAN-DETAILED
+        - GENRES-JAPAN-SIMPLIFIED
+        - GENRES-KOREA-DETAILED
+        - GENRES-KOREA-SIMPLIFIED
+        - GENRES-LATIN-AMERICA-DETAILED
+        - GENRES-LATIN-AMERICA-SIMPLIFIED
+        - GENRES-TAIWAN-DETAILED
+        - GENRES-TAIWAN-SIMPLIFIED
+    eraIDs:
+      name: eraIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote era descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    artistTypeIDs:
+      name: artistTypeIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist type descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    ids_2:
+      name: ids
+      in: query
+      required: true
+      description: Comma separated list of ids (max 100)
+      schema:
+        type: string
+    limit_2:
+      name: limit
+      in: query
+      description: Limit the number of results between 1 and 25.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 10
+    videoType:
+      name: videoType
+      in: query
+      required: false
+      description: Filter recordings by YouTube video type (e.g. vevo). Requires youtube-video-id add-on.
+      schema:
+        type: string
+    moodIDs:
+      name: moodIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote mood descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    styleIDs:
+      name: styleIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote style descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    isrc_2:
+      name: isrc
+      in: query
+      description: Include ISRC in search criteria.
+      schema:
+        type: string
+    videoQuality:
+      name: videoQuality
+      in: query
+      required: false
+      description: Comma-separated list of YouTube video quality values for filtering results. Accepted values are hd and sd (case-insensitive). Duplicate values are not allowed. Use hd,sd to return recordings with any linked YouTube video of HD or SD quality. Requires youtube-video-id add-on.
+      schema:
+        type: string
+    includeRelatedArtists:
+      name: includeRelatedArtists
+      in: query
+      required: false
+      description: "Comma separated list of related artist types to include in the result set. Must be used with an input artistID.\n\nIf you specify `includeRelatedArtists`, in addition to results where the input artistID is the artist, you will get objects that match according to the following rules:\n\n`memberOfKeyArtists` will include will include results matching the artists in the input artistID's memberOfKeyArtists array\n      (i.e. if given Prince, return albums by Prince & The Revolution)\n\n`memberOfGroups` will include results matching the artists in the input artistID's memberOfGroups array\n\n`memberOfCollaborations` will include results matching the artists in the input artistID's memberOfCollaborations array\n\n`similarArtists` will include results matching the artists in the input artistID's similarArtists array\n\n`omitSeedArtists` will omit results matching the input artistID(s)\n"
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - memberOfKeyArtists
+          - memberOfGroups
+          - memberOfCollaborations
+          - similarArtists
+          - keyArtists
+          - groupMembers
+          - collaborationMembers
+          - omitSeedArtists
+        default: none
+    popularityRegion:
+      name: popularityRegion
+      in: query
+      required: false
+      description: If sorting or filtering by popularity, which region's popularity to use. Use 'Global' or two letter code for the region.
+      schema:
+        type: string
+        default: GLOBAL
+        enum:
+        - AR
+        - AT
+        - AU
+        - BE
+        - BO
+        - BR
+        - CA
+        - CH
+        - CL
+        - CO
+        - CZ
+        - DE
+        - DK
+        - EC
+        - ES
+        - FI
+        - FR
+        - GB
+        - GLOBAL
+        - GR
+        - HK
+        - HR
+        - HU
+        - ID
+        - IE
+        - IN
+        - IS
+        - IT
+        - JP
+        - KR
+        - LU
+        - MX
+        - MY
+        - NL
+        - false
+        - NZ
+        - PE
+        - PH
+        - PL
+        - PT
+        - RO
+        - RU
+        - SE
+        - SG
+        - SK
+        - TH
+        - TR
+        - TW
+        - US
+        - VN
+        - ZA
+    genreIDs:
+      name: genreIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    tempoIDs:
+      name: tempoIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote tempo descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    idTypeRecordings:
+      name: idType
+      in: query
+      required: true
+      description: Type of the IDs specified in the 'ids' parameter. For externalID lookups, use the `source` value of the associated ID for the `type` parameter.
+      schema:
+        type: string
+        enum:
+        - recordingID
+        - isrc
+        - - externalID source strings
+    artistIDs:
+      name: artistIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
+      schema:
+        type: string
+    originIDs:
+      name: originIDs
+      in: query
+      required: false
+      description: Comma separated list of Gracenote origin descriptorIDs for filtering results (max 5)
+      schema:
+        type: string
+    displayLanguage:
+      name: displayLanguage
+      in: query
+      required: false
+      description: Specify the language for descriptor label localization in the response.
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - zh-Hans
+        - zh-Hant
+        - hr
+        - cs
+        - da
+        - nl
+        - en
+        - fi
+        - fr
+        - de
+        - el
+        - hu
+        - id
+        - it
+        - ja
+        - ko
+        - nb
+        - fa
+        - pl
+        - pt
+        - ro
+        - ru
+        - sr
+        - sk
+        - es
+        - sv
+        - th
+        - tr
+        - vi
   schemas:
-    ErrorResponse:
-      type: object
-      nullable: false
-      additionalProperties: false
-      properties:
-        status:
-          type: integer
-          nullable: false
-        error:
-          type: string
-          nullable: false
-        description:
-          type: string
-          nullable: false
-      required:
-      - status
-      - error
-      - description
     RecordingObject:
       type:
       - object
@@ -396,6 +735,13 @@ components:
               description: Only visible to Customers with Cover Art add-on
               items:
                 $ref: '#/components/schemas/Image'
+    ExternalID:
+      type: object
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
     DescriptorObject:
       type: array
       description: Only visible to Customers with GMD Discovery/Advanced Discovery package.
@@ -425,28 +771,6 @@ components:
               descriptorCorrelations:
                 description: Only visible to Customers with GMD:Advanced Discovery package and above. will be of the type /descriptorCorrelations/{descriptorType}?id=ID
                 type: string
-    ArtistWithImage:
-      type: object
-      properties:
-        artistID:
-          type:
-          - string
-          - 'null'
-          description: gracenote ID
-        artistName:
-          type: string
-        href:
-          type:
-          - string
-          - 'null'
-          description: will be of the type /artists/gnid?ids=GNXX
-        images:
-          type:
-          - array
-          - 'null'
-          description: Only visible to Customers with Artist Images add-on
-          items:
-            $ref: '#/components/schemas/Image'
     Popularity:
       type: object
       properties:
@@ -456,18 +780,6 @@ components:
           type: number
         type:
           type: string
-    Image:
-      type: object
-      properties:
-        size:
-          type: string
-        height:
-          type: integer
-        width:
-          type: integer
-        url:
-          type: string
-          pattern: ^https://
     ResponseMeta:
       type: object
       nullable: false
@@ -493,18 +805,44 @@ components:
       - total
       - count
       - offset
-    ExternalID:
+    ArtistWithImage:
       type: object
       properties:
-        source:
+        artistID:
+          type:
+          - string
+          - 'null'
+          description: gracenote ID
+        artistName:
           type: string
-        ID:
-          type: string
-    ErrorResponse_2:
-      title: error response
+        href:
+          type:
+          - string
+          - 'null'
+          description: will be of the type /artists/gnid?ids=GNXX
+        images:
+          type:
+          - array
+          - 'null'
+          description: Only visible to Customers with Artist Images add-on
+          items:
+            $ref: '#/components/schemas/Image'
+    Image:
       type: object
-      additionalProperties: false
+      properties:
+        size:
+          type: string
+        height:
+          type: integer
+        width:
+          type: integer
+        url:
+          type: string
+          pattern: ^https://
+    ErrorResponse:
+      type: object
       nullable: false
+      additionalProperties: false
       properties:
         status:
           type: integer
@@ -512,19 +850,6 @@ components:
         error:
           type: string
           nullable: false
-          enum:
-          - page_not_found
-          - resource_not_found
-          - invalid_query_parameter_key
-          - invalid_query_parameter_value
-          - missing_query_parameter_key
-          - resource_type_error
-          - internal_server_error
-          - unauthorized_invalid_api_key
-          - unauthorized_missing_api_key
-          - missing_api_key
-          - rate_limit_exceeded
-          - missing_entitlement
         description:
           type: string
           nullable: false
@@ -532,40 +857,6 @@ components:
       - status
       - error
       - description
-    ArtistShortWithImages:
-      title: artist
-      type: object
-      additionalProperties: false
-      properties:
-        artistID:
-          nullable: false
-          type: string
-          description: Gracenote Artist ID
-        artistName:
-          type: string
-          description: Artist Name
-        images:
-          nullable: false
-          type: array
-          description: 'An array of the images for the artist. Returns one classic image with one size (largest available), selected by hierarchy: Preferred > Latest Promotional > Latest In Performance > Latest Red Carpet. Enhanced images (headshot, iconic, backdrop) are included when artist-enhanced-image add-on is present. The first entry is the preferred image. Only visible to Customers with Artist Images add-on'
-          items:
-            $ref: '#/components/schemas/Image_2'
-      required:
-      - artistID
-      - artistName
-    IndustryCode:
-      title: industry code
-      type: object
-      description: Industry codes like ISRCs and ICPNs.
-      additionalProperties: false
-      properties:
-        type:
-          type: string
-        code:
-          type: string
-      required:
-      - type
-      - code
     RecordingObject_2:
       title: recording object
       nullable: false
@@ -672,6 +963,30 @@ components:
       - recordingName
       examples:
       - "{\n  \"artist\": {\n    \"artistID\": \"GMGZZX8000008Y0\",\n    \"artistName\": \"Sun Ra\",\n    \"images\": [\n      {\n        \"imageType\": \"artistImage-promotional\",\n        \"imageID\": \"509B5DA88F67D29F\",\n        \"preferred\": \"true\",\n        \"assets\": [\n          {\n            \"size\": \"XLARGE\",\n            \"width\": 1080,\n            \"height\": 730,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/509B/5DA8/8F67/D29F_xlarge_front.jpg\"\n          },\n          {\n            \"size\": \"LARGE\",\n            \"width\": 720,\n            \"height\": 486,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/509B/5DA8/8F67/D29F_large_front.jpg\"\n          },\n          {\n            \"size\": \"MEDIUM\",\n            \"width\": 450,\n            \"height\": 304,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/509B/5DA8/8F67/D29F_medium_front.jpg\"\n          },\n          {\n            \"size\": \"SMALL\",\n            \"width\": 170,\n            \"height\": 114,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/509B/5DA8/8F67/D29F_small_front.jpg\"\n          },\n          {\n            \"size\": \"THUMBNAIL\",\n            \"width\": 75,\n            \"height\": 50,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/image/509B/5DA8/8F67/D29F_thumbnail_front.jpg\"\n          }\n        ]\n      }\n    ]\n  },\n  \"descriptors\": {\n    \"artistTypes\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"29422\",\n            \"label\": \"Male\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"29426\",\n            \"label\": \"Male\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"23701\",\n            \"label\": \"Male Solo - Solo Instrumental\"\n          }\n        ],\n        \"type\": \"artistTypes\",\n        \"weight\": 100\n      }\n    ],\n    \"eras\": [],\n    \"genres\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"25974\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"26120\",\n            \"label\": \"Avant Garde\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"26570\",\n            \"label\": \"Avant Garde\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"3093\",\n            \"label\": \"Avant-Garde Jazz\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 60\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"25974\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"26121\",\n            \"label\": \"Bebop\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"26571\",\n            \"label\": \"Bebop\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"3096\",\n            \"label\": \"Bebop\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 20\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"25974\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"26120\",\n            \"label\": \"Avant Garde\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"26570\",\n            \"label\": \"Avant Garde\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"3094\",\n            \"label\": \"Free Jazz\"\n          }\n        ],\n        \"type\": \"genres\",\n        \"weight\": 20\n      }\n    ],\n    \"moods\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91145\",\n            \"label\": \"Cool\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91308\",\n            \"label\": \"Dark Groovy\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"90036\",\n            \"label\": \"Dark Lively Groove\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 45\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91151\",\n            \"label\": \"Fiery\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91411\",\n            \"label\": \"Energetic Abstract Groove\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"90116\",\n            \"label\": \"Happy Energetic Abstract Groove\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 36\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91159\",\n            \"label\": \"Stirring\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91541\",\n            \"label\": \"Jubilant / Soulful\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"34403\",\n            \"label\": \"Jubilant / Soulful / Celebratory\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 8\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91151\",\n            \"label\": \"Fiery\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91411\",\n            \"label\": \"Energetic Abstract Groove\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"34410\",\n            \"label\": \"Dark Energetic Abstract Groove\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 7\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91139\",\n            \"label\": \"Sentimental\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91208\",\n            \"label\": \"Cool Melancholy\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"89961\",\n            \"label\": \"Oblique & Tempered Lively Cool\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 2\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91160\",\n            \"label\": \"Lively\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91555\",\n            \"label\": \"Showy / Rousing\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"90226\",\n            \"label\": \"Dark Lively / Showy / Theatrical\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 1\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"91160\",\n            \"label\": \"Lively\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"91559\",\n            \"label\": \"Playful / Swingin'\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"90228\",\n            \"label\": \"Happy Swingin' Excitement\"\n          }\n        ],\n        \"type\": \"moods\",\n        \"weight\": 1\n      }\n    ],\n    \"origins\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"29889\",\n            \"label\": \"North America\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"29908\",\n            \"label\": \"United States\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"30205\",\n            \"label\": \"Pennsylvania\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"30654\",\n            \"label\": \"Philadelphia\"\n          },\n          {\n            \"level\": 5,\n            \"descriptorID\": \"4528\",\n            \"label\": \"Philadelphia\"\n          }\n        ],\n        \"type\": \"origins\",\n        \"weight\": 100\n      }\n    ],\n    \"styles\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88894\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89138\",\n            \"label\": \"Avant Garde Jazz\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"88044\",\n            \"label\": \"Free Jazz\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 80\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88894\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89138\",\n            \"label\": \"Avant Garde Jazz\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84140\",\n            \"label\": \"Avant Garde Jazz\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 6\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88905\",\n            \"label\": \"Soul/R&B\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89342\",\n            \"label\": \"Funk & Soul Jazz\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84325\",\n            \"label\": \"Soul Jazz\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 5\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88894\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89140\",\n            \"label\": \"Post-Bop\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"88045\",\n            \"label\": \"Modern Creative\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 2\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88905\",\n            \"label\": \"Soul/R&B\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89342\",\n            \"label\": \"Funk & Soul Jazz\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84149\",\n            \"label\": \"Jazz Funk\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 2\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88894\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89137\",\n            \"label\": \"Hard Bop\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84148\",\n            \"label\": \"Hard Bop\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 2\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88894\",\n            \"label\": \"Jazz\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89143\",\n            \"label\": \"Fusion\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84150\",\n            \"label\": \"Jazz Fusion\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 1\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88898\",\n            \"label\": \"Classic Pop\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89211\",\n            \"label\": \"Classic R&B & Soul\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84210\",\n            \"label\": \"Classic R&B Soul\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 1\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88884\",\n            \"label\": \"Alternative\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"88921\",\n            \"label\": \"Experimental\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"83980\",\n            \"label\": \"Experimental Rock\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 1\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"88906\",\n            \"label\": \"Traditional Pop\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"89390\",\n            \"label\": \"Traditional Pop Vocals\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"84152\",\n            \"label\": \"Jazz Vocals\"\n          }\n        ],\n        \"type\": \"styles\",\n        \"weight\": 1\n      }\n    ],\n    \"tempos\": [\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"34283\",\n            \"label\": \"Medium Tempo\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"34290\",\n            \"label\": \"Medium\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"34316\",\n            \"label\": \"80s\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"34099\",\n            \"label\": \"80's\"\n          }\n        ],\n        \"type\": \"tempos\",\n        \"weight\": 45\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"43078\",\n            \"label\": \"Fast Tempo\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"34292\",\n            \"label\": \"Fast\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"34332\",\n            \"label\": \"160s\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"34115\",\n            \"label\": \"160's\"\n          }\n        ],\n        \"type\": \"tempos\",\n        \"weight\": 30\n      },\n      {\n        \"hierarchy\": [\n          {\n            \"level\": 1,\n            \"descriptorID\": \"34282\",\n            \"label\": \"Slow Tempo\"\n          },\n          {\n            \"level\": 2,\n            \"descriptorID\": \"34288\",\n            \"label\": \"Slow\"\n          },\n          {\n            \"level\": 3,\n            \"descriptorID\": \"34303\",\n            \"label\": \"40s\"\n          },\n          {\n            \"level\": 4,\n            \"descriptorID\": \"34088\",\n            \"label\": \"40's\"\n          }\n        ],\n        \"type\": \"tempos\",\n        \"weight\": 25\n      }\n    ]\n  },\n  \"durationMilliseconds\": 1274000,\n  \"externalIDs\": [\n    {\n      \"source\": \"Acme\",\n      \"ID\": \"123456789\"\n    }\n  ],\n  \"industryCodes\": [\n    {\n      \"type\": \"ISRC\",\n      \"code\": \"USMC17201379\"\n    }\n  ],\n  \"objectType\": \"recording\",\n  \"popularity\": {\n    \"audio\": [\n      {\n        \"region\": \"GLOBAL\",\n        \"oneMonth\": 0.00001707986361411339,\n        \"oneYear\": 0.000037430687675512826\n      },\n      {\n        \"region\": \"US\",\n        \"oneMonth\": 0.00003440710273747041,\n        \"oneYear\": 0.00005229038316077254\n      }\n    ],\n    \"overall\": [\n      {\n        \"region\": \"GLOBAL\",\n        \"oneMonth\": 0.0000042425511640673155,\n        \"oneYear\": 0.000009525892822733259\n      },\n      {\n        \"region\": \"US\",\n        \"oneMonth\": 0.000020799183047818658,\n        \"oneYear\": 0.00004524722413765697\n      }\n    ],\n    \"video\": [\n      {\n        \"region\": \"GLOBAL\",\n        \"oneMonth\": 0,\n        \"oneYear\": 1.42385281114634e-8\n      }\n    ]\n  },\n  \"recordingID\": \"GMGZZX000032D0D\",\n  \"recordingName\": \"Space Is The Place\",\n  \"releaseYear\": null,\n  \"selectedAlbumEdition\": {\n    \"images\": [\n      {\n        \"imageType\": \"coverArt\",\n        \"imageID\": \"8D90CBEA44F6E00B\",\n        \"assets\": [\n          {\n            \"size\": \"XLARGE\",\n            \"width\": 1080,\n            \"height\": 1080,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/8D90/CBEA/44F6/E00B_xlarge_front.jpg\"\n          },\n          {\n            \"size\": \"LARGE\",\n            \"width\": 720,\n            \"height\": 720,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/8D90/CBEA/44F6/E00B_large_front.jpg\"\n          },\n          {\n            \"size\": \"MEDIUM\",\n            \"width\": 450,\n            \"height\": 450,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/8D90/CBEA/44F6/E00B_medium_front.jpg\"\n          },\n          {\n            \"size\": \"SMALL\",\n            \"width\": 170,\n            \"height\": 170,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/8D90/CBEA/44F6/E00B_small_front.jpg\"\n          },\n          {\n            \"size\": \"THUMBNAIL\",\n            \"width\": 75,\n            \"height\": 75,\n            \"url\": \"https://akamai-b.cdn.cddbp.net/cds/2.0/cover/8D90/CBEA/44F6/E00B_thumbnail_front.jpg\"\n          }\n        ]\n      }\n    ],\n    \"selectedAlbumEditionID\": \"GMGZZX40000JG64\",\n    \"selectedAlbumEditionName\": \"Space is the Place\"\n  }\n}\n"
+    ExternalID_2:
+      type: object
+      additionalProperties: false
+      properties:
+        source:
+          type: string
+        ID:
+          type: string
+      required:
+      - source
+      - ID
+    IndustryCode:
+      title: industry code
+      type: object
+      description: Industry codes like ISRCs and ICPNs.
+      additionalProperties: false
+      properties:
+        type:
+          type: string
+        code:
+          type: string
+      required:
+      - type
+      - code
     DescriptorObject_2:
       nullable: false
       title: descriptor object
@@ -712,6 +1027,28 @@ components:
         - type
         - weight
         - hierarchy
+    Asset:
+      title: image asset
+      type: object
+      additionalProperties: false
+      properties:
+        size:
+          type: string
+          nullable: false
+        height:
+          type: integer
+          nullable: false
+        width:
+          type: integer
+          nullable: false
+        url:
+          type: string
+          pattern: ^https://
+      required:
+      - size
+      - height
+      - width
+      - url
     PopularityData:
       title: popularity data
       description: 'Popularity score is on a scale of 0 to 1, with a resolution out to 5 decimal places, which is derived
@@ -747,107 +1084,6 @@ components:
       - overall
       - audio
       - video
-    Asset:
-      title: image asset
-      type: object
-      additionalProperties: false
-      properties:
-        size:
-          type: string
-          nullable: false
-        height:
-          type: integer
-          nullable: false
-        width:
-          type: integer
-          nullable: false
-        url:
-          type: string
-          pattern: ^https://
-      required:
-      - size
-      - height
-      - width
-      - url
-    PopularityObject:
-      title: regional popularity
-      nullable: false
-      type: object
-      additionalProperties: false
-      properties:
-        region:
-          nullable: false
-          type: string
-        oneYear:
-          type:
-          - number
-          - 'null'
-        oneMonth:
-          type:
-          - number
-          - 'null'
-      required:
-      - region
-      - oneYear
-      - oneMonth
-    Image_2:
-      title: image
-      type: object
-      additionalProperties: false
-      properties:
-        imageType:
-          type: string
-          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
-          enum:
-          - artistImage-promotional
-          - artistImage-inPerformance
-          - artistImage-redCarpet
-          - artistImage-other
-          - artistImage-headshot
-          - artistImage-iconic
-          - artistImage-backdrop
-          - coverArt
-        imageID:
-          type: string
-          nullable: false
-        preferred:
-          type: string
-          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
-          enum:
-          - 'true'
-          - 'false'
-        assets:
-          type: array
-          nullable: false
-          items:
-            $ref: '#/components/schemas/Asset'
-      required:
-      - imageType
-      - imageID
-      - assets
-    YouTubeID:
-      title: YouTube video link
-      type: object
-      additionalProperties: false
-      properties:
-        channelID:
-          type: string
-        videoID:
-          type: string
-        videoQuality:
-          type: string
-          enum:
-          - HD
-          - SD
-        videoType:
-          type:
-          - string
-          - 'null'
-      required:
-      - channelID
-      - videoID
-      - videoQuality
-      - videoType
     ResponseMeta_2:
       title: meta object
       type: object
@@ -887,423 +1123,187 @@ components:
         references:
           genreList: GENRES-US-DETAILED
           displayLanguage: en
-    ExternalID_2:
+    YouTubeID:
+      title: YouTube video link
       type: object
       additionalProperties: false
       properties:
-        source:
+        channelID:
           type: string
-        ID:
+        videoID:
           type: string
-      required:
-      - source
-      - ID
-  parameters:
-    recordingIDType:
-      name: idType
-      in: path
-      required: true
-      description: ID Type
-      schema:
-        type: string
-        enum:
-        - gnid
-        - isrc
-        - appletrackid
-        - spotify-track-id
-        - deezer-global-track-id
-    recordingName:
-      name: recordingName
-      in: query
-      description: Recording name
-      required: true
-      schema:
-        type: string
-      examples:
-        default:
-          value: Old Town Road
-    isrc:
-      name: isrc
-      in: query
-      description: Include ISRC in search criteria.  Note that due to ISRC consistency issues (e.g., duplicate or incorrect ISRC), ISRC field matching is a lower priority than text field matching (e.g., artist name).
-      schema:
-        type: string
-    offset:
-      name: offset
-      in: query
-      description: Return results starting at the given offset.  Used for "paging" through results.
-      schema:
-        type: integer
-        default: 0
-    categoriesLanguage:
-      name: categoriesLanguage
-      in: query
-      required: false
-      description: Result localization language code.
-      schema:
-        type: string
-        enum:
-        - ar
-        - bg
-        - zh-Hans
-        - zh-Hant
-        - hr
-        - cs
-        - da
-        - nl
-        - en
-        - fi
-        - fr
-        - de
-        - el
-        - hu
-        - id
-        - it
-        - ja
-        - ko
-        - nb
-        - fa
-        - pl
-        - pt
-        - ro
-        - ru
-        - sr
-        - sk
-        - es
-        - sv
-        - th
-        - tr
-        - vi
-    limit:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 10,000.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 10000
-        default: 100
-    artistName:
-      name: artistName
-      in: query
-      description: Artist name
-      required: true
-      schema:
-        type: string
-      examples:
-        default:
-          value: Lil Nas X
-    genreCategories:
-      name: genreCategories
-      in: query
-      required: false
-      description: Select a genre categories according to the desired region and specificity.
-      schema:
-        type: string
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
-    ids:
-      name: ids
-      in: query
-      required: true
-      description: Comma seperated list of ids (max 100)
-      schema:
-        type: string
-    popularityRegion:
-      name: popularityRegion
-      in: query
-      required: false
-      description: If sorting or filtering by popularity, which region's popularity to use. Use 'Global' or two letter code for the region.
-      schema:
-        type: string
-        default: GLOBAL
-        enum:
-        - AR
-        - AT
-        - AU
-        - BE
-        - BO
-        - BR
-        - CA
-        - CH
-        - CL
-        - CO
-        - CZ
-        - DE
-        - DK
-        - EC
-        - ES
-        - FI
-        - FR
-        - GB
-        - GLOBAL
-        - GR
-        - HK
-        - HR
-        - HU
-        - ID
-        - IE
-        - IN
-        - IS
-        - IT
-        - JP
-        - KR
-        - LU
-        - MX
-        - MY
-        - NL
-        - false
-        - NZ
-        - PE
-        - PH
-        - PL
-        - PT
-        - RO
-        - RU
-        - SE
-        - SG
-        - SK
-        - TH
-        - TR
-        - TW
-        - US
-        - VN
-        - ZA
-    genreIDs:
-      name: genreIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote genre descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    artistIDs:
-      name: artistIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote artist IDs for filtering results (max 5)
-      schema:
-        type: string
-    styleIDs:
-      name: styleIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote style descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    originIDs:
-      name: originIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote origin descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    ids_2:
-      name: ids
-      in: query
-      required: true
-      description: Comma separated list of ids (max 100)
-      schema:
-        type: string
-    videoQuality:
-      name: videoQuality
-      in: query
-      required: false
-      description: Comma-separated list of YouTube video quality values for filtering results. Accepted values are hd and sd (case-insensitive). Duplicate values are not allowed. Use hd,sd to return recordings with any linked YouTube video of HD or SD quality. Requires youtube-video-id add-on.
-      schema:
-        type: string
-    isrc_2:
-      name: isrc
-      in: query
-      description: Include ISRC in search criteria.
-      schema:
-        type: string
-    sortRecordings:
-      name: sort
-      in: query
-      required: false
-      description: Sort criteria for Recording results. A prefix of '-' means sort descending. Sorting by ascending popularity score is not supported.
-      schema:
-        type: string
-        enum:
-        - -popularityOneMonth
-        - -popularityOneYear
-        - releaseYear
-        - -releaseYear
-    offset_2:
-      name: offset
-      in: query
-      description: Return results starting at the given offset. Used for paging through results. Maximum value is 25000
-      schema:
-        type: integer
-        default: 0
-        maximum: 25000
-    moodIDs:
-      name: moodIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote mood descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    limit_2:
-      name: limit
-      in: query
-      description: Limit the number of results between 1 and 25.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 25
-        default: 10
-    displayLanguage:
-      name: displayLanguage
-      in: query
-      required: false
-      description: Specify the language for descriptor label localization in the response.
-      schema:
-        type: string
-        default: en
-        enum:
-        - ar
-        - bg
-        - zh-Hans
-        - zh-Hant
-        - hr
-        - cs
-        - da
-        - nl
-        - en
-        - fi
-        - fr
-        - de
-        - el
-        - hu
-        - id
-        - it
-        - ja
-        - ko
-        - nb
-        - fa
-        - pl
-        - pt
-        - ro
-        - ru
-        - sr
-        - sk
-        - es
-        - sv
-        - th
-        - tr
-        - vi
-    tempoIDs:
-      name: tempoIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote tempo descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    eraIDs:
-      name: eraIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote era descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
-    includeRelatedArtists:
-      name: includeRelatedArtists
-      in: query
-      required: false
-      description: "Comma separated list of related artist types to include in the result set. Must be used with an input artistID.\n\nIf you specify `includeRelatedArtists`, in addition to results where the input artistID is the artist, you will get objects that match according to the following rules:\n\n`memberOfKeyArtists` will include will include results matching the artists in the input artistID's memberOfKeyArtists array\n      (i.e. if given Prince, return albums by Prince & The Revolution)\n\n`memberOfGroups` will include results matching the artists in the input artistID's memberOfGroups array\n\n`memberOfCollaborations` will include results matching the artists in the input artistID's memberOfCollaborations array\n\n`similarArtists` will include results matching the artists in the input artistID's similarArtists array\n\n`omitSeedArtists` will omit results matching the input artistID(s)\n"
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
+        videoQuality:
           type: string
           enum:
-          - memberOfKeyArtists
-          - memberOfGroups
-          - memberOfCollaborations
-          - similarArtists
-          - keyArtists
-          - groupMembers
-          - collaborationMembers
-          - omitSeedArtists
-        default: none
-    idTypeRecordings:
-      name: idType
-      in: query
-      required: true
-      description: Type of the IDs specified in the 'ids' parameter. For externalID lookups, use the `source` value of the associated ID for the `type` parameter.
-      schema:
-        type: string
-        enum:
-        - recordingID
-        - isrc
-        - - externalID source strings
-    videoType:
-      name: videoType
-      in: query
-      required: false
-      description: Filter recordings by YouTube video type (e.g. vevo). Requires youtube-video-id add-on.
-      schema:
-        type: string
-    genreList:
-      name: genreList
-      in: query
-      required: false
-      description: Select a genre hierarchy List according to the desired region and specificity. This parameter is only supported for Customers with GMD Discovery/Advanced Discovery package.
-      schema:
-        type: string
-        default: GENRES-GLOBAL-DETAILED
-        enum:
-        - GENRES-US-DETAILED
-        - GENRES-US-SIMPLIFIED
-        - GENRES-CHINA-DETAILED
-        - GENRES-CHINA-SIMPLIFIED
-        - GENRES-EUROPE-DETAILED
-        - GENRES-EUROPE-SIMPLIFIED
-        - GENRES-GLOBAL-DETAILED
-        - GENRES-GLOBAL-SIMPLIFIED
-        - GENRES-INDIA-SIMPLIFIED
-        - GENRES-JAPAN-DETAILED
-        - GENRES-JAPAN-SIMPLIFIED
-        - GENRES-KOREA-DETAILED
-        - GENRES-KOREA-SIMPLIFIED
-        - GENRES-LATIN-AMERICA-DETAILED
-        - GENRES-LATIN-AMERICA-SIMPLIFIED
-        - GENRES-TAIWAN-DETAILED
-        - GENRES-TAIWAN-SIMPLIFIED
-    artistTypeIDs:
-      name: artistTypeIDs
-      in: query
-      required: false
-      description: Comma separated list of Gracenote artist type descriptorIDs for filtering results (max 5)
-      schema:
-        type: string
+          - HD
+          - SD
+        videoType:
+          type:
+          - string
+          - 'null'
+      required:
+      - channelID
+      - videoID
+      - videoQuality
+      - videoType
+    Image_2:
+      title: image
+      type: object
+      additionalProperties: false
+      properties:
+        imageType:
+          type: string
+          description: 'Image type identifier. Classic artist images: artistImage-promotional, artistImage-inPerformance, artistImage-redCarpet, artistImage-other. Enhanced artist images: artistImage-headshot, artistImage-iconic, artistImage-backdrop. Album images: coverArt.'
+          enum:
+          - artistImage-promotional
+          - artistImage-inPerformance
+          - artistImage-redCarpet
+          - artistImage-other
+          - artistImage-headshot
+          - artistImage-iconic
+          - artistImage-backdrop
+          - coverArt
+        imageID:
+          type: string
+          nullable: false
+        preferred:
+          type: string
+          description: 'Indicates if this is a preferred image. Only present for classic artist images. Values: ''true'' or ''false''.'
+          enum:
+          - 'true'
+          - 'false'
+        assets:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Asset'
+      required:
+      - imageType
+      - imageID
+      - assets
+    PopularityObject:
+      title: regional popularity
+      nullable: false
+      type: object
+      additionalProperties: false
+      properties:
+        region:
+          nullable: false
+          type: string
+        oneYear:
+          type:
+          - number
+          - 'null'
+        oneMonth:
+          type:
+          - number
+          - 'null'
+      required:
+      - region
+      - oneYear
+      - oneMonth
+    ErrorResponse_2:
+      title: error response
+      type: object
+      additionalProperties: false
+      nullable: false
+      properties:
+        status:
+          type: integer
+          nullable: false
+        error:
+          type: string
+          nullable: false
+          enum:
+          - page_not_found
+          - resource_not_found
+          - invalid_query_parameter_key
+          - invalid_query_parameter_value
+          - missing_query_parameter_key
+          - resource_type_error
+          - internal_server_error
+          - unauthorized_invalid_api_key
+          - unauthorized_missing_api_key
+          - missing_api_key
+          - rate_limit_exceeded
+          - missing_entitlement
+        description:
+          type: string
+          nullable: false
+      required:
+      - status
+      - error
+      - description
+    ArtistShortWithImages:
+      title: artist
+      type: object
+      additionalProperties: false
+      properties:
+        artistID:
+          nullable: false
+          type: string
+          description: Gracenote Artist ID
+        artistName:
+          type: string
+          description: Artist Name
+        images:
+          nullable: false
+          type: array
+          description: 'An array of the images for the artist. Returns one classic image with one size (largest available), selected by hierarchy: Preferred > Latest Promotional > Latest In Performance > Latest Red Carpet. Enhanced images (headshot, iconic, backdrop) are included when artist-enhanced-image add-on is present. The first entry is the preferred image. Only visible to Customers with Artist Images add-on'
+          items:
+            $ref: '#/components/schemas/Image_2'
+      required:
+      - artistID
+      - artistName
+  responses:
+    ErrorResponse400:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: explicitLanguage must be of type boolean.'
+    ErrorResponse404:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
+    ErrorResponse400_2:
+      description: Bad Request. The HTTP response code will be 400 if the caller is using the API in an unsupported way.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 400
+                error: invalid_query_parameter_value
+                description: 'Data Type Error: includeAllEditions must be of type boolean.'
+    ErrorResponse404_2:
+      description: Not Found. For ID lookups, a 404 will be returned if 1 or more of the provided IDs do not match any objects in GMD.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+          examples:
+            default:
+              value:
+                status: 404
+                error: resource_not_found
+                description: Parameter given is not found.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -257,16 +257,6 @@ paths:
       security:
       - api_key: []
 components:
-  parameters:
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
   schemas:
     MetaResponse:
       required:
@@ -452,6 +442,16 @@ components:
       description: 'ProgramType aliases string to provide
 
         "enums" for available program types.'
+  parameters:
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
   securitySchemes:
     api_key:
       type: apiKey

@@ -69,51 +69,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CollectionShort:
-      type: object
-      additionalProperties: false
-      required:
-      - collectionID
-      - name
-      - collectionCategory
-      - itemType
-      - lastUpdatedUTC
-      - contentMarket
-      - tags
-      properties:
-        collectionID:
-          type: string
-        name:
-          type: string
-        collectionCategory:
-          $ref: '#/components/schemas/CollectionCategory'
-        itemType:
-          $ref: '#/components/schemas/CollectionItemType'
-        lastUpdatedUTC:
-          type: string
-          format: date-time
-          examples:
-          - '2026-01-02T15:42:22.000Z'
-        contentMarket:
-          type: string
-          description: ISO 3166-1 alpha-3 content market for the collection (e.g. USA, DEU).
-        tags:
-          type: array
-          description: Required. May be empty for PODCASTS and RADIOSTATIONS collections. For VIDEOPROGRAMS, contains a tag object with genreType and programType.
-          items:
-            $ref: '#/components/schemas/CollectionTag'
-    SearchResultItem:
-      type: object
-      additionalProperties: false
-      required:
-      - item
-      properties:
-        item:
-          description: A `Podcast` when `itemType` is `PODCASTS`, a `PodcastEpisode` when `itemType` is `PODCASTEPISODES`, or a `Program` when `itemType` is `VIDEOMOVIES` or `VIDEOSHOWS`.
-          oneOf:
-          - $ref: '#/components/schemas/Podcast'
-          - $ref: '#/components/schemas/PodcastEpisode'
-          - $ref: '#/components/schemas/Program'
     CollectionTag:
       type: object
       additionalProperties: false
@@ -131,304 +86,14 @@ components:
           enum:
           - MOVIES
           - SERIES
-    ColorPalette:
-      type:
-      - object
-      - 'null'
-      additionalProperties: false
-      required:
-      - muted
-      - vibrant
-      - darkMuted
-      - lightMuted
-      - darkVibrant
-      - lightVibrant
-      properties:
-        muted:
-          type:
-          - string
-          - 'null'
-        vibrant:
-          type:
-          - string
-          - 'null'
-        darkMuted:
-          type:
-          - string
-          - 'null'
-        lightMuted:
-          type:
-          - string
-          - 'null'
-        darkVibrant:
-          type:
-          - string
-          - 'null'
-        lightVibrant:
-          type:
-          - string
-          - 'null'
-    ErrorResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - status
-      - error
-      - description
-      properties:
-        status:
-          type: integer
-          description: HTTP status code
-        error:
-          type: string
-          enum:
-          - internal_server_error
-          - invalid_query_method
-          - missing_query_parameter
-          - invalid_query_parameter_value
-          - resource_not_found
-          - invalid_request
-          - resource_type_error
-          - forbidden
-          - unauthorized_missing_api_key
-          - unauthorized_invalid_api_key
-          - quota_limit_exceeded
-          - content_too_large
-          - unexpected_eof_at_target
-          - service_unavailable
-        description:
-          type: string
-    CollectionCategory:
-      type: string
-      description: note that GENERAL has been deprecated. Please use CATEGORY for radio station collections organized by Radio Station Category like 'Adult Pop' or 'Local & Community' and TOPIC for podcast collections organized by topics like 'Health & Living' and 'News & Politics'. GENRE is used for VIDEOPROGRAMS (program bundle) collections.
-      enum:
-      - NEWS
-      - CATEGORY
-      - TOPIC
-      - GENRE
-      - TEAM
-      - LEAGUE
-      - CONFERENCE
-      - SPORT
-      - CITY
-      - STATE
-      - COUNTRY
-      - GENERAL
-    SearchResponse:
-      type: object
-      additionalProperties: false
-      required:
-      - meta
-      - data
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        data:
-          type: array
-          description: 'Ordered groups of search hits for the requested itemTypes.
-
-            '
-          items:
-            $ref: '#/components/schemas/SearchResultGroup'
-    SearchItemType:
-      type: string
-      description: 'Kind of items to include in a search result group.
-
-        `VIDEOMOVIES` returns movies; `VIDEOSHOWS` returns shows.
-
-        '
-      enum:
-      - PODCASTS
-      - PODCASTEPISODES
-      - VIDEOMOVIES
-      - VIDEOSHOWS
-    Meta:
-      type: object
-      additionalProperties: false
-      required:
-      - total
-      - version
-      - references
-      properties:
-        total:
-          type: integer
-          description: Total number of data objects available.
-        version:
-          type: string
-          description: The API version
-        references:
-          type: object
-          additionalProperties: false
-          properties:
-            preferredLanguage:
-              type: string
-            contentMarket:
-              type: string
-            leagueID:
-              type: string
-            teamID:
-              type: string
-            personID:
-              type: string
-            divisionID:
-              type: string
-            conferenceID:
-              type: string
-            overallID:
-              type: string
-            matchID:
-              type: string
-            omitCatalogIDs:
-              type: string
-            minDuration:
-              type: string
-            maxDuration:
-              type: string
-            bundleID:
-              type: string
-            programID:
-              type: string
-            catalogID:
-              type: string
-            phaseID:
-              type: string
-            artistID:
-              type: string
-            albumEditionID:
-              type: string
-            recordingID:
-              type: string
-            artistName:
-              type: string
-            albumEditionName:
-              type: string
-            recordingName:
-              type: string
-            podcastID:
-              type: string
-            podcastEpisodeID:
-              type: string
-            radioStationID:
-              type: string
-            collectionID:
-              type: string
-            collectionCategory:
-              type: string
-            itemTypes:
-              type: string
-            text:
-              type: string
-            topOnly:
-              type: string
-    Podcast:
-      type: object
-      additionalProperties: false
-      required:
-      - podcastID
-      - name
-      - description
-      - seriesType
-      - explicitLanguage
-      - language
-      - owner
-      - author
-      - images
-      - colorPalette
-      - relatedCollections
-      - episodes
-      properties:
-        podcastID:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        contentType:
-          deprecated: true
-          description: Deprecated - use seriesType instead.
-          type:
-          - string
-          - 'null'
-          enum:
-          - EPISODIC
-          - SERIAL
-        seriesType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - EPISODIC
-          - SERIAL
-        explicitLanguage:
-          type:
-          - boolean
-          - 'null'
-        language:
-          type:
-          - string
-          - 'null'
-        author:
-          type:
-          - string
-          - 'null'
-        owner:
-          type:
-          - string
-          - 'null'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'
-        colorPalette:
-          $ref: '#/components/schemas/ColorPalette'
-        relatedCollections:
-          type: array
-          items:
-            $ref: '#/components/schemas/CollectionShort'
-        episodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/PodcastEpisode'
-    PodcastEpisodeLink:
+    URLObject:
       type: object
       additionalProperties: false
       required:
       - URL
-      - contentType
-      - sizeBytes
-      properties:
-        URL:
-          type: string
-        contentType:
-          type:
-          - string
-          - 'null'
-          examples:
-          - audio/mpeg
-        sizeBytes:
-          type:
-          - integer
-          - 'null'
-    SearchResultGroup:
-      type: object
-      additionalProperties: false
-      required:
-      - itemType
-      - results
-      properties:
-        itemType:
-          $ref: '#/components/schemas/SearchItemType'
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchResultItem'
-    AvailabilityURL:
-      type: object
-      additionalProperties: false
-      description: URLs for streaming the related content.
-      required:
       - type
-      - URL
+      - content
+      - contentType
       properties:
         URL:
           type: string
@@ -436,8 +101,23 @@ components:
           type: string
           enum:
           - web
-          - android
-          - aaos
+          - mobile
+          - desktop
+        content:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MEDIA
+          - FEED
+          - WEBSITE
+          - STREAM
+        contentType:
+          type:
+          - string
+          - 'null'
+          examples:
+          - audio/mpeg
     CrewMember:
       type: object
       additionalProperties: false
@@ -536,117 +216,91 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-    URLObject:
+    Podcast:
       type: object
       additionalProperties: false
       required:
-      - URL
-      - type
-      - content
-      - contentType
-      properties:
-        URL:
-          type: string
-        type:
-          type: string
-          enum:
-          - web
-          - mobile
-          - desktop
-        content:
-          type:
-          - string
-          - 'null'
-          enum:
-          - MEDIA
-          - FEED
-          - WEBSITE
-          - STREAM
-        contentType:
-          type:
-          - string
-          - 'null'
-          examples:
-          - audio/mpeg
-    Availability:
-      type: object
-      additionalProperties: false
-      description: The information necessary to link media to streaming catalogs. In some cases Nexus provides a direct URL to the media on the streaming services while other times Nexus provides the ID for the media on the service. You will need to work with the streaming services themselves to decide how to best link to their content.
-      required:
-      - externalID
-      - catalog
-      - URLs
-      properties:
-        URLs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailabilityURL'
-        externalID:
-          type: string
-          description: 3rd party ID for the content.
-        catalog:
-          $ref: '#/components/schemas/StreamingCatalog'
-    StreamingCatalog:
-      type: object
-      additionalProperties: false
-      required:
+      - podcastID
       - name
-      - catalogID
+      - description
+      - seriesType
+      - explicitLanguage
+      - language
+      - owner
+      - author
       - images
-      - catalogType
-      description: Streaming provider.
+      - colorPalette
+      - relatedCollections
+      - episodes
       properties:
+        podcastID:
+          type: string
         name:
           type: string
-        catalogID:
+        description:
           type: string
-        catalogType:
-          type: string
+        contentType:
+          deprecated: true
+          description: Deprecated - use seriesType instead.
+          type:
+          - string
+          - 'null'
           enum:
-          - AUDIO
-          - VIDEO
+          - EPISODIC
+          - SERIAL
+        seriesType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - EPISODIC
+          - SERIAL
+        explicitLanguage:
+          type:
+          - boolean
+          - 'null'
+        language:
+          type:
+          - string
+          - 'null'
+        author:
+          type:
+          - string
+          - 'null'
+        owner:
+          type:
+          - string
+          - 'null'
         images:
           type: array
           items:
             $ref: '#/components/schemas/Image'
-    Image:
-      type: object
-      additionalProperties: false
-      required:
-      - orientation
-      - type
-      - URL
-      - contentType
-      properties:
-        orientation:
-          type: string
-          description: Orientation of the image.
-          enum:
-          - LANDSCAPE
-          - PORTRAIT
-          - SQUARE
-        type:
-          type: string
-          enum:
-          - ARTWORK
-          - LOGO
-          - HEADSHOT
-          - FLAG
-          - ARTIST
-          - JERSEY
-          - POSTER
-          - BANNER
-          - IMAGE_3_4
-          - IMAGE_4_3
-          - IMAGE_16_9
-          - BRAND_LOGO
-        URL:
-          type: string
-          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
-        contentType:
-          type:
-          - string
-          - 'null'
+        colorPalette:
+          $ref: '#/components/schemas/ColorPalette'
+        relatedCollections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionShort'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodcastEpisode'
+    CollectionCategory:
+      type: string
+      description: note that GENERAL has been deprecated. Please use CATEGORY for radio station collections organized by Radio Station Category like 'Adult Pop' or 'Local & Community' and TOPIC for podcast collections organized by topics like 'Health & Living' and 'News & Politics'. GENRE is used for VIDEOPROGRAMS (program bundle) collections.
+      enum:
+      - NEWS
+      - CATEGORY
+      - TOPIC
+      - GENRE
+      - TEAM
+      - LEAGUE
+      - CONFERENCE
+      - SPORT
+      - CITY
+      - STATE
+      - COUNTRY
+      - GENERAL
     Descriptor:
       type: object
       additionalProperties: false
@@ -658,6 +312,43 @@ components:
           type: string
         descriptorID:
           type: string
+    ColorPalette:
+      type:
+      - object
+      - 'null'
+      additionalProperties: false
+      required:
+      - muted
+      - vibrant
+      - darkMuted
+      - lightMuted
+      - darkVibrant
+      - lightVibrant
+      properties:
+        muted:
+          type:
+          - string
+          - 'null'
+        vibrant:
+          type:
+          - string
+          - 'null'
+        darkMuted:
+          type:
+          - string
+          - 'null'
+        lightMuted:
+          type:
+          - string
+          - 'null'
+        darkVibrant:
+          type:
+          - string
+          - 'null'
+        lightVibrant:
+          type:
+          - string
+          - 'null'
     CastMember:
       type: object
       additionalProperties: false
@@ -672,6 +363,88 @@ components:
           type: string
         actorName:
           type: string
+    CollectionShort:
+      type: object
+      additionalProperties: false
+      required:
+      - collectionID
+      - name
+      - collectionCategory
+      - itemType
+      - lastUpdatedUTC
+      - contentMarket
+      - tags
+      properties:
+        collectionID:
+          type: string
+        name:
+          type: string
+        collectionCategory:
+          $ref: '#/components/schemas/CollectionCategory'
+        itemType:
+          $ref: '#/components/schemas/CollectionItemType'
+        lastUpdatedUTC:
+          type: string
+          format: date-time
+          examples:
+          - '2026-01-02T15:42:22.000Z'
+        contentMarket:
+          type: string
+          description: ISO 3166-1 alpha-3 content market for the collection (e.g. USA, DEU).
+        tags:
+          type: array
+          description: Required. May be empty for PODCASTS and RADIOSTATIONS collections. For VIDEOPROGRAMS, contains a tag object with genreType and programType.
+          items:
+            $ref: '#/components/schemas/CollectionTag'
+    PodcastEpisodeLink:
+      type: object
+      additionalProperties: false
+      required:
+      - URL
+      - contentType
+      - sizeBytes
+      properties:
+        URL:
+          type: string
+        contentType:
+          type:
+          - string
+          - 'null'
+          examples:
+          - audio/mpeg
+        sizeBytes:
+          type:
+          - integer
+          - 'null'
+    AvailabilityURL:
+      type: object
+      additionalProperties: false
+      description: URLs for streaming the related content.
+      required:
+      - type
+      - URL
+      properties:
+        URL:
+          type: string
+        type:
+          type: string
+          enum:
+          - web
+          - android
+          - aaos
+    SearchResultGroup:
+      type: object
+      additionalProperties: false
+      required:
+      - itemType
+      - results
+      properties:
+        itemType:
+          $ref: '#/components/schemas/SearchItemType'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResultItem'
     PodcastEpisode:
       type: object
       additionalProperties: false
@@ -748,6 +521,108 @@ components:
           type:
           - integer
           - 'null'
+    SearchItemType:
+      type: string
+      description: 'Kind of items to include in a search result group.
+
+        `VIDEOMOVIES` returns movies; `VIDEOSHOWS` returns shows.
+
+        '
+      enum:
+      - PODCASTS
+      - PODCASTEPISODES
+      - VIDEOMOVIES
+      - VIDEOSHOWS
+    Meta:
+      type: object
+      additionalProperties: false
+      required:
+      - total
+      - version
+      - references
+      properties:
+        total:
+          type: integer
+          description: Total number of data objects available.
+        version:
+          type: string
+          description: The API version
+        references:
+          type: object
+          additionalProperties: false
+          properties:
+            preferredLanguage:
+              type: string
+            contentMarket:
+              type: string
+            leagueID:
+              type: string
+            teamID:
+              type: string
+            personID:
+              type: string
+            divisionID:
+              type: string
+            conferenceID:
+              type: string
+            overallID:
+              type: string
+            matchID:
+              type: string
+            omitCatalogIDs:
+              type: string
+            minDuration:
+              type: string
+            maxDuration:
+              type: string
+            bundleID:
+              type: string
+            programID:
+              type: string
+            catalogID:
+              type: string
+            phaseID:
+              type: string
+            artistID:
+              type: string
+            albumEditionID:
+              type: string
+            recordingID:
+              type: string
+            artistName:
+              type: string
+            albumEditionName:
+              type: string
+            recordingName:
+              type: string
+            podcastID:
+              type: string
+            podcastEpisodeID:
+              type: string
+            radioStationID:
+              type: string
+            collectionID:
+              type: string
+            collectionCategory:
+              type: string
+            itemTypes:
+              type: string
+            text:
+              type: string
+            topOnly:
+              type: string
+    SearchResultItem:
+      type: object
+      additionalProperties: false
+      required:
+      - item
+      properties:
+        item:
+          description: A `Podcast` when `itemType` is `PODCASTS`, a `PodcastEpisode` when `itemType` is `PODCASTEPISODES`, or a `Program` when `itemType` is `VIDEOMOVIES` or `VIDEOSHOWS`.
+          oneOf:
+          - $ref: '#/components/schemas/Podcast'
+          - $ref: '#/components/schemas/PodcastEpisode'
+          - $ref: '#/components/schemas/Program'
     CollectionItemType:
       type: string
       description: This specifies what kind of items are in a collection.
@@ -755,128 +630,131 @@ components:
       - PODCASTS
       - RADIOSTATIONS
       - VIDEOPROGRAMS
-  parameters:
-    encodingParam:
-      description: Optional header to specify the encoding type that the client is hoping to receive.
-      name: Accept-Encoding
-      in: header
-      required: false
-      schema:
-        type: string
-        examples:
-        - gzip
-    languageParam:
-      name: preferredLanguage
-      in: query
-      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
-      required: true
-      schema:
-        pattern: ^[a-z]{2}-[A-Z]{2}$
-        examples:
-        - en-GB
-    searchMaxDurationParam:
-      name: maxDuration
-      in: query
-      required: false
-      description: '**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**
+    StreamingCatalog:
+      type: object
+      additionalProperties: false
+      required:
+      - name
+      - catalogID
+      - images
+      - catalogType
+      description: Streaming provider.
+      properties:
+        name:
+          type: string
+        catalogID:
+          type: string
+        catalogType:
+          type: string
+          enum:
+          - AUDIO
+          - VIDEO
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+    Image:
+      type: object
+      additionalProperties: false
+      required:
+      - orientation
+      - type
+      - URL
+      - contentType
+      properties:
+        orientation:
+          type: string
+          description: Orientation of the image.
+          enum:
+          - LANDSCAPE
+          - PORTRAIT
+          - SQUARE
+        type:
+          type: string
+          enum:
+          - ARTWORK
+          - LOGO
+          - HEADSHOT
+          - FLAG
+          - ARTIST
+          - JERSEY
+          - POSTER
+          - BANNER
+          - IMAGE_3_4
+          - IMAGE_4_3
+          - IMAGE_16_9
+          - BRAND_LOGO
+        URL:
+          type: string
+          description: Note that some image hosting platforms require a user-agent header to be specified when fetching images.
+        contentType:
+          type:
+          - string
+          - 'null'
+    Availability:
+      type: object
+      additionalProperties: false
+      description: The information necessary to link media to streaming catalogs. In some cases Nexus provides a direct URL to the media on the streaming services while other times Nexus provides the ID for the media on the service. You will need to work with the streaming services themselves to decide how to best link to their content.
+      required:
+      - externalID
+      - catalog
+      - URLs
+      properties:
+        URLs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailabilityURL'
+        externalID:
+          type: string
+          description: 3rd party ID for the content.
+        catalog:
+          $ref: '#/components/schemas/StreamingCatalog'
+    SearchResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - meta
+      - data
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        data:
+          type: array
+          description: 'Ordered groups of search hits for the requested itemTypes.
 
-
-        Maximum program duration in minutes (inclusive).
-
-        '
-      schema:
-        type: integer
-        minimum: 1
-        examples:
-        - 180
-    searchItemTypesParam:
-      name: itemTypes
-      in: query
-      required: true
-      description: 'Filter search results by item kind. At least one value is required.
-
-
-        Use `VIDEOMOVIES` for movies, `VIDEOSHOWS` for shows.
-
-        '
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/SearchItemType'
-      style: pipeDelimited
-      explode: false
-    contentMarketParam:
-      in: query
-      name: contentMarket
-      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
-      required: true
-      schema:
-        type: string
-        enum:
-        - AUS
-        - CAN
-        - DEU
-        - ESP
-        - FRA
-        - GBR
-        - IND
-        - ITA
-        - JPN
-        - KOR
-        - USA
-      examples:
-        default:
-          value: USA
-    limitParam:
-      name: limit
-      in: query
-      required: false
-      description: Maximum number of results to return (default 10, max 100)
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    omitCatalogsParam:
-      name: omitCatalogIDs
-      in: query
-      required: false
-      allowEmptyValue: true
-      description: 'Comma separated list of streaming catalogIDs used to exclude content from particular streaming catalogs.
-
-        This is honored for `/collections`, `/programs`, and `/programbundles` when itemTypes includes VIDEOPROGRAMS,
-
-        and for `/search` when itemTypes includes VIDEOMOVIES and/or VIDEOSHOWS.
-
-        '
-      schema:
-        type: string
-        examples:
-        - 111777,81277
-    searchMinDurationParam:
-      name: minDuration
-      in: query
-      required: false
-      description: '**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**
-
-
-        Minimum program duration in minutes (inclusive).
-
-        '
-      schema:
-        type: integer
-        minimum: 1
-        examples:
-        - 60
-    apiKeyParam:
-      name: GN-APIKEY
-      in: header
-      description: API key to authorize the request.
-      required: true
-      schema:
-        type: string
-        examples:
-        - your-api-key
+            '
+          items:
+            $ref: '#/components/schemas/SearchResultGroup'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - status
+      - error
+      - description
+      properties:
+        status:
+          type: integer
+          description: HTTP status code
+        error:
+          type: string
+          enum:
+          - internal_server_error
+          - invalid_query_method
+          - missing_query_parameter
+          - invalid_query_parameter_value
+          - resource_not_found
+          - invalid_request
+          - resource_type_error
+          - forbidden
+          - unauthorized_missing_api_key
+          - unauthorized_invalid_api_key
+          - quota_limit_exceeded
+          - content_too_large
+          - unexpected_eof_at_target
+          - service_unavailable
+        description:
+          type: string
   responses:
     errorResponse5XX:
       description: An unexpected error occurred on the server. Please see the error description for more details.
@@ -890,6 +768,30 @@ components:
                 status: 500
                 error: internal_server_error
                 description: Server encountered an unexpected condition that prevented it from fulfilling the request.
+    errorResponse429:
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 429
+                error: quota_limit_exceeded
+                description: Too many requests. Client exceeded their allocated rate limit.
+    errorResponse403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 403
+                error: forbidden
+                description: GN-APIKEY is not entitled for this request.
     errorResponse404:
       description: The specified object was not found.
       content:
@@ -914,42 +816,6 @@ components:
                 status: 401
                 error: unauthorized_missing_api_key
                 description: GN-APIKEY header must be provided.
-    errorResponse4XX:
-      description: Other 4XX may occur. Please read the error description for more information.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 405
-                error: invalid_query_method
-                description: Only GET is supported for this endpoint.
-    errorResponse403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 403
-                error: forbidden
-                description: GN-APIKEY is not entitled for this request.
-    errorResponse429:
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                status: 429
-                error: quota_limit_exceeded
-                description: Too many requests. Client exceeded their allocated rate limit.
     errorResponse400:
       description: Bad Request. Please see the error description for more details.
       content:
@@ -962,3 +828,137 @@ components:
                 status: 400
                 error: invalid_query_parameter_value
                 description: Unsupported contentMarket values
+    errorResponse4XX:
+      description: Other 4XX may occur. Please read the error description for more information.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                status: 405
+                error: invalid_query_method
+                description: Only GET is supported for this endpoint.
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of results to return (default 10, max 100)
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    searchMaxDurationParam:
+      name: maxDuration
+      in: query
+      required: false
+      description: '**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**
+
+
+        Maximum program duration in minutes (inclusive).
+
+        '
+      schema:
+        type: integer
+        minimum: 1
+        examples:
+        - 180
+    apiKeyParam:
+      name: GN-APIKEY
+      in: header
+      description: API key to authorize the request.
+      required: true
+      schema:
+        type: string
+        examples:
+        - your-api-key
+    searchMinDurationParam:
+      name: minDuration
+      in: query
+      required: false
+      description: '**Video search only (`itemTypes` includes `VIDEOMOVIES` and/or `VIDEOSHOWS`).**
+
+
+        Minimum program duration in minutes (inclusive).
+
+        '
+      schema:
+        type: integer
+        minimum: 1
+        examples:
+        - 60
+    omitCatalogsParam:
+      name: omitCatalogIDs
+      in: query
+      required: false
+      allowEmptyValue: true
+      description: 'Comma separated list of streaming catalogIDs used to exclude content from particular streaming catalogs.
+
+        This is honored for `/collections`, `/programs`, and `/programbundles` when itemTypes includes VIDEOPROGRAMS,
+
+        and for `/search` when itemTypes includes VIDEOMOVIES and/or VIDEOSHOWS.
+
+        '
+      schema:
+        type: string
+        examples:
+        - 111777,81277
+    languageParam:
+      name: preferredLanguage
+      in: query
+      description: The preferred language for the content is a two-letter country and two-letter language code, such as en-US. The API returns localized strings in the specified language if available. Otherwise, the API will default to the primary language of the contentMarket.
+      required: true
+      schema:
+        pattern: ^[a-z]{2}-[A-Z]{2}$
+        examples:
+        - en-GB
+    encodingParam:
+      description: Optional header to specify the encoding type that the client is hoping to receive.
+      name: Accept-Encoding
+      in: header
+      required: false
+      schema:
+        type: string
+        examples:
+        - gzip
+    contentMarketParam:
+      in: query
+      name: contentMarket
+      description: The market for the content. This parameter is used to tailor the content based on the target market as set by the manufacturer.
+      required: true
+      schema:
+        type: string
+        enum:
+        - AUS
+        - CAN
+        - DEU
+        - ESP
+        - FRA
+        - GBR
+        - IND
+        - ITA
+        - JPN
+        - KOR
+        - USA
+      examples:
+        default:
+          value: USA
+    searchItemTypesParam:
+      name: itemTypes
+      in: query
+      required: true
+      description: 'Filter search results by item kind. At least one value is required.
+
+
+        Use `VIDEOMOVIES` for movies, `VIDEOSHOWS` for shows.
+
+        '
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/SearchItemType'
+      style: pipeDelimited
+      explode: false
