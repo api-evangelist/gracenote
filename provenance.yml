@@ -78,37 +78,10 @@ artifacts:
   finops/gracenote-finops.yml:
     method: generated
     evidence: declared in the artifact
-  kin/checks-2026-09-12T080032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -237,6 +210,81 @@ artifacts:
   kin/score-2026-09-12T080032.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/gracenote-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -249,63 +297,267 @@ artifacts:
   mcp/gracenote-tool-crosswalk.yml:
     method: derived
     evidence: declared in the artifact
+  openapi/_original/gracenote-gmd-api-v2-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-gmd-api-v2-openapi.json.archived.txt:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-gmd-api-v3-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-gmd-api-v3-openapi.json.archived.txt:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-onconnect-lookup-apis-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-onconnect-lookup-apis-openapi.json.archived.txt:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-online-video-social-apis-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/_original/gracenote-online-video-social-apis-openapi.json.archived.txt:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/gracenote-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_sources.yml:
     method: searched
     evidence: declared in the artifact
+  openapi/gracenote-albumeditions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-albummasters-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-artists-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-availability-day-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-availability-day-manifest-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-bulk-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-catalog-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-catalog-item-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-catalog-manifest-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/gracenote-celebrities-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gracenote-global-sports-data-lookup-api-openapi.json:
+  openapi/gracenote-classification-endpoints-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-global-sports-data-update-api-openapi.json:
+  openapi/gracenote-collections-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-gmd-api-v2-openapi.json:
+  openapi/gracenote-contributor-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-gmd-api-v3-openapi.json:
+  openapi/gracenote-controlled-vocabulary-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-gn-ids-api-openapi.json:
+  openapi/gracenote-core-on-apis-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-gvd-api-openapi.json:
+  openapi/gracenote-country-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-default-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-deprecated-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-descriptorcorrelations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-descriptorhierarchies-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-descriptors-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-entitlements-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-experimental-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-export-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-general-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-images-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-intermediate-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-league-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-league-season-endpoints-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
   openapi/gracenote-lineups-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-match-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-media-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-movie-presentation-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-movie-root-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-movie-version-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/gracenote-movies-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gracenote-nexus-api-openapi.json:
+  openapi/gracenote-movies-in-theatres-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-movies-on-tv-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-music-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-on-api-openapi.json:
+  openapi/gracenote-online-social-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-online-video-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-overall-endpoints-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-onconnect-lookup-apis-openapi.json:
+  openapi/gracenote-person-endpoints-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
-  openapi/gracenote-online-video-social-apis-openapi.json:
+  openapi/gracenote-phase-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-podcasts-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-program-summaries-api-openapi.yml:
     method: unknown
     evidence: no authorship recorded
   openapi/gracenote-programs-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-publish-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-radio-stations-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-recordings-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-search-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/gracenote-series-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-series-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-series-season-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-show-episode-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-show-presentation-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-show-root-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-show-season-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-show-version-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-sourceprograms-apis-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-sources-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-sport-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/gracenote-sports-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-sports-apis-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/gracenote-stations-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-team-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-tier-conference-and-division-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-tracks-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gracenote-update-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-venue-endpoints-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-video-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-video-descriptors-taxonomy-items-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-video-popularity-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/gracenote-vocabulary-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   overlays/gracenote-global-sports-data-lookup-api-overlay.yaml:
     method: generated
     evidence: declared in the artifact
